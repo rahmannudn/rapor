@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title> Rapor | @yield('title')
+    </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +21,6 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <x-notifications z-index="z-50" />
 
         <x-layout.navbar />
 
@@ -29,12 +29,28 @@
         <!-- Page Content -->
         <main>
             <div class="p-4 mt-14 sm:ml-64">
+                <x-notifications z-index="z-50" />
                 {{ $slot }}
             </div>
         </main>
     </div>
 
     @livewireScripts
+
+    <script>
+        window.addEventListener('showNotif', function(e) {
+            const {
+                title = 'Berhasil', description = 'Data berhasil disimpan', icon = 'success'
+            } = event.detail;
+            $wireui.notify({
+                title,
+                description,
+                icon,
+                timeout: 1500
+            });
+        });
+    </script>
+
 </body>
 
 </html>

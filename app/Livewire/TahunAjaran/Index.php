@@ -3,21 +3,17 @@
 namespace App\Livewire\TahunAjaran;
 
 use App\Models\TahunAjaran as TA;
-use Illuminate\Http\Request;
-use Livewire\Attributes\Validate;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use WireUi\Traits\Actions;
+use Livewire\Attributes\Title;
 
 class Index extends Component
 {
-    public $createModal;
-    public $years = [];
+    use Actions;
 
-    #[Validate('required|string')]
-    public $tahun;
-
-    #[Validate('required|string')]
-    public $semester;
+    public $selectedTahunAjaran;
+    public $deleteModal;
 
     #[Layout('layouts.app')]
     public function render()
@@ -25,30 +21,21 @@ class Index extends Component
         return view('livewire.tahun-ajaran.index');
     }
 
-    public function mount()
+    public function destroy()
     {
-        $year = date('Y');
+        try {
+            $tahunAjaran = TA::find($this->selectedTahunAjaran);
+            if (!$tahunAjaran) {
+                $this->dispatch('showNotif', title: 'Gagal', description: 'Note Tidak Ditemukan', icon: 'success');
+            }
+            $this->authorize('delete', $tahunAjaran);
+            $tahunAjaran->delete();
 
-        for ($i = 0; $i <= 2; $i++) {
-            $this->years[] = $year + $i - 1 . ' / ' . $year + $i;
+            session()->flash('success', 'Data Berhasil Dihapus');
+            $this->dispatch('updateData');
+            $this->deleteModal = false;
+        } catch (\Throwable $err) {
+            $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
         }
-    }
-
-    public function updatedSemester()
-    {
-        $this->semester = strtolower($this->semester);
-    }
-
-    public function save(Request $request)
-    {
-        // dd($this->tahun, $this->semester);
-        dd($request->tahun, $request->semester);
-        $validated = $this->validate();
-        TA::create($validated);
-
-        $this->notification()->success(
-            $title = 'Success',
-            $description = 'Data Berhasil Tersimpan'
-        );
     }
 }

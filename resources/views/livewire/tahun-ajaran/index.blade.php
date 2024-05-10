@@ -1,45 +1,36 @@
-<div>
-    <h1 class="mb-3 text-2xl font-bold text-slate-700">Tahun Ajaran</h1>
+<div x-on:set-tahun-ajaran="$wire.selectedTahunAjaran = $event.detail">
+    @section('title')
+        Tahun Ajaran
+    @endsection
+    {{-- blade-formatter-disable --}}
+    @if (session('success'))
+        <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
+    @endif
+    @if (session('gagal'))
+        <div x-init="$dispatch('showNotif', { title: 'Gagal', description: '{{ session('gagal') }}', icon: 'error' })"></div>
+    @endif
+    {{-- blade-formatter-enable --}}
 
-    <x-button icon="plus" info label="Tambah Tahun Ajaran" x-on:click="$openModal('createModal')" />
-    <x-modal.card title="Edit Customer" wire:model.defer="createModal">
-        <form wire:submit.prevent='save' method="POST">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <x-errors />
+    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Tahun Ajaran</h1>
 
-                <div class="w-full">
-                    <select name="tahun" wire:model='tahun'>
-                        @foreach ($years as $year)
-                            <option value="{{ $year }}">{{ $year }}</option>
-                        @endforeach
-                    </select>
-                    @error('tahun')
-                        <p class="text-sm text-pink-300">{{ $message }}</p>
-                    @enderror
-                </div>
+    <x-button href="{{ route('tahunAjaranCreate') }}" wire:navigate class="mb-3" icon="plus" info
+        label="Tambah Tahun Ajaran" />
 
-
-                <div class="w-full">
-                    <select name="semester" wire:model='semester'>
-                        <option value="ganjil">Ganjil</option>
-                        <option value="genap">Genap</option>
-                    </select>
-                    @error('semester')
-                        <p class="text-sm text-pink-300">{{ $message }}</p>
-                    @enderror
-                </div>
-
-            </div>
+    <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedTahunAjaran = null">
+        <x-card title="Delete Note">
+            <p class="text-gray-600">
+                Anda Yakin Ingin Menghapus?
+            </p>
 
             <x-slot name="footer">
-                <div class="flex justify-between gap-x-4">
-                    <div class="flex">
-                        <x-button flat label="Cancel" x-on:click="close" />
-                        <x-button type="submit" primary label="Save" wire:click="save" />
-                    </div>
+                <div class="flex justify-end gap-x-4">
+                    <x-button flat label="Cancel" x-on:click="close" />
+                    <x-button negative icon="trash" x-on:click='$wire.destroy()' spinner label="Hapus" />
                 </div>
             </x-slot>
-        </form>
-    </x-modal.card>
+        </x-card>
+    </x-modal>
 
+    {{-- TODO : MEMBUAT VALIDASI HANYA BOLEH SATU SEMESTER YANG AKTIF --}}
+    <livewire:tahun-ajaran.table />
 </div>
