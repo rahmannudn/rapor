@@ -6,6 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Siswa;
 use App\Enums\AgamaList;
+use App\Models\Kelas;
 use Illuminate\Validation\Rules\Enum;
 
 class Create extends Component
@@ -26,11 +27,18 @@ class Create extends Component
     public $nama_ibu;
     public $hp_ortu;
     public $foto;
+    public $kelas;
+    public $daftarKelas;
 
     #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.siswa.create');
+    }
+
+    public function mount()
+    {
+        $this->daftarKelas = Kelas::all();
     }
 
     public function rules()

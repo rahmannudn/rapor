@@ -19,6 +19,13 @@
             <x-radio id="laki-laki" value="l" label="Laki-Laki" wire:model="jk" />
             <x-radio id="perempuan" value="p" label="Perempuan" wire:model="jk" />
         </div>
+        <div class="space-y-2">
+            <p>Pilih Kelas</p>
+            @foreach ($daftarKelas as $kelas)
+                <x-radio wire:key="{{ $kelas->id }}" id="{{ $kelas->nama }}" value="{{ $kelas->id }}"
+                    label="{{ $kelas->nama }}" wire:model="kelas" />
+            @endforeach
+        </div>
         <x-native-select label="Pilih Agama" wire:model="agama">
             <option value="">-- Pilih Agama --</option>
             <option value="islam">Islam</option>

@@ -15,4 +15,13 @@ class Siswa extends Model
     {
         $query->where('nama', 'like', "%{$value}%")->orWhere('nisn', 'like', "%{$value}%");
     }
+
+    public function kelas()
+    {
+        return $this->hasOne(Kelas::class);
+    }
+    public function tahunAjaran()
+    {
+        return $this->hasOne(TahunAjaran::class, 'tahun', 'tahun_lulus');
+    }
 }
