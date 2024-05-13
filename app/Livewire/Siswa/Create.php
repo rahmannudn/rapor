@@ -27,7 +27,7 @@ class Create extends Component
     public $nama_ibu;
     public $hp_ortu;
     public $foto;
-    public $kelas;
+    public $kelas_id;
     public $daftarKelas;
 
     #[Layout('layouts.app')]
@@ -52,6 +52,7 @@ class Create extends Component
             'jk' => ['required', 'in:l,p'],
             'agama' => ['required', new Enum(AgamaList::class)],
             'alamat' => ['required', 'string'],
+            'kelas_id' => ['required'],
             'kelurahan' => ['required', 'string', 'min:3', 'max:80'],
             'kecamatan' => ['required', 'string', 'min:3', 'max:80'],
             'kota' => ['required', 'string', 'min:3', 'max:80'],
@@ -67,7 +68,7 @@ class Create extends Component
         $validated = $this->validate();
         Siswa::create($validated);
 
-        session()->flash('success', 'Data Berhasil Ditambahkan');
         $this->redirectRoute('siswaIndex');
+        session()->flash('success', 'Data Berhasil Ditambahkan');
     }
 }

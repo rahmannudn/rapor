@@ -23,7 +23,7 @@
             <p>Pilih Kelas</p>
             @foreach ($daftarKelas as $kelas)
                 <x-radio wire:key="{{ $kelas->id }}" id="{{ $kelas->nama }}" value="{{ $kelas->id }}"
-                    label="{{ $kelas->nama }}" wire:model="kelas" />
+                    label="{{ $kelas->nama }}" wire:model="kelas_id" />
             @endforeach
         </div>
         <x-native-select label="Pilih Agama" wire:model="agama">
