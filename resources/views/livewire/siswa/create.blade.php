@@ -10,7 +10,7 @@
         <x-input type="number" label="NIDN/NIS" placeholder="Masukkan NIDN siswa" wire:model='nidn' />
         <x-input label="Nama Siswa" placeholder="Masukkan Nama Siswa" wire:model='nama' />
         <x-input label="Tempat Lahir" placeholder="Masukkan Tempat Lahir" wire:model='tempat_lahir' />
-        <div class="max-w-60">
+        <div class="max-w-72">
             <x-datetime-picker label="Tanggal Lahir" placeholder="Masukkan Tanggal Lahir" display-format="DD-MM-YYYY"
                 wire:model.defer="tanggal_lahir" without-time="true" without-tips="true" />
         </div>

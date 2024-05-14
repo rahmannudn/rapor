@@ -18,11 +18,25 @@ class UserSeeder extends Seeder
                 'name' => 'aman',
                 'email' => 'aman@email.com',
                 'password' => 'aman1234',
+                'role' => 'superadmin',
+                'jk' => 'l',
+                'jenis_pegawai' => 'honor'
             ],
             [
                 'name' => 'admin',
                 'email' => 'admin@email.com',
                 'password' => 'admin1234',
+                'role' => 'admin',
+                'jk' => 'p',
+                'jenis_pegawai' => 'pppk'
+            ],
+            [
+                'name' => 'guru',
+                'email' => 'guru@email.com',
+                'password' => 'guru1234',
+                'role' => 'guru',
+                'jk' => 'p',
+                'jenis_pegawai' => 'pns'
             ],
         ];
 

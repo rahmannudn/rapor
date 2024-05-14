@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Siswa;
 
-use Livewire\Attributes\Layout;
-use Livewire\Component;
-use App\Models\Siswa;
-use App\Enums\AgamaList;
 use App\Models\Kelas;
+use App\Models\Siswa;
+use Livewire\Component;
+use App\Enums\AgamaList;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 use Illuminate\Validation\Rules\Enum;
 
 class Create extends Component
@@ -66,6 +67,15 @@ class Create extends Component
     public function save()
     {
         $validated = $this->validate();
+        $validated['nama'] = Str::lower($validated['nama']);
+        $validated['tempat_lahir'] = Str::lower($validated['tempat_lahir']);
+        $validated['kelurahan'] = Str::lower($validated['kelurahan']);
+        $validated['kecamatan'] = Str::lower($validated['kecamatan']);
+        $validated['kota'] = Str::lower($validated['kota']);
+        $validated['provinsi'] = Str::lower($validated['provinsi']);
+        $validated['nama_ayah'] = Str::lower($validated['nama_ayah']);
+        $validated['nama_ibu'] = Str::lower($validated['nama_ibu']);
+
         Siswa::create($validated);
 
         $this->redirectRoute('siswaIndex');

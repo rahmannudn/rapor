@@ -31,9 +31,9 @@ class Index extends Component
             $this->authorize('delete', $tahunAjaran);
             $tahunAjaran->delete();
 
-            session()->flash('success', 'Data Berhasil Dihapus');
             $this->dispatch('updateData');
             $this->deleteModal = false;
+            session()->flash('success', 'Data Berhasil Dihapus');
         } catch (\Throwable $err) {
             $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
         }
