@@ -92,7 +92,7 @@ class Create extends Component
         }
 
         // jika semester aktif bernilai 1 dan ditemukan sudah ada semester yang aktif
-        session()->flash('confirmDialog', ['message' => "Tahun ajaran aktif saat ini {$semesterSedangAktif['tahun']} {$semesterSedangAktif['semester']}. Perubahan tahun ajaran aktif dapat error pada penginputan nilai", 'id' => $semesterSedangAktif['id']]);
+        session()->flash('confirmDialog', ['message' => "Tahun ajaran aktif saat ini {$semesterSedangAktif['tahun']} {$semesterSedangAktif['semester']}. Perubahan tahun ajaran aktif dapat menimbulkan error pada penginputan nilai", 'id' => $semesterSedangAktif['id']]);
         $this->confirmModal = true;
         $this->validatedData = $validated;
     }

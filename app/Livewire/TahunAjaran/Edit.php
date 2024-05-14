@@ -7,7 +7,7 @@ use App\Rules\IsValidYear;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use App\Models\TahunAjaran as TA;
-
+use Livewire\Attributes\Locked;
 
 class Edit extends Component
 {
@@ -19,6 +19,10 @@ class Edit extends Component
     public $tahunAkhir;
     public $semester;
     public $semesterAktif;
+    public $confirmModal;
+
+    #[Locked]
+    public $validatedData;
 
     public function mount()
     {
@@ -35,6 +39,33 @@ class Edit extends Component
         return view('livewire.tahun-ajaran.edit');
     }
 
+    public function update($id = null)
+    {
+        if ($id) {
+            $semesterSedangAktif = TA::find($id);
+            if ($semesterSedangAktif) {
+                $semesterSedangAktif['aktif'] = 0;
+                $semesterSedangAktif->save();
+            }
+        }
+
+        $tahunAjaran = $this->tahunAjaran;
+        $tahunAjaran->update([
+            'tahun' => TA::concatTahunAjaran($this->validatedData['tahunAwal'], $this->validatedData['tahunAkhir']),
+            'semester' => $this->validatedData['semester'],
+            'aktif' => $this->validatedData['semesterAktif']
+        ]);
+
+        session()->flash('success', 'Data Berhasil Ditambahkan');
+        $this->redirectRoute('tahunAjaranIndex');
+    }
+
+    public function resetData()
+    {
+        $this->confirmModal = false;
+        $this->validatedData = null;
+    }
+
     public function rules()
     {
         return [
@@ -45,18 +76,31 @@ class Edit extends Component
         ];
     }
 
-    public function update(TA $tahunAjaran)
+    public function edit(TA $tahunAjaran)
     {
         try {
             $validated = $this->validate();
-            $tahunAjaran->update([
-                'tahun' => TA::concatTahunAjaran($validated['tahunAwal'], $validated['tahunAkhir']),
-                'semester' => $validated['semester'],
-                'aktif' => $validated['semesterAktif'],
-            ]);
+            $this->validatedData = $validated;
 
-            session()->flash('success', 'Data Berhasil Diubah');
-            $this->redirectRoute('tahunAjaranIndex');
+            if ($validated['semesterAktif'] === '0') {
+                $this->validatedData['semesterAktif'] = $validated['semesterAktif'];
+                $this->validatedData = $validated;
+                $this->update();
+                return;
+            }
+
+            // jika semester aktif bernilai 1
+            $semesterSedangAktif = TA::firstWhere('aktif', 1);
+
+            // jika tidak ditemukan semester yang sedang aktif
+            if (!$semesterSedangAktif) {
+                $this->update();
+                return;
+            }
+
+            // jika semester aktif bernilai 1 dan ditemukan sudah ada semester yang aktif
+            session()->flash('confirmDialog', ['message' => "Tahun ajaran aktif saat ini {$semesterSedangAktif['tahun']} {$semesterSedangAktif['semester']}. Perubahan tahun ajaran aktif dapat menimbulkan error pada penginputan nilai", 'id' => $semesterSedangAktif['id']]);
+            $this->confirmModal = true;
         } catch (\Throwable $th) {
             $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
         }

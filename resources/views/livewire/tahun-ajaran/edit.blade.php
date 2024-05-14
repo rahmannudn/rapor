@@ -2,7 +2,34 @@
     @section('title')
         Edit Tahun Ajaran
     @endsection
-    <x-button href="{{ route('tahunAjaranIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
+
+    @if (session('confirmDialog'))
+        <x-modal blur wire:model.defer="confirmModal" x-on:close="$wire.resetData">
+            <x-card title="Yakin mengubah tahun ajaran aktif?">
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-20 text-yellow-400" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <p class="text-gray-600 dark:text-white">
+                        {{ session('confirmDialog')['message'] }}
+                    </p>
+                </div>
+
+                <x-slot name="footer">
+                    <div class="flex justify-end gap-x-4">
+                        <x-button flat label="Cancel" x-on:click="close" />
+                        <x-button warning x-on:click="$wire.update({{ session('confirmDialog')['id'] }})" spinner
+                            label="Save" />
+                    </div>
+                </x-slot>
+            </x-card>
+        </x-modal>
+    @endif
+
+    <x-button href="{{ route('tahunAjaranIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info
+        label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700 dark:text-white">Edit Tahun Ajaran : {{ $tahunAjaran->tahun }}
         {{ $tahunAjaran->semester }}</h1>
 
@@ -43,8 +70,7 @@
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
             <x-button href="{{ route('tahunAjaranIndex') }}" wire:navigate secondary label="Cancel" />
-            <x-button primary label="Save" x-on:click="$wire.update({{ $tahunAjaran }})"
-                x-on:shift.enter="$wire.update({{ $tahunAjaran }})" spinner />
+            <x-button primary label="Save" x-on:click="$wire.edit({{ $tahunAjaran }})" spinner />
         </div>
     </div>
 </div>
