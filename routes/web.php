@@ -53,7 +53,7 @@ Route::get('/tahun_ajaran/{tahunAjaran}/edit', TahunAjaranEdit::class)->middlewa
 
 Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex');
 Route::get('/siswa/create', SiswaCreate::class)->middleware(['auth'])->name('siswaCreate');
-Route::get('/siswa/{siswa}/create', SiswaEdit::class)->middleware(['auth'])->name('siswaEdit');
+Route::get('/siswa/{siswa}/edit', SiswaEdit::class)->middleware(['auth'])->name('siswaEdit');
 
 Route::get('/sekolah', SekolahIndex::class)->middleware(['auth'])->name('sekolahIndex');
 Route::get('/sekolah/edit', SekolahEdit::class)->middleware(['auth'])->name('sekolahEdit');

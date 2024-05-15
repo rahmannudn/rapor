@@ -18,8 +18,7 @@ class Table extends Component
     public function render()
     {
         $siswaData = Siswa::search($this->searchQuery)
-            ->orderBy('aktif', 'DESC')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('nama', 'DESC')
             ->paginate($this->show);
 
         return view('livewire.siswa.table', compact('siswaData'));

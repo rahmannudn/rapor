@@ -67,14 +67,6 @@ class Create extends Component
     public function save()
     {
         $validated = $this->validate();
-        $validated['nama'] = Str::lower($validated['nama']);
-        $validated['tempat_lahir'] = Str::lower($validated['tempat_lahir']);
-        $validated['kelurahan'] = Str::lower($validated['kelurahan']);
-        $validated['kecamatan'] = Str::lower($validated['kecamatan']);
-        $validated['kota'] = Str::lower($validated['kota']);
-        $validated['provinsi'] = Str::lower($validated['provinsi']);
-        $validated['nama_ayah'] = Str::lower($validated['nama_ayah']);
-        $validated['nama_ibu'] = Str::lower($validated['nama_ibu']);
 
         Siswa::create($validated);
 

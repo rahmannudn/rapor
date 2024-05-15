@@ -13,51 +13,60 @@
             <x-input icon="search" label="Search" wire:model.live.debounce.1500ms='searchQuery' />
         </div>
     </div>
-    <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+    <table class="w-full text-sm text-left text-center text-gray-500 rtl:text-right dark:text-gray-400">
         <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-2 py-3">
+                <th scope="col" class="px-1 py-3 w-[5%]">
                     No
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Tahun Ajaran
+                <th scope="col" class="px-6 py-3 w-[15%]">
+                    NISN
                 </th>
-                <th scope="col" class="px-4 py-3">
-                    Semester
+                <th scope="col" class="px-4 py-3 w-[30%]">
+                    Nama
                 </th>
-                <th scope="col" class="px-4 py-3">
-                    Aktif
+                <th scope="col" class="px-4 py-3 w-[5%]">
+                    JK
                 </th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-4 py-3 w-[15%]">
+                    Kelas
+                </th>
+                <th scope="col" class="px-4 py-3 w-[10%]">
+                    Agama
+                </th>
+                <th scope="col" class="px-4 py-3 w-[10%]">
                     Action
                 </th>
             </tr>
         </thead>
-        <tbody>
-            @forelse($tahunAjaranData as $data)
+        <tbody class="w-full">
+            @forelse($siswaData as $data)
                 <tr key="{{ $data->id }}"
                     class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-2 py-4">
-                        {{ ($tahunAjaranData->currentpage() - 1) * $tahunAjaranData->perpage() + $loop->index + 1 }}
+                    <td class="px-1 py-4 w-[5%]">
+                        {{ ($siswaData->currentpage() - 1) * $siswaData->perpage() + $loop->index + 1 }}
                     </td>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $data->tahun }}
+                    <th scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-[15%]">
+                        {{ $data->nisn }}
                     </th>
-                    <td class="px-4 py-4">
-                        {{ $data->semester }}
+                    <td class="px-4 py-4 w-[30%]">
+                        {{ ucfirst($data->nama) }}
                     </td>
-                    <td class="px-4 py-4">
-                        @if ($data->aktif)
-                            <span class='px-3 py-1 text-white bg-blue-500 rounded-md'>aktif</span>
-                        @else
-                            {{ 'Tidak Aktif' }}
-                        @endif
+                    <td class="px-4 py-4 w-[5%]">
+                        {{ Str::upper($data->jk) }}
                     </td>
-                    <td class="px-4 py-4">
-                        <x-button.circle green icon="pencil-alt"
-                            href="{{ route('tahunAjaranEdit', ['tahunAjaran' => $data]) }}" wire:navigate />
+                    <td class="px-4 py-4 w-[15%]">
+                        {{ $data->kelas->nama }}
+                    </td>
+                    <td class="px-4 py-4 w-[10%]">
+                        {{ ucfirst($data->agama) }}
+                    </td>
+                    <td class="px-4 py-4 w-[10%]">
+                        <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
+                            wire:navigate />
                         <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-tahun-ajaran',{{ $data->id }}); $openModal('deleteModal');" />
+                            x-on:click="$dispatch('set-siswa',{{ $data->id }}); $openModal('deleteModal');" />
                     </td>
                 </tr>
             @empty
@@ -73,6 +82,6 @@
     </table>
 
     <div class="px-4 py-2 bg-slate-300">
-        {{ $tahunAjaranData->links() }}
+        {{ $siswaData->links() }}
     </div>
 </div>

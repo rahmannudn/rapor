@@ -1,4 +1,4 @@
-<div x-on:set-tahun-ajaran="$wire.selectedSiswa = $event.detail">
+<div x-on:set-siswa="$wire.selectedSiswa = $event.detail">
     @section('title')
         Daftar Siswa
     @endsection
@@ -32,5 +32,5 @@
         </x-card>
     </x-modal>
 
-    {{-- <livewire:siswa.table /> --}}
+    <livewire:siswa.table />
 </div>

@@ -18,10 +18,10 @@ class Siswa extends Model
 
     public function kelas()
     {
-        return $this->hasOne(Kelas::class);
+        return $this->belongsTo(Kelas::class);
     }
     public function tahunAjaran()
     {
-        return $this->hasOne(TahunAjaran::class, 'tahun', 'tahun_lulus');
+        return $this->belongsTo(TahunAjaran::class, 'tahun', 'tahun_lulus');
     }
 }
