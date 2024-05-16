@@ -40,13 +40,13 @@
     <script>
         window.addEventListener('showNotif', function(e) {
             const {
-                title = 'Berhasil', description = 'Data berhasil disimpan', icon = 'success'
+                title = 'Berhasil', description = 'Data berhasil disimpan', icon = 'success', timeout = 1500
             } = event.detail;
             $wireui.notify({
                 title,
                 description,
                 icon,
-                timeout: 1500
+                timeout
             });
         });
     </script>

@@ -19,8 +19,8 @@
                     </a>
                 </li>
 
-                <li x-data="{ openDropdown: false }">
-                    <button type="button" x-on:click="openDropdown = !openDropdown"
+                <li x-data="{ dropdownMaster: false }">
+                    <button type="button" x-on:click="dropdownMaster = !dropdownMaster"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -31,18 +31,18 @@
 
                         <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Data Master</span>
 
-                        <svg :class="openDropdown && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                        <svg :class="dropdownMaster && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
 
-                        <svg :class="openDropdown || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                        <svg :class="dropdownMaster || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
 
                     </button>
-                    <ul x-show="openDropdown" class="py-2 space-y-2" x-transition>
+                    <ul x-show="dropdownMaster" class="py-2 space-y-2" x-transition>
                         <li>
                             <a href="{{ route('sekolahIndex') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('sekolahIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
@@ -78,6 +78,48 @@
                                 Mapel
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                <li x-data="{ dropdownGuru: false }">
+                    <button type="button" x-on:click="dropdownGuru = !dropdownGuru"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                        </svg>
+
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Guru</span>
+
+                        <svg :class="dropdownGuru && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+
+                        <svg :class="dropdownGuru || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+
+                    </button>
+                    <ul x-show="dropdownGuru" class="py-2 space-y-2" x-transition>
+                        <li>
+                            <a href="{{ route('sekolahIndex') }}"
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('sekolahIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                wire:navigate>
+                                Guru Mapel
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('waliKelasIndex') }}"
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('waliKelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                wire:navigate>
+                                Wali Kelas
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
 

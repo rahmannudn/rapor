@@ -26,15 +26,16 @@
                     label="{{ $kelas->nama }}" wire:model="kelas_id" />
             @endforeach
         </div>
-        <x-native-select label="Pilih Agama" wire:model="agama">
-            <option value="">-- Pilih Agama --</option>
-            <option value="islam">Islam</option>
-            <option value="kristen protestan">Kristen Protestan</option>
-            <option value="kristen katolik">Kristen Katolik</option>
-            <option value="hindu">Hindu</option>
-            <option value="buddha">Buddha</option>
-            <option value="konghucu">Konghucu</option>
-        </x-native-select>
+
+        <x-select class="max-w-72" label="Agama" placeholder="Pilih Agama" wire:model.defer="agama">
+            <x-select.option value="islam" label="Islam" />
+            <x-select.option value="kristen protestan" label="Kristen Protestan" />
+            <x-select.option value="kristen katolik" label="Kristen Katolik" />
+            <x-select.option value="hindu" label="Hindu" />
+            <x-select.option value="buddha" label="Buddha" />
+            <x-select.option value="konghucu" label="Konghucu" />
+        </x-select>
+
         <x-textarea wire:model="alamat" label="Alamat" />
         <x-input label="Kelurahan" placeholder="Masukkan Kelurahan" wire:model='kelurahan' />
         <x-input label="Kecamatan" placeholder="Masukkan Kecamatan" wire:model='kecamatan' />
