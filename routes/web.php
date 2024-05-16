@@ -26,7 +26,11 @@ use App\Livewire\Mapel\Edit as MapelEdit;
 use App\Livewire\User\Index as UserIndex;
 use App\Livewire\User\Create as UserCreate;
 use App\Livewire\User\Edit as UserEdit;
-use App\Models\User;
+
+use App\Livewire\WaliKelas\Index as WaliKelasIndex;
+use App\Livewire\WaliKelas\Create as WaliKelasCreate;
+use App\Livewire\WaliKelas\Edit as WaliKelasEdit;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -73,6 +77,10 @@ Route::get('/mapel/{mapel}/edit', MapelEdit::class)->middleware(['auth'])->name(
 Route::get('/user', UserIndex::class)->middleware(['auth'])->name('userIndex');
 Route::get('/user/create', UserCreate::class)->middleware(['auth'])->name('userCreate');
 Route::get('/user/{user}/edit', UserEdit::class)->middleware(['auth'])->name('userEdit');
+
+Route::get('/wali_kelas', WaliKelasIndex::class)->middleware(['auth'])->name('waliKelasIndex');
+Route::get('/wali_kelas/create', WaliKelasCreate::class)->middleware(['auth'])->name('waliKelasCreate');
+Route::get('/wali_kelas/{wali_kelas}/edit', WaliKelasEdit::class)->middleware(['auth'])->name('waliKelasEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

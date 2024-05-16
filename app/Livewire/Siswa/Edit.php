@@ -62,7 +62,7 @@ class Edit extends Component
         $this->hp_ortu = $this->siswa['hp_ortu'];
 
         $this->daftarKelas = Kelas::all();
-        $this->daftarSemester = TahunAjaran::where('semester', 'genap')->get();
+        $this->daftarSemester = TahunAjaran::all();
     }
 
     public function rules()

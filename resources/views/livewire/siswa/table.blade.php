@@ -13,7 +13,7 @@
             <x-input icon="search" label="Search" wire:model.live.debounce.1500ms='searchQuery' />
         </div>
     </div>
-    <table class="w-full text-sm text-left text-center text-gray-500 rtl:text-right dark:text-gray-400">
+    <table class="w-full text-sm text-center text-gray-500 rtl:text-right dark:text-gray-400">
         <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-1 py-3 w-[5%]">
