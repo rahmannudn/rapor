@@ -5,17 +5,19 @@
     <x-button href="{{ route('waliKelasIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Wali Kelas</h1>
 
-    <x-select class="max-w-72" label="Kelas" placeholder="Pilih Kelas" wire:model.defer="kelas" autofocus>
+    <x-native-select class="max-w-72" label="Kelas" placeholder="Pilih Kelas" wire:model.defer="kelas">
+        <option value="">--Pilih Kelas--</option>
         @foreach ($daftarKelas as $kelas)
-            <x-select.option value="{{ $kelas->id }}" label="{{ $kelas->nama }}" />
+            <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
         @endforeach
-    </x-select>
+    </x-native-select>
 
-    <x-select class="max-w-72" label="Guru" placeholder="Pilih Guru" wire:model.defer="guru">
+    <x-native-select class="max-w-72" label="Guru" placeholder="Pilih Guru" wire:model.defer="guru">
+        <option value="">--Pilih Guru--</option>
         @foreach ($daftarGuru as $guru)
-            <x-select.option value="{{ $guru->id }}" label="{{ $guru->name }}" />
+            <option value="{{ $guru->id }}">{{ $guru->name }}</option>
         @endforeach
-    </x-select>
+    </x-native-select>
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">

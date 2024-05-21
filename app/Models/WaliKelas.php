@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class WaliKelas extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
     protected $table = 'wali_kelas';
     protected $guarded = ['id', 'created_at'];
 
     public function scopeSearch($query, $value)
     {
-        // $query->where('nama', 'like', "%{$value}%")->orWhere('nisn', 'like', "%{$value}%");
+        $query->whereHas('user', function ($q) use ($value) {
+            $q->where('name', 'like', "%{$value}%");
+        })->orWhereHas('kelas', function ($q) use ($value) {
+            $q->where('nama', 'like', "%{$value}%");
+        });
     }
 
     public function kelas()

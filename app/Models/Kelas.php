@@ -11,6 +11,7 @@ class Kelas extends Model
 
     protected $table = 'kelas';
     protected $guarded = ['id', 'created_at'];
+    protected $primaryKey = 'id';
 
     public function scopeSearch($query, $value)
     {

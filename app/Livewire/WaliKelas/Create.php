@@ -29,9 +29,16 @@ class Create extends Component
 
     public function mount()
     {
-        $this->daftarKelas = Kelas::all();
-        $this->daftarGuru = User::select('id', 'name')->where('role', 'guru')->get();
+        $this->daftarKelas = Kelas::select('kelas.id', 'kelas.nama')->leftJoin('wali_kelas', 'kelas.id', 'wali_kelas.kelas_id')
+            ->whereNull('wali_kelas.kelas_id')->get();
+
+        $this->daftarGuru = User::select('users.id', 'users.name')
+            ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
+            ->where('role', 'guru')
+            ->whereNull('wali_kelas.user_id')->get();
+
         $this->tahunAjaranAktif = TahunAjaran::select('id')->where('aktif', 1)->first();
+
 
         if (!$this->tahunAjaranAktif) {
             $this->redirectRoute('waliKelasIndex');
@@ -51,9 +58,9 @@ class Create extends Component
         ]);
 
         WaliKelas::create([
-            'id_kelas' => $validated['kelas'],
-            'id_user' => $validated['guru'],
-            'id_tahun_ajaran' => $this->tahunAjaranAktif['id'],
+            'kelas_id' => $validated['kelas'],
+            'user_id' => $validated['guru'],
+            'tahun_ajaran_id' => $this->tahunAjaranAktif['id'],
         ]);
 
         $this->redirectRoute('waliKelasIndex');

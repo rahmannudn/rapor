@@ -11,6 +11,7 @@ class TahunAjaran extends Model
 
     protected $table = 'tahun_ajaran';
     protected $guarded = ['id', 'created_at'];
+    protected $primaryKey = 'id';
 
     public function scopeSearch($query, $value)
     {
