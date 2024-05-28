@@ -17,4 +17,9 @@ class Kelas extends Model
     {
         $query->where('nama', 'like', "%{$value}%")->orWhere('kelas', 'like', "%{$value}%");
     }
+
+    public function waliKelas()
+    {
+        return $this->hasMany(WaliKelas::class);
+    }
 }

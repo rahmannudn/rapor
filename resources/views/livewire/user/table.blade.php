@@ -61,7 +61,7 @@
                         {{ Str::ucfirst($data->role) }}
                     </td>
                     <td class="px-4 py-4">
-                        {{ $data->jenis_pegawai }}
+                        {{ Str::ucfirst($data->jenis_pegawai) }}
                     </td>
                     <td class="px-4 py-4">
                         <x-button.circle green icon="pencil-alt" href="{{ route('userEdit', ['user' => $data]) }}"

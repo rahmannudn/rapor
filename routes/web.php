@@ -31,6 +31,12 @@ use App\Livewire\WaliKelas\Index as WaliKelasIndex;
 use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Livewire\WaliKelas\Edit as WaliKelasEdit;
 
+use App\Livewire\GuruMapel\Index as GuruMapelIndex;
+use App\Livewire\GuruMapel\Create as GuruMapelCreate;
+use App\Livewire\GuruMapel\Edit as GuruMapelEdit;
+
+use App\Http\Controllers\GuruMapelSearch;
+use App\Http\Controllers\MapelSearch;
 use Illuminate\Support\Facades\Route;
 
 
@@ -81,6 +87,13 @@ Route::get('/user/{user}/edit', UserEdit::class)->middleware(['auth'])->name('us
 Route::get('/wali_kelas', WaliKelasIndex::class)->middleware(['auth'])->name('waliKelasIndex');
 Route::get('/wali_kelas/create', WaliKelasCreate::class)->middleware(['auth'])->name('waliKelasCreate');
 Route::get('/wali_kelas/{wali_kelas}/edit', WaliKelasEdit::class)->middleware(['auth'])->name('waliKelasEdit');
+
+Route::get('/guru_mapel', GuruMapelIndex::class)->middleware(['auth'])->name('guruMapelIndex');
+Route::get('/guru_mapel/create', GuruMapelCreate::class)->middleware(['auth'])->name('guruMapelCreate');
+Route::get('/guru_mapel/{guru_mapel}/edit', GuruMapelEdit::class)->middleware(['auth'])->name('guruMapelEdit');
+
+Route::get('/guru_mapel/search', GuruMapelSearch::class)->middleware(['auth'])->name('apiGuruMapelSearch');
+Route::get('/mapel/search', MapelSearch::class)->middleware(['auth'])->name('apiMapelSearch');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

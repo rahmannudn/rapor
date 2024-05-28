@@ -31,12 +31,20 @@ class UserSeeder extends Seeder
                 'jenis_pegawai' => 'pppk'
             ],
             [
-                'name' => 'guru',
+                'name' => 'guru1',
                 'email' => 'guru@email.com',
                 'password' => 'guru1234',
                 'role' => 'guru',
                 'jk' => 'p',
                 'jenis_pegawai' => 'pns'
+            ],
+            [
+                'name' => 'guru2',
+                'email' => 'guru2@email.com',
+                'password' => 'guru1234',
+                'role' => 'guru',
+                'jk' => 'p',
+                'jenis_pegawai' => 'honor'
             ],
         ];
 

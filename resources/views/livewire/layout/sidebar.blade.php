@@ -19,22 +19,6 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ route('userIndex') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                        wire:navigate>
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <span class="ms-3">Users</span>
-                    </a>
-                </li>
-
-
                 <li x-data="{ dropdownMaster: false }">
                     <button type="button" x-on:click="dropdownMaster = !dropdownMaster"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -74,13 +58,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('kelasIndex') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('kelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                wire:navigate>
-                                Kelas
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ route('ekskulIndex') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('ekskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
                                 wire:navigate>
@@ -94,48 +71,6 @@
                                 Mapel
                             </a>
                         </li>
-                    </ul>
-                </li>
-
-                <li x-data="{ dropdownGuru: false }">
-                    <button type="button" x-on:click="dropdownGuru = !dropdownGuru"
-                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                        </svg>
-
-                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Guru</span>
-
-                        <svg :class="dropdownGuru && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-
-                        <svg :class="dropdownGuru || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-
-                    </button>
-                    <ul x-show="dropdownGuru" class="py-2 space-y-2" x-transition>
-                        <li>
-                            <a href="{{ route('sekolahIndex') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('sekolahIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                wire:navigate>
-                                Guru Mapel
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('waliKelasIndex') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('waliKelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                wire:navigate>
-                                Wali Kelas
-                            </a>
-                        </li>
-
                     </ul>
                 </li>
 
@@ -153,6 +88,59 @@
                         </svg>
 
                         <span class="ms-3">Siswa</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('kelasIndex') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                        wire:navigate>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                        </svg>
+                        <span class="ms-3">Rombel</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('waliKelasIndex') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('waliKelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                        wire:navigate>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path
+                                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                        </svg>
+
+                        <span class="ms-3">Wali Kelas</span>
+                    </a>
+                </li>
+
+
+
+
+
+
+                <li>
+                    <a href="{{ route('userIndex') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                        wire:navigate>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="ms-3">Pengguna</span>
                     </a>
                 </li>
 

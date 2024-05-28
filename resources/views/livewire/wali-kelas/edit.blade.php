@@ -14,7 +14,7 @@
 
     <x-native-select class="max-w-72" label="Guru" placeholder="Pilih Guru" wire:model.defer="guru">
         @foreach ($daftarGuru as $guru)
-            <option wire:key="{{ $guru->id }}" value="{{ $guru->id }}"> {{ $guru->name }} </option>
+            <option wire:key="{{ $guru->id }}" value="{{ $guru->id }}">{{ $guru->name }}</option>
         @endforeach
     </x-native-select>
 

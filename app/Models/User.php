@@ -48,13 +48,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function waliKelas()
-    {
-        $this->hasMany(WaliKelas::class);
-    }
 
     public function scopeSearch($query, $value)
     {
         $query->where('name', 'like', "%{$value}%")->orWhere('email', 'like', "%{$value}%");
+    }
+
+    public function waliKelas()
+    {
+        return $this->hasMany(WaliKelas::class);
+    }
+
+    public function guruMapel()
+    {
+        return $this->hasMany(GuruMapel::class);
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade');
             $table->unsignedBigInteger('tahun_lulus')->nullable();
             $table->foreign('tahun_lulus')->references('id')->on('tahun_ajaran')->onUpdate('cascade');
+            $table->softDeletes();
         });
     }
 
@@ -25,7 +26,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            //
+            $table->dropSoftDeletes();
         });
     }
 };
