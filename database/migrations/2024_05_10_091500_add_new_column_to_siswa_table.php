@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->unsignedBigInteger('kelas_id');
-            $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade');
-            $table->unsignedBigInteger('tahun_lulus')->nullable();
-            $table->foreign('tahun_lulus')->references('id')->on('tahun_ajaran')->onUpdate('cascade');
+            $table->foreignId('kelas_id')->constrained(table: 'kelas')->onUpdate('cascade');
+            $table->foreignId('tahun_lulus')->nullable()->constrained(table: 'tahun_ajaran')->onUpdate('cascade');
             $table->softDeletes();
         });
     }
@@ -27,6 +25,7 @@ return new class extends Migration
     {
         Schema::table('siswa', function (Blueprint $table) {
             $table->dropSoftDeletes();
+            Schema::dropIfExists('siswa');
         });
     }
 };

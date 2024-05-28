@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('detail_guru_mapel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('guru_mapel_id');
-            $table->foreignId('mapel_id');
-            $table->foreignId('kelas_id');
+            $table->foreignId('guru_mapel_id')->constrained(table: 'guru_mapel');
+            $table->foreignId('mapel_id')->constrained(table: 'mapel');
+            $table->foreignId('kelas_id')->constrained(table: 'kelas');
             $table->timestamps();
         });
     }

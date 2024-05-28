@@ -5,12 +5,19 @@
     <x-button href="{{ route('guruMapelIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Guru Mapel</h1>
 
-    <x-native-select class="max-w-72" label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas">
-        <option value="">--Pilih Kelas--</option>
-        @foreach ($daftarKelas as $kelas)
-            <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
-        @endforeach
-    </x-native-select>
+    <div class="space-y-2">
+        <div class="w-52">
+            <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas">
+                <option value="">--Pilih Rombel--</option>
+                @foreach ($daftarKelas as $kelas)
+                    <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
+                @endforeach
+            </x-native-select>
+        </div>
+
+        <x-button primary label="Tampilkan Mapel Kelas" x-on:click="$wire.showDaftarMapel" spinner />
+    </div>
+
 
     @if ($selectedKelas)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -70,11 +77,9 @@
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
-            <x-button href="{{ route('guruMapelIndex') }}" secondary label="Cancel" x-on:click="close" />
             @if ($selectedKelas)
+                <x-button href="{{ route('guruMapelIndex') }}" secondary label="Cancel" x-on:click="close" />
                 <x-button primary label="Save" x-on:click="$wire.save" spinner />
-            @else
-                <x-button primary label="Tampilkan Mapel Kelas" x-on:click="$wire.showDaftarMapel" spinner />
             @endif
         </div>
     </div>

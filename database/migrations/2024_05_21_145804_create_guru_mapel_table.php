@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('guru_mapel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('tahun_ajaran_id');
+            $table->foreignId('user_id')->constrained(table: 'users');
+            $table->foreignId('tahun_ajaran_id')->constrained(table: 'tahun_ajaran');
             $table->timestamps();
         });
     }

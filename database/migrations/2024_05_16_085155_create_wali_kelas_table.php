@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('wali_kelas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kelas_id');
-            $table->foreignId('user_id');
-            $table->foreignId('tahun_ajaran_id');
+            $table->foreignId('kelas_id')->constrained(table: 'kelas');
+            $table->foreignId('user_id')->constrained(table: 'users');
+            $table->foreignId('tahun_ajaran_id')->constrained(table: 'tahun_ajaran');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('guru_kelas');
+        Schema::table('wali_kelas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+            Schema::dropIfExists('wali_kelas');
+        });
     }
 };
