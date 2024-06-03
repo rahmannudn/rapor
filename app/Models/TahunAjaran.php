@@ -50,4 +50,9 @@ class TahunAjaran extends Model
         // mendapatkan 4 karater pertama dari tahun (2025)
         return substr($data, 7);
     }
+
+    public function waliKelas()
+    {
+        return $this->hasMany(WaliKelas::class);
+    }
 }

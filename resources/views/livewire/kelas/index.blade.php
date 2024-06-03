@@ -1,6 +1,6 @@
 <div x-on:set-kelas="$wire.selectedKelas = $event.detail">
     @section('title')
-        Kelas
+        Rombel
     @endsection
     {{-- blade-formatter-disable --}}
     @if (session('success'))
@@ -11,7 +11,7 @@
     @endif
     {{-- blade-formatter-enable --}}
 
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Kelas</h1>
+    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Rombel</h1>
 
     <x-button href="{{ route('kelasCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Kelas" />
     <x-button href="{{ route('guruMapelCreate') }}" wire:navigate class="mb-3" icon="plus" positive
