@@ -22,9 +22,6 @@
                     Rombel
                 </th>
                 <th scope="col" class="px-4 py-3">
-                    Jenjang
-                </th>
-                <th scope="col" class="px-4 py-3">
                     Fase
                 </th>
                 <th scope="col" class="px-4 py-3">
@@ -39,9 +36,6 @@
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $data->nama }}
                     </th>
-                    <td class="px-4 py-4">
-                        {{ $data->kelas }}
-                    </td>
                     <td class="px-4 py-4">
                         {{ Str::upper($data->fase) }}
                     </td>

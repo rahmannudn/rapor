@@ -18,10 +18,13 @@ class Create extends Component
     public $tahunAjaranAktif;
     public $daftarKelas;
     public $dataMapelDanPengajar;
+    public $originalMapelDanPengajar;
     public $daftarGuru;
 
-    public $guru;
-    public $selectedKelas;
+    public $savedMapelDanPengajar = [];
+    public $kelas;
+    public $selectedMapel;
+    public $tempPengajar;
 
     #[Layout('layouts.app')]
     public function render()
@@ -37,42 +40,116 @@ class Create extends Component
 
     public function showDaftarMapel()
     {
-        $this->validate(['selectedKelas' => 'required']);
-        // mencari daftar pengajar mapel pada kelas yang ditentukan
-        $this->dataMapelDanPengajar = DB::table('mapel')
+        $this->validate(['kelas' => 'required']);
+
+        $data = DB::table('mapel')
             ->leftJoin('detail_guru_mapel', function (JoinClause $join) {
                 $join->on('detail_guru_mapel.mapel_id', '=', 'mapel.id')
-                    ->where('detail_guru_mapel.kelas_id', '=', $this->selectedKelas);
+                    ->where('detail_guru_mapel.kelas_id', '=', $this->kelas);
             })
             ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
             ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
             ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
             ->where(function ($query) {
-                $query->where('kelas.id', '=', $this->selectedKelas)
+                $query->where('kelas.id', '=', $this->kelas)
                     ->orWhereNull('kelas.id');
             })
             ->select(
                 'users.id as id_user',
+                'users.name as nama_user',
                 'mapel.id as id_mapel',
                 'mapel.nama_mapel as nama_mapel',
                 'detail_guru_mapel.id as id_detail'
             )
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return (array) $item;
+            })
+            ->toArray();
+
+        $this->dataMapelDanPengajar = array_map(function ($item) {
+            return [
+                'id_detail' => $item['id_detail'],
+                'id_user' => $item['id_user'] ?? null,
+                'nama_user' => $item['nama_user'] ?? '',
+                'id_mapel' => $item['id_mapel'],
+                'nama_mapel' => $item['nama_mapel'],
+            ];
+        }, $data);
+
+
+        // $this->dataMapelDanPengajar = DB::table('mapel')
+        //     ->leftJoin('detail_guru_mapel', function (JoinClause $join) {
+        //         $join->on('detail_guru_mapel.mapel_id', '=', 'mapel.id')
+        //             ->where('detail_guru_mapel.kelas_id', '=', $this->selectedKelas);
+        //     })
+        //     ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
+        //     ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
+        //     ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
+        //     ->where(function ($query) {
+        //         $query->where('kelas.id', '=', $this->selectedKelas)
+        //             ->orWhereNull('kelas.id');
+        //     })
+        //     ->select(
+        //         'users.id as id_user',
+        //         'mapel.id as id_mapel',
+        //         'mapel.nama_mapel as nama_mapel',
+        //         'detail_guru_mapel.id as id_detail'
+        //     )
+        //     ->get();
+
+        $this->originalMapelDanPengajar = $this->dataMapelDanPengajar;
         $this->daftarGuru = User::select('id', 'name')->where('role', 'guru')->get();
+    }
 
-        // DetailGuruMapel::select(
-        //     'users.id as id_user',
-        //     'users.name as nama_user',
-        //     'mapel.id as id_mapel',
-        //     'mapel.nama_mapel as nama_mapel'
-        // )
-        //     ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
-        //     ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
-        //     ->join('kelas', 'kelas.id', 'detail_guru_mapel.kelas_id')
-        //     ->join('users', 'users.id', 'guru_mapel.user_id')
-        //     ->where('detail_guru_mapel.kelas_id', $this->selectedKelas)
-        //     ->where('guru_mapel.tahun_ajaran_id', $this->tahunAjaranAktif['id'])->get();
+    public function updated($property)
+    {
+        if ($property === 'kelas') return;
 
+        // ada kondisi id user kosong atau null
+        // ada kondisi id user ada dan berubah
 
+        $idUserIndex = explode('.', $property)[2];
+        $idUser = (int)explode('.', $property)[1];
+
+        $mapelPengajarChanged = (int) $this->dataMapelDanPengajar[$idUser][$idUserIndex];
+        $originalMapelPengajar = $this->originalMapelDanPengajar[$idUser][$idUserIndex];
+
+        if (!is_null($mapelPengajarChanged) && $mapelPengajarChanged === $originalMapelPengajar) return;
+        $this->tempPengajar = $mapelPengajarChanged;
+    }
+
+    public function setMapel($idMapel)
+    {
+        $arr = ['id_mapel' => $idMapel, 'id_user' => $this->tempPengajar];
+        array_push($this->savedMapelDanPengajar, $arr);
+    }
+
+    public function save()
+    {
+        if (count($this->savedMapelDanPengajar) === 0) {
+            session()->flash('gagal', 'Tidak Ditemukan Perubahan Data');
+            return;
+        }
+
+        foreach ($this->savedMapelDanPengajar as $data) {
+            // mencari id guru mapel yang sesuai
+            $guruMapel = GuruMapel::select('id')->where('user_id', $data['id_user'])->first();
+
+            // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
+            // jika tidak ditemukan maka akan membuat data baru pada tabel detail
+            DetailGuruMapel::updateOrCreate(
+                [
+                    'kelas_id' => $this->kelas,
+                    'mapel_id' => $data['id_mapel']
+                ],
+                [
+                    'guru_mapel_id' => $guruMapel['id']
+                ]
+            );
+        }
+
+        session()->flash('success', 'Data Berhasil Diubah');
+        $this->redirectRoute('guruMapelCreate');
     }
 }
