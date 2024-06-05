@@ -77,27 +77,6 @@ class Create extends Component
             ];
         }, $data);
 
-
-        // $this->dataMapelDanPengajar = DB::table('mapel')
-        //     ->leftJoin('detail_guru_mapel', function (JoinClause $join) {
-        //         $join->on('detail_guru_mapel.mapel_id', '=', 'mapel.id')
-        //             ->where('detail_guru_mapel.kelas_id', '=', $this->selectedKelas);
-        //     })
-        //     ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
-        //     ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
-        //     ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
-        //     ->where(function ($query) {
-        //         $query->where('kelas.id', '=', $this->selectedKelas)
-        //             ->orWhereNull('kelas.id');
-        //     })
-        //     ->select(
-        //         'users.id as id_user',
-        //         'mapel.id as id_mapel',
-        //         'mapel.nama_mapel as nama_mapel',
-        //         'detail_guru_mapel.id as id_detail'
-        //     )
-        //     ->get();
-
         $this->originalMapelDanPengajar = $this->dataMapelDanPengajar;
         $this->daftarGuru = User::select('id', 'name')->where('role', 'guru')->get();
     }
@@ -105,9 +84,6 @@ class Create extends Component
     public function updated($property)
     {
         if ($property === 'kelas') return;
-
-        // ada kondisi id user kosong atau null
-        // ada kondisi id user ada dan berubah
 
         $idUserIndex = explode('.', $property)[2];
         $idUser = (int)explode('.', $property)[1];
@@ -134,10 +110,14 @@ class Create extends Component
 
         foreach ($this->savedMapelDanPengajar as $data) {
             // mencari id guru mapel yang sesuai
-            $guruMapel = GuruMapel::select('id')->where('user_id', $data['id_user'])->first();
-
+            $guruMapel = GuruMapel::firstOrCreate([
+                'user_id' => $data['id_user'],
+                'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
+            ]);
+            // GuruMapel::select('id')->where('user_id', $data['id_user'])->first()
             // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
             // jika tidak ditemukan maka akan membuat data baru pada tabel detail
+
             DetailGuruMapel::updateOrCreate(
                 [
                     'kelas_id' => $this->kelas,
