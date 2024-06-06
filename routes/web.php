@@ -35,6 +35,10 @@ use App\Livewire\GuruMapel\Index as GuruMapelIndex;
 use App\Livewire\GuruMapel\Create as GuruMapelCreate;
 use App\Livewire\GuruMapel\Edit as GuruMapelEdit;
 
+use App\Livewire\MateriMapel\Index as MateriMapelIndex;
+use App\Livewire\MateriMapel\Create as MateriMapelCreate;
+use App\Livewire\MateriMapel\Edit as MateriMapelEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 use Illuminate\Support\Facades\Route;
@@ -91,6 +95,10 @@ Route::get('/wali_kelas/{wali_kelas}/edit', WaliKelasEdit::class)->middleware(['
 Route::get('/guru_mapel', GuruMapelIndex::class)->middleware(['auth'])->name('guruMapelIndex');
 Route::get('/guru_mapel/create', GuruMapelCreate::class)->middleware(['auth'])->name('guruMapelCreate');
 Route::get('/guru_mapel/{guru_mapel}/edit', GuruMapelEdit::class)->middleware(['auth'])->name('guruMapelEdit');
+
+Route::get('/materi_mapel', MateriMapelIndex::class)->middleware(['auth'])->name('materiMapelIndex');
+Route::get('/materi_mapel/create', MateriMapelCreate::class)->middleware(['auth'])->name('materiMapelCreate');
+Route::get('/materi_mapel/{materi_mapel}/edit', MateriMapelEdit::class)->middleware(['auth'])->name('materiMapelEdit');
 
 Route::get('/guru_mapel/search', GuruMapelSearch::class)->middleware(['auth'])->name('apiGuruMapelSearch');
 Route::get('/mapel/search', MapelSearch::class)->middleware(['auth'])->name('apiMapelSearch');

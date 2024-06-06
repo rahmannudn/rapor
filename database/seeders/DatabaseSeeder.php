@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\GuruMapel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +19,8 @@ class DatabaseSeeder extends Seeder
             SekolahSeeder::class,
             KelasSeeder::class,
             TahunAjaranSeeder::class,
-            MapelSeeder::class
+            MapelSeeder::class,
+            GuruMapelSeeder::class
         ]);
     }
 }

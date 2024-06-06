@@ -48,6 +48,10 @@ class Create extends Component
                     ->where('detail_guru_mapel.kelas_id', '=', $this->kelas);
             })
             ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
+            ->leftJoin('tahun_ajaran', function (JoinClause $join) {
+                $join->on('tahun_ajaran.id', '=', 'guru_mapel.tahun_ajaran_id')
+                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif['id']);
+            })
             ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
             ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
             ->where(function ($query) {
@@ -59,7 +63,8 @@ class Create extends Component
                 'users.name as nama_user',
                 'mapel.id as id_mapel',
                 'mapel.nama_mapel as nama_mapel',
-                'detail_guru_mapel.id as id_detail'
+                'detail_guru_mapel.id as id_detail',
+                'tahun_ajaran.id as id_tahun_ajaran'
             )
             ->get()
             ->map(function ($item) {
