@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('materi_mapel', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('guru_mapel_id')->constrained(table: 'guru_mapel');
+            $table->foreignId('detail_guru_mapel_id')->constrained(table: 'detail_guru_mapel');
             $table->text('tujuan_pembelajaran');
             $table->string('lingkup_materi', 30);
             $table->timestamps();
