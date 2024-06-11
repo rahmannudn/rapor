@@ -22,4 +22,14 @@ class Kelas extends Model
     {
         return $this->hasMany(WaliKelas::class);
     }
+
+    public function materiMapel()
+    {
+        return $this->hasMany(MateriMapel::class);
+    }
+
+    public function detailGuruMapel()
+    {
+        return $this->hasMany(DetailGuruMapel::class);
+    }
 }

@@ -9,8 +9,6 @@ use App\Models\MateriMapel;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Validate;
-use Livewire\Attributes\Locked;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -131,5 +129,7 @@ class Create extends Component
         ]);
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
+        $this->tujuanPembelajaran = '';
+        $this->lingkupMateri = '';
     }
 }

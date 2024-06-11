@@ -25,11 +25,16 @@ class DetailGuruMapel extends Model
 
     public function kelas()
     {
-        return $this->hasMany(Kelas::class);
+        return $this->belongsTo(Kelas::class);
     }
 
     public function dataGuru()
     {
         return $this->hasManyThrough(User::class, GuruMapel::class);
+    }
+
+    public function materiMapel()
+    {
+        return $this->hasMany(MateriMapel::class);
     }
 }

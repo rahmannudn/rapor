@@ -15,4 +15,9 @@ class Mapel extends Model
     {
         $query->where('nama_mapel', 'like', "%{$value}%");
     }
+
+    public function materiMapel()
+    {
+        return $this->hasMany(MateriMapel::class);
+    }
 }
