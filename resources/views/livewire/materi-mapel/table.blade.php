@@ -106,7 +106,7 @@
                         @endcan
                         <td class="px-4 py-4">
                             <x-button.circle green icon="pencil-alt"
-                                href="{{ route('materiMapelEdit', ['materi_mapel' => $data->materi_mapel_id]) }}"
+                                href="{{ route('materiMapelEdit', ['materiMapel' => $data->materi_mapel_id]) }}"
                                 wire:navigate />
                             <x-button.circle negative icon="trash"
                                 x-on:click="$dispatch('set-materi', {{ $data->materi_mapel_id }}); $openModal('deleteModal');" />

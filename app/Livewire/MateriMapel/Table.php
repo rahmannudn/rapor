@@ -8,8 +8,10 @@ use Livewire\Component;
 use App\Models\MateriMapel;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
 
@@ -27,6 +29,7 @@ class Table extends Component
     public $daftarKelas;
 
     #[Layout('layouts.app')]
+    #[On('updateData')]
     public function render()
     {
         $dataMateriMapel = '';
@@ -52,8 +55,27 @@ class Table extends Component
                     'users.name as nama_guru'
                 )
                 ->orderBy('materi_mapel.created_at', 'DESC')
-                ->orderBy('tahun_ajaran.tahun', 'ASC')
-                ->orderBy('kelas.kelas', 'ASC')
+                ->paginate($this->show);
+        }
+
+        if (Gate::allows('guru')) {
+            $dataMateriMapel = MateriMapel::query()
+                ->search($this->searchQuery)
+                ->searchUserByJoinGuruMapel($this->selectedGuru)
+                ->joinGuruMapel()
+                ->searchAndJoinKelas($this->selectedKelas)
+                ->searchAndJoinMapel($this->selectedMapel)
+                ->searchAndJoinTahunAjaran($this->selectedTahunAjaran)
+                ->select(
+                    'mapel.id as mapel_id',
+                    'mapel.nama_mapel',
+                    'materi_mapel.id as materi_mapel_id',
+                    'materi_mapel.tujuan_pembelajaran',
+                    'materi_mapel.lingkup_materi',
+                    'kelas.nama as nama_rombel',
+                    'kelas.kelas as tingkat_kelas',
+                )
+                ->orderBy('materi_mapel.created_at', 'DESC')
                 ->paginate($this->show);
         }
 
@@ -68,5 +90,8 @@ class Table extends Component
 
         if (Gate::allows('isSuperAdmin'))
             $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get();
+
+        if (Gate::allows('isGuru'))
+            $this->selectedGuru = Auth::id();
     }
 }

@@ -115,6 +115,7 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', MateriMapel::class);
         $dataId = $this->extractId($this->selectedMapel);
 
         $validated = $this->validate([
@@ -128,8 +129,9 @@ class Create extends Component
             'lingkup_materi' => $validated['lingkupMateri'],
         ]);
 
-        session()->flash('success', 'Data Berhasil Ditambahkan');
         $this->tujuanPembelajaran = '';
         $this->lingkupMateri = '';
+
+        session()->flash('success', 'Data Berhasil Ditambahkan');
     }
 }

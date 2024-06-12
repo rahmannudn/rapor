@@ -40,6 +40,16 @@ class MateriMapel extends Model
         $query->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id');
     }
 
+    public function scopeSearchUserByJoinGuruMapel($query, $userId)
+    {
+        $query->join('guru_mapel', function (JoinClause $query) use ($userId) {
+            $query->on('detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id');
+            if ($userId) {
+                $query->where('detail_guru_mapel.user_id', '=', $userId);
+            }
+        });
+    }
+
     public function scopeSearchAndJoinKelas($query, $kelasId)
     {
         $query->join('kelas', function (JoinClause $query) use ($kelasId) {

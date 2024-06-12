@@ -20,11 +20,12 @@ class Index extends Component
     public function destroy()
     {
         try {
+            $this->authorize('delete', MateriMapel::class);
+
             $materi = MateriMapel::find($this->selectedMateri);
             if (!$materi) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
             }
-            // $this->authorize('delete', $kelas);
             $materi->delete();
 
             session()->flash('success', 'Data Berhasil Dihapus');

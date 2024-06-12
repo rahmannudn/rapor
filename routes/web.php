@@ -98,7 +98,7 @@ Route::get('/guru_mapel/{guru_mapel}/edit', GuruMapelEdit::class)->middleware(['
 
 Route::get('/materi_mapel', MateriMapelIndex::class)->middleware(['auth'])->name('materiMapelIndex');
 Route::get('/materi_mapel/create', MateriMapelCreate::class)->middleware(['auth'])->name('materiMapelCreate');
-Route::get('/materi_mapel/{materi_mapel}/edit', MateriMapelEdit::class)->middleware(['auth'])->name('materiMapelEdit');
+Route::get('/materi_mapel/{materiMapel}/edit', MateriMapelEdit::class)->middleware(['auth'])->name('materiMapelEdit');
 
 Route::get('/guru_mapel/search', GuruMapelSearch::class)->middleware(['auth'])->name('apiGuruMapelSearch');
 Route::get('/mapel/search', MapelSearch::class)->middleware(['auth'])->name('apiMapelSearch');
