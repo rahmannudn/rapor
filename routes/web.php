@@ -39,8 +39,13 @@ use App\Livewire\MateriMapel\Index as MateriMapelIndex;
 use App\Livewire\MateriMapel\Create as MateriMapelCreate;
 use App\Livewire\MateriMapel\Edit as MateriMapelEdit;
 
+use App\Livewire\Kepsek\Index as KepsekIndex;
+use App\Livewire\Kepsek\Create as KepsekCreate;
+use App\Livewire\Kepsek\Edit as KepsekEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
+use App\Models\Kepsek;
 use Illuminate\Support\Facades\Route;
 
 
@@ -100,8 +105,9 @@ Route::get('/materi_mapel', MateriMapelIndex::class)->middleware(['auth'])->name
 Route::get('/materi_mapel/create', MateriMapelCreate::class)->middleware(['auth'])->name('materiMapelCreate');
 Route::get('/materi_mapel/{materiMapel}/edit', MateriMapelEdit::class)->middleware(['auth'])->name('materiMapelEdit');
 
-Route::get('/guru_mapel/search', GuruMapelSearch::class)->middleware(['auth'])->name('apiGuruMapelSearch');
-Route::get('/mapel/search', MapelSearch::class)->middleware(['auth'])->name('apiMapelSearch');
+Route::get('/kepsek', KepsekIndex::class)->middleware(['auth'])->name('kepsekIndex');
+Route::get('/kepsek/create', KepsekCreate::class)->middleware(['auth'])->name('kepsekCreate');
+Route::get('/kepsek/{kepsek}/edit', KepsekEdit::class)->middleware(['auth'])->name('kepsekEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
