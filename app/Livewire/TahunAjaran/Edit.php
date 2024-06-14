@@ -8,6 +8,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use App\Models\TahunAjaran as TA;
 use Livewire\Attributes\Locked;
+use App\Helpers\FunctionHelper;
 
 class Edit extends Component
 {
@@ -26,7 +27,7 @@ class Edit extends Component
 
     public function mount()
     {
-        $this->years = TA::getYears();
+        $this->years = FunctionHelper::getDynamicYear();
         $this->tahunAwal = TA::getTahunAwal($this->tahunAjaran['tahun']);
         $this->tahunAkhir = TA::getTahunAkhir($this->tahunAjaran['tahun']);
         $this->semester = $this->tahunAjaran['semester'];
@@ -69,8 +70,8 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'tahunAwal' => ['required', 'min:4', new IsValidYear($this->tahunAkhir)],
-            'tahunAkhir' => ['required', 'min:4'],
+            'tahunAwal' => ['required', new IsValidYear($this->tahunAkhir)],
+            'tahunAkhir' => ['required',],
             'semester' => ['required', 'string'],
             'semesterAktif' => ['required', 'boolean']
         ];

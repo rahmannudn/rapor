@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(GuruMapel::class);
     }
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }

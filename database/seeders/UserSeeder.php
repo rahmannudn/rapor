@@ -31,20 +31,36 @@ class UserSeeder extends Seeder
                 'jenis_pegawai' => 'pppk'
             ],
             [
-                'name' => 'guru1',
-                'email' => 'guru@email.com',
-                'password' => 'guru1234',
+                'name' => 'jajang sunarman',
+                'email' => 'jajang@email.com',
+                'password' => 'jajang1234',
                 'role' => 'guru',
                 'jk' => 'p',
                 'jenis_pegawai' => 'pns'
             ],
             [
-                'name' => 'guru2',
-                'email' => 'guru2@email.com',
-                'password' => 'guru1234',
+                'name' => 'rojak',
+                'email' => 'rojak2@email.com',
+                'password' => 'rojak1234',
                 'role' => 'guru',
-                'jk' => 'p',
+                'jk' => 'l',
                 'jenis_pegawai' => 'honor'
+            ],
+            [
+                'name' => 'kemal abunawas',
+                'email' => 'kemal@email.com',
+                'password' => 'kemal1234',
+                'role' => 'kepsek',
+                'jk' => 'l',
+                'jenis_pegawai' => 'pns'
+            ],
+            [
+                'name' => 'winston',
+                'email' => 'winston@email.com',
+                'password' => 'winston1234',
+                'role' => 'kepsek',
+                'jk' => 'p',
+                'jenis_pegawai' => 'pns'
             ],
         ];
 

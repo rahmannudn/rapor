@@ -23,22 +23,6 @@ class TahunAjaran extends Model
         return "$tahunAwal / $tahunAkhir";
     }
 
-    public static function getYears()
-    {
-        $years = [];
-        // mengambil data tahun sekarang
-        $currentYear = date('Y');
-
-        // nilai variabel $currentYear akan ditambah nilai index kemudian dikurang 1
-        // expression di loop sebanyak 3 kali, hasilnya dimasukkan ke array $years
-        // contoh : $currentYear = 2024, $years = [2023,2024,2025]
-        for ($i = 0; $i <= 3; $i++) {
-            $years[] = ($currentYear + $i) - 1;
-        }
-
-        return $years;
-    }
-
     public static function getTahunAwal($data)
     {
         // mendapatkan 4 karater pertama dari tahun (2024)
@@ -54,5 +38,10 @@ class TahunAjaran extends Model
     public function waliKelas()
     {
         return $this->hasMany(WaliKelas::class);
+    }
+
+    public function kepsek()
+    {
+        return $this->hasMany(Kepsek::class);
     }
 }

@@ -11,6 +11,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Locked;
+use App\Helpers\FunctionHelper;
 
 class Create extends Component
 {
@@ -37,8 +38,8 @@ class Create extends Component
     public function rules()
     {
         return [
-            'tahunAwal' => ['required', 'min:4', new IsValidYear($this->tahunAkhir)],
-            'tahunAkhir' => ['required', 'min:4'],
+            'tahunAwal' => ['required', new IsValidYear($this->tahunAkhir)],
+            'tahunAkhir' => ['required',],
             'semester' => ['required', 'string'],
             'semesterAktif' => ['required', 'boolean']
         ];
@@ -102,13 +103,6 @@ class Create extends Component
         $this->reset();
 
         // mengambil data tahun sekarang
-        $currentYear = date('Y');
-
-        // nilai variabel $currentYear akan ditambah nilai index kemudian dikurang 1
-        // expression di loop sebanyak 3 kali, hasilnya dimasukkan ke array $years
-        // contoh : $currentYear = 2024, $years = [2023,2024,2025]
-        for ($i = 0; $i <= 3; $i++) {
-            $this->years[] = ($currentYear + $i) - 1;
-        }
+        $this->years = FunctionHelper::getDynamicYear();
     }
 }
