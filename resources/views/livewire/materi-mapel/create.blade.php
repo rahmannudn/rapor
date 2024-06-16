@@ -4,7 +4,7 @@
     @endsection
 
     {{-- blade-formatter-disable --}}
-        @if (session('success'))
+    @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
     @endif
     @if (session('gagal'))

@@ -2,6 +2,32 @@
     @section('title')
         Tambah Kepsek
     @endsection
+
+    @if (session('confirmDialog'))
+        <x-modal blur wire:model.defer="confirmModal" x-on:close="$wire.confirmModal = false">
+            <x-card title="Yakin mengubah kepsek aktif?">
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-20 text-yellow-400" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <p class="text-gray-600 dark:text-white">
+                        {{ session('confirmDialog')['message'] }}
+                    </p>
+                </div>
+
+                <x-slot name="footer">
+                    <div class="flex justify-end gap-x-4">
+                        <x-button flat label="Cancel" x-on:click="close" />
+                        <x-button warning wire:click="create({{ session('confirmDialog')['id'] }})" spinner
+                            label="Save" />
+                    </div>
+                </x-slot>
+            </x-card>
+        </x-modal>
+    @endif
+
     <x-button href="{{ route('kepsekIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Periode Kepsek</h1>
 
@@ -31,7 +57,11 @@
     </x-native-select>
 
     <div class="space-y-2">
-        <x-checkbox id="checkbox" left-label="Aktif" wire:model.defer="aktif" />
+        <x-native-select class="max-w-72" wire:model='aktif' label="Aktif">
+            <option value="" selected>-- Pilih Keaktifan Kepala Sekolah --</option>
+            <option value="1">Aktif</option>
+            <option value="0">Tidak Aktif</option>
+        </x-native-select>
     </div>
 
     <div class="flex justify-between gap-x-4">

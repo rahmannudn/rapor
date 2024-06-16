@@ -10,17 +10,17 @@
         <x-input label="Nama Rombel" placeholder="Masukkan Nama Rombel" wire:model='nama' />
         <div class="space-y-2">
             <p>Pilih Jenjang</p>
-            <x-radio id="md" value="1" label="Kelas 1" wire:model.defer="kelas" />
-            <x-radio id="md" value="2" label="Kelas 2" wire:model.defer="kelas" />
-            <x-radio id="md" value="3" label="Kelas 3" wire:model.defer="kelas" />
-            <x-radio id="md" value="4" label="Kelas 4" wire:model.defer="kelas" />
-            <x-radio id="md" value="5" label="Kelas 5" wire:model.defer="kelas" />
-            <x-radio id="md" value="6" label="Kelas 6" wire:model.defer="kelas" />
+            <x-radio id="kelas-1" value="1" label="Kelas 1" wire:model.defer="kelas" />
+            <x-radio id="kelas-2" value="2" label="Kelas 2" wire:model.defer="kelas" />
+            <x-radio id="kelas-3" value="3" label="Kelas 3" wire:model.defer="kelas" />
+            <x-radio id="kelas-4" value="4" label="Kelas 4" wire:model.defer="kelas" />
+            <x-radio id="kelas-5" value="5" label="Kelas 5" wire:model.defer="kelas" />
+            <x-radio id="kelas-6" value="6" label="Kelas 6" wire:model.defer="kelas" />
         </div>
         <div class="space-y-2">
             <p>Pilih Fase</p>
-            <x-radio id="md" value="a" label="Fase A" wire:model.defer="fase" />
-            <x-radio id="md" value="b" label="Fase B" wire:model.defer="fase" />
+            <x-radio id="fase-a" value="a" label="Fase A" wire:model.defer="fase" />
+            <x-radio id="fase-b" value="b" label="Fase B" wire:model.defer="fase" />
         </div>
     </div>
 

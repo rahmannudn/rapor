@@ -3,6 +3,7 @@
 namespace App\Livewire\Kepsek;
 
 use App\Models\Kepsek;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Table extends Component
@@ -11,9 +12,9 @@ class Table extends Component
     public $searchQuery;
     public $tahunAjaranAktif;
 
+    #[On('updateData')]
     public function render()
     {
-
         $dataKepsek = Kepsek::search($this->searchQuery)
             ->select(
                 'kepsek.id',

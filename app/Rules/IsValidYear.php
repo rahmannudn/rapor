@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class IsValidYear implements DataAwareRule, ValidationRule
+class IsValidYear implements ValidationRule
 {
     /**
      * Run the validation rule.
@@ -15,9 +15,9 @@ class IsValidYear implements DataAwareRule, ValidationRule
      */
     protected $tahunAkhir;
 
-    public function setData($data)
+    public function __construct($tahunAkhir)
     {
-        $this->tahunAkhir = $data['tahunAkhir'];
+        $this->tahunAkhir = $tahunAkhir;
     }
 
     public function validate(string $attribute, mixed $tahunAwal, Closure $fail): void

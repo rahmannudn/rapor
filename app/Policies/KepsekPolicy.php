@@ -4,13 +4,15 @@ namespace App\Policies;
 
 use App\Models\Kepsek;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class KepsekPolicy
 {
     public function before(User $user)
     {
-        return $user->role == 'superadmin';
+        if ($user->role == 'admin' || $user->role == 'superadmin') {
+            return true;
+        };
+        return false;
     }
 
 
@@ -19,7 +21,6 @@ class KepsekPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
     }
 
     /**
@@ -27,7 +28,6 @@ class KepsekPolicy
      */
     public function view(User $user, Kepsek $kepsek): bool
     {
-        //
     }
 
     /**
@@ -35,7 +35,6 @@ class KepsekPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role == 'admin';
     }
 
     /**
@@ -43,7 +42,6 @@ class KepsekPolicy
      */
     public function update(User $user, Kepsek $kepsek): bool
     {
-        //
     }
 
     /**

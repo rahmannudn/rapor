@@ -27,7 +27,7 @@ class Edit extends Component
     {
         if (!$mapel) session()->flash('gagal', 'Data tidak ditemukan');
         $validated = $this->validate([
-            'namaMapel' => 'required|string|min:3|max:10',
+            'namaMapel' => 'required|string|min:3',
         ]);
         // $this->authorize('updaate',$mapel);
         $mapel->update([

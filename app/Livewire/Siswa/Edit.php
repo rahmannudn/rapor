@@ -68,7 +68,6 @@ class Edit extends Component
     public function rules()
     {
         return [
-
             'nama' => ['required', 'string', 'min:3', 'max:80'],
             'tempat_lahir' => ['required', 'string', 'min:3', 'max:80'],
             'tanggal_lahir' => ['required', 'date'],

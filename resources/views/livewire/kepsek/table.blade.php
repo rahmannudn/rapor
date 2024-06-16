@@ -55,7 +55,7 @@
                         {{ $data->email_kepsek }}
                     </td>
                     <td class="px-4 py-4">
-                        {{ $data->tahun_awal_menjabat }} - {{ ucfirst($data->semester_awal_menjabat) }}
+                        {{ $data->tahun_awal_menjabat }} - {{ $data->semester_awal_menjabat }}
                     </td>
                     <td class="px-4 py-4">
                         {{ $data->tahun_akhir_menjabat && $data->semester_awal_menjabat
@@ -73,7 +73,7 @@
                         <x-button.circle green icon="pencil-alt"
                             href="{{ route('kepsekEdit', ['kepsek' => $data->id]) }}" wire:navigate />
                         <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-selectedKepsek', {{ $data->id }}); $openModal('deleteModal');" />
+                            x-on:click="$dispatch('set-kepsek', {{ $data->id }}); $openModal('deleteModal');" />
                     </td>
                 </tr>
             @empty

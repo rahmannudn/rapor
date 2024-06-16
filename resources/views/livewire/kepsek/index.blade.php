@@ -1,4 +1,4 @@
-<div x-on:set-kelas="$wire.selectedKepsek = $event.detail">
+<div x-on:set-kepsek="$wire.selectedKepsek = $event.detail">
     @section('title')
         Kepsek
     @endsection
