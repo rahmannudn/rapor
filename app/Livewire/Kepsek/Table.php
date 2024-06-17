@@ -33,7 +33,7 @@ class Table extends Component
             ->joinAkhirJabatan()
             ->orderBy('aktif', 'DESC')
             ->orderBy('kepsek.created_at', 'DESC')
-            ->get();
+            ->paginate($this->show);
 
         return view('livewire.kepsek.table', compact('dataKepsek'));
     }

@@ -43,6 +43,10 @@ use App\Livewire\Kepsek\Index as KepsekIndex;
 use App\Livewire\Kepsek\Create as KepsekCreate;
 use App\Livewire\Kepsek\Edit as KepsekEdit;
 
+use App\Livewire\Proyek\Index as ProyekIndex;
+use App\Livewire\Proyek\Create as ProyekCreate;
+use App\Livewire\Proyek\Edit as ProyekEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 use App\Models\Kepsek;
