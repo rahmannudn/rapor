@@ -17,7 +17,6 @@ class ProyekPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
     }
 
     /**

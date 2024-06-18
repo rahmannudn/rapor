@@ -38,6 +38,11 @@ class WaliKelas extends Model
         return $this->belongsTo(TahunAjaran::class);
     }
 
+    public function proyek()
+    {
+        return $this->hasMany(Proyek::class);
+    }
+
     public function scopeJoinUser($query)
     {
         $query->join('users', 'wali_kelas.user_id', 'users.id');
