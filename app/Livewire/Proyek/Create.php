@@ -60,6 +60,7 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Proyek::class);
         $validated = $this->validate([
             'judulProyek' => 'required|string',
             'deskripsi' => 'required'

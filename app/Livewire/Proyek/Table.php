@@ -7,6 +7,7 @@ use App\Models\Proyek;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\On;
 
 class Table extends Component
 {
@@ -18,6 +19,7 @@ class Table extends Component
     public $daftarTahunAjaran;
     public $daftarKelas;
 
+    #[On('updateData')]
     public function render()
     {
         $daftarProyek = '';
