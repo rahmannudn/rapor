@@ -113,6 +113,10 @@ Route::get('/kepsek', KepsekIndex::class)->middleware(['auth'])->name('kepsekInd
 Route::get('/kepsek/create', KepsekCreate::class)->middleware(['auth'])->name('kepsekCreate');
 Route::get('/kepsek/{kepsek}/edit', KepsekEdit::class)->middleware(['auth'])->name('kepsekEdit');
 
+Route::get('/proyek', ProyekIndex::class)->middleware(['auth'])->name('proyekIndex');
+Route::get('/proyek/create', ProyekCreate::class)->middleware(['auth'])->name('proyekCreate');
+Route::get('/proyek/{proyek}/edit', ProyekEdit::class)->middleware(['auth'])->name('proyekEdit');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

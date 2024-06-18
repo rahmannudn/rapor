@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Kelas;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\JoinClause;
 
 class WaliKelas extends Model
 {
@@ -34,5 +36,15 @@ class WaliKelas extends Model
     public function tahunAjaran()
     {
         return $this->belongsTo(TahunAjaran::class);
+    }
+
+    public function scopeJoinUser($query)
+    {
+        $query->join('users', 'wali_kelas.user_id', 'users.id');
+    }
+
+    public function scopeJoinKelas($query)
+    {
+        $query->join('kelas', 'wali_kelas.kelas_id', 'kelas.id');
     }
 }

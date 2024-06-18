@@ -25,7 +25,7 @@ class ProyekPolicy
      */
     public function view(User $user, Proyek $proyek): bool
     {
-        if ($user->role == 'kepsek' || $user->role == 'role') return true;
+        if ($user->role == 'kepsek' || $user->role == 'guru') return true;
         return false;
     }
 
@@ -34,7 +34,7 @@ class ProyekPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role == 'guru';
     }
 
     /**

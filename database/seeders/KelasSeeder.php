@@ -29,6 +29,26 @@ class KelasSeeder extends Seeder
                 'nama' => 'Kelas 2b',
                 'fase' => 'a'
             ],
+            [
+                'kelas' => '3',
+                'nama' => 'Kelas 3',
+                'fase' => 'a'
+            ],
+            [
+                'kelas' => '4',
+                'nama' => 'Kelas 4',
+                'fase' => 'b'
+            ],
+            [
+                'kelas' => '5',
+                'nama' => 'Kelas 5',
+                'fase' => 'b'
+            ],
+            [
+                'kelas' => '6',
+                'nama' => 'Kelas 6',
+                'fase' => 'b'
+            ],
         ];
 
         foreach ($dataKelas as $kelas) {

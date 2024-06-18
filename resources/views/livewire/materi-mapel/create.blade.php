@@ -23,7 +23,7 @@
                     <option value="">--Pilih Guru--</option>
                     @if ($daftarGuru)
                         @foreach ($daftarGuru as $guru)
-                            <option option value="{{ $guru->id }}">{{ $guru->name }}</option>
+                            <option value="{{ $guru->id }}">{{ $guru->name }}</option>
                         @endforeach
                     @endif
                 </x-native-select>
