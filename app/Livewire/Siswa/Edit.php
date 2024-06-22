@@ -6,12 +6,16 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
 use App\Enums\AgamaList;
 use App\Models\TahunAjaran;
 use Illuminate\Validation\Rules\Enum;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
     public Siswa $siswa;
 
     public $nisn;
@@ -29,11 +33,13 @@ class Edit extends Component
     public $nama_ayah;
     public $nama_ibu;
     public $hp_ortu;
-    public $foto;
     public $kelas_id;
     public $daftarKelas;
     public $tahun_lulus;
     public $daftarSemester;
+
+    #[Validate('image|max:1536')] // 1,5MB Max
+    public $foto;
 
     #[Layout('layouts.app')]
     public function render()
@@ -60,6 +66,7 @@ class Edit extends Component
         $this->kelas_id = $this->siswa['kelas_id'];
         $this->tahun_lulus = $this->siswa['tahun_lulus'];
         $this->hp_ortu = $this->siswa['hp_ortu'];
+        $this->foto = $this->siswa['foto'];
 
         $this->daftarKelas = Kelas::all();
         $this->daftarSemester = TahunAjaran::all();
@@ -97,6 +104,10 @@ class Edit extends Component
         // membandingkan inputan nidn dengan data nidn yg sdh ada
         if ($this->nidn !== $siswa->nidn) {
             $validated += $this->validate(['nidn' => ['required', 'max:10', 'unique:' . Siswa::class]]);
+        }
+        if ($this->foto !== $this->siswa['foto']) {
+            $filePath = $this->foto->store('uploads', 'public');
+            $validated['foto'] = $filePath;
         }
 
         $siswa->update($validated);

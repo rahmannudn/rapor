@@ -55,8 +55,18 @@
             @endforeach
         </x-select>
 
-    </div>
+        <div class="space-y-2">
+            <p>Foto Siswa</p>
+            @if ($foto)
+                <a href="{{ url('storage/' . $siswa->foto) }}" target="_blank">
+                    <x-avatar size="w-20" squared src="{{ url('storage/' . $siswa->foto) }}" />
+                </a>
+            @endif
+            <x-input type="file" accept="image/png, image/jpeg, image/jpg" placeholder="Upload Foto Siswa"
+                wire:model='foto' />
+        </div>
 
+    </div>
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
