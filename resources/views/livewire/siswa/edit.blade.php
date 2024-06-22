@@ -57,13 +57,12 @@
 
         <div class="space-y-2">
             <p>Foto Siswa</p>
-            @if ($foto)
+            @if ($siswa->foto)
                 <a href="{{ url('storage/' . $siswa->foto) }}" target="_blank">
                     <x-avatar size="w-20" squared src="{{ url('storage/' . $siswa->foto) }}" />
                 </a>
             @endif
-            <x-input type="file" accept="image/png, image/jpeg, image/jpg" placeholder="Upload Foto Siswa"
-                wire:model='foto' />
+            <x-input type="file" placeholder="Upload Foto Siswa" wire:model='foto' />
         </div>
 
     </div>

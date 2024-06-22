@@ -38,7 +38,7 @@ class Edit extends Component
     public $tahun_lulus;
     public $daftarSemester;
 
-    #[Validate('image|max:1536')] // 1,5MB Max
+    #[Validate('nullable|image|max:1536')] // 1,5MB Max
     public $foto;
 
     #[Layout('layouts.app')]
@@ -66,8 +66,6 @@ class Edit extends Component
         $this->kelas_id = $this->siswa['kelas_id'];
         $this->tahun_lulus = $this->siswa['tahun_lulus'];
         $this->hp_ortu = $this->siswa['hp_ortu'];
-        $this->foto = $this->siswa['foto'];
-
         $this->daftarKelas = Kelas::all();
         $this->daftarSemester = TahunAjaran::all();
     }
@@ -94,6 +92,7 @@ class Edit extends Component
 
     public function save(Siswa $siswa)
     {
+        $this->authorize('update', Siswa::class);
         $validated = $this->validate();
 
         if ($this->tahun_lulus) $validated += $this->validate(['tahun_lulus' => 'required']);
@@ -105,12 +104,17 @@ class Edit extends Component
         if ($this->nidn !== $siswa->nidn) {
             $validated += $this->validate(['nidn' => ['required', 'max:10', 'unique:' . Siswa::class]]);
         }
-        if ($this->foto !== $this->siswa['foto']) {
+
+        $siswa->fill($validated);
+
+        if ($this->foto === null) {
+            $siswa['foto'] = $this->siswa['foto'];
+        } else {
             $filePath = $this->foto->store('uploads', 'public');
-            $validated['foto'] = $filePath;
+            $siswa['foto'] = $filePath;
         }
 
-        $siswa->update($validated);
+        $siswa->save();
         $this->redirectRoute('siswaIndex');
         session()->flash('success', 'Data Berhasil Diubah');
     }

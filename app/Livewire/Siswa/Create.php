@@ -34,7 +34,7 @@ class Create extends Component
     public $kelas_id;
     public $daftarKelas;
 
-    #[Validate('image|max:1536')] // 1,5MB Max
+    #[Validate('nullable|sometimes|image|max:1536')] // 1,5MB Max
     public $foto;
 
     #[Layout('layouts.app')]
@@ -72,6 +72,7 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Siswa::class);
         $validated = $this->validate();
         if ($this->foto) {
             $filePath = $this->foto->store('uploads', 'public');
