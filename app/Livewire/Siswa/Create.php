@@ -8,10 +8,14 @@ use Livewire\Component;
 use App\Enums\AgamaList;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Validate;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $nisn;
     public $nidn;
     public $nama;
@@ -27,9 +31,11 @@ class Create extends Component
     public $nama_ayah;
     public $nama_ibu;
     public $hp_ortu;
-    public $foto;
     public $kelas_id;
     public $daftarKelas;
+
+    #[Validate('image|max:1536')] // 1,5MB Max
+    public $foto;
 
     #[Layout('layouts.app')]
     public function render()
@@ -67,7 +73,10 @@ class Create extends Component
     public function save()
     {
         $validated = $this->validate();
-
+        if ($this->foto) {
+            $filePath = $this->foto->store('uploads', 'public');
+            $validated['foto'] = $filePath;
+        }
         Siswa::create($validated);
 
         $this->redirectRoute('siswaIndex');

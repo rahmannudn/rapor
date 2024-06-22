@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('detail_guru_mapel_id')->constrained(table: 'detail_guru_mapel');
             $table->text('tujuan_pembelajaran');
-            $table->string('lingkup_materi', 30);
+            $table->string('lingkup_materi');
             $table->timestamps();
         });
     }

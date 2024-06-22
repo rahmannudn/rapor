@@ -19,20 +19,23 @@
                 <th scope="col" class="px-1 py-3 w-[5%]">
                     No
                 </th>
-                <th scope="col" class="px-6 py-3 w-[15%]">
+                <th scope="col" class="px-6 py-3 w-[10%]">
                     NISN
                 </th>
-                <th scope="col" class="px-4 py-3 w-[30%]">
+                <th scope="col" class="px-4 py-3 w-[20%]">
                     Nama
                 </th>
                 <th scope="col" class="px-4 py-3 w-[5%]">
                     JK
                 </th>
-                <th scope="col" class="px-4 py-3 w-[15%]">
+                <th scope="col" class="px-4 py-3 w-[10%]">
                     Kelas
                 </th>
                 <th scope="col" class="px-4 py-3 w-[10%]">
                     Agama
+                </th>
+                <th scope="col" class="px-4 py-3 w-[10%]">
+                    Foto
                 </th>
                 <th scope="col" class="px-4 py-3 w-[10%]">
                     Action
@@ -47,22 +50,31 @@
                         {{ ($siswaData->currentpage() - 1) * $siswaData->perpage() + $loop->index + 1 }}
                     </td>
                     <th scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-[15%]">
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-[10%]">
                         {{ $data->nisn }}
                     </th>
-                    <td class="px-4 py-4 w-[30%]">
+                    <td class="px-4 py-4 w-[20%]">
                         {{ ucfirst($data->nama) }}
                     </td>
                     <td class="px-4 py-4 w-[5%]">
                         {{ Str::upper($data->jk) }}
                     </td>
-                    <td class="px-4 py-4 w-[15%]">
+                    <td class="px-4 py-4 w-[10%]">
                         {{ $data->kelas->nama }}
                     </td>
                     <td class="px-4 py-4 w-[10%]">
                         {{ ucfirst($data->agama) }}
                     </td>
                     <td class="px-4 py-4 w-[10%]">
+                        @if ($data->foto)
+                            <a href="{{ url('storage/' . $data->foto) }}" target="_blank">
+                                <x-avatar size="w-20" squared src="{{ url('storage/' . $data->foto) }}" />
+                            </a>
+                        @else
+                            <x-badge negative label="Tidak ada foto" />
+                        @endif
+                    </td>
+                    <td class="px-4 py-4 space-x-2 w-[10%]">
                         <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
                             wire:navigate />
                         <x-button.circle negative icon="trash"

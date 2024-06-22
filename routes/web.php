@@ -48,6 +48,7 @@ use App\Livewire\Proyek\Create as ProyekCreate;
 use App\Livewire\Proyek\Edit as ProyekEdit;
 
 use App\Http\Controllers\GuruMapelSearch;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MapelSearch;
 use App\Models\Kepsek;
 use Illuminate\Support\Facades\Route;

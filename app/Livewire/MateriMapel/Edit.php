@@ -59,7 +59,7 @@ class Edit extends Component
         }
 
         $validated = $this->validate([
-            'lingkupMateri' => 'required|string|min:3|max:30',
+            'lingkupMateri' => 'required|string|min:3|max:224',
             'tujuanPembelajaran' => 'required|string|min:3',
         ]);
 

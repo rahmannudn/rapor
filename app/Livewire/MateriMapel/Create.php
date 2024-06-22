@@ -119,7 +119,7 @@ class Create extends Component
         $dataId = $this->extractId($this->selectedMapel);
 
         $validated = $this->validate([
-            'lingkupMateri' => 'required|string|min:3|max:30',
+            'lingkupMateri' => 'required|string|min:3|max:224',
             'tujuanPembelajaran' => 'required|string|min:3',
         ]);
 
@@ -133,5 +133,6 @@ class Create extends Component
         $this->lingkupMateri = '';
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
+        redirect()->route('materiMapelIndex');
     }
 }

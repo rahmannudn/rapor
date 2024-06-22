@@ -45,7 +45,7 @@
     {{-- table --}}
     <div class="overflow-x-auto">
         <table
-            class="w-full overflow-scroll overflow-x-auto text-sm text-left text-gray-500 table-auto rtl:text-right dark:text-gray-400">
+            class="w-full overflow-scroll overflow-x-auto text-sm text-left text-gray-500 table-auto rtl:text-right dark:text-gray-400 text-wrap">
             <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-2 py-3">
@@ -80,29 +80,29 @@
                 @forelse($dataMateriMapel as $data)
                     <tr wire:key="{{ $data->materi_mapel_id }}"
                         class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row"
+                        <th scope="col"
                             class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $loop->index + 1 }}
                         </th>
-                        <td scope="col" class="px-4 py-4 max-w-96">
-                            {{ Str::of($data->tujuan_pembelajaran)->words('25', ' ...') }}
+                        <td class="px-4 py-4 overflow-hidden max-w-96 text-ellipsis">
+                            {{ Str::wordWrap($data->tujuan_pembelajaran, characters: 20, break: "\n") }}
                         </td>
-                        <td scope="col" class="px-4 py-4">
-                            {{ $data->lingkup_materi }}
+                        <td class="px-4 py-4 overflow-hidden text-ellipsis">
+                            {{ Str::wordWrap($data->lingkup_materi, characters: 20, break: "\n") }}
                         </td>
-                        <td scope="col" class="px-4 py-4">
+                        <td class="px-4 py-4">
                             {{ $data->nama_mapel }}
                         </td>
-                        <th scope="col" class="px-4 py-3 ">
+                        <td class="px-4 py-3 ">
                             {{ $data->nama_rombel }}
-                        </th>
+                        </td>
                         @can('isSuperAdmin', Auth::id())
-                            <th scope="col" class="px-4 py-3 ">
+                            <td class="px-4 py-3 ">
                                 {{ $data->nama_guru }}
-                            </th>
-                            <th scope="col" class="px-4 py-3">
+                            </td>
+                            <td class="px-4 py-3">
                                 {{ $data->tahun_ajaran }} - {{ $data->semester }}
-                            </th>
+                            </td>
                         @endcan
                         <td class="px-4 py-4">
                             <x-button.circle green icon="pencil-alt"

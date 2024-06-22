@@ -44,6 +44,8 @@
         <x-input label="Nama Ayah" placeholder="Masukkan Nama Ayah" wire:model='nama_ayah' />
         <x-input label="Nama Ibu" placeholder="Masukkan Nama Ibu" wire:model='nama_ibu' />
         <x-input type="number" label="Hp Ortu" placeholder="Masukkan Hp Ortu" wire:model='hp_ortu' />
+        <x-input type="file" label="Foto Siswa" accept="image/png, image/jpeg" placeholder="Upload Foto Siswa"
+            wire:model='foto' />
     </div>
 
     <div class="flex justify-between gap-x-4">
