@@ -45,7 +45,7 @@ class Edit extends Component
             'deskripsi' => $validated['deskripsi']
         ]);
 
-        $this->redirectRoute('proyekIndex');
         session()->flash('success', 'Data Berhasil Dirubah');
+        $this->redirectRoute('proyekIndex');
     }
 }

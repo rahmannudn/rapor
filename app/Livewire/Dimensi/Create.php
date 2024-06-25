@@ -19,7 +19,7 @@ class Create extends Component
     public function save()
     {
         $this->authorize('create', Dimensi::class);
-        $validated = $this->validate(['deskripsi' => 'required|string']);
+        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:100']);
         Dimensi::create(['deskripsi' => $validated['deskripsi']]);
 
         $this->redirectRoute('dimensiIndex');
