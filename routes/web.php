@@ -47,9 +47,13 @@ use App\Livewire\Proyek\Index as ProyekIndex;
 use App\Livewire\Proyek\Create as ProyekCreate;
 use App\Livewire\Proyek\Edit as ProyekEdit;
 
+use App\Livewire\Dimensi\Index as DimensiIndex;
+use App\Livewire\Dimensi\Create as DimensiCreate;
+use App\Livewire\Dimensi\Edit as DimensiEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MapelSearch;
+
 use App\Models\Kepsek;
 use Illuminate\Support\Facades\Route;
 
@@ -117,6 +121,10 @@ Route::get('/kepsek/{kepsek}/edit', KepsekEdit::class)->middleware(['auth'])->na
 Route::get('/proyek', ProyekIndex::class)->middleware(['auth'])->name('proyekIndex');
 Route::get('/proyek/create', ProyekCreate::class)->middleware(['auth'])->name('proyekCreate');
 Route::get('/proyek/{proyek}/edit', ProyekEdit::class)->middleware(['auth'])->name('proyekEdit');
+
+Route::get('/dimensi', DimensiIndex::class)->middleware(['auth'])->name('dimensiIndex');
+Route::get('/dimensi/create', DimensiCreate::class)->middleware(['auth'])->name('dimensiCreate');
+Route::get('/dimensi/{dimensi}/edit', DimensiEdit::class)->middleware(['auth'])->name('dimensiEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

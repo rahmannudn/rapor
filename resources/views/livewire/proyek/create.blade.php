@@ -12,7 +12,7 @@
     @endif
     {{-- blade-formatter-enable --}}
 
-    <x-button href="{{ route('kelasIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
+    <x-button href="{{ route('proyekIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Data Proyek</h1>
 
 

@@ -1,6 +1,6 @@
-<div x-on:set-proyek="$wire.selectedProyek = $event.detail">
+<div x-on:set-dimensi="$wire.selectedDimensi = $event.detail">
     @section('title')
-        Proyek
+        Dimensi
     @endsection
     {{-- blade-formatter-disable --}}
     @if (session('success'))
@@ -11,13 +11,13 @@
     @endif
     {{-- blade-formatter-enable --}}
 
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Proyek</h1>
+    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Dimensi</h1>
 
-    <x-button href="{{ route('proyekCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Proyek" />
+    <x-button href="{{ route('dimensiCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Dimensi" />
 
-    {{-- <x-button href="{{ route('subProyekCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Dimensi" /> --}}
+    {{-- <x-button href="{{ route('subdimensiCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Dimensi" /> --}}
 
-    <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedProyek = null">
+    <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedDimensi = null">
         <x-card title="Delete Note">
             <p class="text-gray-600">
                 Anda Yakin Ingin Menghapus?
@@ -32,5 +32,5 @@
         </x-card>
     </x-modal>
 
-    <livewire:proyek.table />
+    <livewire:dimensi.table />
 </div>
