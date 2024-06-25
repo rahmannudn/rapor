@@ -21,9 +21,10 @@ class Index extends Component
     public function destroy()
     {
         try {
-            $dimensi = Dimensi::find($this->selecteddimensi);
+            $dimensi = Dimensi::find($this->selectedDimensi);
             if (!$dimensi) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'dimensi Tidak Ditemukan', icon: 'success');
+                $this->deleteModal = false;
             }
             // $this->authorize('delete', $dimensi);
             $dimensi->delete();
