@@ -21,6 +21,7 @@
             <p>Pilih Fase</p>
             <x-radio id="fase-a" value="a" label="Fase A" wire:model.defer="fase" />
             <x-radio id="fase-b" value="b" label="Fase B" wire:model.defer="fase" />
+            <x-radio id="fase-c" value="c" label="Fase C" wire:model.defer="fase" />
         </div>
     </div>
 

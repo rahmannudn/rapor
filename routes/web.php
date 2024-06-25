@@ -51,6 +51,10 @@ use App\Livewire\Dimensi\Index as DimensiIndex;
 use App\Livewire\Dimensi\Create as DimensiCreate;
 use App\Livewire\Dimensi\Edit as DimensiEdit;
 
+use App\Livewire\Elemen\Index as ElemenIndex;
+use App\Livewire\Elemen\Create as ElemenCreate;
+use App\Livewire\Elemen\Edit as ElemenEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 
@@ -125,6 +129,10 @@ Route::get('/proyek/{proyek}/edit', ProyekEdit::class)->middleware(['auth'])->na
 Route::get('/dimensi', DimensiIndex::class)->middleware(['auth'])->name('dimensiIndex');
 Route::get('/dimensi/create', DimensiCreate::class)->middleware(['auth'])->name('dimensiCreate');
 Route::get('/dimensi/{dimensi}/edit', DimensiEdit::class)->middleware(['auth'])->name('dimensiEdit');
+
+Route::get('/elemen', ElemenIndex::class)->middleware(['auth'])->name('elemenIndex');
+Route::get('/elemen/create', ElemenCreate::class)->middleware(['auth'])->name('elemenCreate');
+Route::get('/elemen/{elemen}/edit', ElemenEdit::class)->middleware(['auth'])->name('elemenEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
