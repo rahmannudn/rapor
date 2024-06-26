@@ -2,12 +2,24 @@
 
 namespace App\Livewire\Elemen;
 
+use App\Models\Elemen;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Table extends Component
 {
+    use WithPagination;
+
+    public $show = 10;
+    public $searchQuery;
+
     public function render()
     {
-        return view('livewire.elemen.table');
+        $elemenData = Elemen::joinDimensi()
+            ->search($this->searchQuery)
+            ->select('elemen.id', 'elemen.deskripsi', 'dimensi.deskripsi as dimensiDeskripsi')
+            ->paginate($this->show);
+
+        return view('livewire.elemen.table', compact('elemenData'));
     }
 }
