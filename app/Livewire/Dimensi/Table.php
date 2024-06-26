@@ -17,7 +17,10 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        $dimensiData = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->paginate($this->show);
+        $dimensiData = Dimensi::select('deskripsi', 'id')
+            ->search($this->searchQuery)
+            ->orderBy('created_at')
+            ->paginate($this->show);
         return view('livewire.dimensi.table', compact('dimensiData'));
     }
 }

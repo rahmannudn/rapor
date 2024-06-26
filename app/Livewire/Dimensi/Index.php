@@ -26,7 +26,7 @@ class Index extends Component
                 $this->dispatch('showNotif', title: 'Gagal', description: 'dimensi Tidak Ditemukan', icon: 'success');
                 $this->deleteModal = false;
             }
-            // $this->authorize('delete', $dimensi);
+            $this->authorize('delete', Dimensi::class);
             $dimensi->delete();
 
             session()->flash('success', 'Data Berhasil Dihapus');
