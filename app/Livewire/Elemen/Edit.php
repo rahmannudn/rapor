@@ -30,7 +30,7 @@ class Edit extends Component
     public function update(Elemen $elemen)
     {
         $this->authorize('update', Elemen::class);
-        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:100']);
+        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:250']);
 
         if ($this->elemen['deskripsi'] === $validated['deskripsi']) {
             session()->flash('gagal', 'Tidak ada perubahan data');
