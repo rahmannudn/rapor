@@ -16,6 +16,11 @@ class Elemen extends Model
         return $this->belongsTo(Dimensi::class);
     }
 
+    public function subelemen()
+    {
+        return $this->hasMany(Subelemen::class);
+    }
+
     public function scopeJoinDimensi($query)
     {
         $query->join('dimensi', 'elemen.dimensi_id', 'dimensi.id');

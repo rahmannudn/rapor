@@ -3,7 +3,7 @@
         Tambah Dimensi
     @endsection
 
-    <x-button href="{{ route('dimensiIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
+    <x-button href="{{ route('elemenIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Data Proyek</h1>
 
     <div class="mb-2 space-y-4">

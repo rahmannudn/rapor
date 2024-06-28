@@ -22,7 +22,7 @@ class Index extends Component
         try {
             $this->authorize('delete', Subelemen::class);
 
-            $subelemen = Subelemen::find($this->selectedsubelemen);
+            $subelemen = Subelemen::find($this->selectedSubelemen);
             if (!$subelemen) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
             }
@@ -32,8 +32,8 @@ class Index extends Component
             $this->dispatch('updateData');
             $this->deleteModal = false;
         } catch (\Throwable $err) {
-            dd($err);
             $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
+            $this->deleteModal = false;
         }
     }
 }

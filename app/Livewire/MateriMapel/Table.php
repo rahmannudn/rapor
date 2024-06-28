@@ -28,7 +28,6 @@ class Table extends Component
     public $daftarTahunAjaran;
     public $daftarKelas;
 
-    #[Layout('layouts.app')]
     #[On('updateData')]
     public function render()
     {
