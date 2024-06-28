@@ -87,10 +87,6 @@ class Create extends Component
         }
     }
 
-    public function updated($property)
-    {
-    }
-
     public function extractId($value)
     {
         list($mapelId, $detailGuruMapelId) = explode('/', $value);

@@ -4,11 +4,11 @@
     @endsection
 
     <x-button href="{{ route('dimensiIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
-    <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Data Proyek</h1>
+    <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Data Dimensi</h1>
 
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
-            <x-input label="Deskripsi" placeholder="Masukkan Deskripsi" wire:model='deskripsi' />
+            <x-input label="Deskripsi Dimensi" placeholder="Masukkan Deskripsi Dimensi" wire:model='deskripsi' />
         </div>
     </div>
 

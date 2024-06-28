@@ -13,7 +13,6 @@ class Create extends Component
     public $daftarDimensi;
     public $deskripsi;
     public $selectedDimensi;
-    public $createForm;
     public $formCreate;
 
     #[Layout('layouts.app')]
@@ -34,7 +33,7 @@ class Create extends Component
             ['selectedDimensi.required' => 'Dimensi field is required.']
         );
 
-        $this->createForm = true;
+        $this->formCreate = true;
     }
 
     public function save()

@@ -26,7 +26,7 @@ class Edit extends Component
     public function update(Dimensi $dimensi)
     {
         $this->authorize('update', Dimensi::class);
-        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:100']);
+        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:250']);
 
         if ($this->dimensi['deskripsi'] === $validated['deskripsi']) {
             session()->flash('gagal', 'Tidak ada perubahan data');

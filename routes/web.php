@@ -55,6 +55,10 @@ use App\Livewire\Elemen\Index as ElemenIndex;
 use App\Livewire\Elemen\Create as ElemenCreate;
 use App\Livewire\Elemen\Edit as ElemenEdit;
 
+use App\Livewire\Subelemen\Index as SubelemenIndex;
+use App\Livewire\Subelemen\Create as SubelemenCreate;
+use App\Livewire\Subelemen\Edit as SubelemenEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 
@@ -133,6 +137,10 @@ Route::get('/dimensi/{dimensi}/edit', DimensiEdit::class)->middleware(['auth'])-
 Route::get('/elemen', ElemenIndex::class)->middleware(['auth'])->name('elemenIndex');
 Route::get('/elemen/create', ElemenCreate::class)->middleware(['auth'])->name('elemenCreate');
 Route::get('/elemen/{elemen}/edit', ElemenEdit::class)->middleware(['auth'])->name('elemenEdit');
+
+Route::get('/subelemen', SubelemenIndex::class)->middleware(['auth'])->name('subelemenIndex');
+Route::get('/subelemen/create', SubelemenCreate::class)->middleware(['auth'])->name('subelemenCreate');
+Route::get('/subelemen/{subelemen}/edit', SubelemenEdit::class)->middleware(['auth'])->name('subelemenEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
