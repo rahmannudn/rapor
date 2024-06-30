@@ -21,7 +21,10 @@ class DatabaseSeeder extends Seeder
             TahunAjaranSeeder::class,
             MapelSeeder::class,
             GuruMapelSeeder::class,
-            WaliKelasSeeder::class
+            WaliKelasSeeder::class,
+            DimensiSeeder::class,
+            ElemenSeeder::class,
+            SubelemenSeeder::class,
         ]);
     }
 }
