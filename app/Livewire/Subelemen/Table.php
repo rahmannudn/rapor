@@ -25,7 +25,10 @@ class Table extends Component
                 'subelemen.deskripsi',
                 'elemen.deskripsi as elemenDeskripsi',
                 'dimensi.deskripsi as dimensiDeskripsi'
-            )->paginate($this->show);
+            )
+            ->orderBy('subelemen.created_at')
+            ->orderBy('subelemen.elemen_id')
+            ->paginate($this->show);
 
         return view('livewire.subelemen.table', compact('subelemenData'));
     }

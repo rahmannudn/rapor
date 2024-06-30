@@ -47,7 +47,7 @@
                 <tr key="{{ $data->id }}"
                     class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-1 py-4 w-[5%]">
-                        {{ ($siswaData->currentpage() - 1) * $siswaData->perpage() + $loop->index + 1 }}
+                        {{ $siswaData->firstItem() + $loop->index }}
                     </td>
                     <th scope="row"
                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-[10%]">

@@ -82,7 +82,8 @@
                         class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="col"
                             class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $loop->index + 1 }}
+                            {{ $dataMateriMapel->firstItem() + $loop->index }}
+
                         </th>
                         <td class="px-4 py-4 overflow-hidden max-w-96 text-ellipsis">
                             {{ Str::wordWrap($data->tujuan_pembelajaran, characters: 20, break: "\n") }}

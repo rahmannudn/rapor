@@ -45,7 +45,7 @@
                         class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row"
                             class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $loop->index + 1 }}
+                            {{ $subelemenData->firstItem() + $loop->index }}
                         </th>
                         <td scope="col" class="px-4 py-4 max-w-[32rem]">
                             {{ Str::of($subelemen->dimensiDeskripsi)->words('25', ' ...') }}
