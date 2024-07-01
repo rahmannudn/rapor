@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
 
 class CapaianFase extends Model
 {
@@ -19,6 +20,14 @@ class CapaianFase extends Model
     public function scopeJoinSubelemen($query)
     {
         $query->join('subelemen', 'capaian_fase.subelemen_id', 'subelemen.id');
+    }
+
+    public function scopeJoinAndSearchSubelemen($query, $id)
+    {
+        $query->join('subelemen', function (JoinClause $q) use ($id) {
+            $q->on('capaian_fase.subelemen_id', '=', 'subelemen.id')
+                ->where('subelemen.id', '=', $id);
+        });
     }
 
     public function scopeJoinElemen($query)

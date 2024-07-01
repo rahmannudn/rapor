@@ -23,6 +23,7 @@ class Table extends Component
             ->select(
                 'capaian_fase.id',
                 'capaian_fase.deskripsi',
+                'capaian_fase.fase',
                 'subelemen.deskripsi as subelemenDeskripsi',
                 'elemen.deskripsi as elemenDeskripsi',
                 'dimensi.deskripsi as dimensiDeskripsi',

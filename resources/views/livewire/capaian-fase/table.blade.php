@@ -24,19 +24,22 @@
                     <th scope="col" class="w-[5%] px-2 py-5">
                         NO
                     </th>
-                    <th scope="col" class="px-4 py-3 w-[14%]">
+                    <th scope="col" class="px-4 py-3]">
                         Dimensi
                     </th>
-                    <th scope="col" class="px-4 py-3 w-[14%]">
+                    <th scope="col" class="px-4 py-3]">
                         Elemen
                     </th>
-                    <th scope="col" class="px-4 py-3 w-[14%]">
+                    <th scope="col" class="px-4 py-3]">
                         Subelemen
                     </th>
-                    <th scope="col" class="px-4 py-3 w-[30%]">
+                    <th scope="col" class="px-4 py-3">
+                        Fase
+                    </th>
+                    <th scope="col" class="px-4 py-3]">
                         Capaian Fase
                     </th>
-                    <th scope="col" class="px-4 py-3 w-[10%]">
+                    <th scope="col" class="px-4 py-3]">
                         Action
                     </th>
                 </tr>
@@ -58,12 +61,15 @@
                         <td scope="col" class="px-4 py-4 max-w-[32rem]">
                             {{ Str::of($capaianFase->subelemenDeskripsi)->words('25', ' ...') }}
                         </td>
+                        <th scope="col" class="px-4 py-4">
+                            {{ $capaianFase->fase }}
+                        </th>
                         <td scope="col" class="px-4 py-4 max-w-[32rem]">
                             {{ Str::of($capaianFase->deskripsi)->words('25', ' ...') }}
                         </td>
                         <td class="px-4 py-4">
                             <x-button.circle green icon="pencil-alt"
-                                href="{{ route('capaianFaseEdit', ['capaian_fase' => $capaianFase->id]) }}"
+                                href="{{ route('capaianFaseEdit', ['capaianFase' => $capaianFase->id]) }}"
                                 wire:navigate />
                             <x-button.circle negative icon="trash"
                                 x-on:click="$dispatch('set-capaianfase', {{ $capaianFase->id }}); $openModal('deleteModal');" />

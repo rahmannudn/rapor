@@ -148,7 +148,7 @@ Route::get('/subelemen/{subelemen}/edit', SubelemenEdit::class)->middleware(['au
 
 Route::get('/capaian_fase', CapaianFaseIndex::class)->middleware(['auth'])->name('capaianFaseIndex');
 Route::get('/capaian_fase/create', CapaianFaseCreate::class)->middleware(['auth'])->name('capaianFaseCreate');
-Route::get('/capaian_fase/{capaian_fase}/edit', CapaianFaseEdit::class)->middleware(['auth'])->name('capaianFaseEdit');
+Route::get('/capaian_fase/{capaianFase}/edit', CapaianFaseEdit::class)->middleware(['auth'])->name('capaianFaseEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

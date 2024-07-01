@@ -87,7 +87,7 @@ class Create extends Component
             'selectedElemen' => 'required',
             'selectedSubelemen' => 'required',
             'fase' => 'required',
-            'deskripsi' => 'required|string|min:3'
+            'deskripsi' => 'required|string|min:5'
         ]);
 
         CapaianFase::create([
