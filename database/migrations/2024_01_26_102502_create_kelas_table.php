@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('kelas', ['1', '2', '3', '4', '5', '6']);
             $table->string('nama', 10);
-            $table->enum('fase', ['a', 'b']);
+            $table->enum('fase', ['a', 'b', 'c']);
             $table->timestamps();
         });
     }

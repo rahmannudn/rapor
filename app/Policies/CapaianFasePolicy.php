@@ -10,14 +10,15 @@ class CapaianFasePolicy
 {
     public function before(User $user)
     {
-        return $user == 'superadmin';
+        return $user->role == 'superadmin';
     }
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -25,7 +26,7 @@ class CapaianFasePolicy
      */
     public function view(User $user, CapaianFase $capaianFase): bool
     {
-        return $user == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -33,7 +34,7 @@ class CapaianFasePolicy
      */
     public function create(User $user): bool
     {
-        return $user == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -41,7 +42,7 @@ class CapaianFasePolicy
      */
     public function update(User $user, CapaianFase $capaianFase): bool
     {
-        return $user == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -49,7 +50,7 @@ class CapaianFasePolicy
      */
     public function delete(User $user, CapaianFase $capaianFase): bool
     {
-        return $user == 'admin';
+        return $user->role == 'admin';
     }
 
     /**

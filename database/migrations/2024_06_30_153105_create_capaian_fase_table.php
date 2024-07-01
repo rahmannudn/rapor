@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('capaian_fase', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subelemen_id')->constrained('subelemen');
-            $table->enum('fase', ['a', 'b']);
+            $table->enum('fase', ['a', 'b', 'c']);
             $table->text('deskripsi');
             $table->timestamps();
         });

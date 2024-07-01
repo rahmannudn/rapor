@@ -59,6 +59,10 @@ use App\Livewire\Subelemen\Index as SubelemenIndex;
 use App\Livewire\Subelemen\Create as SubelemenCreate;
 use App\Livewire\Subelemen\Edit as SubelemenEdit;
 
+use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
+use App\Livewire\CapaianFase\Create as CapaianFaseCreate;
+use App\Livewire\CapaianFase\Edit as CapaianFaseEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 
@@ -141,6 +145,10 @@ Route::get('/elemen/{elemen}/edit', ElemenEdit::class)->middleware(['auth'])->na
 Route::get('/subelemen', SubelemenIndex::class)->middleware(['auth'])->name('subelemenIndex');
 Route::get('/subelemen/create', SubelemenCreate::class)->middleware(['auth'])->name('subelemenCreate');
 Route::get('/subelemen/{subelemen}/edit', SubelemenEdit::class)->middleware(['auth'])->name('subelemenEdit');
+
+Route::get('/capaian_fase', CapaianFaseIndex::class)->middleware(['auth'])->name('capaianFaseIndex');
+Route::get('/capaian_fase/create', CapaianFaseCreate::class)->middleware(['auth'])->name('capaianFaseCreate');
+Route::get('/capaian_fase/{capaian_fase}/edit', CapaianFaseEdit::class)->middleware(['auth'])->name('capaianFaseEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
