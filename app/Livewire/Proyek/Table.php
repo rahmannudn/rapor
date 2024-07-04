@@ -30,6 +30,7 @@ class Table extends Component
             $this->daftarKelas = Kelas::select('nama', 'id')->orderBy('created_at', 'DESC')->get();
             $daftarProyek = Proyek::query()
                 ->search($this->searchQuery)
+                ->joinCapaianFase()
                 ->joinWaliKelas()
                 ->joinUsers()
                 ->filterKelas($this->selectedKelas)
@@ -40,6 +41,7 @@ class Table extends Component
                     'proyek.deskripsi',
                     'kelas.nama as nama_kelas',
                     'users.name as nama_guru',
+                    'capaian_fase.deskripsi as capaianFaseDeskripsi',
                     'tahun_ajaran.tahun',
                     'tahun_ajaran.semester'
                 )

@@ -17,6 +17,11 @@ class CapaianFase extends Model
         return $this->belongsTo(Subelemen::class);
     }
 
+    // public function proyek()
+    // {
+    //     return $this->hasMany(Proyek::class);
+    // }
+
     public function scopeJoinSubelemen($query)
     {
         $query->join('subelemen', 'capaian_fase.subelemen_id', 'subelemen.id');

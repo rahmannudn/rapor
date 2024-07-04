@@ -53,6 +53,9 @@
                     <th scope="col" class="px-4 py-3 ">
                         Deskripsi
                     </th>
+                    <th scope="col" class="px-4 py-3 ">
+                        Capaian Fase
+                    </th>
                     @can('superAdminOrKepsek', Auth::id())
                         <th scope="col" class="px-4 py-3 ">
                             Nama Guru
@@ -85,6 +88,9 @@
                         </td>
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}
+                        </td>
+                        <td scope="col" class="px-4 py-4 max-w-96">
+                            {{ Str::of($proyek->capaianFaseDeskripsi)->words('25', ' ...') }}
                         </td>
                         @can('superAdminOrKepsek', Auth::id())
                             <td scope="col" class="px-4 py-4">
