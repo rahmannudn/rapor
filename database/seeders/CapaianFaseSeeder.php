@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CapaianFase;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -726,7 +727,10 @@ class CapaianFaseSeeder extends Seeder
                 'fase' => 'c',
                 'deskripsi' => 'Berupaya mencari solusi alternatif saat pendekatan yang diambil tidak berhasil berdasarkan identifikasi terhadap situasi.'
             ],
-
         ];
+
+        foreach ($dataCapaian as $capaian) {
+            CapaianFase::create($capaian);
+        }
     }
 }

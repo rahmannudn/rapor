@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DimensiSeeder::class,
             ElemenSeeder::class,
             SubelemenSeeder::class,
+            CapaianFaseSeeder::class
         ]);
     }
 }

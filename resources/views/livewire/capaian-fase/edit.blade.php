@@ -3,6 +3,15 @@
         Edit Capaian Fase
     @endsection
 
+    {{-- blade-formatter-disable --}}
+    @if (session('success'))
+        <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
+    @endif
+    @if (session('gagal'))
+        <div x-init="$dispatch('showNotif', { title: 'Gagal', description: '{{ session('gagal') }}', icon: 'error' })"></div>
+    @endif
+    {{-- blade-formatter-enable --}}
+
     <x-button href="{{ route('capaianFaseIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Edit Capaian Fase</h1>
 
