@@ -22,10 +22,14 @@ class Proyek extends Model
         return $this->belongsTo(CapaianFase::class);
     }
 
-
     public function scopeJoinWaliKelas($query)
     {
         $query->join('wali_kelas', 'proyek.wali_kelas_id', 'wali_kelas.id');
+    }
+
+    public function scopeJoinDimensi($query)
+    {
+        $query->join('dimensi', 'proyek.dimensi_id', 'dimensi.id');
     }
 
     public function scopeJoinUsers($query)
