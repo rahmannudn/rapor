@@ -19,7 +19,7 @@
     </p>
 
     <div class="flex flex-col w-full space-y-2">
-        <div class="w-52">
+        <div class="w-full md:w-[50%]">
             <x-native-select label="Wali Kelas" placeholder="Pilih Wali Kelas" wire:model.defer="selectedWaliKelas">
                 <option value="">--Pilih Wali Kelas--</option>
                 @foreach ($daftarWaliKelas as $waliKelas)
