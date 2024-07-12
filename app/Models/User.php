@@ -68,4 +68,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class);
     }
+
+    public function scopeJoinGuruMapel($query)
+    {
+        $query->join('guru_mapel', 'guru_mapel.user_id', 'users.id');
+    }
 }

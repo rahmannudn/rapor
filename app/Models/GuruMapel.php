@@ -25,4 +25,19 @@ class GuruMapel extends Model
     {
         return $this->belongsTo(TahunAjaran::class);
     }
+
+    public function scopeJoinUsers($query)
+    {
+        $query->join('users', 'guru_mapel.user_id', '=', 'users.id');
+    }
+
+    public function scopeJoinDetailGuruMapel($query)
+    {
+        $query->join('detail_guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id');
+    }
+
+    public function scopeJoinKelasByDetail($query)
+    {
+        $query->join('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id');
+    }
 }

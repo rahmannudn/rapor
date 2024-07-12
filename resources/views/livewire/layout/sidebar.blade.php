@@ -125,8 +125,8 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('materiMapelIndex') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('materiMapelIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                    <a href="{{ route('tujuanPembelajaranIndex') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tujuanPembelajaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
                         wire:navigate>
 
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +138,7 @@
                                 d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
                         </svg>
 
-                        <span class="ms-3">Materi Mapel</span>
+                        <span class="ms-3">Tujuan Pembelajaran</span>
                     </a>
                 </li>
 

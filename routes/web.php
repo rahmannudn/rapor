@@ -63,10 +63,15 @@ use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
 use App\Livewire\CapaianFase\Create as CapaianFaseCreate;
 use App\Livewire\CapaianFase\Edit as CapaianFaseEdit;
 
+use App\Livewire\TujuanPembelajaran\Index as TujuanPembelajaranIndex;
+use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
+use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 
 use App\Models\Kepsek;
+use App\Models\TujuanPembelajaran;
 use Illuminate\Support\Facades\Route;
 
 
@@ -149,6 +154,13 @@ Route::get('/subelemen/{subelemen}/edit', SubelemenEdit::class)->middleware(['au
 Route::get('/capaian_fase', CapaianFaseIndex::class)->middleware(['auth'])->name('capaianFaseIndex');
 Route::get('/capaian_fase/create', CapaianFaseCreate::class)->middleware(['auth'])->name('capaianFaseCreate');
 Route::get('/capaian_fase/{capaianFase}/edit', CapaianFaseEdit::class)->middleware(['auth'])->name('capaianFaseEdit');
+
+Route::get('/tujuan_pembelajaran', TujuanPembelajaranIndex::class)->middleware(['auth'])
+    ->name('tujuanPembelajaranIndex');
+Route::get('/tujuan_pembelajaran/create', TujuanPembelajaranCreate::class)->middleware(['auth'])
+    ->name('tujuanPembelajaranCreate');
+Route::get('/tujuan_pembelajaran/{tujuanPembelajaran}/edit', TujuanPembelajaranEdit::class)
+    ->middleware(['auth'])->name('tujuanPembelajaranEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

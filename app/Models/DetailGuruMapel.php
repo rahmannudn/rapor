@@ -37,4 +37,14 @@ class DetailGuruMapel extends Model
     {
         return $this->hasMany(MateriMapel::class);
     }
+
+    public function scopeJoinKelas($query)
+    {
+        $query->join('kelas', 'detail_guru_mapel.kelas_id', 'kelas.id');
+    }
+
+    public function scopeJoinGuruMapel($query)
+    {
+        $query->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id');
+    }
 }
