@@ -8,7 +8,7 @@ use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
-    public $selectedTP;
+    public $selectedLM;
     public $deleteModal;
 
     #[Layout('layouts.app')]
@@ -22,7 +22,7 @@ class Index extends Component
         try {
             $this->authorize('delete', LingkupMateri::class);
 
-            $lm = LingkupMateri::find($this->selectedTP);
+            $lm = LingkupMateri::find($this->selectedLM);
             if (!$lm) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
             }

@@ -107,7 +107,7 @@
                                 href="{{ route('lingkupMateriEdit', ['lingkupMateri' => $data->id]) }}"
                                 wire:navigate />
                             <x-button.circle negative icon="trash"
-                                x-on:click="$dispatch('set-tp', {{ $data->id }}); $openModal('deleteModal');" />
+                                x-on:click="$dispatch('set-lm', {{ $data->id }}); $openModal('deleteModal');" />
                         </td>
                     </tr>
                 @empty

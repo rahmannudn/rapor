@@ -1,4 +1,4 @@
-<div x-on:set-tp="$wire.selectedLM = $event.detail">
+<div x-on:set-lm="$wire.selectedLM = $event.detail">
     @section('title')
         Lingkup Materi
     @endsection
