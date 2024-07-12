@@ -37,6 +37,26 @@ class TujuanPembelajaran extends Model
         $query->join('detail_guru_mapel', 'tujuan_pembelajaran.detail_guru_mapel_id', 'detail_guru_mapel.id');
     }
 
+    public function scopeJoinGuruMapel($query)
+    {
+        $query->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', 'guru_mapel.id');
+    }
+
+    public function scopeJoinKelas($query)
+    {
+        $query->join('kelas', 'detail_guru_mapel.kelas_id', 'kelas.id');
+    }
+
+    public function scopeJoinMapel($query)
+    {
+        $query->join('mapel', 'detail_guru_mapel.mapel_id', 'mapel.id');
+    }
+
+    public function scopeJoinUsers($query)
+    {
+        $query->join('users', 'guru_mapel.user_id', 'users.id');
+    }
+
     public function scopeSearchAndJoinMapel($query, $mapelId)
     {
         $query->join('mapel', function (JoinClause $q) use ($mapelId) {
@@ -55,11 +75,6 @@ class TujuanPembelajaran extends Model
                 $q->where('detail_guru_mapel.kelas_id', '=', $kelasId);
             }
         });
-    }
-
-    public function scopeJoinGuruMapel($query)
-    {
-        $query->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', 'guru_mapel.id');
     }
 
     public function scopeSearchAndJoinUsers($query, $userId)
