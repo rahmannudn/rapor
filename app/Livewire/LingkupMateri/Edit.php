@@ -9,7 +9,7 @@ use App\Models\TujuanPembelajaran;
 
 class Edit extends Component
 {
-    public LingkupMateri $lingkup_materi;
+    public LingkupMateri $lingkupMateri;
 
     public $namaGuru;
     public $kelas;
@@ -19,12 +19,12 @@ class Edit extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.tujuan-pembelajaran.edit');
+        return view('livewire.lingkup-materi.edit');
     }
 
     public function mount()
     {
-        $this->deskripsi = $this->lingkup_materi['deskripsi'];
+        $this->deskripsi = $this->lingkupMateri['deskripsi'];
 
         // mendapatkan informasi terkait data yang di edit
         $data = LingkupMateri::joinDetailGuruMapel()
@@ -37,14 +37,14 @@ class Edit extends Component
                 'kelas.nama as nama_kelas',
                 'users.name as nama_guru',
             )
-            ->firstWhere('tujuan_pembelajaran.id', '=', $this->lingkup_materi['id']);
+            ->firstWhere('lingkup_materi.id', '=', $this->lingkupMateri['id']);
 
         $this->namaGuru = $data['nama_guru'];
         $this->kelas = $data['nama_kelas'];
         $this->namaMapel = $data['nama_mapel'];
     }
 
-    public function update(LingkupMateri $tp)
+    public function update(LingkupMateri $lm)
     {
         $this->authorize('update', LingkupMateri::class);
 
@@ -52,16 +52,16 @@ class Edit extends Component
             'deskripsi' => 'required|string|min:3',
         ]);
 
-        if ($this->lingkup_materi['deskripsi'] == $this->deskripsi) {
+        if ($this->lingkupMateri['deskripsi'] == $this->deskripsi) {
             session()->flash('gagal', 'Tidak ada perubahan data');
             return;
         }
 
-        $tp->update(
+        $lm->update(
             ['deskripsi' => $validated['deskripsi']]
         );
 
-        $this->redirectRoute('tujuanPembelajaranIndex');
+        $this->redirectRoute('lingkupMateriIndex');
         session()->flash('success', 'Data Berhasil Dirubah');
     }
 }
