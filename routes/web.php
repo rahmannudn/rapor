@@ -67,10 +67,15 @@ use App\Livewire\TujuanPembelajaran\Index as TujuanPembelajaranIndex;
 use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
 use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
 
+use App\Livewire\LingkupMateri\Index as LingkupMateriIndex;
+use App\Livewire\LingkupMateri\Create as LingkupMateriCreate;
+use App\Livewire\LingkupMateri\Edit as LingkupMateriEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
 
 use App\Models\Kepsek;
+use App\Models\LingkupMateri;
 use App\Models\TujuanPembelajaran;
 use Illuminate\Support\Facades\Route;
 
@@ -161,6 +166,12 @@ Route::get('/tujuan_pembelajaran/create', TujuanPembelajaranCreate::class)->midd
     ->name('tujuanPembelajaranCreate');
 Route::get('/tujuan_pembelajaran/{tujuanPembelajaran}/edit', TujuanPembelajaranEdit::class)
     ->middleware(['auth'])->name('tujuanPembelajaranEdit');
+
+Route::get('/lingkup_materi', LingkupMateriIndex::class)->middleware(['auth'])
+    ->name('lingkupMateriIndex');
+Route::get('/lingkup_materi/create', LingkupMateriCreate::class)->middleware(['auth'])
+    ->name('lingkupMateriCreate');
+Route::get('/lingkup_materi/{lingkupMateri}/edit', LingkupMateriEdit::class)->middleware(['auth'])->name('lingkupMateriEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
