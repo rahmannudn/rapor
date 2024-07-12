@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
+use Livewire\WithPagination;
 
 class Table extends Component
 {
+    use WithPagination;
+
     public $show = 10;
     public $searchQuery;
     public $selectedTahunAjaran;

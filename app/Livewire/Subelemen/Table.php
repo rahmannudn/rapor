@@ -11,6 +11,7 @@ use Livewire\WithPagination;
 class Table extends Component
 {
     use WithPagination;
+
     public $show = 10;
     public $searchQuery;
 

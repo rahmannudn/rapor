@@ -8,9 +8,12 @@ use Livewire\Component;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class Table extends Component
 {
+    use WithPagination;
+
     public $show = 10;
     public $searchQuery;
     public $selectedTahunAjaran;

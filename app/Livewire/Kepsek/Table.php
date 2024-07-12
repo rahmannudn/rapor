@@ -5,9 +5,12 @@ namespace App\Livewire\Kepsek;
 use App\Models\Kepsek;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Table extends Component
 {
+    use WithPagination;
+
     public $show = 10;
     public $searchQuery;
     public $tahunAjaranAktif;
