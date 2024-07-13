@@ -38,6 +38,11 @@ class GuruMapelSeeder extends Seeder
                 'kelas_id' => 1
             ],
             [
+                'guru_mapel_id' => 2,
+                'mapel_id' => 2,
+                'kelas_id' => 2
+            ],
+            [
                 'guru_mapel_id' => 1,
                 'mapel_id' => 4,
                 'kelas_id' => 1
