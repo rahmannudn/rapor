@@ -6,6 +6,8 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use Livewire\Component;
 use App\Enums\AgamaList;
+use App\Models\KelasSiswa;
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
@@ -70,6 +72,14 @@ class Create extends Component
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'kelas_id.required' => 'The kelas field is required.',
+            'jk.required' => 'The jenis kelamin field is required.',
+        ];
+    }
+
     public function save()
     {
         $this->authorize('create', Siswa::class);
@@ -78,7 +88,12 @@ class Create extends Component
             $filePath = $this->foto->store('uploads', 'public');
             $validated['foto'] = $filePath;
         }
-        Siswa::create($validated);
+        $siswa = Siswa::create($validated);
+        KelasSiswa::create([
+            'siswa_id' => $siswa['id'],
+            'kelas_id' => $siswa['kelas_id'],
+            'tahun_ajaran_id' => FunctionHelper::getTahunAjaranAktif()['id'],
+        ]);
 
         $this->redirectRoute('siswaIndex');
         session()->flash('success', 'Data Berhasil Ditambahkan');

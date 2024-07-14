@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\TahunAjaran;
+
 class FunctionHelper
 {
     public static function getDynamicYear()
@@ -18,5 +20,10 @@ class FunctionHelper
         }
 
         return $years;
+    }
+
+    public static function getTahunAjaranAktif()
+    {
+        return TahunAjaran::select('id')->where('aktif', 1)->first();
     }
 }

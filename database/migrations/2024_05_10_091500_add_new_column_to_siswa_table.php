@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->foreignId('kelas_id')->constrained(table: 'kelas')->onUpdate('cascade');
             $table->foreignId('tahun_lulus')->nullable()->constrained(table: 'tahun_ajaran')->onUpdate('cascade');
             $table->softDeletes();
         });
