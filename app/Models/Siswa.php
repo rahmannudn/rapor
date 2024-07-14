@@ -13,7 +13,7 @@ class Siswa extends Model
 
     public function scopeSearch($query, $value)
     {
-        $query->where('nama', 'like', "%{$value}%")->orWhere('nisn', 'like', "%{$value}%");
+        $query->where('siswa.nama', 'like', "%{$value}%")->orWhere('siswa.nisn', 'like', "%{$value}%");
     }
 
     public function kelas()

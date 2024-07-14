@@ -60,7 +60,7 @@
                         {{ Str::upper($data->jk) }}
                     </td>
                     <td class="px-4 py-4 w-[10%]">
-                        {{ $data->kelas->nama }}
+                        {{ $data->nama_kelas }}
                     </td>
                     <td class="px-4 py-4 w-[10%]">
                         {{ ucfirst($data->agama) }}
