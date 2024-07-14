@@ -2,28 +2,24 @@
 
 namespace App\Policies;
 
-use App\Models\CatatanProyek;
+use App\Models\SiswaKelas;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CatatanProyekPolicy
+class KelasSiswaPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->role == 'admin' || $user->role == 'kepsek';
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, CatatanProyek $catatanProyek): bool
+    public function view(User $user, SiswaKelas $siswaKelas): bool
     {
         //
     }
@@ -39,7 +35,7 @@ class CatatanProyekPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, CatatanProyek $catatanProyek): bool
+    public function update(User $user, SiswaKelas $siswaKelas): bool
     {
         //
     }
@@ -47,7 +43,7 @@ class CatatanProyekPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, CatatanProyek $catatanProyek): bool
+    public function delete(User $user, SiswaKelas $siswaKelas): bool
     {
         //
     }
@@ -55,7 +51,7 @@ class CatatanProyekPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, CatatanProyek $catatanProyek): bool
+    public function restore(User $user, SiswaKelas $siswaKelas): bool
     {
         //
     }
@@ -63,7 +59,7 @@ class CatatanProyekPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, CatatanProyek $catatanProyek): bool
+    public function forceDelete(User $user, SiswaKelas $siswaKelas): bool
     {
         //
     }

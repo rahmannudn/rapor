@@ -71,9 +71,12 @@ use App\Livewire\LingkupMateri\Index as LingkupMateriIndex;
 use App\Livewire\LingkupMateri\Create as LingkupMateriCreate;
 use App\Livewire\LingkupMateri\Edit as LingkupMateriEdit;
 
+use App\Livewire\CatatanProyek\Index as CatatanProyekIndex;
+use App\Livewire\CatatanProyek\Edit as CatatanProyekEdit;
+
 use App\Http\Controllers\GuruMapelSearch;
 use App\Http\Controllers\MapelSearch;
-
+use App\Models\CatatanProyek;
 use App\Models\Kepsek;
 use App\Models\LingkupMateri;
 use App\Models\TujuanPembelajaran;
@@ -172,6 +175,11 @@ Route::get('/lingkup_materi', LingkupMateriIndex::class)->middleware(['auth'])
 Route::get('/lingkup_materi/create', LingkupMateriCreate::class)->middleware(['auth'])
     ->name('lingkupMateriCreate');
 Route::get('/lingkup_materi/{lingkupMateri}/edit', LingkupMateriEdit::class)->middleware(['auth'])->name('lingkupMateriEdit');
+
+Route::get('/catatan_proyek', CatatanProyekIndex::class)->middleware(['auth'])
+    ->name('catatanProyekIndex');
+Route::get('/catatan_proyek/edit', CatatanProyekEdit::class)->middleware(['auth'])
+    ->name('catatanProyekEdit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
