@@ -8,8 +8,10 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use App\Enums\AgamaList;
+use App\Models\KelasSiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Locked;
 use Livewire\WithFileUploads;
 
 class Edit extends Component
@@ -17,6 +19,9 @@ class Edit extends Component
     use WithFileUploads;
 
     public Siswa $siswa;
+
+    #[Locked]
+    public $originKelas;
 
     public $nisn;
     public $nidn;
@@ -63,11 +68,14 @@ class Edit extends Component
         $this->provinsi = $this->siswa['provinsi'];
         $this->nama_ayah = $this->siswa['nama_ayah'];
         $this->nama_ibu = $this->siswa['nama_ibu'];
-        $this->kelas_id = $this->siswa['kelas_id'];
         $this->tahun_lulus = $this->siswa['tahun_lulus'];
         $this->hp_ortu = $this->siswa['hp_ortu'];
         $this->daftarKelas = Kelas::all();
         $this->daftarSemester = TahunAjaran::all();
+
+        $kelas = KelasSiswa::where('siswa_id', $this->siswa['id'])->select('kelas_id as id')->get();
+        $this->kelas_id = $kelas->first()['id'];
+        $this->originKelas = $this->kelas_id;
     }
 
     public function rules()
@@ -103,6 +111,12 @@ class Edit extends Component
         // membandingkan inputan nidn dengan data nidn yg sdh ada
         if ($this->nidn !== $siswa->nidn) {
             $validated += $this->validate(['nidn' => ['required', 'max:10', 'unique:' . Siswa::class]]);
+        }
+
+        if ($this->kelas_id !== $this->originKelas) {
+            $targetKelas = KelasSiswa::firstWhere('siswa_id', '=', $this->siswa['id']);
+            $targetKelas->kelas_id = $this->kelas_id;
+            $targetKelas->save();
         }
 
         $siswa->fill($validated);

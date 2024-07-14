@@ -46,14 +46,16 @@
         <x-input label="Nama Ibu" placeholder="Masukkan Nama Ibu" wire:model='nama_ibu' />
         <x-input type="number" label="No Hp Ortu" placeholder="Masukkan Nomor Hp Ortu" wire:model='hp_ortu' />
 
-        <x-select label="Tahun Lulus (isi jika siswa sudah lulus/pindah)" placeholder="Pilih Tahun Ajaran"
-            wire:model="tahun_lulus">
-            @foreach ($daftarSemester as $sem)
-                <x-select.option wire:key="{{ $sem->id }}" value="{{ $sem->id }}"
-                    label="{{ $sem->tahun }}
+        <div class="w-60">
+            <x-select label="Tahun Lulus (isi jika siswa sudah lulus/pindah)" placeholder="Pilih Tahun Ajaran"
+                wire:model="tahun_lulus">
+                @foreach ($daftarSemester as $sem)
+                    <x-select.option wire:key="{{ $sem->id }}" value="{{ $sem->id }}"
+                        label="{{ $sem->tahun }}
                     {{ $sem->semester }}" />
-            @endforeach
-        </x-select>
+                @endforeach
+            </x-select>
+        </div>
 
         <div class="space-y-2">
             <p>Foto Siswa</p>
