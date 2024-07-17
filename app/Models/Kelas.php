@@ -41,4 +41,9 @@ class Kelas extends Model
                 ->where('wali_kelas.tahun_ajaran_id', '=', $taID);
         });
     }
+
+    public function scopeJoinProyek($query)
+    {
+        $query->join('proyek', 'wali_kelas.id', '=', 'proyek.wali_kelas_id');
+    }
 }

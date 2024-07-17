@@ -5,9 +5,12 @@ namespace App\Livewire\CatatanProyek;
 use App\Models\CatatanProyek;
 use App\Models\User;
 use App\Models\Kelas;
+use App\Models\Proyek;
+use App\Models\Siswa;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class Table extends Component
 {
@@ -17,6 +20,8 @@ class Table extends Component
     public $selectedKelas;
 
     public $formCreate;
+    public $proyekData;
+    public $catatanSiswa;
 
     public function render()
     {
@@ -27,10 +32,7 @@ class Table extends Component
     {
         $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
         if (Gate::allows('viewAny', CatatanProyek::class)) {
-            $this->daftarKelas = Kelas::query()
-                ->joinWaliKelas($this->tahunAjaranAktif)
-                ->select('kelas.id', 'kelas.nama')
-                ->get();
+            $this->daftarKelas = CatatanProyek::getDaftarKelas($this->tahunAjaranAktif);
 
             $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')
                 ->orderBy('created_at')
@@ -54,8 +56,38 @@ class Table extends Component
 
     public function getCatatan()
     {
+        $this->proyekData = '';
+        $this->catatanSiswa = '';
         if ($this->selectedKelas && $this->tahunAjaranAktif) {
-            $data = CatatanProyek::joinProyek()->joinSiswa();
+            $this->proyekData = Proyek::joinWaliKelas()
+                ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+                ->where('wali_kelas.kelas_id', $this->selectedKelas)
+                ->select(
+                    'proyek.id',
+                    'proyek.judul_proyek',
+                )
+                ->orderBy('proyek.created_at')
+                ->get();
+
+            if (count($this->proyekData) >= 1) {
+                $catatanData = Siswa::joinKelasSiswa()
+                    ->joinWaliKelasByKelasAndTahun($this->selectedKelas, $this->tahunAjaranAktif) //join tabel wali kelas dan filter berdasar kelas dan tahun ajaran
+                    ->leftJoinProyek()
+                    ->leftJoinCatatanProyek()
+                    ->select(
+                        'siswa.id as siswa_id',
+                        'siswa.nama as nama_siswa',
+                        'catatan_proyek.catatan',
+                    )
+                    ->orderBy('siswa.nama')
+                    ->orderBy('proyek.created_at')
+                    ->get();
+
+                $groupedData = $catatanData->groupBy('siswa_id');
+
+                // mengconvert collection yang memiliki id siswa yang sama menjadi satu array array dan memasukkan beberapa catatan ke dalam array tersebut
+                $this->catatanSiswa = CatatanProyek::convertProyekData($groupedData);
+            }
         }
     }
 }
