@@ -181,6 +181,8 @@ Route::get('/catatan_proyek', CatatanProyekIndex::class)->middleware(['auth'])
 Route::get('/catatan_proyek/edit', CatatanProyekEdit::class)->middleware(['auth'])
     ->name('catatanProyekEdit');
 
+
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

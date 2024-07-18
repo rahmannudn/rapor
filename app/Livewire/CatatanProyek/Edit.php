@@ -98,6 +98,7 @@ class Edit extends Component
 
     public function update(int $siswaIndex, string $proyekIndex)
     {
+        $this->authorize('update', CatatanProyek::class);
         $data = $this->catatanSiswa[$siswaIndex]['catatan_proyek'][$proyekIndex];
         if (is_null($data['catatan']) && $data['catatan']) return;
         $siswaId = $this->catatanSiswa[$siswaIndex]['siswa_id'];
