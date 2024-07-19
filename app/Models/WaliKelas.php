@@ -52,4 +52,12 @@ class WaliKelas extends Model
     {
         $query->join('kelas', 'wali_kelas.kelas_id', 'kelas.id');
     }
+
+    public function scopeSearchAndJoinKelas($query, $waliId)
+    {
+        $query->join('kelas', function (JoinClause $q) use ($waliId) {
+            $q->on('wali_kelas.kelas_id', '=', 'kelas.id')
+                ->where('wali_kelas.id', '=', $waliId);
+        });
+    }
 }
