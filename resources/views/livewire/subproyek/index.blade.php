@@ -69,5 +69,5 @@
         </table>
     </div>
 
-    <livewire:subproyek.form :fase="$fase" :proyekId="$proyek->id" />
+    <livewire:subproyek.form :proyekId="$proyek->id" />
 </div>

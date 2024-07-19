@@ -14,98 +14,161 @@ use Livewire\Attributes\Locked;
 
 class Form extends Component
 {
-    public $fase;
     public $proyekId;
 
+    #[Locked]
     public $tahunAjaranAktif;
     #[Locked]
     public $tahunAjaranAktifId;
-    #[Locked]
-    public $capaianFaseId;
+
+    public $forms;
 
     public $daftarDimensi;
-    public $daftarElemen;
-    public $daftarSubelemen;
-    public $capaianFase = '';
-    public $selectedDimensi;
-    public $selectedElemen;
-    public $selectedSubelemen;
 
     public function render()
     {
         $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester')->firstWhere('aktif', 1);
         $this->tahunAjaranAktifId = $this->tahunAjaranAktif['id'];
-        $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
-
-        // $this->fase = Kelas::joinWaliKelas($this->tahunAjaranAktifId)->joinProyek()->where('kelas.fase')->get();
-        // dump($this->fase);
 
         return view('livewire.subproyek.form');
     }
 
-    public function getElemen()
+    public function mount()
     {
-        if ($this->selectedDimensi) {
-            $this->daftarElemen = '';
-            $this->selectedElemen = '';
-            $this->daftarSubelemen = '';
-            $this->selectedSubelemen = '';
-            $this->capaianFase = '';
+        $subproyekData = Subproyek::searchAndJoinProyek($this->proyekId)
+            ->joinCapaianFase()
+            ->joinSubelemen()
+            ->joinElemen()
+            ->select(
+                'capaian_fase.deskripsi as capaian_fase_deskripsi',
+                'subproyek.capaian_fase_id',
+                'subproyek.id as subproyek_id',
+                'capaian_fase.subelemen_id',
+                'subelemen.elemen_id',
+                'elemen.dimensi_id',
+            )
+            ->get();
 
-            $this->daftarElemen = Elemen::select('deskripsi', 'id')
-                ->where('dimensi_id', $this->selectedDimensi)
+        $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
+
+        // Tambahkan satu form kosong jika belum ada subproyek
+        count($subproyekData) < 1 && $this->addForm();
+
+        // Jika ada data awal, loop data tersebut dan tambahkan ke forms
+        if (!empty($subproyekData)) {
+            foreach ($subproyekData as $data) {
+                $form = [
+                    'selectedDimensi' => $data['dimensi_id'] ?? '',
+                    'selectedElemen' => $data['elemen_id'] ?? '',
+                    'selectedSubelemen' => $data['subelemen_id'] ?? '',
+                    'capaianFase' => $data['capaian_fase_deskripsi'] ?? '',
+                    'capaianFaseId' => $data['capaian_fase_id'] ?? '',
+                    'subproyekId' => $data['subproyek_id'] ?? '',
+                ];
+
+                // Load daftar elemen jika selectedDimensi ada
+                if (!empty($form['selectedDimensi'])) {
+                    $form['daftarElemen'] = Elemen::select('deskripsi', 'id')
+                        ->where('dimensi_id', $form['selectedDimensi'])
+                        ->orderBy('created_at')
+                        ->get();
+                }
+
+                // Load daftar subelemen jika selectedElemen ada
+                if (!empty($form['selectedElemen'])) {
+                    $form['daftarSubelemen'] = Subelemen::select('deskripsi', 'id')
+                        ->where('elemen_id', $form['selectedElemen'])
+                        ->orderBy('created_at')
+                        ->get();
+                }
+
+                $this->forms[] = $form;
+            }
+        }
+    }
+
+    public function addForm()
+    {
+        $this->forms[] = [
+            'selectedDimensi' => '',
+            'selectedElemen' => '',
+            'selectedSubelemen' => '',
+            'capaianFase' => '',
+            'subproyekId' => '',
+        ];
+    }
+
+    public function removeForm($index)
+    {
+        unset($this->forms[$index]);
+        $this->forms = array_values($this->forms); // Re-index array
+    }
+
+    public function getElemen($index)
+    {
+        if ($this->forms[$index]['selectedDimensi']) {
+            // Reset elemen, subelemen, dan capaian fase
+            $this->forms[$index]['selectedElemen'] = '';
+            $this->forms[$index]['selectedSubelemen'] = '';
+            $this->forms[$index]['capaianFase'] = '';
+
+            // Ambil data elemen berdasarkan dimensi yang dipilih
+            $this->forms[$index]['daftarElemen'] = Elemen::select('deskripsi', 'id')
+                ->where('dimensi_id', $this->forms[$index]['selectedDimensi'])
                 ->orderBy('created_at')
                 ->get();
         }
     }
 
-    public function getSubelemen()
+    public function getSubelemen($index)
     {
-        if ($this->selectedDimensi && $this->selectedElemen) {
-            $this->daftarSubelemen = '';
-            $this->selectedSubelemen = '';
-            $this->capaianFase = '';
+        if ($this->forms[$index]['selectedDimensi'] && $this->forms[$index]['selectedElemen']) {
+            // Reset subelemen dan capaian fase
+            $this->forms[$index]['selectedSubelemen'] = '';
+            $this->forms[$index]['capaianFase'] = '';
 
-            $this->daftarSubelemen = Subelemen::select('deskripsi', 'id')
-                ->where('elemen_id', $this->selectedElemen)
+            // Ambil data subelemen berdasarkan elemen yang dipilih
+            $this->forms[$index]['daftarSubelemen'] = Subelemen::select('deskripsi', 'id')
+                ->where('elemen_id', $this->forms[$index]['selectedElemen'])
                 ->orderBy('created_at')
                 ->get();
         }
     }
 
-    public function getCapaianFase()
+    public function getCapaianFase($index)
     {
-        if ($this->selectedDimensi && $this->selectedElemen && $this->selectedSubelemen) {
-            $data = CapaianFase::where('subelemen_id', '=', $this->selectedSubelemen)
-                ->where('fase', '=', $this->fase)
+        if ($this->forms[$index]['selectedDimensi'] && $this->forms[$index]['selectedElemen'] && $this->forms[$index]['selectedSubelemen']) {
+            $fase = Kelas::joinWaliKelas($this->tahunAjaranAktifId)
+                ->joinProyek()
+                ->where('proyek.id', '=', $this->proyekId)
+                ->select('kelas.fase')
+                ->first();
+
+            $data = CapaianFase::where('subelemen_id', '=', $this->forms[$index]['selectedSubelemen'])
+                ->where('fase', '=', $fase['fase'])
                 ->select('deskripsi', 'id')->first();
-            $this->capaianFase = $data['deskripsi'];
-            $this->capaianFaseId = $data['id'];
+
+            $this->forms[$index]['capaianFase'] = $data['deskripsi'] ?? '';
+            $this->forms[$index]['capaianFaseId'] = $data['id'] ?? '';
         }
     }
+
 
     public function save()
     {
         $this->authorize('create', Subproyek::class);
-        $validated = $this->validate(
-            [
-                'capaianFase' => 'required',
-                'selectedDimensi' => 'required',
-                'selectedElemen' => 'required',
-                'selectedSubelemen' => 'required',
-            ],
-            [
-                'selectedDimensi' => 'Dimensi field is required',
-                'selectedSubelemen' => 'Subelemen field is required',
-                'selectedElemen' => 'Elemen field is required',
-            ]
-        );
 
-        Subproyek::create([
-            'proyek_id' => $this->proyekId,
-            'capaian_fase_id' => $this->capaianFaseId
-        ]);
+        foreach ($this->forms as $value) {
+            // jika capaian fase tidak ada
+            if (!$value['capaianFaseId']) continue;
+            Subproyek::updateOrCreate([
+                'id' => $value['subproyekId'],
+            ], [
+                'capaian_fase_id' => $value['capaianFaseId']
+            ]);
+        }
+
         session()->flash('success', 'Data Berhasil Disimpan');
-        $this->redirectRoute('subproyekIndex', ['proyek' => $this->proyekId, 'fase' => $this->fase]);
+        $this->redirectRoute('subproyekIndex', ['proyek' => $this->proyekId]);
     }
 }
