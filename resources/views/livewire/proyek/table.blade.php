@@ -53,9 +53,6 @@
                     <th scope="col" class="px-4 py-3 ">
                         Deskripsi
                     </th>
-                    <th scope="col" class="px-4 py-3 ">
-                        Capaian Fase
-                    </th>
                     @can('superAdminOrKepsek', Auth::id())
                         <th scope="col" class="px-4 py-3 ">
                             Nama Guru
@@ -89,9 +86,6 @@
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}
                         </td>
-                        <td scope="col" class="px-4 py-4 max-w-96">
-                            {{ Str::of($proyek->capaianFaseDeskripsi)->words('25', ' ...') }}
-                        </td>
                         @can('superAdminOrKepsek', Auth::id())
                             <td scope="col" class="px-4 py-4">
                                 {{ $proyek->nama_guru }}
@@ -105,11 +99,15 @@
                                 {{ $proyek->tahun }}-{{ $proyek->semester }}
                             </th>
                         @endcan
-                        <td class="px-4 py-4">
-                            <x-button.circle green icon="pencil-alt"
-                                href="{{ route('proyekEdit', ['proyek' => $proyek->id]) }}" wire:navigate />
-                            <x-button.circle negative icon="trash"
-                                x-on:click="$dispatch('set-proyek', {{ $proyek->id }}); $openModal('deleteModal');" />
+                        <td class="flex-col justify-center px-4 py-4 space-y-1">
+                            <x-button href="{{ route('subproyekIndex', ['proyek' => $proyek->id]) }}" wire:navigate
+                                class="mb-3" icon="cog" info label="Atur Dimensi" />
+                            <div class="flex flex-row items-center justify-center space-x-2">
+                                <x-button.circle green icon="pencil-alt"
+                                    href="{{ route('proyekEdit', ['proyek' => $proyek->id]) }}" wire:navigate />
+                                <x-button.circle negative icon="trash"
+                                    x-on:click="$dispatch('set-proyek', {{ $proyek->id }}); $openModal('deleteModal');" />
+                            </div>
                         </td>
                     </tr>
                 @empty

@@ -15,8 +15,6 @@
 
     <x-button href="{{ route('proyekCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Proyek" />
 
-    {{-- <x-button href="{{ route('subProyekCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Dimensi" /> --}}
-
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedProyek = null">
         <x-card title="Delete Note">
             <p class="text-gray-600">

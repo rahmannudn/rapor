@@ -47,9 +47,7 @@ class Proyek extends Model
         $query->where(function ($q) use ($value) {
             $q->where('proyek.judul_proyek', 'like', "%{$value}%")
                 ->orWhere('proyek.deskripsi', 'like', "%{$value}%")
-                ->orWhereHas('capaianFase', function ($q) use ($value) {
-                    $q->where('deskripsi', 'like', "%{$value}%");
-                })->orWhereHas('waliKelas.user', function ($q) use ($value) {
+                ->orWhereHas('waliKelas.user', function ($q) use ($value) {
                     $q->where('name', 'like', "%{$value}%");
                 })->orWhereHas('waliKelas.kelas', function ($q) use ($value) {
                     $q->where('kelas.nama', 'like', "%{$value}%");

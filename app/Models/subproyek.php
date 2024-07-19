@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class subproyek extends Model
+class Subproyek extends Model
 {
     use HasFactory;
 }
