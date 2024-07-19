@@ -37,6 +37,16 @@ class Proyek extends Model
         $query->join('users', 'wali_kelas.user_id', 'users.id');
     }
 
+    public function scopeJoinKelasByWaliKelas($query)
+    {
+        $query->join('kelas', 'wali_kelas.kelas_id', 'kelas.id');
+    }
+
+    public function scopeJoinTahunByWaliKelas($query)
+    {
+        $query->join('tahun_ajaran', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id');
+    }
+
     public function scopeJoinCapaianFase($query)
     {
         $query->join('capaian_fase', 'proyek.capaian_fase_id', 'capaian_fase.id');

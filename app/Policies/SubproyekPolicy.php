@@ -8,6 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class SubproyekPolicy
 {
+    public function before(User $user)
+    {
+        return $user->role == 'superadmin';
+    }
     /**
      * Determine whether the user can view any models.
      */

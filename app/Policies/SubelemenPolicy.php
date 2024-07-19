@@ -10,7 +10,7 @@ class SubelemenPolicy
 {
     public function before(User $user)
     {
-        return $user->role = 'superadmin';
+        return $user->role == 'superadmin';
     }
 
     /**
@@ -18,7 +18,7 @@ class SubelemenPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role = 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -26,7 +26,7 @@ class SubelemenPolicy
      */
     public function view(User $user, Subelemen $subelemen): bool
     {
-        return $user->role = 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -34,7 +34,7 @@ class SubelemenPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role = 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -42,7 +42,7 @@ class SubelemenPolicy
      */
     public function update(User $user, Subelemen $subelemen): bool
     {
-        return $user->role = 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -50,7 +50,7 @@ class SubelemenPolicy
      */
     public function delete(User $user, Subelemen $subelemen): bool
     {
-        return $user->role = 'admin';
+        return $user->role == 'admin';
     }
 
 
