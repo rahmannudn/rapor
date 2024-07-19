@@ -1,5 +1,5 @@
     <div class="space-y-4">
-        <div class="my-2">
+        <div class="mt-2">
             <h2 class="text-xl font-bold text-slate-700 dark:text-white">Subproyek 1</h2>
             <div class="block md:flex md:items-center md:justify-between md:space-x-2">
                 <x-native-select class="h-20" label="Dimensi" placeholder="Pilih Dimensi"
@@ -43,3 +43,6 @@
                 </div>
             </div>
         </div>
+        <x-button primary label="Save" x-on:click="$wire.save" spinner />
+
+    </div>

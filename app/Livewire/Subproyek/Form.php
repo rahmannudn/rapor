@@ -8,6 +8,7 @@ use App\Models\Dimensi;
 use Livewire\Component;
 use App\Models\Subelemen;
 use App\Models\CapaianFase;
+use App\Models\Subproyek;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\Locked;
 
@@ -35,6 +36,9 @@ class Form extends Component
         $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester')->firstWhere('aktif', 1);
         $this->tahunAjaranAktifId = $this->tahunAjaranAktif['id'];
         $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
+
+        // $this->fase = Kelas::joinWaliKelas($this->tahunAjaranAktifId)->joinProyek()->where('kelas.fase')->get();
+        // dump($this->fase);
 
         return view('livewire.subproyek.form');
     }
@@ -78,5 +82,30 @@ class Form extends Component
             $this->capaianFase = $data['deskripsi'];
             $this->capaianFaseId = $data['id'];
         }
+    }
+
+    public function save()
+    {
+        $this->authorize('create', Subproyek::class);
+        $validated = $this->validate(
+            [
+                'capaianFase' => 'required',
+                'selectedDimensi' => 'required',
+                'selectedElemen' => 'required',
+                'selectedSubelemen' => 'required',
+            ],
+            [
+                'selectedDimensi' => 'Dimensi field is required',
+                'selectedSubelemen' => 'Subelemen field is required',
+                'selectedElemen' => 'Elemen field is required',
+            ]
+        );
+
+        Subproyek::create([
+            'proyek_id' => $this->proyekId,
+            'capaian_fase_id' => $this->capaianFaseId
+        ]);
+        session()->flash('success', 'Data Berhasil Disimpan');
+        $this->redirectRoute('subproyekIndex', ['proyek' => $this->proyekId, 'fase' => $this->fase]);
     }
 }

@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('subproyek', function (Blueprint $table) {
             $table->id();
             $table->foreignId('proyek_id')->constrained('proyek');
-            $table->text('dimensi');
-            $table->text('elemen');
-            $table->text('sub_elemen');
-            $table->text('capaian_fase');
+            $table->foreignId('capaian_fase_id')->constrained('capaian_fase');
             $table->timestamps();
         });
     }

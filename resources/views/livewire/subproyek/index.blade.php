@@ -2,6 +2,9 @@
     @section('title')
         Subproyek
     @endsection
+
+    <x-button href="{{ route('proyekIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
+
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

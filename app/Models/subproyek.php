@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Subproyek extends Model
 {
     use HasFactory;
+    protected $table = 'subproyek';
+    protected $guarded = ['id'];
 }
