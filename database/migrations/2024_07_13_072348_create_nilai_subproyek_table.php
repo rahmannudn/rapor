@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nilai_proyek', function (Blueprint $table) {
+        Schema::create('nilai_subproyek', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('proyek_id')->constrained('proyek');
+            $table->foreignId('subproyek_id')->constrained('subproyek');
+            $table->foreignId('rapor_id')->constrained('rapor');
+            $table->enum('nilai', ['bb', 'mb', 'bsh', 'sb']);
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nilai_proyek');
+        Schema::dropIfExists('nilai_subproyek');
     }
 };

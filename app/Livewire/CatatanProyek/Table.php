@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CatatanProyek;
 
+use App\Helpers\FunctionHelper;
 use App\Models\CatatanProyek;
 use App\Models\User;
 use App\Models\Kelas;
@@ -32,7 +33,7 @@ class Table extends Component
     {
         $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
         if (Gate::allows('viewAny', CatatanProyek::class)) {
-            $this->daftarKelas = CatatanProyek::getDaftarKelas($this->tahunAjaranAktif);
+            $this->daftarKelas = FunctionHelper::getDaftarKelasHasProyek($this->tahunAjaranAktif);
 
             $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')
                 ->orderBy('created_at')

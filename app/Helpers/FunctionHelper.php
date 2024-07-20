@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\Kelas;
+use App\Models\Proyek;
 use App\Models\TahunAjaran;
 
 class FunctionHelper
@@ -25,5 +27,30 @@ class FunctionHelper
     public static function getTahunAjaranAktif()
     {
         return TahunAjaran::select('id')->where('aktif', 1)->first();
+    }
+
+    public static function getDaftarKelasHasProyek($taid)
+    {
+        return Kelas::query()
+            ->joinWaliKelas($taid)
+            ->joinProyek()
+            ->select('kelas.id', 'kelas.nama')
+            ->distinct()
+            ->get();
+    }
+
+    public static function getKelasInfo($waliKelasId)
+    {
+        return Proyek::joinWaliKelas()
+            ->where('wali_kelas.id', '=', $waliKelasId)
+            ->joinKelasByWaliKelas()
+            ->joinTahunByWaliKelas()
+            ->select(
+                'kelas.fase',
+                'kelas.nama as nama_kelas',
+                'tahun_ajaran.tahun',
+                'tahun_ajaran.semester',
+            )
+            ->first();
     }
 }

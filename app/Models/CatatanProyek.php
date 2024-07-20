@@ -31,16 +31,6 @@ class CatatanProyek extends Model
         });
     }
 
-    public static function getDaftarKelas($taid)
-    {
-        return Kelas::query()
-            ->joinWaliKelas($taid)
-            ->joinProyek()
-            ->select('kelas.id', 'kelas.nama')
-            ->distinct()
-            ->get();
-    }
-
     // mengconvert beberapa collection yang memiliki data seperti id_siswa yang serupa menjadi satu
     // contohnya
     // $data = [

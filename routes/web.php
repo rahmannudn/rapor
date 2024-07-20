@@ -76,6 +76,9 @@ use App\Livewire\CatatanProyek\Edit as CatatanProyekEdit;
 
 use App\Livewire\Subproyek\Index as SubproyekIndex;
 
+use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
+
+use App\Models\NilaiSubproyek;
 use Illuminate\Support\Facades\Route;
 
 
@@ -179,6 +182,9 @@ Route::get('/catatan_proyek/edit', CatatanProyekEdit::class)->middleware(['auth'
 
 Route::get('/subproyek/{proyek}', SubproyekIndex::class)->middleware(['auth'])
     ->name('subproyekIndex');
+
+Route::get('/nilai_proyek', NilaiSubproyekIndex::class)->middleware(['auth'])
+    ->name('nilaiSubproyekIndex');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

@@ -6,8 +6,13 @@ use App\Models\NilaiProyek;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class NilaiProyekPolicy
+class NilaiSubproyekPolicy
 {
+    public function before(User $user)
+    {
+        return $user->role == 'superadmin';
+    }
+
     /**
      * Determine whether the user can view any models.
      */

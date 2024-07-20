@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Subproyek;
 
+use App\Helpers\FunctionHelper;
 use App\Models\Proyek;
 use App\Models\WaliKelas;
 use Illuminate\Support\Facades\Gate;
@@ -26,17 +27,7 @@ class Index extends Component
     public function mount()
     {
         $this->judul = $this->proyek['judul_proyek'];
-        $data = Proyek::joinWaliKelas()
-            ->where('wali_kelas.id', '=', $this->proyek['wali_kelas_id'])
-            ->joinKelasByWaliKelas()
-            ->joinTahunByWaliKelas()
-            ->select(
-                'kelas.fase',
-                'kelas.nama as nama_kelas',
-                'tahun_ajaran.tahun',
-                'tahun_ajaran.semester',
-            )
-            ->first();
+        $data = FunctionHelper::getKelasInfo($this->proyek['wali_kelas_id']);
 
         if ($data) {
             $this->kelas = $data['nama_kelas'];
