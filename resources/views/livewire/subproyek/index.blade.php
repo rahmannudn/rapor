@@ -16,7 +16,8 @@
 
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Subproyek</h1>
 
-    <div class="relative overflow-x-auto w-[55%] mb-4">
+    <x-proyek.kelas-info-table :data="$kelasInfo" />
+    {{-- <div class="relative overflow-x-auto w-[55%] mb-4">
         <table
             class="w-full text-sm text-left text-gray-500 border border-gray-400 shadow-md rtl:text-right dark:text-gray-400 sm:rounded-lg">
             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -67,7 +68,7 @@
                 </td>
             </tr>
         </table>
-    </div>
+    </div> --}}
 
     <livewire:subproyek.form :proyekId="$proyek->id" />
 </div>

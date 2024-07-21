@@ -13,5 +13,5 @@
 
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Nilai Proyek</h1>
 
-    <livewire:nilai-proyek.table />
+    <livewire:nilai-subproyek.table />
 </div>

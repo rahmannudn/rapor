@@ -12,11 +12,8 @@ use Livewire\Component;
 class Index extends Component
 {
     public Proyek $proyek;
-    public $judul;
-    public $kelas;
-    public $fase;
-    public $tahunAjaran;
-    public $waliKelas;
+
+    public $kelasInfo = [];
 
     #[Layout('layouts.app')]
     public function render()
@@ -26,17 +23,23 @@ class Index extends Component
 
     public function mount()
     {
-        $this->judul = $this->proyek['judul_proyek'];
+        $this->kelasInfo['judul'] = $this->proyek['judul_proyek'];
         $data = FunctionHelper::getKelasInfo($this->proyek['wali_kelas_id']);
 
         if ($data) {
-            $this->kelas = $data['nama_kelas'];
-            $this->fase = $data['fase'];
-            $this->tahunAjaran = $data['tahun'] . ' - ' . ucfirst($data['semester']);
+            $this->kelasInfo['namaKelas'] = $data['nama_kelas'];
+            $this->kelasInfo['fase'] = $data['fase'];
+            $this->kelasInfo['tahunAjaran'] = $data['tahun'] . ' - ' . ucfirst($data['semester']);
         }
 
         if (Gate::allows('superAdminOrKepsek')) {
-            $this->waliKelas = WaliKelas::where('wali_kelas.id', '=', $this->proyek['wali_kelas_id'])->joinUser()->select('users.name as nama_wali')->first();
+            $kelas = WaliKelas::where('wali_kelas.id', '=', $this->proyek['wali_kelas_id'])
+                ->joinUser()
+                ->select('users.name as nama_wali', 'wali_kelas.id as wali_kelas_id')
+                ->first();
+
+            $this->kelasInfo['namaWaliKelas'] = $kelas['nama_wali'];
+            $this->kelasInfo['waliKelasId'] = $kelas['wali_kelas_id'];
         }
     }
 }

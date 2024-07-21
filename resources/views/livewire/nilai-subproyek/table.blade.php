@@ -1,11 +1,6 @@
 <div>
-    @if ($formCreate)
-        <x-button href="{{ route('nilaiProyekEdit') }}" wire:navigate class="mb-3" icon="plus" info
-            label="Edit Nilai" />
-    @endif
-
     <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-        @can('viewAny', \App\Models\NilaiProyek::class)
+        @can('viewAny', \App\Models\NilaiSubproyek::class)
             <div class="w-52">
                 <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
                     x-on:change="$wire.getNilai">
@@ -31,16 +26,18 @@
         @endcan
     </div>
 
-    {{-- @if ($formCreate)
-    <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
-        <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+    @if ($formCreate)
+        <x-proyek.kelas-info-table :data="$kelasInfo" />
+
+        <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
+            {{-- <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
             <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 ">
                 <tr class="">
                     <th scope="col" class="w-5 px-2 py-3" rowspan="3">
                         No
                     </th>
                     <th scope="col" class="px-6 py-3" rowspan="3">
-                        Nama
+                        Nama Siswa
                     </th>
                 </tr>
                 @if ($dataNilai)
@@ -95,9 +92,9 @@
                     @endforelse
                 @endif
             </tbody>
-        </table>
-    </div>
-@endif --}}
+        </table> --}}
+        </div>
+    @endif
 
     <div class="flex justify-between my-2 gap-x-4">
         <div class="flex gap-x-2">
