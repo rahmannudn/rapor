@@ -163,7 +163,9 @@ class Form extends Component
             if (!$value['capaianFaseId']) continue;
             Subproyek::updateOrCreate([
                 'id' => $value['subproyekId'],
+                'proyek_id' => $this->proyekId
             ], [
+                'proyek_id' => $this->proyekId,
                 'capaian_fase_id' => $value['capaianFaseId']
             ]);
         }
