@@ -60,9 +60,17 @@ class Siswa extends Model
         $query->join('subproyek', 'subproyek.proyek_id', '=', 'proyek.id');
     }
 
+    public function scopeLeftJoinRapor($query)
+    {
+        $query->leftJoin('rapor', 'rapor.kelas_siswa_id', '=', 'kelas_siswa.id');
+    }
+
     public function scopeLeftJoinNilaiSubproyek($query)
     {
-        $query->leftJoin('nilai_subproyek', 'nilai_subproyek.subproyek_id', '=', 'subproyek.id');
+        $query->leftJoin('nilai_subproyek', function (JoinClause $q) {
+            $q->on('nilai_subproyek.rapor_id', '=', 'rapor.id')
+                ->on('nilai_subproyek.subproyek_id', '=', 'subproyek.id');
+        });
     }
 
     public function scopeLeftJoinCapaianFase($query)

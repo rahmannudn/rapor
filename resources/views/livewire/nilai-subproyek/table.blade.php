@@ -1,3 +1,25 @@
+@section('sticky-header-table')
+    <style>
+        table thead {
+            position: sticky;
+        }
+
+        table thead th:first-child {
+            position: sticky;
+            left: 0;
+        }
+
+        table tbody tr,
+        table thead tr {
+            position: relative;
+        }
+
+        table tbody th {
+            position: sticky;
+            left: 0;
+        }
+    </style>
+@endsection
 <div>
     <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
         @can('viewAny', \App\Models\NilaiSubproyek::class)
@@ -31,8 +53,8 @@
                     x-on:change="$wire.getProyek">
                     @if ($daftarProyek)
                         @foreach ($daftarProyek as $proyek)
-                            <option value="{{ $proyek->id }}">Proyek - {{ $loop->index + 1 }}
-                                {{ $proyek->judul_proyek }}
+                            <option value="{{ $proyek['id'] }}">Proyek - {{ $loop->index + 1 }}
+                                {{ $proyek['judul_proyek'] }}
                             </option>
                         @endforeach
                     @endif
@@ -47,10 +69,9 @@
             <x-proyek.keterangan-nilai-table />
         </div>
 
-
-        <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
-            <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200">
+        <div class="w-full h-full mt-2 mb-2 space-y-4 overflow-auto">
+            <table class="w-full overflow-scroll text-sm text-gray-500 table-auto rtl:text-right dark:text-gray-400">
+                <thead class="sticky top-0 z-50 text-xs text-center text-gray-700 uppercase bg-gray-200 start-0 ">
                     <tr>
                         <th scope="col" class="w-5 px-2 py-3" rowspan="3">
                             No
@@ -62,7 +83,7 @@
                             @foreach ($proyekData as $data)
                                 <th colspan="4"
                                     class="w-64 px-4 py-4 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                    {{ $data->dimensi_deskripsi }}</th>
+                                    {{ $data['dimensi_deskripsi'] }}</th>
                             @endforeach
                         @else
                             <th colspan="4" class="px-4 py-4 bg-red-400">Dimensi Tidak Ditemukan</th>
@@ -74,7 +95,7 @@
                             @foreach ($proyekData as $data)
                                 <th scope="col" colspan="4"
                                     class="w-64 px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                    {{ $data->capaian_fase_deskripsi }}
+                                    {{ $data['capaian_fase_deskripsi'] }}
                                 </th>
                             @endforeach
                         </tr>
@@ -94,7 +115,7 @@
                                     BSH
                                 </td>
                                 <td
-                                    class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    class="px-2 py-2 border border-r-2 border-gray-300 border-r-gray-500 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
                                     SB
                                 </td>
                             @endfor
@@ -118,22 +139,26 @@
                                         <td
                                             class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
                                             <input value="bb" type="radio" wire:key="{{ $key }}"
-                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai"
+                                                x-on:change="$wire.update({{ $nilaiIndex }},'{{ $key }}')" />
                                         </td>
                                         <td
                                             class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
                                             <input value="mb" type="radio" wire:key="{{ $key }}"
-                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai"
+                                                x-on:change="$wire.update({{ $nilaiIndex }},'{{ $key }}')" />
                                         </td>
                                         <td
                                             class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
                                             <input value="bsh" type="radio" wire:key="{{ $key }}"
-                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai"
+                                                x-on:change="$wire.update({{ $nilaiIndex }},'{{ $key }}')" />
                                         </td>
                                         <td
-                                            class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                            class="px-2 py-2 border border-r-2 border-gray-300 border-r-gray-500 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
                                             <input value="sb" type="radio" wire:key="{{ $key }}"
-                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai"
+                                                x-on:change="$wire.update({{ $nilaiIndex }},'{{ $key }}')" />
                                         </td>
                                     @endforeach
                                 @endif

@@ -12,6 +12,7 @@ use App\Models\CatatanProyek;
 use App\Models\NilaiSubproyek;
 use App\Helpers\FunctionHelper;
 use App\Models\KelasSiswa;
+use App\Models\Rapor;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
@@ -111,7 +112,7 @@ class Table extends Component
                     'proyek.judul_proyek',
                 )
                 ->orderBy('proyek.created_at')
-                ->get();
+                ->get()->toArray();
 
             if (count($this->daftarProyek) > 0) {
                 $this->selectedProyek = $this->daftarProyek[0]['id'];
@@ -122,8 +123,8 @@ class Table extends Component
 
     public function getProyek()
     {
+        $this->proyekData = [];
         if ($this->selectedKelas && $this->tahunAjaranAktif && $this->selectedProyek) {
-            $this->proyekData = [];
             $this->proyekData = Proyek::query()
                 ->joinAndSearchWaliKelas($this->tahunAjaranAktif, $this->selectedKelas)
                 ->where('proyek.id', '=', $this->selectedProyek)
@@ -134,12 +135,12 @@ class Table extends Component
                 ->joinDimensi()
                 ->select(
                     'proyek.judul_proyek',
-                    'capaian_fase.id as capaian_fase_id',
                     'capaian_fase.deskripsi as capaian_fase_deskripsi',
                     'dimensi.deskripsi as dimensi_deskripsi'
                 )
                 ->orderBy('capaian_fase.created_at')
-                ->get();
+                ->get()
+                ->toArray();
 
             $this->getNilai();
         }
@@ -151,18 +152,21 @@ class Table extends Component
 
         if ($this->selectedKelas && $this->tahunAjaranAktif && $this->selectedProyek) {
             $nilai = Siswa::joinKelasSiswa()
-                ->joinWaliKelasByKelasAndTahun($this->selectedKelas, $this->tahunAjaranAktif) //join tabel wali kelas dan filter berdasar kelas dan tahun ajaran
+                ->joinWaliKelasByKelasAndTahun($this->selectedKelas, $this->tahunAjaranAktif)
                 ->searchAndJoinProyek($this->selectedProyek)
                 ->joinSubproyek()
+                ->leftJoinRapor()
                 ->leftJoinNilaiSubproyek()
                 ->leftJoinCapaianFase()
                 ->select(
+                    'wali_kelas.id as wali_kelas_id',
+                    'kelas_siswa.id as kelas_siswa_id',
                     'siswa.id as siswa_id',
                     'siswa.nama as nama_siswa',
                     'subproyek.id as subproyek_id',
                     'nilai_subproyek.id as nilai_subproyek_id',
                     'nilai_subproyek.nilai as nilai_subproyek',
-                    'capaian_fase.id as capaian_fase_id'
+                    'capaian_fase.deskripsi as capaian_fase_deskripsi'
                 )
                 ->orderBy('siswa.nama')
                 ->orderBy('capaian_fase.created_at')
@@ -171,7 +175,41 @@ class Table extends Component
             $groupedData = $nilai->groupBy('siswa_id');
             if (count($groupedData) > 0) {
                 $this->nilaiData =  NilaiSubproyek::convertNilaiData($groupedData);
+                $this->waliKelasId = $nilai[0]['wali_kelas_id'];
             }
         }
+    }
+
+    public function update($dataIndex, $nilaiIndex)
+    {
+        $this->authorize('update', NilaiSubproyek::class);
+
+        // mengambil data siswa yang berubah
+        $data = $this->nilaiData[$dataIndex];
+        if (is_null($data['nilai']) && $data['nilai']) return;
+
+        // mencari data rapor siswa
+        $rapor = Rapor::where('kelas_siswa_id', '=', $data['kelas_siswa_id'])
+            ->where('wali_kelas_id', '=', $this->waliKelasId)
+            ->select('id')
+            ->first();
+
+        // membuat data rapor jika tidak ditemukan
+        if (!$rapor) {
+            $rapor = Rapor::create([
+                'kelas_siswa_id' => $data['kelas_siswa_id'],
+                'wali_kelas_id' => $this->waliKelasId
+            ]);
+        }
+
+        // mencari array sesuai index nilai yang berubah
+        $updatedNilai = $data['nilai'][$nilaiIndex];
+
+        $hasilNilai = NilaiSubproyek::updateOrCreate([
+            'subproyek_id' => $updatedNilai['subproyek_id'],
+            'rapor_id' => $rapor['id'],
+        ], [
+            'nilai' => $updatedNilai['nilai']
+        ]);
     }
 }

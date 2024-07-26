@@ -16,10 +16,11 @@ class NilaiSubproyek extends Model
     {
         $results = [];
 
-        foreach ($nilaiData as $nilaiId => $records) {
+        foreach ($nilaiData as $siswaId => $records) {
             $siswa = [
-                'siswa_id' => $nilaiId,
-                'nama_siswa' => $records->first()->nama_siswa
+                'siswa_id' => $siswaId,
+                'nama_siswa' => $records->first()->nama_siswa,
+                'kelas_siswa_id' => $records->first()->kelas_siswa_id,
             ];
 
             $nilai = [];
