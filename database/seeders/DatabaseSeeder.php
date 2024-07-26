@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\GuruMapel;
+use App\Models\NilaiSubproyek;
+use App\Models\Proyek;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,7 +28,9 @@ class DatabaseSeeder extends Seeder
             DimensiSeeder::class,
             ElemenSeeder::class,
             SubelemenSeeder::class,
-            CapaianFaseSeeder::class
+            CapaianFaseSeeder::class,
+            ProyekSeeder::class,
+            SubproyekSeeder::class,
         ]);
     }
 }

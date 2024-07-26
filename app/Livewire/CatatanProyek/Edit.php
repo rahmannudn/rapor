@@ -90,9 +90,10 @@ class Edit extends Component
 
                 $groupedData = $catatanData->groupBy('siswa_id');
 
-                // mengconvert collection yang memiliki id siswa yang sama menjadi satu array array dan memasukkan beberapa catatan ke dalam array tersebut
-                $this->catatanSiswa = CatatanProyek::convertProyekData($groupedData);
-                // dump($this->catatanSiswa[0]);
+                if (count($catatanData) > 0) {
+                    // mengconvert collection yang memiliki id siswa yang sama menjadi satu array array dan memasukkan beberapa catatan ke dalam array tersebut
+                    $this->catatanSiswa = CatatanProyek::convertProyekData($groupedData);
+                }
             }
         }
     }

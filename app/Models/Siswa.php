@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
 
 class Siswa extends Model
 {
@@ -46,9 +47,27 @@ class Siswa extends Model
         });
     }
 
-    public function scopeLeftJoinProyek($query)
+    public function scopeSearchAndJoinProyek($query, $proyekId)
     {
-        $query->leftJoin('proyek', 'wali_kelas.id', '=', 'proyek.wali_kelas_id');
+        $query->join('proyek', function (JoinClause $q) use ($proyekId) {
+            $q->on('wali_kelas.id', '=', 'proyek.wali_kelas_id')
+                ->where('proyek.id', '=', $proyekId);
+        });
+    }
+
+    public function scopeJoinSubproyek($query)
+    {
+        $query->join('subproyek', 'subproyek.proyek_id', '=', 'proyek.id');
+    }
+
+    public function scopeLeftJoinNilaiSubproyek($query)
+    {
+        $query->leftJoin('nilai_subproyek', 'nilai_subproyek.subproyek_id', '=', 'subproyek.id');
+    }
+
+    public function scopeLeftJoinCapaianFase($query)
+    {
+        $query->leftJoin('capaian_fase', 'subproyek.capaian_fase_id', '=', 'capaian_fase.id');
     }
 
     public function scopeLeftJoinCatatanProyek($query)

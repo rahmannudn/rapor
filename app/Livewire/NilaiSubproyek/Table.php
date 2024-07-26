@@ -12,6 +12,7 @@ use App\Models\CatatanProyek;
 use App\Models\NilaiSubproyek;
 use App\Helpers\FunctionHelper;
 use App\Models\KelasSiswa;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
 
@@ -26,7 +27,7 @@ class Table extends Component
     public $selectedProyek;
 
     public $nilaiData;
-    public $formCreate;
+    public $showTable;
     public $proyekData = [];
     public $kelasInfo;
     public $daftarProyek;
@@ -59,7 +60,7 @@ class Table extends Component
         );
         if (is_null($this->selectedKelas)) return;
 
-        $this->formCreate = true;
+        $this->showTable = true;
         if (count($this->proyekData) == 0) $this->getProyek();
     }
 
@@ -112,8 +113,10 @@ class Table extends Component
                 ->orderBy('proyek.created_at')
                 ->get();
 
-            if (count($this->daftarProyek) > 0 && !$this->selectedProyek)
+            if (count($this->daftarProyek) > 0) {
                 $this->selectedProyek = $this->daftarProyek[0]['id'];
+                $this->showTable && $this->getProyek();
+            }
         }
     }
 
@@ -135,7 +138,7 @@ class Table extends Component
                     'capaian_fase.deskripsi as capaian_fase_deskripsi',
                     'dimensi.deskripsi as dimensi_deskripsi'
                 )
-                ->orderBy('proyek.created_at')
+                ->orderBy('capaian_fase.created_at')
                 ->get();
 
             $this->getNilai();
@@ -147,17 +150,28 @@ class Table extends Component
         $this->nilaiData = [];
 
         if ($this->selectedKelas && $this->tahunAjaranAktif && $this->selectedProyek) {
-            $nilai = KelasSiswa::where('kelas_siswa.kelas_id', '=', $this->selectedKelas)
-                ->where('kelas_siswa.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
-                ->joinSiswa()
-                ->joinKelas()
-                ->searchAndJoinWaliKelas($this->tahunAjaranAktif, $this->selectedKelas)
-                ->searchAndJoinProyek($this->selectedProyek) //search related proyek by selectedProyek
-                ->joinSubproyekByProyek()
-                ->joinNilaiSubproyekBySubproyek()
-                ->select('siswa.nama', 'kelas.nama as nama_rombel', 'proyek.id as proyek_id', 'nilai_subproyek.nilai')
+            $nilai = Siswa::joinKelasSiswa()
+                ->joinWaliKelasByKelasAndTahun($this->selectedKelas, $this->tahunAjaranAktif) //join tabel wali kelas dan filter berdasar kelas dan tahun ajaran
+                ->searchAndJoinProyek($this->selectedProyek)
+                ->joinSubproyek()
+                ->leftJoinNilaiSubproyek()
+                ->leftJoinCapaianFase()
+                ->select(
+                    'siswa.id as siswa_id',
+                    'siswa.nama as nama_siswa',
+                    'subproyek.id as subproyek_id',
+                    'nilai_subproyek.id as nilai_subproyek_id',
+                    'nilai_subproyek.nilai as nilai_subproyek',
+                    'capaian_fase.id as capaian_fase_id'
+                )
+                ->orderBy('siswa.nama')
+                ->orderBy('capaian_fase.created_at')
                 ->get();
-            dump($nilai);
+
+            $groupedData = $nilai->groupBy('siswa_id');
+            if (count($groupedData) > 0) {
+                $this->nilaiData =  NilaiSubproyek::convertNilaiData($groupedData);
+            }
         }
     }
 }

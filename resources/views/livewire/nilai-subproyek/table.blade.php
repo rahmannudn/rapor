@@ -3,7 +3,7 @@
         @can('viewAny', \App\Models\NilaiSubproyek::class)
             <div class="w-52">
                 <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
-                    x-on:change="$wire.getNilai">
+                    x-on:change="$wire.getDaftarProyek">
                     <option value="">--Pilih Kelas--</option>
                     @if ($daftarKelas)
                         @foreach ($daftarKelas as $kelas)
@@ -13,12 +13,27 @@
                 </x-native-select>
             </div>
 
-            <div class="w-52">
-                <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran" wire:model.defer="tahunAjaranAktif"
-                    x-on:change="$wire.getNilai">
-                    @if ($daftarTahunAjaran)
-                        @foreach ($daftarTahunAjaran as $ta)
-                            <option value="{{ $ta->id }}">{{ $ta->tahun }} - {{ $ta->semester }}</option>
+            @can('superAdminOrKepsek')
+                <div class="w-52">
+                    <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran" wire:model.defer="tahunAjaranAktif"
+                        x-on:change="$wire.getDaftarProyek">
+                        @if ($daftarTahunAjaran)
+                            @foreach ($daftarTahunAjaran as $ta)
+                                <option value="{{ $ta->id }}">{{ $ta->tahun }} - {{ $ta->semester }}</option>
+                            @endforeach
+                        @endif
+                    </x-native-select>
+                </div>
+            @endcan
+
+            <div class="w-full md:w-[40%]">
+                <x-native-select label="Proyek" placeholder="Pilih Proyek" wire:model.defer="selectedProyek"
+                    x-on:change="$wire.getProyek">
+                    @if ($daftarProyek)
+                        @foreach ($daftarProyek as $proyek)
+                            <option value="{{ $proyek->id }}">Proyek - {{ $loop->index + 1 }}
+                                {{ $proyek->judul_proyek }}
+                            </option>
                         @endforeach
                     @endif
                 </x-native-select>
@@ -26,79 +41,120 @@
         @endcan
     </div>
 
-    @if ($formCreate)
-        <x-proyek.kelas-info-table :data="$kelasInfo" />
+    @if ($showTable)
+        <div class="md:flex md:items-center md:space-x-2">
+            <x-proyek.kelas-info-table :data="$kelasInfo" />
+            <x-proyek.keterangan-nilai-table />
+        </div>
+
 
         <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
-            {{-- <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 ">
-                <tr class="">
-                    <th scope="col" class="w-5 px-2 py-3" rowspan="3">
-                        No
-                    </th>
-                    <th scope="col" class="px-6 py-3" rowspan="3">
-                        Nama Siswa
-                    </th>
-                </tr>
-                @if ($dataNilai)
+            <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200">
                     <tr>
-                        @for ($i = 0; $i < count($dataNilai); $i++)
-                            <th scope="col"
-                                class="px-4 py-3 border-t border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                Proyek {{ $i + 1 }}
-                            </th>
-                        @endfor
-                    </tr>
-                    <tr class="">
-                        @foreach ($dataNilai as $data)
-                            <th scope="col"
-                                class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                {{ $data->judul_proyek }}
-                            </th>
-                        @endforeach
-                    </tr>
-                @else
-                    <tr>
-                        <th scope="col"
-                            class="px-4 py-3 border-t border-b border-l border-r border-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                            Proyek Tidak Ditemukan
+                        <th scope="col" class="w-5 px-2 py-3" rowspan="3">
+                            No
                         </th>
+                        <th scope="col" class="px-6 py-3" rowspan="3">
+                            Nama Siswa
+                        </th>
+                        @if ($proyekData && count($proyekData) !== 0)
+                            @foreach ($proyekData as $data)
+                                <th colspan="4"
+                                    class="w-64 px-4 py-4 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    {{ $data->dimensi_deskripsi }}</th>
+                            @endforeach
+                        @else
+                            <th colspan="4" class="px-4 py-4 bg-red-400">Dimensi Tidak Ditemukan</th>
+                        @endif
                     </tr>
-                @endif
-            </thead>
-            <tbody>
-                @if ($catatanSiswa)
-                    @forelse ($catatanSiswa as $data)
-                        <tr wire:key="{{ $data['siswa_id'] }}"
-                            class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="w-5 px-4 py-4">
-                                {{ $loop->index + 1 }}
-                            </td>
-                            <td class="px-4 py-4">
-                                {{ $data['nama_siswa'] }}
-                            </td>
-                            @foreach ($data['catatan_proyek'] as $key => $catatan)
-                                <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">
-                                    {{ $catatan['catatan'] }}
-                                </td>
+
+                    @if ($proyekData)
+                        <tr>
+                            @foreach ($proyekData as $data)
+                                <th scope="col" colspan="4"
+                                    class="w-64 px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    {{ $data->capaian_fase_deskripsi }}
+                                </th>
                             @endforeach
                         </tr>
-                    @empty
+
                         <tr>
-                            <td class="px-4 py-4">
-                                Siswa Tidak Ditemukan
-                            </td>
+                            @for ($i = 0; $i < count($proyekData); $i++)
+                                <td
+                                    class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    BB
+                                </td>
+                                <td
+                                    class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    MB
+                                </td>
+                                <td
+                                    class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    BSH
+                                </td>
+                                <td
+                                    class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                    SB
+                                </td>
+                            @endfor
                         </tr>
-                    @endforelse
-                @endif
-            </tbody>
-        </table> --}}
+                    @endif
+                </thead>
+
+                <tbody>
+                    @if ($nilaiData)
+                        @forelse ($nilaiData as $nilaiIndex => $data)
+                            <tr wire:key="{{ $data['siswa_id'] }}"
+                                class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="w-5 px-4 py-4">
+                                    {{ $loop->index + 1 }}
+                                </td>
+                                <td class="px-4 py-4">
+                                    {{ $data['nama_siswa'] }}
+                                </td>
+                                @if ($nilaiData && count($proyekData) !== 0)
+                                    @foreach ($data['nilai'] as $key => $nilai)
+                                        <td
+                                            class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                            <input value="bb" type="radio" wire:key="{{ $key }}"
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                        </td>
+                                        <td
+                                            class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                            <input value="mb" type="radio" wire:key="{{ $key }}"
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                        </td>
+                                        <td
+                                            class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                            <input value="bsh" type="radio" wire:key="{{ $key }}"
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                        </td>
+                                        <td
+                                            class="px-2 py-2 border border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
+                                            <input value="sb" type="radio" wire:key="{{ $key }}"
+                                                wire:model.defer="nilaiData.{{ $nilaiIndex }}.nilai.{{ $key }}.nilai" />
+                                        </td>
+                                    @endforeach
+                                @endif
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="px-4 py-4">
+                                    Siswa Tidak Ditemukan
+                                </td>
+                            </tr>
+                        @endforelse
+                    @endif
+
+                </tbody>
+            </table>
         </div>
     @endif
 
     <div class="flex justify-between my-2 gap-x-4">
         <div class="flex gap-x-2">
-            @if (!$formCreate)
+            @if (!$showTable)
                 <x-button primary label="Tampilkan Tabel" x-on:click="$wire.showForm" spinner />
             @endif
         </div>
