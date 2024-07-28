@@ -31,6 +31,10 @@ class Siswa extends Model
     {
         $query->rightJoin('catatan_proyek', 'catatan_proyek.siswa_id', '=', 'siswa.id');
     }
+    public function scopeLeftJoinProyek($query)
+    {
+        $query->leftJoin('proyek', 'wali_kelas.id', '=', 'proyek.wali_kelas_id');
+    }
 
     public function scopeJoinKelasSiswa($query)
     {

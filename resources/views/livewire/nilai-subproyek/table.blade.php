@@ -76,7 +76,7 @@
                         <th scope="col" class="w-5 px-2 py-3" rowspan="3">
                             No
                         </th>
-                        <th scope="col" class="px-6 py-3" rowspan="3">
+                        <th scope="col" class="px-6 py-3 w-60" rowspan="3">
                             Nama Siswa
                         </th>
                         @if ($proyekData && count($proyekData) !== 0)

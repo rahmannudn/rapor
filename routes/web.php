@@ -99,78 +99,78 @@ Route::get('dashboard', function () {
     return view('dashboard', ['title' => 'Dashboard']);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/tahun_ajaran', TahunAjaranIndex::class)->middleware(['auth'])->name('tahunAjaranIndex');
+Route::get('/tahun_ajaran', TahunAjaranIndex::class)->middleware(['auth'])->name('tahunAjaranIndex')->lazy();
 Route::get('/tahun_ajaran/create', TahunAjaranCreate::class)->middleware(['auth'])->name('tahunAjaranCreate');
 Route::get('/tahun_ajaran/{tahunAjaran}/edit', TahunAjaranEdit::class)->middleware(['auth'])->name('tahunAjaranEdit');
 
-Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex');
+Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex')->lazy();
 Route::get('/siswa/create', SiswaCreate::class)->middleware(['auth'])->name('siswaCreate');
 Route::get('/siswa/{siswa}/edit', SiswaEdit::class)->middleware(['auth'])->name('siswaEdit');
 
 Route::get('/sekolah', SekolahIndex::class)->middleware(['auth'])->name('sekolahIndex');
 Route::get('/sekolah/edit', SekolahEdit::class)->middleware(['auth'])->name('sekolahEdit');
 
-Route::get('/kelas', KelasIndex::class)->middleware(['auth'])->name('kelasIndex');
+Route::get('/kelas', KelasIndex::class)->middleware(['auth'])->name('kelasIndex')->lazy();
 Route::get('/kelas/create', KelasCreate::class)->middleware(['auth'])->name('kelasCreate');
 Route::get('/kelas/{kelasData}/edit', KelasEdit::class)->middleware(['auth'])->name('kelasEdit');
 
-Route::get('/ekskul', EkskulIndex::class)->middleware(['auth'])->name('ekskulIndex');
+Route::get('/ekskul', EkskulIndex::class)->middleware(['auth'])->name('ekskulIndex')->lazy();
 Route::get('/ekskul/create', EkskulCreate::class)->middleware(['auth'])->name('ekskulCreate');
 Route::get('/ekskul/{ekskul}/edit', EkskulEdit::class)->middleware(['auth'])->name('ekskulEdit');
 
-Route::get('/mapel', MapelIndex::class)->middleware(['auth'])->name('mapelIndex');
+Route::get('/mapel', MapelIndex::class)->middleware(['auth'])->name('mapelIndex')->lazy();
 Route::get('/mapel/create', MapelCreate::class)->middleware(['auth'])->name('mapelCreate');
 Route::get('/mapel/{mapel}/edit', MapelEdit::class)->middleware(['auth'])->name('mapelEdit');
 
-Route::get('/user', UserIndex::class)->middleware(['auth'])->name('userIndex');
+Route::get('/user', UserIndex::class)->middleware(['auth'])->name('userIndex')->lazy();
 Route::get('/user/create', UserCreate::class)->middleware(['auth'])->name('userCreate');
 Route::get('/user/{user}/edit', UserEdit::class)->middleware(['auth'])->name('userEdit');
 
-Route::get('/wali_kelas', WaliKelasIndex::class)->middleware(['auth'])->name('waliKelasIndex');
+Route::get('/wali_kelas', WaliKelasIndex::class)->middleware(['auth'])->name('waliKelasIndex')->lazy();
 Route::get('/wali_kelas/create', WaliKelasCreate::class)->middleware(['auth'])->name('waliKelasCreate');
 Route::get('/wali_kelas/{wali_kelas}/edit', WaliKelasEdit::class)->middleware(['auth'])->name('waliKelasEdit');
 
-Route::get('/guru_mapel', GuruMapelIndex::class)->middleware(['auth'])->name('guruMapelIndex');
+Route::get('/guru_mapel', GuruMapelIndex::class)->middleware(['auth'])->name('guruMapelIndex')->lazy();
 Route::get('/guru_mapel/create', GuruMapelCreate::class)->middleware(['auth'])->name('guruMapelCreate');
 Route::get('/guru_mapel/{guru_mapel}/edit', GuruMapelEdit::class)->middleware(['auth'])->name('guruMapelEdit');
 
-Route::get('/materi_mapel', MateriMapelIndex::class)->middleware(['auth'])->name('materiMapelIndex');
+Route::get('/materi_mapel', MateriMapelIndex::class)->middleware(['auth'])->name('materiMapelIndex')->lazy();
 Route::get('/materi_mapel/create', MateriMapelCreate::class)->middleware(['auth'])->name('materiMapelCreate');
 Route::get('/materi_mapel/{materiMapel}/edit', MateriMapelEdit::class)->middleware(['auth'])->name('materiMapelEdit');
 
-Route::get('/kepsek', KepsekIndex::class)->middleware(['auth'])->name('kepsekIndex');
+Route::get('/kepsek', KepsekIndex::class)->middleware(['auth'])->name('kepsekIndex')->lazy();
 Route::get('/kepsek/create', KepsekCreate::class)->middleware(['auth'])->name('kepsekCreate');
 Route::get('/kepsek/{kepsek}/edit', KepsekEdit::class)->middleware(['auth'])->name('kepsekEdit');
 
-Route::get('/proyek', ProyekIndex::class)->middleware(['auth'])->name('proyekIndex');
+Route::get('/proyek', ProyekIndex::class)->middleware(['auth'])->name('proyekIndex')->lazy();
 Route::get('/proyek/create', ProyekCreate::class)->middleware(['auth'])->name('proyekCreate');
 Route::get('/proyek/{proyek}/edit', ProyekEdit::class)->middleware(['auth'])->name('proyekEdit');
 
-Route::get('/dimensi', DimensiIndex::class)->middleware(['auth'])->name('dimensiIndex');
+Route::get('/dimensi', DimensiIndex::class)->middleware(['auth'])->name('dimensiIndex')->lazy();
 Route::get('/dimensi/create', DimensiCreate::class)->middleware(['auth'])->name('dimensiCreate');
 Route::get('/dimensi/{dimensi}/edit', DimensiEdit::class)->middleware(['auth'])->name('dimensiEdit');
 
-Route::get('/elemen', ElemenIndex::class)->middleware(['auth'])->name('elemenIndex');
+Route::get('/elemen', ElemenIndex::class)->middleware(['auth'])->name('elemenIndex')->lazy();
 Route::get('/elemen/create', ElemenCreate::class)->middleware(['auth'])->name('elemenCreate');
 Route::get('/elemen/{elemen}/edit', ElemenEdit::class)->middleware(['auth'])->name('elemenEdit');
 
-Route::get('/subelemen', SubelemenIndex::class)->middleware(['auth'])->name('subelemenIndex');
+Route::get('/subelemen', SubelemenIndex::class)->middleware(['auth'])->name('subelemenIndex')->lazy();
 Route::get('/subelemen/create', SubelemenCreate::class)->middleware(['auth'])->name('subelemenCreate');
 Route::get('/subelemen/{subelemen}/edit', SubelemenEdit::class)->middleware(['auth'])->name('subelemenEdit');
 
-Route::get('/capaian_fase', CapaianFaseIndex::class)->middleware(['auth'])->name('capaianFaseIndex');
+Route::get('/capaian_fase', CapaianFaseIndex::class)->middleware(['auth'])->name('capaianFaseIndex')->lazy();
 Route::get('/capaian_fase/create', CapaianFaseCreate::class)->middleware(['auth'])->name('capaianFaseCreate');
 Route::get('/capaian_fase/{capaianFase}/edit', CapaianFaseEdit::class)->middleware(['auth'])->name('capaianFaseEdit');
 
 Route::get('/tujuan_pembelajaran', TujuanPembelajaranIndex::class)->middleware(['auth'])
-    ->name('tujuanPembelajaranIndex');
+    ->name('tujuanPembelajaranIndex')->lazy();
 Route::get('/tujuan_pembelajaran/create', TujuanPembelajaranCreate::class)->middleware(['auth'])
     ->name('tujuanPembelajaranCreate');
 Route::get('/tujuan_pembelajaran/{tujuanPembelajaran}/edit', TujuanPembelajaranEdit::class)
     ->middleware(['auth'])->name('tujuanPembelajaranEdit');
 
 Route::get('/lingkup_materi', LingkupMateriIndex::class)->middleware(['auth'])
-    ->name('lingkupMateriIndex');
+    ->name('lingkupMateriIndex')->lazy();
 Route::get('/lingkup_materi/create', LingkupMateriCreate::class)->middleware(['auth'])
     ->name('lingkupMateriCreate');
 Route::get('/lingkup_materi/{lingkupMateri}/edit', LingkupMateriEdit::class)->middleware(['auth'])->name('lingkupMateriEdit');
@@ -184,7 +184,7 @@ Route::get('/subproyek/{proyek}', SubproyekIndex::class)->middleware(['auth'])
     ->name('subproyekIndex');
 
 Route::get('/nilai_proyek', NilaiSubproyekIndex::class)->middleware(['auth'])
-    ->name('nilaiSubproyekIndex');
+    ->name('nilaiSubproyekIndex')->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
