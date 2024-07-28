@@ -10,8 +10,8 @@
         <div x-init="$dispatch('showNotif', { title: 'Gagal', description: '{{ session('gagal') }}', icon: 'error' })"></div>
     @endif
     {{-- blade-formatter-enable --}}
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Data Sekolah</h1>
-    <x-button href="{{ route('sekolahEdit') }}" wire:navigate class="mb-3" icon="pencil-alt" info
+    <h1 class="text-2xl font-bold text-slate-700 dark:text-white">Data Sekolah</h1>
+    <x-button href="{{ route('sekolahEdit') }}" wire:navigate class="" icon="pencil-alt" info
         label="Edit Data Sekolah" />
 
     <div class="flex items-center justify-start space-x-4">

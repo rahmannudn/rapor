@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('provinsi', 80);
             $table->string('email', 80);
             $table->string('nss', 5);
+            $table->string('logo_sekolah')->nullable();
             $table->timestamps();
         });
     }

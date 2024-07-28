@@ -18,6 +18,16 @@
         <x-input label="Provinsi" wire:model="provinsi" />
         <x-input label="Email" wire:model="email" />
         <x-input label="NSS" wire:model="nss" />
+        <div class="space-y-2">
+            <p>Logo Sekolah</p>
+            @if ($originalLogo)
+                <a href="{{ url('storage/' . $originalLogo) }}" target="_blank">
+                    <x-avatar size="w-20" squared src="{{ url('storage/' . $originalLogo) }}" />
+                </a>
+            @endif
+            <x-input type="file" accept="image/png, image/jpeg, image/jpg" placeholder="Upload Logo Sekolah"
+                wire:model='logo' />
+        </div>
     </div>
 
     <div class="flex justify-between gap-x-4">
