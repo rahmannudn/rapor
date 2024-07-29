@@ -24,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Livewire::component('layout.navbar', \App\Livewire\Navbar::class);
-
         Gate::define('isSuperAdmin', function (User $user) {
             return $user->role == 'superadmin';
         });

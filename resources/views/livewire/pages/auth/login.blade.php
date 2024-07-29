@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Sekolah;
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
 use App\Livewire\Forms\LoginForm;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
     public LoginForm $form;
@@ -21,6 +22,20 @@ new #[Layout('layouts.guest')] class extends Component {
         Session::regenerate();
 
         $this->redirect(session('url.intended', RouteServiceProvider::HOME), navigate: true);
+    }
+
+    public function rendering()
+    {
+        $this->checkAndSetSekolahSession();
+    }
+
+    public function checkAndSetSekolahSession()
+    {
+        if (session()->missing('nama_sekolah') && session()->missing('logo_sekolah')) {
+            $sekolahData = Sekolah::select('logo_sekolah', 'nama_sekolah')->get()->toArray()[0];
+
+            session()->put('logo_sekolah', $sekolahData['logo_sekolah']);
+        }
     }
 }; ?>
 
@@ -58,12 +73,12 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
+            {{-- @if (Route::has('password.request'))
                 <a class="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                     href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
-            @endif
+            @endif --}}
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

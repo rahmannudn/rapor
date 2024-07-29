@@ -63,6 +63,7 @@ class Edit extends Component
         if ($this->logo) {
             $filePath = $this->logo->store('uploads', 'public');
             $updatedData['logo_sekolah'] = $filePath;
+            session()->put('logo_sekolah', $filePath);
         }
 
         $dataSekolah->update($updatedData);
