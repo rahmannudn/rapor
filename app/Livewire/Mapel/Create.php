@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Mapel;
 
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Mapel;
 
@@ -10,7 +9,6 @@ class Create extends Component
 {
     public $namaMapel;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.mapel.create');

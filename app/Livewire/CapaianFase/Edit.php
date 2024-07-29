@@ -3,7 +3,6 @@
 namespace App\Livewire\CapaianFase;
 
 use App\Models\CapaianFase;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Edit extends Component
@@ -16,7 +15,6 @@ class Edit extends Component
     public $elemenDeskripsi;
     public $subelemenDeskripsi;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.capaian-fase.edit');

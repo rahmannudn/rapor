@@ -5,7 +5,6 @@ namespace App\Livewire\Siswa;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use App\Enums\AgamaList;
 use App\Models\KelasSiswa;
@@ -46,7 +45,6 @@ class Edit extends Component
     #[Validate('nullable|image|max:1536')] // 1,5MB Max
     public $foto;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.siswa.edit');

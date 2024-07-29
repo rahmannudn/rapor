@@ -4,7 +4,6 @@ namespace App\Livewire\TujuanPembelajaran;
 
 use App\Models\TujuanPembelajaran;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class Edit extends Component
 {
@@ -15,7 +14,6 @@ class Edit extends Component
     public $deskripsi;
     public $namaMapel;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.tujuan-pembelajaran.edit');

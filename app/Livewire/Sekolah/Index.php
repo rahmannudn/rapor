@@ -5,7 +5,6 @@ namespace App\Livewire\Sekolah;
 use App\Models\Sekolah;
 
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 
 class Index extends Component
@@ -17,8 +16,6 @@ class Index extends Component
         $this->dataSekolah = Sekolah::all()[0];
     }
 
-    #[Title('Sekolah')]
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.sekolah.index');

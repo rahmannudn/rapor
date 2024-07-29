@@ -4,7 +4,6 @@ namespace App\Livewire\LingkupMateri;
 
 use Livewire\Component;
 use App\Models\LingkupMateri;
-use Livewire\Attributes\Layout;
 use App\Models\TujuanPembelajaran;
 
 class Edit extends Component
@@ -16,7 +15,6 @@ class Edit extends Component
     public $deskripsi;
     public $namaMapel;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.lingkup-materi.edit');

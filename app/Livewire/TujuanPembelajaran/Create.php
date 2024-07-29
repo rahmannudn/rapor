@@ -10,7 +10,6 @@ use App\Models\Mapel;
 use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use App\Models\TujuanPembelajaran;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -32,7 +31,6 @@ class Create extends Component
     public $selectedKelas;
     public $selectedDetailGuruMapel;
 
-    #[Layout('layouts.app')]
     public function render()
     {
 

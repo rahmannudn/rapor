@@ -8,7 +8,6 @@ use App\Models\Proyek;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use App\Models\CatatanProyek;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Gate;
 
 class Edit extends Component
@@ -22,7 +21,6 @@ class Edit extends Component
     public $proyekData;
     public $catatanSiswa;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.catatan-proyek.edit');

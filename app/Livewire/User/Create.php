@@ -3,7 +3,6 @@
 namespace App\Livewire\User;
 
 use App\Models\User;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +17,6 @@ class Create extends Component
     public $jk;
     public $jenis_pegawai;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.user.create');

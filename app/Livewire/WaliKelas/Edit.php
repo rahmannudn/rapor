@@ -7,7 +7,6 @@ use App\Models\Kelas;
 use Livewire\Component;
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 
 class Edit extends Component
@@ -22,7 +21,6 @@ class Edit extends Component
     public $daftarGuru;
 
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.wali-kelas.edit');

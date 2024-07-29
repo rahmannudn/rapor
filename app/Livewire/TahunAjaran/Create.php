@@ -7,7 +7,6 @@ use App\Rules\IsValidYear;
 use App\Models\TahunAjaran as TA;
 use App\Models\TahunAjaran;
 use WireUi\Traits\Actions;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Locked;
@@ -28,8 +27,6 @@ class Create extends Component
     #[Locked]
     public $validatedData;
 
-    #[Title('Tambah Tahun Ajaran')]
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.tahun-ajaran.create');

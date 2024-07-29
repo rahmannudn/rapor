@@ -3,7 +3,6 @@
 namespace App\Livewire\GuruMapel;
 
 use App\Models\GuruMapel;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Index extends Component
@@ -12,7 +11,6 @@ class Index extends Component
     public $selectedGuruMapel;
     public $deleteModal;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.guru-mapel.index');

@@ -4,7 +4,6 @@ namespace App\Livewire\Ekskul;
 
 use App\Models\Ekskul;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
 class Edit extends Component
@@ -18,7 +17,6 @@ class Edit extends Component
         $this->namaEkskul = $this->ekskul['nama_ekskul'];
     }
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.ekskul.edit');

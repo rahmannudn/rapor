@@ -8,7 +8,6 @@ use Livewire\Component;
 
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,7 +35,6 @@ class Create extends Component
     public $judulProyek;
     public $deskripsi;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester')->firstWhere('aktif', 1);

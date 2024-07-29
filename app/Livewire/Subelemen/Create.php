@@ -6,7 +6,6 @@ use App\Models\Elemen;
 use App\Models\Dimensi;
 use App\Models\Subelemen;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class Create extends Component
 {
@@ -19,7 +18,6 @@ class Create extends Component
 
     public $deskripsi;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.subelemen.create');

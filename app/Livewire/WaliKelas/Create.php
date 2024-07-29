@@ -7,7 +7,6 @@ use App\Models\TahunAjaran;
 use App\Models\User;
 use App\Models\WaliKelas;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 
 class Create extends Component
@@ -21,7 +20,6 @@ class Create extends Component
     public $kelas;
     public $guru;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.wali-kelas.create');

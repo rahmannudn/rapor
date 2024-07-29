@@ -4,7 +4,6 @@ namespace App\Livewire\Kepsek;
 
 use App\Models\Kepsek;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
@@ -12,7 +11,6 @@ class Index extends Component
     public $selectedKepsek;
     public $deleteModal;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kepsek.index');

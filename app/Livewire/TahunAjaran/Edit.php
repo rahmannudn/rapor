@@ -4,7 +4,6 @@ namespace App\Livewire\TahunAjaran;
 
 use Livewire\Component;
 use App\Rules\IsValidYear;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use App\Models\TahunAjaran as TA;
 use Livewire\Attributes\Locked;
@@ -34,7 +33,6 @@ class Edit extends Component
         $this->semesterAktif = $this->tahunAjaran['aktif'];
     }
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.tahun-ajaran.edit');

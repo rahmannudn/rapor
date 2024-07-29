@@ -5,7 +5,6 @@ namespace App\Livewire\Kelas;
 use App\Models\Kelas;
 
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
@@ -13,7 +12,6 @@ class Index extends Component
     public $selectedKelas;
     public $deleteModal;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kelas.index');

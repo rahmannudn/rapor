@@ -6,7 +6,6 @@ use App\Models\LingkupMateri;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use Illuminate\Database\Query\JoinClause;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -25,7 +24,6 @@ class Create extends Component
     public $selectedKelas;
     public $selectedDetailGuruMapel;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.lingkup-materi.create');

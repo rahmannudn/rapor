@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Kelas;
 
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Kelas;
 
@@ -12,7 +11,6 @@ class Create extends Component
     public $nama;
     public $fase;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kelas.create');

@@ -10,7 +10,6 @@ use Livewire\Component;
 use App\Models\Subelemen;
 use App\Models\WaliKelas;
 use App\Models\CapaianFase;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 
 class Edit extends Component
@@ -25,7 +24,6 @@ class Edit extends Component
     public $judulProyek;
     public $deskripsi;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.proyek.edit');

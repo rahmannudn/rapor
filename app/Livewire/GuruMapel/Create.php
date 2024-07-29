@@ -9,7 +9,6 @@ use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
 use App\Models\DetailGuruMapel;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
 
@@ -26,7 +25,6 @@ class Create extends Component
     public $selectedMapel;
     public $tempPengajar;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.guru-mapel.create');

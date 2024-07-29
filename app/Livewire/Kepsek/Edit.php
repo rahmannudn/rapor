@@ -7,7 +7,6 @@ use App\Models\Kepsek;
 use Livewire\Component;
 use App\Rules\IsValidYear;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Illuminate\Database\Query\JoinClause;
 
@@ -25,7 +24,6 @@ class Edit extends Component
     #[Locked]
     public $validatedData;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kepsek.edit');

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Ekskul;
 
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Ekskul;
 
@@ -10,7 +9,6 @@ class Create extends Component
 {
     public $namaEkskul;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.ekskul.create');

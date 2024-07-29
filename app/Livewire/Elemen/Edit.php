@@ -5,7 +5,6 @@ namespace App\Livewire\Elemen;
 use App\Models\Dimensi;
 use App\Models\Elemen;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class Edit extends Component
 {
@@ -14,7 +13,6 @@ class Edit extends Component
     public $dimensiDeskripsi;
     public $deskripsi;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.elemen.edit');

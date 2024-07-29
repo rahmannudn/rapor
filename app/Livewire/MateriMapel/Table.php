@@ -7,7 +7,6 @@ use App\Models\Mapel;
 use Livewire\Component;
 use App\Models\MateriMapel;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 

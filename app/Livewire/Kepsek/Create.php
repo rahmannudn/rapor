@@ -7,7 +7,6 @@ use App\Models\Kepsek;
 use Livewire\Component;
 use App\Rules\IsValidYear;
 use App\Models\TahunAjaran;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 
 class Create extends Component
@@ -24,7 +23,6 @@ class Create extends Component
     #[Locked]
     public $validatedData;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kepsek.create');

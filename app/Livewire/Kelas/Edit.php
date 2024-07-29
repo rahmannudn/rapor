@@ -4,7 +4,6 @@ namespace App\Livewire\Kelas;
 
 use App\Models\Kelas;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 
 class Edit extends Component
@@ -21,7 +20,6 @@ class Edit extends Component
         $this->fase = $this->kelasData['fase'];
     }
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.kelas.edit');

@@ -5,7 +5,6 @@ namespace App\Livewire\Elemen;
 use App\Models\Dimensi;
 use App\Models\Elemen;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 
 class Create extends Component
@@ -15,7 +14,6 @@ class Create extends Component
     public $selectedDimensi;
     public $formCreate;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.elemen.create');

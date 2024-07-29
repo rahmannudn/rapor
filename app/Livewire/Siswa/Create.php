@@ -9,7 +9,6 @@ use App\Enums\AgamaList;
 use App\Models\KelasSiswa;
 use App\Helpers\FunctionHelper;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
@@ -39,7 +38,6 @@ class Create extends Component
     #[Validate('nullable|sometimes|image|max:1536')] // 1,5MB Max
     public $foto;
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.siswa.create');

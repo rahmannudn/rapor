@@ -2,8 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
+use App\Models\Sekolah;
 use Illuminate\View\View;
+use Illuminate\View\Component;
 
 class AppLayout extends Component
 {

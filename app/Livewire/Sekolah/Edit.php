@@ -5,11 +5,17 @@ namespace App\Livewire\Sekolah;
 use App\Models\Sekolah;
 
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
+    #[Locked]
+    public $originalLogo;
+
     #[Locked]
     public $id;
     public $npsn;
@@ -23,6 +29,9 @@ class Edit extends Component
     public $email;
     public $nss;
 
+    #[Validate('nullable|sometimes|image|max:3000')] // 3MB Max
+    public $logo;
+
     public function mount()
     {
         $dataSekolah = Sekolah::find(1);
@@ -30,7 +39,6 @@ class Edit extends Component
         $this->setData($dataSekolah);
     }
 
-    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.sekolah.edit');
@@ -39,8 +47,8 @@ class Edit extends Component
     public function update()
     {
         $validated = $this->validate();
-        $data = Sekolah::find($this->id);
-        $data->update([
+        $dataSekolah = Sekolah::find($this->id);
+        $updatedData = [
             'npsn' => $validated['npsn'],
             'nama_sekolah' => $validated['namaSekolah'],
             'alamat_sekolah' => $validated['alamat'],
@@ -51,7 +59,13 @@ class Edit extends Component
             'provinsi' => $validated['provinsi'],
             'email' => $validated['email'],
             'nss' => $validated['nss'],
-        ]);
+        ];
+        if ($this->logo) {
+            $filePath = $this->logo->store('uploads', 'public');
+            $updatedData['logo_sekolah'] = $filePath;
+        }
+
+        $dataSekolah->update($updatedData);
 
         session()->flash('success', 'Data Berhasil Diubah');
         $this->redirectRoute('sekolahIndex');
@@ -70,6 +84,8 @@ class Edit extends Component
         $this->provinsi = $data->provinsi;
         $this->email = $data->email;
         $this->nss = $data->nss;
+        $this->logo = $data->logo_sekolah;
+        $this->originalLogo = $data->logo_sekolah;
     }
 
     public function rules()
