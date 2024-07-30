@@ -95,7 +95,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('welcomePage');
 
 Route::get('dashboard', function () {
     return view('dashboard', ['title' => 'Dashboard']);

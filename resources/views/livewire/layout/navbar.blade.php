@@ -11,11 +11,17 @@ new class extends Component {
 
         $this->redirect('/', navigate: true);
     }
+
     public function mount()
     {
         if (session()->missing('semester')) {
             $tahunAjaran = TahunAjaran::where('aktif', '=', 1)->select('tahun', 'semester')->first();
             session()->put('semester', $tahunAjaran['tahun'] . ' - ' . ucfirst($tahunAjaran['semester']));
+        }
+
+        if (session()->missing('nama_user') || session()->missing('email_user')) {
+            session()->put('nama_user', Auth::user()->name);
+            session()->put('email_user', Auth::user()->email);
         }
     }
 }; ?>
@@ -46,7 +52,15 @@ new class extends Component {
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
-                        <div>
+                        <div class="px-4" role="none">
+                            <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                {{ session('nama_user') }}
+                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                {{ session('email_user') }}
+                            </p>
+                        </div>
+                        {{-- <div>
                             <button type="button"
                                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                 aria-expanded="false" data-dropdown-toggle="dropdown-user">
@@ -55,15 +69,15 @@ new class extends Component {
                                     src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                     alt="user photo">
                             </button>
-                        </div>
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                        </div> --}}
+                        {{-- <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                             id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    Neil Sims
+                                    {{ session('nama_user') }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
+                                    {{ session('email_user') }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
@@ -73,7 +87,7 @@ new class extends Component {
                                         role="menuitem">Log out</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

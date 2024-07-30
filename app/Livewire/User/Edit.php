@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -55,6 +56,11 @@ class Edit extends Component
         }
 
         $user->update($validated);
+
+        if ($user['email'] == Auth::user()->email) {
+            session()->put('nama_user', $user['name']);
+            session()->put('email_user', $user['email']);
+        }
 
         session()->flash('success', 'Data Berhasil Diubah');
         $this->redirectRoute('userIndex');

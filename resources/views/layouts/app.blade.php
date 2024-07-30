@@ -25,11 +25,11 @@
 
         <livewire:layout.navbar />
 
-        <livewire:layout.sidebar />
+        <livewire:layout.sidemenu />
 
         <!-- Page Content -->
         <main>
-            <div class="p-4 mt-14 sm:ml-64">
+            <div class="p-4 pt-6 mt-16 sm:ml-64">
                 <x-notifications z-index="z-50" />
                 {{ $slot }}
             </div>
