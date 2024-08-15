@@ -168,23 +168,29 @@ class Config extends Component
         if (count($this->savedMapelDanPengajar) > 0) {
             foreach ($this->savedMapelDanPengajar as $data) {
                 // mencari id guru mapel yang sesuai
-                $guruMapel = GuruMapel::firstOrCreate([
-                    'user_id' => $data['id_user'],
-                    'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
-                ]);
-                // GuruMapel::select('id')->where('user_id', $data['id_user'])->first()
-                // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
-                // jika tidak ditemukan maka akan membuat data baru pada tabel detail
+                if (!$data['id_user']) {
+                    $detail = DetailGuruMapel::where('kelas_id', '=', $this->kelasData['id'])->where('mapel_id', '=', $data['id_mapel'])->first();
+                    $detail->delete();
+                }
 
-                DetailGuruMapel::updateOrCreate(
-                    [
-                        'kelas_id' => $this->kelasData['id'],
-                        'mapel_id' => $data['id_mapel']
-                    ],
-                    [
-                        'guru_mapel_id' => $guruMapel['id']
-                    ]
-                );
+                if ($data['id_user']) {
+                    $guruMapel = GuruMapel::firstOrCreate([
+                        'user_id' => $data['id_user'],
+                        'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
+                    ]);
+                    // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
+                    // jika tidak ditemukan maka akan membuat data baru pada tabel detail
+
+                    DetailGuruMapel::updateOrCreate(
+                        [
+                            'kelas_id' => $this->kelasData['id'],
+                            'mapel_id' => $data['id_mapel']
+                        ],
+                        [
+                            'guru_mapel_id' => $guruMapel['id']
+                        ]
+                    );
+                }
             }
         }
 
@@ -194,6 +200,6 @@ class Config extends Component
     public function redirectToKelasIndex()
     {
         session()->flash('success', 'Data Berhasil Diubah');
-        $this->redirectRoute('kelasIndex');
+        $this->redirectRoute('kelasConfig', ['kelasData' => $this->kelasData['id']]);
     }
 }
