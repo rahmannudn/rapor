@@ -14,8 +14,8 @@
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Rombel</h1>
 
     <x-button href="{{ route('kelasCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Kelas" />
-    <x-button href="{{ route('guruMapelCreate') }}" wire:navigate class="mb-3" icon="plus" positive
-        label="Tambah Guru Mapel" />
+    {{-- <x-button href="{{ route('guruMapelCreate') }}" wire:navigate class="mb-3" icon="plus" positive
+        label="Tambah Guru Mapel" /> --}}
 
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedKelas = null">
         <x-card title="Delete Note">

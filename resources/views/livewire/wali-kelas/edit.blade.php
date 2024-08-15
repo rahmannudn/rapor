@@ -18,7 +18,6 @@
         @endforeach
     </x-native-select>
 
-
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
             <x-button href="{{ route('waliKelasIndex') }}" wire:navigate secondary label="Cancel" />

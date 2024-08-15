@@ -15,6 +15,7 @@ use App\Livewire\Sekolah\Edit as SekolahEdit;
 use App\Livewire\Kelas\Index as KelasIndex;
 use App\Livewire\Kelas\Create as KelasCreate;
 use App\Livewire\Kelas\Edit as KelasEdit;
+use App\Livewire\Kelas\Config as KelasConfig;
 
 use App\Livewire\Ekskul\Index as EkskulIndex;
 use App\Livewire\Ekskul\Create as EkskulCreate;
@@ -82,8 +83,6 @@ use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
 use App\Models\NilaiSubproyek;
 use Illuminate\Support\Facades\Route;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -115,6 +114,7 @@ Route::get('/sekolah/edit', SekolahEdit::class)->middleware(['auth'])->name('sek
 Route::get('/kelas', KelasIndex::class)->middleware(['auth'])->name('kelasIndex')->lazy();
 Route::get('/kelas/create', KelasCreate::class)->middleware(['auth'])->name('kelasCreate');
 Route::get('/kelas/{kelasData}/edit', KelasEdit::class)->middleware(['auth'])->name('kelasEdit');
+Route::get('/kelas/{kelasData}/config', KelasConfig::class)->middleware(['auth'])->name('kelasConfig');
 
 Route::get('/ekskul', EkskulIndex::class)->middleware(['auth'])->name('ekskulIndex')->lazy();
 Route::get('/ekskul/create', EkskulCreate::class)->middleware(['auth'])->name('ekskulCreate');

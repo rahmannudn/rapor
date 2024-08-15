@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Kelas;
 
+use App\Models\User;
 use App\Models\Kelas;
 use Livewire\Component;
+use App\Models\TahunAjaran;
+use App\Models\WaliKelas;
 use Livewire\Attributes\On;
 
 class Edit extends Component

@@ -1,6 +1,6 @@
 <div x-on:set-user="$wire.selectedUser = $event.detail">
     @section('title')
-        User
+        Pengguna
     @endsection
 
     {{-- blade-formatter-disable --}}
@@ -12,9 +12,9 @@
     @endif
     {{-- blade-formatter-enable --}}
 
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar User</h1>
+    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Pengguna</h1>
 
-    <x-button href="{{ route('userCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah user" />
+    <x-button href="{{ route('userCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Pengguna" />
 
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedUser = null">
         <x-card title="Delete Note">

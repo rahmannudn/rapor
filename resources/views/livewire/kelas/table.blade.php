@@ -19,6 +19,9 @@
         <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
+                    NO
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Rombel
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -36,6 +39,10 @@
             @forelse($kelasData as $data)
                 <tr wire:key="{{ $data->id }}"
                     class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ $kelasData->firstItem() + $loop->index }}
+                    </th>
+
                     <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $data->nama }}
                     </th>
@@ -46,10 +53,15 @@
                         {{ Str::upper($data->fase) }}
                     </td>
                     <td class="px-4 py-4">
-                        <x-button.circle green icon="pencil-alt" href="{{ route('kelasEdit', ['kelasData' => $data]) }}"
-                            wire:navigate />
-                        <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
+                        <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
+                            class="mb-3" icon="cog" info label="Atur Rombel" />
+
+                        <div class="flex flex-row items-center justify-center space-x-2">
+                            <x-button.circle green icon="pencil-alt"
+                                href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" wire:navigate />
+                            <x-button.circle negative icon="trash"
+                                x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
+                        </div>
                     </td>
                 </tr>
             @empty

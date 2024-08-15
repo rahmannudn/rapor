@@ -15,6 +15,7 @@ return new class extends Migration
             $table->enum('role', ['guru', 'kepsek', 'admin', 'superadmin']);
             $table->enum('jk', ['l', 'p']);
             $table->enum('jenis_pegawai', ['honor', 'pppk', 'pns']);
+            $table->string('nip')->nullable();
         });
     }
 

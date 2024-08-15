@@ -32,6 +32,7 @@ class Edit extends Component
         $this->guru = $this->wali_kelas['user_id'];
 
         $this->daftarKelas = Kelas::all();
+
         $this->daftarGuru = User::select('users.id', 'users.name')
             ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
             ->where('role', 'guru')
@@ -41,7 +42,5 @@ class Edit extends Component
         $this->tahunAjaranAktif = TahunAjaran::select('id')->where('aktif', 1)->first();
     }
 
-    public function update(WaliKelas $wali_kelas)
-    {
-    }
+    public function update(WaliKelas $wali_kelas) {}
 }
