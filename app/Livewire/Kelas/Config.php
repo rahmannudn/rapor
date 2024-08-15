@@ -65,10 +65,11 @@ class Config extends Component
             ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
             ->where('role', 'guru')
             ->whereNull('wali_kelas.user_id')
-            ->when($waliKelas, function ($q) use ($waliKelas) {
+            ->when($this->originWaliKelas, function ($q) use ($waliKelas) {
                 $q->orWhere('wali_kelas.user_id', $waliKelas['user_id']);
             })
-            ->get();
+            ->get()
+            ->toArray();
 
         $this->showDaftarMapel();
     }
@@ -156,14 +157,13 @@ class Config extends Component
         if ($this->originWaliKelas)
             $waliKelasData['id'] = $this->waliKelasId; // Jika ada data lama, gunakan ID yang lama
 
+
         if ($this->originWaliKelas && !$this->waliKelasAktif) {
             $waliKelas = WaliKelas::find($this->waliKelasId);
-            $waliKelas->delete();
-            $this->redirectToKelasIndex();
-            return;
-        }
+            $waliKelas->user_id = null;
+            $waliKelas->save();
+        } else WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
 
-        WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
 
         if (count($this->savedMapelDanPengajar) > 0) {
             foreach ($this->savedMapelDanPengajar as $data) {
@@ -194,10 +194,10 @@ class Config extends Component
             }
         }
 
-        $this->redirectToKelasIndex();
+        $this->refreshAndSendMessage();
     }
 
-    public function redirectToKelasIndex()
+    public function refreshAndSendMessage()
     {
         session()->flash('success', 'Data Berhasil Diubah');
         $this->redirectRoute('kelasConfig', ['kelasData' => $this->kelasData['id']]);
