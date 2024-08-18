@@ -82,6 +82,7 @@ use App\Livewire\Subproyek\Index as SubproyekIndex;
 use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
 use App\Models\Kelas;
 use App\Models\NilaiSubproyek;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,6 +103,8 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // admin 
+Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex')->lazy();
+
 Route::middleware(['auth', 'check_permission:superAdminOrAdmin'])->group(function () {
     Route::name('sekolah')->prefix('sekolah')->group(function () {
         Route::get('/', SekolahIndex::class)->name('Index');
@@ -109,7 +112,6 @@ Route::middleware(['auth', 'check_permission:superAdminOrAdmin'])->group(functio
     });
 
     Route::name('siswa')->prefix('siswa')->group(function () {
-        Route::get('/', SiswaIndex::class)->name('Index')->lazy();
         Route::get('/create', SiswaCreate::class)->name('Create');
         Route::get('/{siswa}/edit', SiswaEdit::class)->name('Edit');
     });
@@ -150,7 +152,7 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
 });
 
 // kepsek
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check_permission:isKepsek'])->group(function () {
     Route::name('tahunAjaran')->prefix('tahun_ajaran')->group(function () {
         Route::get('/', TahunAjaranIndex::class)->name('Index')->lazy();
         Route::get('/create', TahunAjaranCreate::class)->name('Create');

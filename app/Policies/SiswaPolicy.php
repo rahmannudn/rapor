@@ -25,7 +25,7 @@ class SiswaPolicy
      */
     public function view(User $user, Siswa $siswa): bool
     {
-        //
+        return true;
     }
 
     /**
