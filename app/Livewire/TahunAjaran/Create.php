@@ -45,6 +45,8 @@ class Create extends Component
 
     public function create($id = null)
     {
+        $this->authorize('update', TahunAjaran::class);
+
         if ($id) {
             $semesterSedangAktif = TahunAjaran::find($id);
             if ($semesterSedangAktif) {

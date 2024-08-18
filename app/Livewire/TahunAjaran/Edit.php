@@ -8,6 +8,7 @@ use Livewire\Attributes\Title;
 use App\Models\TahunAjaran as TA;
 use Livewire\Attributes\Locked;
 use App\Helpers\FunctionHelper;
+use App\Models\TahunAjaran;
 
 class Edit extends Component
 {
@@ -40,6 +41,8 @@ class Edit extends Component
 
     public function update($id = null)
     {
+        $this->authorize('update', TahunAjaran::class);
+
         if ($id) {
             $semesterSedangAktif = TA::find($id);
             if ($semesterSedangAktif) {

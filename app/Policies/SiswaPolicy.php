@@ -12,6 +12,7 @@ class SiswaPolicy
     {
         return $user->role == 'superadmin';
     }
+
     /**
      * Determine whether the user can view any models.
      */

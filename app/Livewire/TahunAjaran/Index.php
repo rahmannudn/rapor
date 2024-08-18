@@ -2,10 +2,10 @@
 
 namespace App\Livewire\TahunAjaran;
 
-use App\Models\TahunAjaran as TA;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Title;
+use App\Models\TahunAjaran as TA;
 
 class Index extends Component
 {
@@ -21,6 +21,8 @@ class Index extends Component
 
     public function destroy()
     {
+        $this->authorize('update', TA::class);
+
         try {
             $tahunAjaran = TA::find($this->selectedTahunAjaran);
             if (!$tahunAjaran) {
