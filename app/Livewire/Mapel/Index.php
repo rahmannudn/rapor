@@ -20,6 +20,8 @@ class Index extends Component
     public function destroy()
     {
         try {
+            $this->authorize('delete', Mapel::class);
+
             $mapel = Mapel::find($this->selectedMapel);
             if (!$mapel) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');

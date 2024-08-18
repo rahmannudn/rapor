@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Ekskul;
+use App\Models\Mapel;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class EkskulPolicy
+class MapelPolicy
 {
     public function before(User $user)
     {
@@ -24,7 +24,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Ekskul $ekskul): bool
+    public function view(User $user, Mapel $mapel): bool
     {
         return $user->role == 'admin';
     }
@@ -40,7 +40,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Ekskul $ekskul): bool
+    public function update(User $user, Mapel $mapel): bool
     {
         return $user->role == 'admin';
     }
@@ -48,7 +48,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Ekskul $ekskul): bool
+    public function delete(User $user, Mapel $mapel): bool
     {
         return $user->role == 'admin';
     }
@@ -56,7 +56,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Ekskul $ekskul): bool
+    public function restore(User $user, Mapel $mapel): bool
     {
         //
     }
@@ -64,7 +64,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Ekskul $ekskul): bool
+    public function forceDelete(User $user, Mapel $mapel): bool
     {
         //
     }

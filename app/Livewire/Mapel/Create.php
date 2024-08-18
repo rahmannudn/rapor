@@ -16,6 +16,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Mapel::class);
+
         $validated = $this->validate([
             'namaMapel' => 'required|string|min:4|max:50',
         ]);

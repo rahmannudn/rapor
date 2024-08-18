@@ -23,6 +23,8 @@ class Edit extends Component
 
     public function update(Mapel $mapel)
     {
+        $this->authorize('update', Mapel::class);
+
         if (!$mapel) session()->flash('gagal', 'Data tidak ditemukan');
         $validated = $this->validate([
             'namaMapel' => 'required|string|min:3',

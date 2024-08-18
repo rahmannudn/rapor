@@ -8,6 +8,11 @@ use Illuminate\Auth\Access\Response;
 
 class SekolahPolicy
 {
+    public function before(User $user)
+    {
+        return $user->role == 'superadmin';
+    }
+
     /**
      * Determine whether the user can view any models.
      */

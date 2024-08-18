@@ -37,9 +37,11 @@
                 <th scope="col" class="px-4 py-3 w-[10%]">
                     Foto
                 </th>
-                <th scope="col" class="px-4 py-3 w-[10%]">
-                    Action
-                </th>
+                @can('update', Auth::id())
+                    <th scope="col" class="px-4 py-3 w-[10%]">
+                        Action
+                    </th>
+                @endcan
             </tr>
         </thead>
         <tbody class="w-full">
@@ -74,12 +76,15 @@
                             <x-badge negative label="Tidak ada foto" />
                         @endif
                     </td>
-                    <td class="px-4 py-4 space-x-2 w-[10%]">
-                        <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
-                            wire:navigate />
-                        <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-siswa',{{ $data->id }}); $openModal('deleteModal');" />
-                    </td>
+                    @can('update', Auth::id())
+                        <td class="px-4 py-4 space-x-2 w-[10%]">
+                            <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
+                                wire:navigate />
+                            <x-button.circle negative icon="trash"
+                                x-on:click="$dispatch('set-siswa',{{ $data->id }}); $openModal('deleteModal');" />
+                        </td>
+                    @endcan
+
                 </tr>
             @empty
                 <tr
