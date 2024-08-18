@@ -16,6 +16,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Ekskul::class);
+
         $validated = $this->validate([
             'namaEkskul' => 'required|string|min:4|max:50',
         ]);

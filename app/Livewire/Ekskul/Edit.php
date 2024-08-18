@@ -24,6 +24,8 @@ class Edit extends Component
 
     public function update(Ekskul $ekskul)
     {
+        $this->authorize('update', Ekskul::class);
+
         if (!$ekskul) session()->flash('gagal', 'Data tidak ditemukan');
         $validated = $this->validate([
             'namaEkskul' => 'required|string|min:3|max:10',
