@@ -18,6 +18,8 @@ class Index extends Component
     public function destroy()
     {
         try {
+            $this->authorize('delete', User::class);
+
             $user = User::find($this->selectedUser);
             if (!$user) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'User Tidak Ditemukan', icon: 'success');

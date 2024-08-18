@@ -24,6 +24,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', User::class);
+
         $validated =  $this->validate([
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],

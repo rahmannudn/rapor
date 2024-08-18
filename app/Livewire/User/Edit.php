@@ -36,6 +36,8 @@ class Edit extends Component
 
     public function update(User $user)
     {
+        $this->authorize('update', User::class);
+
         $validated =  $this->validate([
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'role' => ['required'],
