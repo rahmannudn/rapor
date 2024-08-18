@@ -46,6 +46,8 @@ class Edit extends Component
 
     public function update()
     {
+        $this->authorize('update', Sekolah::class);
+
         $validated = $this->validate();
         $dataSekolah = Sekolah::find($this->id);
         $updatedData = [

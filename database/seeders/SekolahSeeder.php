@@ -24,6 +24,7 @@ class SekolahSeeder extends Seeder
             'provinsi' => 'Kalimantan Selatan',
             'email' => 'sdkuinutara7@gmail.com',
             'nss' => '12325',
+            'logo_sekolah' => 'uploads/Ez3QHvChdvTdTzy4WfMSVAnEFf55LzUdVVhB9GV8.png',
         ]);
     }
 }
