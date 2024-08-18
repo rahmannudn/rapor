@@ -53,8 +53,10 @@
                         {{ Str::upper($data->fase) }}
                     </td>
                     <td class="px-4 py-4">
-                        <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
-                            class="mb-3" icon="cog" info label="Atur Rombel" />
+                        @can('viewAny', Auth::id())
+                            <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
+                                class="mb-3" icon="cog" info label="Atur Rombel" />
+                        @endcan
 
                         <div class="flex flex-row items-center justify-center space-x-2">
                             <x-button.circle green icon="pencil-alt"

@@ -18,6 +18,8 @@ class Create extends Component
 
     public function save()
     {
+        $this->authorize('create', Kelas::class);
+
         $validated = $this->validate([
             'nama' => 'required|string|min:3|max:10',
             'kelas' => 'required',

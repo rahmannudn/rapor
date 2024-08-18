@@ -30,6 +30,8 @@ class Edit extends Component
 
     public function update(Kelas $kelasData)
     {
+        $this->authorize('update', Kelas::class);
+
         $validated = $this->validate([
             'nama' => 'required|string|min:3|max:10',
             'kelas' => 'required',

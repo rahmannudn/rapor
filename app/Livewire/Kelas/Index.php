@@ -20,6 +20,8 @@ class Index extends Component
     public function destroy()
     {
         try {
+            $this->authorize('delete', Kelas::class);
+
             $kelas = Kelas::find($this->selectedKelas);
             if (!$kelas) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Kelas Tidak Ditemukan', icon: 'success');
