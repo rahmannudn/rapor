@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Sekolah;
 
+use App\Helpers\FunctionHelper;
 use App\Models\Sekolah;
 
 use Livewire\Component;
@@ -65,7 +66,7 @@ class Edit extends Component
         if ($this->logo) {
             $filePath = $this->logo->store('uploads', 'public');
             $updatedData['logo_sekolah'] = $filePath;
-            session()->put('logo_sekolah', $filePath);
+            FunctionHelper::setCacheInfoSekolah();
         }
 
         $dataSekolah->update($updatedData);

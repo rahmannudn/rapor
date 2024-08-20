@@ -58,9 +58,7 @@ class Edit extends Component
             'aktif' => $this->validatedData['semesterAktif']
         ]);
         if ($tahunAjaran['aktif'] == 1)
-            FunctionHelper::setCacheTahunAjaran();
-
-
+            FunctionHelper::setCacheInfoSekolah();
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
         $this->redirectRoute('tahunAjaranIndex');

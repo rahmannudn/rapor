@@ -3,8 +3,13 @@
 use Livewire\Volt\Component;
 use App\Livewire\Actions\Logout;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Cache;
 
 new class extends Component {
+    public $nama_sekolah;
+    public $logo_sekolah;
+    public $semester;
+
     public function logout(Logout $logout)
     {
         $logout();
@@ -14,15 +19,9 @@ new class extends Component {
 
     public function mount()
     {
-        if (session()->missing('semester')) {
-            $tahunAjaran = TahunAjaran::where('aktif', '=', 1)->select('tahun', 'semester')->first();
-            session()->put('semester', $tahunAjaran['tahun'] . ' - ' . ucfirst($tahunAjaran['semester']));
-        }
-
-        if (session()->missing('nama_user') || session()->missing('email_user')) {
-            session()->put('nama_user', Auth::user()->name);
-            session()->put('email_user', Auth::user()->email);
-        }
+        $this->semester = Cache::get('semester', '');
+        $this->nama_sekolah = Cache::get('nama_sekolah', 'SD Negeri Kuin Utara 7');
+        $this->logo_sekolah = Cache::get('logo_sekolah', '');
     }
 }; ?>
 
@@ -43,21 +42,21 @@ new class extends Component {
                         </svg>
                     </button>
                     <a href="{{ route('dashboard') }}" class="flex ms-2 md:me-2">
-                        <img src="{{ url('storage/' . session('logo_sekolah')) }}" class="h-12 me-3"
-                            alt="Logo {{ session('nama_sekolah') }}" />
+                        <img src="{{ url('storage/' . $logo_sekolah) }}" class="h-12 me-3"
+                            alt="Logo {{ $nama_sekolah }}" />
                     </a>
                     <span
                         class="self-center text-base font-bold text-gray-700 sm:text-xl whitespace-nowrap dark:text-white">SD
-                        Negeri Kuin Utara 7 | Tahun Ajaran {{ session('semester') }} </span>
+                        Negeri Kuin Utara 7 | Tahun Ajaran {{ $semester }} </span>
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
                         <div class="px-4" role="none">
                             <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                {{ session('nama_user') }}
+                                {{ auth()->user()->name }}
                             </p>
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                {{ session('email_user') }}
+                                {{ auth()->user()->email }}
                             </p>
                         </div>
                         {{-- <div>

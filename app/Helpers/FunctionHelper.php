@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Kelas;
 use App\Models\Proyek;
+use App\Models\Sekolah;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Cache;
 
@@ -61,5 +62,19 @@ class FunctionHelper
         Cache::remember('tahunAjaranAktif', now()->addMinutes(15), function () {
             return TahunAjaran::where('aktif', 1)->first()['id'];
         });
+    }
+
+    public static function setCacheInfoSekolah()
+    {
+        Cache::forget('logo_sekolah');
+        Cache::forget('nama_sekolah');
+        Cache::forget('semester');
+
+        $sekolah = Sekolah::select('logo_sekolah', 'nama_sekolah')->get()->toArray()[0];
+        Cache::put('logo_sekolah', $sekolah['logo_sekolah'], now()->addDays(1));
+        Cache::put('nama_sekolah', $sekolah['nama_sekolah'], now()->addDays(1));
+
+        $semester = TahunAjaran::where('aktif', '=', 1)->select('tahun', 'semester')->first();
+        Cache::put('semester', $semester['tahun'] . ' - ' . ucfirst($semester['semester']), now()->addDays(1));
     }
 }

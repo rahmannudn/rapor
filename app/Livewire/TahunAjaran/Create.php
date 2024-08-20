@@ -61,6 +61,8 @@ class Create extends Component
             'aktif' => $this->validatedData['semesterAktif']
         ]);
 
+        FunctionHelper::setCacheInfoSekolah();
+
         session()->flash('success', 'Data Berhasil Ditambahkan');
         $this->redirectRoute('tahunAjaranIndex');
     }
