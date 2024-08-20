@@ -20,20 +20,14 @@
 
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
-            @if ($formCreate)
-                <x-input label="Deskripsi Elemen" placeholder="Masukkan Deskripsi Elemen" wire:model='deskripsi' />
-            @endif
+            <x-input label="Deskripsi Elemen" placeholder="Masukkan Deskripsi Elemen" wire:model='deskripsi' />
         </div>
     </div>
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
-            @if ($formCreate)
-                <x-button href="{{ route('elemenIndex') }}" secondary label="Cancel" x-on:click="close" />
-                <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
-            @else
-                <x-button primary label="Tampilkan Form" x-on:click="$wire.showForm" spinner />
-            @endif
+            <x-button href="{{ route('elemenIndex') }}" secondary label="Cancel" x-on:click="close" />
+            <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
         </div>
     </div>
 
