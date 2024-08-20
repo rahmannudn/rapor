@@ -27,7 +27,7 @@ class FunctionHelper
 
     public static function getTahunAjaranAktif()
     {
-        return TahunAjaran::select('id')->where('aktif', 1)->first();
+        return Cache::get('tahunAjaranAktif');
     }
 
     public static function getDaftarKelasHasProyek($taid)

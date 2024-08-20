@@ -2,13 +2,14 @@
 
 namespace App\Livewire\LingkupMateri;
 
-use App\Models\LingkupMateri;
 use Livewire\Component;
 use App\Models\TahunAjaran;
-use Illuminate\Database\Query\JoinClause;
+use App\Models\LingkupMateri;
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Query\JoinClause;
 
 class Create extends Component
 {
@@ -31,7 +32,7 @@ class Create extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
         if (Gate::allows('isSuperAdmin')) {
             // menampilkan kelas yang diajar, menampilkan mata pelajaran yang diajar
             $this->daftarGuruMapel = DB::table('users')

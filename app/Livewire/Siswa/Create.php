@@ -90,7 +90,7 @@ class Create extends Component
         KelasSiswa::create([
             'siswa_id' => $siswa['id'],
             'kelas_id' => $siswa['kelas_id'],
-            'tahun_ajaran_id' => FunctionHelper::getTahunAjaranAktif()['id'],
+            'tahun_ajaran_id' => FunctionHelper::getTahunAjaranAktif(),
         ]);
 
         $this->redirectRoute('siswaIndex');

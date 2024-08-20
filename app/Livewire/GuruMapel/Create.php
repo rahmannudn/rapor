@@ -8,6 +8,7 @@ use App\Models\Mapel;
 use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
 use App\Models\DetailGuruMapel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
@@ -33,7 +34,7 @@ class Create extends Component
     public function mount()
     {
         $this->daftarKelas = Kelas::all();
-        $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester', 'aktif')->where('aktif', '1')->first();
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
     }
 
     public function showDaftarMapel()
@@ -48,7 +49,7 @@ class Create extends Component
             ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
             ->leftJoin('tahun_ajaran', function (JoinClause $join) {
                 $join->on('tahun_ajaran.id', '=', 'guru_mapel.tahun_ajaran_id')
-                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif['id']);
+                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif);
             })
             ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
             ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
@@ -115,7 +116,7 @@ class Create extends Component
             // mencari id guru mapel yang sesuai
             $guruMapel = GuruMapel::firstOrCreate([
                 'user_id' => $data['id_user'],
-                'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
+                'tahun_ajaran_id' => $this->tahunAjaranAktif
             ]);
             // GuruMapel::select('id')->where('user_id', $data['id_user'])->first()
             // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Proyek;
 use App\Models\WaliKelas;
+use App\Helpers\FunctionHelper;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -16,7 +17,7 @@ class ProyekPolicy
      */
     public function viewAny(User $user, Proyek $proyek): bool
     {
-        $tahunAjaran = Cache::get('tahunAjaranAktif');
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
         $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
             ->where('user_id', $user->id)
             ->select('id')

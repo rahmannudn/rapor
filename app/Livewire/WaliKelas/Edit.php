@@ -7,6 +7,7 @@ use App\Models\Kelas;
 use Livewire\Component;
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
 use Livewire\Attributes\Locked;
 
 class Edit extends Component
@@ -39,7 +40,7 @@ class Edit extends Component
             ->whereNull('wali_kelas.user_id')
             ->orWhere('wali_kelas.user_id', $this->wali_kelas['user_id'])->get();
 
-        $this->tahunAjaranAktif = TahunAjaran::select('id')->where('aktif', 1)->first();
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
     }
 
     public function update(WaliKelas $wali_kelas) {}

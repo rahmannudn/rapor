@@ -7,17 +7,16 @@ use App\Models\Elemen;
 use App\Models\Dimensi;
 use Livewire\Component;
 use App\Models\Subelemen;
-use App\Models\CapaianFase;
 use App\Models\Subproyek;
+use App\Models\CapaianFase;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
 use Livewire\Attributes\Locked;
 
 class Form extends Component
 {
     public $proyekId;
 
-    #[Locked]
-    public $tahunAjaranAktif;
     #[Locked]
     public $tahunAjaranAktifId;
 
@@ -27,8 +26,7 @@ class Form extends Component
 
     public function render()
     {
-        $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester')->firstWhere('aktif', 1);
-        $this->tahunAjaranAktifId = $this->tahunAjaranAktif['id'];
+        $this->tahunAjaranAktifId = FunctionHelper::getTahunAjaranAktif();
 
         return view('livewire.subproyek.form');
     }

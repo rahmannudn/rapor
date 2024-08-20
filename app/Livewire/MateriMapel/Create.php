@@ -5,10 +5,11 @@ namespace App\Livewire\MateriMapel;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Mapel;
-use App\Models\MateriMapel;
 use Livewire\Component;
+use App\Models\MateriMapel;
 use App\Models\TahunAjaran;
 
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
@@ -36,7 +37,7 @@ class Create extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
         if (Gate::allows('isSuperAdmin')) {
             $this->daftarGuru = User::where('role', 'guru')->leftJoin('guru_mapel', function (JoinClause $join) {
                 $join->on('guru_mapel.user_id', '=', 'users.id')

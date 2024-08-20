@@ -8,6 +8,7 @@ use Livewire\Component;
 
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Gate;
 
@@ -37,8 +38,7 @@ class Create extends Component
 
     public function render()
     {
-        $this->tahunAjaranAktif = TahunAjaran::select('id', 'tahun', 'semester')->firstWhere('aktif', 1);
-        $this->tahunAjaranAktifId = $this->tahunAjaranAktif['id'];
+        $this->tahunAjaranAktifId = FunctionHelper::getTahunAjaranAktif();
         $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
 
         $daftarWaliKelas = '';

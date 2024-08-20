@@ -31,7 +31,7 @@ class Table extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
         if (Gate::allows('viewAny', CatatanProyek::class)) {
             $this->daftarKelas = FunctionHelper::getDaftarKelasHasProyek($this->tahunAjaranAktif);
 

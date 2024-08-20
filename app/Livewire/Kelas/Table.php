@@ -3,11 +3,12 @@
 namespace App\Livewire\Kelas;
 
 use App\Models\Kelas;
-use App\Models\TahunAjaran;
-use Illuminate\Database\Query\JoinClause;
 use Livewire\Component;
+use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use App\Helpers\FunctionHelper;
+use Illuminate\Database\Query\JoinClause;
 
 class Table extends Component
 {
@@ -20,7 +21,7 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        $this->tahunAjaranAktif = TahunAjaran::select('id')->where('aktif', 1)->first();
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
         $kelasData = Kelas::search($this->searchQuery)
             ->leftJoin('wali_kelas', function (JoinClause $join) {
                 $join->on('wali_kelas.kelas_id', '=', 'kelas.id')

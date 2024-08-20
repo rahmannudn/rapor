@@ -2,20 +2,21 @@
 
 namespace App\Livewire\TujuanPembelajaran;
 
-use App\Models\DetailGuruMapel;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Mapel;
-
 use Livewire\Component;
+
 use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
+use App\Models\DetailGuruMapel;
 use App\Models\TujuanPembelajaran;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
-
-use Illuminate\Support\Facades\DB;
 
 class Create extends Component
 {
@@ -39,7 +40,7 @@ class Create extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
         if (Gate::allows('isSuperAdmin')) {
             // menampilkan kelas yang diajar, menampilkan mata pelajaran yang diajar
             $this->daftarGuruMapel = DB::table('users')

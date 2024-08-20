@@ -8,12 +8,13 @@ use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
+use App\Helpers\FunctionHelper;
 use App\Models\DetailGuruMapel;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Locked;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isNull;
+use Illuminate\Database\Query\JoinClause;
 
 class Config extends Component
 {
@@ -47,10 +48,10 @@ class Config extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = TahunAjaran::select('id')->where('aktif', 1)->first()->toArray();
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
 
         $waliKelas = WaliKelas::where('kelas_id', $this->kelasData['id'])
-            ->where('tahun_ajaran_id', $this->tahunAjaranAktif['id'])
+            ->where('tahun_ajaran_id', $this->tahunAjaranAktif)
             ->select('wali_kelas.id', 'wali_kelas.user_id')
             ->first();
 
@@ -84,7 +85,7 @@ class Config extends Component
             ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
             ->leftJoin('tahun_ajaran', function (JoinClause $join) {
                 $join->on('tahun_ajaran.id', '=', 'guru_mapel.tahun_ajaran_id')
-                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif['id']);
+                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif);
             })
             ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
             ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
@@ -153,7 +154,7 @@ class Config extends Component
         $waliKelasData = [
             'kelas_id' => $this->kelasData['id'],
             'user_id' => $this->waliKelasAktif,
-            'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
+            'tahun_ajaran_id' => $this->tahunAjaranAktif
         ];
 
         if ($this->originWaliKelas)
@@ -178,7 +179,7 @@ class Config extends Component
                 if ($data['id_user']) {
                     $guruMapel = GuruMapel::firstOrCreate([
                         'user_id' => $data['id_user'],
-                        'tahun_ajaran_id' => $this->tahunAjaranAktif['id']
+                        'tahun_ajaran_id' => $this->tahunAjaranAktif
                     ]);
                     // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
                     // jika tidak ditemukan maka akan membuat data baru pada tabel detail

@@ -29,7 +29,7 @@ class Table extends Component
         $daftarProyek = '';
         $this->selectedTahunAjaran = TahunAjaran::where('aktif', 1)->select('id')->first()['id'];
 
-        if (Gate::allows('isSuperAdmin')) {
+        if (Gate::allows('kepsek')) {
             $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->orderBy('created_at', 'DESC')->get();
             $this->daftarKelas = Kelas::select('nama', 'id')->orderBy('created_at', 'DESC')->get();
             $daftarProyek = Proyek::query()
