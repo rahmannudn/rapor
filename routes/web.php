@@ -173,7 +173,7 @@ Route::middleware(['auth', 'check_permission:isKepsek'])->group(function () {
 });
 
 // guru kelas
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:view,App\Models\Proyek'])->group(function () {
     Route::name('proyek')->prefix('proyek')->group(function () {
         Route::get('/', ProyekIndex::class)->name('Index')->lazy();
         Route::get('/create', ProyekCreate::class)->name('Create');
@@ -203,7 +203,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', CapaianFaseCreate::class)->name('Create');
         Route::get('/{capaianFase}/edit', CapaianFaseEdit::class)->name('Edit');
     });
+});
 
+Route::middleware(['auth'], function () {
     Route::name('catatanProyek')->prefix('catatan_proyek')->group(function () {
         Route::get('/', CatatanProyekIndex::class)
             ->name('Index');

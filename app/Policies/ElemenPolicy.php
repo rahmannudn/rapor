@@ -10,7 +10,7 @@ class ElemenPolicy
 {
     public function before(User $user)
     {
-        return $user->role = 'superadmin';
+        return $user->role = 'guru';
     }
 
     /**
@@ -18,7 +18,7 @@ class ElemenPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
@@ -26,7 +26,7 @@ class ElemenPolicy
      */
     public function view(User $user, Elemen $elemen): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
@@ -42,7 +42,7 @@ class ElemenPolicy
      */
     public function update(User $user, Elemen $elemen): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
@@ -50,7 +50,7 @@ class ElemenPolicy
      */
     public function delete(User $user, Elemen $elemen): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
