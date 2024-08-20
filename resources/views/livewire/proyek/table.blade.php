@@ -10,19 +10,17 @@
                 </x-native-select>
             </div>
 
-            @can('isSuperAdmin', Auth::id())
-                <div class="max-w-52">
-                    <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
-                        <option value="">Semua</option>
-                        @foreach ($daftarTahunAjaran as $TA)
-                            <option wire:key="{{ $TA->id }}" value="{{ $TA->id }}">
-                                {{ $TA->tahun }}-{{ $TA->semester }}</option>
-                        @endforeach
-                    </x-native-select>
-                </div>
-            @endcan
+            {{-- <div class="max-w-52">
+                <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
+                    <option value="">Semua</option>
+                    @foreach ($daftarTahunAjaran as $TA)
+                        <option wire:key="{{ $TA->id }}" value="{{ $TA->id }}">
+                            {{ $TA->tahun }}-{{ $TA->semester }}</option>
+                    @endforeach
+                </x-native-select>
+            </div> --}}
 
-            @can('superAdminOrKepsek', Auth::id())
+            {{-- @can('isKepsek', Auth::id())
                 <div class="max-w-44">
                     <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
                         <option value="">Semua</option>
@@ -31,7 +29,7 @@
                         @endforeach
                     </x-native-select>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
 
         <div class="block md:w-80">
@@ -53,19 +51,17 @@
                     <th scope="col" class="px-4 py-3 ">
                         Deskripsi
                     </th>
-                    @can('superAdminOrKepsek', Auth::id())
+                    {{-- @can('isKepsek', Auth::id())
                         <th scope="col" class="px-4 py-3 ">
                             Nama Guru
                         </th>
                         <th scope="col" class="px-4 py-3 ">
                             Kelas
                         </th>
-                    @endcan
-                    @can('isSuperAdmin', Auth::id())
-                        <th scope="col" class="px-4 py-3 ">
-                            Tahun Ajaran
-                        </th>
-                    @endcan
+                    @endcan --}}
+                    <th scope="col" class="px-4 py-3 ">
+                        Tahun Ajaran
+                    </th>
                     <th scope="col" class="px-4 py-3">
                         Action
                     </th>
@@ -86,7 +82,7 @@
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}
                         </td>
-                        @can('superAdminOrKepsek', Auth::id())
+                        @can('isKepsek', Auth::id())
                             <td scope="col" class="px-4 py-4">
                                 {{ $proyek->nama_guru }}
                             </td>
@@ -94,11 +90,9 @@
                                 {{ $proyek->nama_kelas }}
                             </td>
                         @endcan
-                        @can('isSuperAdmin', Auth::id())
-                            <th scope="col" class="px-4 py-3 ">
-                                {{ $proyek->tahun }}-{{ $proyek->semester }}
-                            </th>
-                        @endcan
+                        <th scope="col" class="px-4 py-3 ">
+                            {{ $proyek->tahun }}-{{ $proyek->semester }}
+                        </th>
                         <td class="flex-col justify-center px-4 py-4 space-y-1">
                             <x-button href="{{ route('subproyekIndex', ['proyek' => $proyek->id]) }}" wire:navigate
                                 class="mb-3" icon="cog" info label="Atur Dimensi" />

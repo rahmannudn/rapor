@@ -82,6 +82,7 @@ use App\Livewire\Subproyek\Index as SubproyekIndex;
 use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
 use App\Models\Kelas;
 use App\Models\NilaiSubproyek;
+use App\Models\Proyek;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 
@@ -199,11 +200,11 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     });
 });
 
-Route::middleware(['auth',])->group(function () {
+Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::name('proyek')->prefix('proyek')->group(function () {
         Route::get('/', ProyekIndex::class)->name('Index')->lazy();
         Route::get('/create', ProyekCreate::class)->name('Create');
-        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit');
+        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit')->can('viewAny', Proyek::class);
     });
 
     Route::name('catatanProyek')->prefix('catatan_proyek')->group(function () {
@@ -221,7 +222,7 @@ Route::middleware(['auth',])->group(function () {
 });
 
 // guru mapel
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
     Route::name('tujuanPembelajaran')->prefix('tujuan_pembelajaran')->group(function () {
         Route::get('/', TujuanPembelajaranIndex::class)
             ->name('Index')->lazy();

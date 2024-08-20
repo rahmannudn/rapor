@@ -59,10 +59,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('isKepsek', function (User $user) {
             return $user->role == 'kepsek';
         });
-        Gate::define('isWaliKelas', function (User $user) {
-            $tahunAjaranAktif = TahunAjaran::where('aktif', 1)->first()['id'];
-            $wali = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaranAktif)->where('user_id', '=', $user->id)->first();
-            return !is_null(($wali));
-        });
     }
 }

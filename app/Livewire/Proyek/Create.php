@@ -10,12 +10,13 @@ use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
 use App\Helpers\FunctionHelper;
 use Livewire\Attributes\Locked;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class Create extends Component
 {
-    #[Locked]
-    public $tahunAjaranAktifId;
+    // #[Locked]
+    // public $tahunAjaranAktifId;
     #[Locked]
     public $capaianFaseId;
     #[Locked]
@@ -27,7 +28,6 @@ class Create extends Component
     public $daftarSubelemen;
     public $capaianFase = '';
 
-    public $createForm;
     public $selectedWaliKelas;
     public $selectedDimensi;
     public $selectedElemen;
@@ -36,38 +36,43 @@ class Create extends Component
     public $judulProyek;
     public $deskripsi;
 
+    // public $createForm;
     public function render()
     {
-        $this->tahunAjaranAktifId = FunctionHelper::getTahunAjaranAktif();
+        $tahunAjaranAktifId = FunctionHelper::getTahunAjaranAktif();
+        // $this->tahunAjaranAktif = TahunAjaran::find($tahunAjaranAktifId);
         $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
+        $this->selectedWaliKelas = WaliKelas::where('tahun_ajaran_id', $tahunAjaranAktifId)
+            ->where('user_id', Auth::id())
+            ->select('id')
+            ->first()
+            ->toArray()['id'];
 
-        $daftarWaliKelas = '';
-        if (Gate::allows('isSuperAdmin')) {
-            $daftarWaliKelas = WaliKelas::where('tahun_ajaran_id', '=', $this->tahunAjaranAktifId)
-                ->joinUser()
-                ->joinKelas()
-                ->select('wali_kelas.id as wali_kelas_id', 'kelas.id as kelas_id', 'users.name as nama', 'kelas.nama as nama_kelas')
-                ->get();
-        }
+        // $daftarWaliKelas = '';
+        // if (Gate::allows('isSuperAdmin')) {
+        //     $daftarWaliKelas = WaliKelas::where('tahun_ajaran_id', '=', $this->tahunAjaranAktifId)
+        //         ->joinUser()
+        //         ->joinKelas()
+        //         ->select('wali_kelas.id as wali_kelas_id', 'kelas.id as kelas_id', 'users.name as nama', 'kelas.nama as nama_kelas')
+        //         ->get();
+        // }
 
-        return view('livewire.proyek.create', compact('daftarWaliKelas'));
+        return view('livewire.proyek.create');
     }
 
-    public function showForm()
-    {
-        $validated = $this->validate([
-            'selectedWaliKelas' => 'required'
-        ], ['selectedWaliKelas.required' => 'Wali Kelas field is required.']);
+    // public function showForm()
+    // {
+    //     $validated = $this->validate([
+    //         'selectedWaliKelas' => 'required'
+    //     ], ['selectedWaliKelas.required' => 'Wali Kelas field is required.']);
 
-        if (Gate::allows('isSuperAdmin')) {
-            $this->validate(
-                ['tahunAjaranAktif' => 'required'],
-                ['tahunAjaranAktif.required' => 'Tahun Ajaran field is required.']
-            );
-        }
+    //     $this->validate(
+    //         ['tahunAjaranAktif' => 'required'],
+    //         ['tahunAjaranAktif.required' => 'Tahun Ajaran field is required.']
+    //     );
 
-        $this->createForm = true;
-    }
+    //     $this->createForm = true;
+    // }
 
     public function save()
     {

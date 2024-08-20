@@ -4,6 +4,7 @@ namespace App\Livewire\Layouts;
 
 use App\Models\Sekolah;
 use Livewire\Component;
+use App\Helpers\FunctionHelper;
 
 class App extends Component
 {

@@ -14,11 +14,11 @@
 
     <x-button href="{{ route('proyekIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Data Proyek</h1>
-    <p class="text-sm text-slate-700">Tahun Ajaran : {{ $tahunAjaranAktif['tahun'] }} -
+    {{-- <p class="text-sm text-slate-700">Tahun Ajaran : {{ $tahunAjaranAktif['tahun'] }} -
         {{ $tahunAjaranAktif['semester'] }}
-    </p>
+    </p> --}}
 
-    <div class="flex flex-col w-full space-y-2">
+    {{-- <div class="flex flex-col w-full space-y-2">
         <div class="w-full md:w-[50%]">
             <x-native-select label="Wali Kelas" placeholder="Pilih Wali Kelas" wire:model.defer="selectedWaliKelas">
                 <option value="">--Pilih Wali Kelas--</option>
@@ -32,25 +32,23 @@
                 @endforeach
             </x-native-select>
         </div>
-    </div>
+    </div> --}}
 
-    @if ($selectedWaliKelas && $createForm == 'true')
-        <div class="mb-2 space-y-4">
-            <div class="space-y-2">
-                <x-input label="Judul Proyek" placeholder="Masukkan Judul Proyek" wire:model='judulProyek' />
-                <x-textarea label="Deskripsi" placeholder="Masukkan Deskripsi" wire:model="deskripsi" />
-            </div>
+    <div class="mb-2 space-y-4">
+        <div class="space-y-2">
+            <x-input label="Judul Proyek" placeholder="Masukkan Judul Proyek" wire:model='judulProyek' />
+            <x-textarea label="Deskripsi" placeholder="Masukkan Deskripsi" wire:model="deskripsi" />
         </div>
-    @endif
+    </div>
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
-            @if ($selectedWaliKelas && $createForm == 'true')
-                <x-button href="{{ route('proyekIndex') }}" secondary label="Cancel" x-on:click="close" />
-                <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
-            @else
+            {{-- @if ($selectedWaliKelas && $createForm == 'true') --}}
+            <x-button href="{{ route('proyekIndex') }}" secondary label="Cancel" x-on:click="close" />
+            <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
+            {{-- @else
                 <x-button primary label="Tampilkan Form" x-on:click="$wire.showForm" spinner />
-            @endif
+            @endif --}}
         </div>
     </div>
 

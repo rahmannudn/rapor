@@ -8,12 +8,13 @@ use Livewire\Component;
 use App\Models\MateriMapel;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
-use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Query\JoinClause;
-use Livewire\WithPagination;
 
 class Table extends Component
 {
@@ -85,7 +86,7 @@ class Table extends Component
 
     public function mount()
     {
-        $this->selectedTahunAjaran = TahunAjaran::where('aktif', '1')->select('id')->first()['id'];
+        $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
         $this->daftarKelas = Kelas::select('id', 'kelas', 'nama')->get();
         $this->daftarMapel = Mapel::select('id', 'nama_mapel')->orderBy('nama_mapel', 'ASC')->get();
 

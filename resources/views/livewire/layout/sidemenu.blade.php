@@ -5,6 +5,7 @@ use App\Livewire\Actions\Logout;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use App\Helpers\FunctionHelper;
+use Illuminate\Support\Facades\Session;
 
 new class extends Component {
     /**

@@ -23,7 +23,7 @@ class ProyekPolicy
             ->select('id')
             ->first();
 
-        return $proyek->wali_kelas_id == $waliKelas;
+        return $proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**
