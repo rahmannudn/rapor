@@ -56,7 +56,7 @@ class Edit extends Component
 
     public function update(Proyek $proyek)
     {
-        $this->authorize('update', Proyek::class);
+        $this->authorize('update', $proyek);
         $validated = $this->validate([
             'judulProyek' => 'required|string',
             'deskripsi' => 'required|string',

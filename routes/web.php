@@ -84,6 +84,7 @@ use App\Models\Kelas;
 use App\Models\NilaiSubproyek;
 use App\Models\Proyek;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -204,7 +205,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::name('proyek')->prefix('proyek')->group(function () {
         Route::get('/', ProyekIndex::class)->name('Index')->lazy();
         Route::get('/create', ProyekCreate::class)->name('Create');
-        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit')->can('viewAny', Proyek::class);
+        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit')->middleware('check_proyek_permission');
     });
 
     Route::name('catatanProyek')->prefix('catatan_proyek')->group(function () {

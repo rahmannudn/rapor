@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\FunctionHelper;
 use App\Models\User;
 use App\Models\Proyek;
 use Livewire\Livewire;
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        FunctionHelper::setCacheTahunAjaran();
+
         Gate::define('isSuperAdmin', function (User $user) {
             return $user->role == 'superadmin';
         });

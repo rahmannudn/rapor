@@ -58,7 +58,7 @@ class FunctionHelper
     public static function setCacheTahunAjaran()
     {
         Cache::forget('tahunAjaranAktif');
-        Cache::remember('tahunAjaranAktif', 60 * 10, function () {
+        Cache::remember('tahunAjaranAktif', now()->addMinutes(15), function () {
             return TahunAjaran::where('aktif', 1)->first()['id'];
         });
     }

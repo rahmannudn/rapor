@@ -19,12 +19,12 @@ new class extends Component {
         $this->redirect('/');
     }
 
-    public function rendering()
-    {
-        if (!Session::get('tahunAjaranAktif')) {
-            FunctionHelper::setCacheTahunAjaran();
-        }
-    }
+    // public function rendering()
+    // {
+    //     if (!Session::get('tahunAjaranAktif')) {
+    //         FunctionHelper::setCacheTahunAjaran();
+    //     }
+    // }
 }; ?>
 
 <div>

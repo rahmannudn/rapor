@@ -44,7 +44,13 @@ class ProyekPolicy
      */
     public function update(User $user, Proyek $proyek): bool
     {
-        //
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**
@@ -52,7 +58,13 @@ class ProyekPolicy
      */
     public function delete(User $user, Proyek $proyek): bool
     {
-        //
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**
