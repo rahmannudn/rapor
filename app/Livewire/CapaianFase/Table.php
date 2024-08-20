@@ -29,8 +29,7 @@ class Table extends Component
                 'dimensi.deskripsi as dimensiDeskripsi',
             )
             ->search($this->searchQuery)
-            ->orderBy('capaian_fase.created_at')
-            ->orderBy('capaian_fase.subelemen_id')
+            ->orderBy('capaian_fase.created_at', 'DESC')
             ->paginate($this->show);
 
         return view('livewire.capaian-fase.table', compact('capaianFaseData'));

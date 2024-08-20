@@ -22,6 +22,11 @@ class Proyek extends Model
         return $this->belongsTo(CapaianFase::class);
     }
 
+    public function subproyek()
+    {
+        return $this->hasMany(Subproyek::class);
+    }
+
     public function scopeJoinWaliKelas($query)
     {
         $query->join('wali_kelas', 'proyek.wali_kelas_id', '=', 'wali_kelas.id');

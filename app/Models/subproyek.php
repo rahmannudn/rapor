@@ -12,6 +12,11 @@ class Subproyek extends Model
     protected $table = 'subproyek';
     protected $guarded = ['id'];
 
+    public function proyek()
+    {
+        return $this->belongsTo(Proyek::class);
+    }
+
     public function scopeSearchAndJoinProyek($query, $proyekId)
     {
         $query->join('proyek', function (JoinClause $q) use ($proyekId) {

@@ -3,21 +3,20 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\subproyek;
+use App\Models\Subproyek;
+use App\Models\WaliKelas;
+use App\Helpers\FunctionHelper;
+use App\Models\Proyek;
 use Illuminate\Auth\Access\Response;
 
 class SubproyekPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Proyek $proyek): bool
     {
-        //
+        // 
     }
 
     /**
@@ -31,9 +30,16 @@ class SubproyekPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Proyek $proyek): bool
     {
-        //
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**
@@ -47,9 +53,16 @@ class SubproyekPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, subproyek $subproyek): bool
+    public function delete(User $user, Subproyek $subproyek): bool
     {
-        //
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $subproyek->proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**

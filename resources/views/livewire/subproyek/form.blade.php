@@ -4,10 +4,8 @@
                 <div class="md:flex md:items-center md:justify-between">
                     <h2 class="mt-4 text-xl font-bold text-slate-700 dark:text-white">Subproyek {{ $index + 1 }}
                     </h2>
-                    @if (count($forms) > 1 && !$form['subproyekId'])
-                        <x-button class="mt-2" negative icon="trash" label="Hapus Subproyek {{ $index + 1 }}"
-                            x-on:click="$wire.removeForm({{ $index }})" spinner />
-                    @endif
+                    <x-button class="mt-2" negative icon="trash" label="Hapus Subproyek {{ $index + 1 }}"
+                        x-on:click="$wire.removeForm({{ $index }})" spinner />
                 </div>
                 <div class="block md:flex md:items-center md:justify-between md:space-x-2">
                     <x-native-select class="h-20" label="Dimensi" placeholder="Pilih Dimensi"

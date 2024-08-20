@@ -11,6 +11,7 @@ use App\Models\Subproyek;
 use App\Models\CapaianFase;
 use App\Models\TahunAjaran;
 use App\Helpers\FunctionHelper;
+use App\Models\Proyek;
 use Livewire\Attributes\Locked;
 
 class Form extends Component
@@ -98,6 +99,16 @@ class Form extends Component
 
     public function removeForm($index)
     {
+        if ($this->forms[$index]['subproyekId'] !== "") {
+            $subproyekId = $this->forms[$index]['subproyekId'];
+            $subproyek = Subproyek::find($subproyekId);
+            $this->authorize('delete', [Subproyek::class, $subproyek]);
+            if (!$subproyek) {
+                $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
+            }
+            $subproyek->delete();
+        }
+
         unset($this->forms[$index]);
         $this->forms = array_values($this->forms); // Re-index array
     }
@@ -154,7 +165,8 @@ class Form extends Component
 
     public function save()
     {
-        $this->authorize('create', Subproyek::class);
+        $proyek = Proyek::find($this->proyekId);
+        $this->authorize('create', [Subproyek::class, $proyek]);
 
         foreach ($this->forms as $value) {
             // jika capaian fase tidak ada
