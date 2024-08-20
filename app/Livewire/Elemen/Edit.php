@@ -11,7 +11,10 @@ class Edit extends Component
     public Elemen $elemen;
 
     public $dimensiDeskripsi;
+    public $selectedDimensi;
+    public $originDimensi;
     public $deskripsi;
+    public $daftarDimensi;
 
     public function render()
     {
@@ -20,7 +23,11 @@ class Edit extends Component
 
     public function mount()
     {
-        $dimensi = Dimensi::firstWhere('id', $this->elemen['dimensi_id'])->select('deskripsi')->first();
+        $dimensi = Dimensi::firstWhere('id', $this->elemen['dimensi_id'])->select('id', 'deskripsi')->first()->toArray();
+        $this->selectedDimensi = $dimensi['id'];
+        $this->originDimensi = $dimensi['id'];
+
+        $this->daftarDimensi = Dimensi::select('deskripsi', 'id')->orderBy('created_at')->get();
         $this->dimensiDeskripsi = $dimensi['deskripsi'];
         $this->deskripsi = $this->elemen['deskripsi'];
     }
@@ -28,15 +35,22 @@ class Edit extends Component
     public function update(Elemen $elemen)
     {
         $this->authorize('update', Elemen::class);
-        $validated = $this->validate(['deskripsi' => 'required|string|min:5|max:250']);
+        $validated = $this->validate([
+            'deskripsi' => 'required|string|min:5|max:250',
+            'selectedDimensi' => 'required'
+        ], ['selectedDimensi' => 'The dimensi field is required.']);
 
-        if ($this->elemen['deskripsi'] === $validated['deskripsi']) {
+        if (
+            $this->elemen['deskripsi'] === $validated['deskripsi'] &&
+            $this->originDimensi === $validated['selectedDimensi']
+        ) {
             session()->flash('gagal', 'Tidak ada perubahan data');
             return;
         }
 
         $elemen->update([
-            'deskripsi' => $validated['deskripsi']
+            'dimensi_id' => $validated['selectedDimensi'],
+            'deskripsi' => $validated['deskripsi'],
         ]);
 
         $this->redirectRoute('elemenIndex');

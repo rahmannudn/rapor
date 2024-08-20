@@ -24,7 +24,7 @@ class Table extends Component
                 'elemen.deskripsi',
                 'dimensi.deskripsi as dimensiDeskripsi'
             )
-            ->orderBy('elemen.created_at')
+            ->orderBy('elemen.created_at', 'DESC')
             ->orderBy('elemen.dimensi_id')
             ->paginate($this->show);
 

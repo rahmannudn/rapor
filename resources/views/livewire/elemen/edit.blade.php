@@ -8,7 +8,17 @@
 
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
-            <x-textarea label="Dimensi Deskripsi" wire:model="dimensiDeskripsi" disabled />
+            <div class="w-[50%]">
+                <x-native-select class="w-[35rem] h-20" label="Dimensi" placeholder="Pilih Dimensi"
+                    wire:model.defer="selectedDimensi">
+                    <option value="">--Pilih Dimensi--</option>
+                    @foreach ($daftarDimensi as $dimensi)
+                        <option value="{{ $dimensi->id }}" class="w-full">
+                            {{ Str::of($dimensi->deskripsi)->words('25', ' ...') }}
+                        </option>
+                    @endforeach
+                </x-native-select>
+            </div>
             <x-input label="Deskripsi" placeholder="Masukkan Deskripsi" wire:model='deskripsi' autofocus />
         </div>
     </div>
