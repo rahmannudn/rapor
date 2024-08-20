@@ -10,14 +10,14 @@ class DimensiPolicy
 {
     public function before(User $user)
     {
-        return $user->role = 'superadmin';
+        return $user->role = 'guru';
     }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
@@ -25,7 +25,7 @@ class DimensiPolicy
      */
     public function view(User $user, dimensi $dimensi): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
@@ -33,7 +33,7 @@ class DimensiPolicy
      */
     public function create(User $user): bool
     {
-        return  $user->role = 'admin';
+        // 
     }
 
     /**
@@ -41,7 +41,7 @@ class DimensiPolicy
      */
     public function update(User $user, dimensi $dimensi): bool
     {
-        return   $user->role = 'admin';
+        // 
     }
 
     /**
@@ -49,7 +49,7 @@ class DimensiPolicy
      */
     public function delete(User $user, dimensi $dimensi): bool
     {
-        return  $user->role = 'admin';
+        // 
     }
 
     /**
