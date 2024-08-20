@@ -6,20 +6,17 @@
     <x-button href="{{ route('elemenIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Tambah Elemen</h1>
 
-    <div class="w-[50%]">
-        <x-native-select class="w-[35rem] h-20" label="Dimensi" placeholder="Pilih Dimensi"
-            wire:model.defer="selectedDimensi">
-            <option value="">--Pilih Dimensi--</option>
-            @foreach ($daftarDimensi as $dimensi)
-                <option value="{{ $dimensi->id }}" class="w-full">
-                    {{ Str::of($dimensi->deskripsi)->words('25', ' ...') }}
-                </option>
-            @endforeach
-        </x-native-select>
-    </div>
-
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
+            <x-native-select class="w-[35rem] h-20" label="Dimensi" placeholder="Pilih Dimensi"
+                wire:model.defer="selectedDimensi">
+                <option value="">--Pilih Dimensi--</option>
+                @foreach ($daftarDimensi as $dimensi)
+                    <option value="{{ $dimensi->id }}" class="w-full">
+                        {{ Str::of($dimensi->deskripsi)->words('25', ' ...') }}
+                    </option>
+                @endforeach
+            </x-native-select>
             <x-input label="Deskripsi Elemen" placeholder="Masukkan Deskripsi Elemen" wire:model='deskripsi' />
         </div>
     </div>
