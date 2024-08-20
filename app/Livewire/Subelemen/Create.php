@@ -14,7 +14,7 @@ class Create extends Component
 
     public $daftarElemen;
     public $selectedElemen;
-    public $formCreate;
+    // public $formCreate;
 
     public $deskripsi;
 
@@ -31,7 +31,6 @@ class Create extends Component
     public function getElemen()
     {
         if ($this->selectedDimensi) {
-
             $this->daftarElemen = '';
             $this->selectedElemen = '';
 
@@ -42,19 +41,19 @@ class Create extends Component
         }
     }
 
-    public function showForm()
-    {
-        $validated = $this->validate([
-            'selectedDimensi' => 'required',
-            'selectedElemen' => 'required',
-        ], [
-            'selectedDimensi.required' => 'Dimensi field is required.',
-            'selectedElemen.required' => 'Elemen field is required.',
-        ]);
+    // public function showForm()
+    // {
+    //     $validated = $this->validate([
+    //         'selectedDimensi' => 'required',
+    //         'selectedElemen' => 'required',
+    //     ], [
+    //         'selectedDimensi.required' => 'Dimensi field is required.',
+    //         'selectedElemen.required' => 'Elemen field is required.',
+    //     ]);
 
-        if (is_null($this->selectedDimensi) && is_null($this->selectedElemen)) return;
-        $this->formCreate = 'true';
-    }
+    //     if (is_null($this->selectedDimensi) && is_null($this->selectedElemen)) return;
+    //     $this->formCreate = 'true';
+    // }
 
     public function save()
     {
