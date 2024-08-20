@@ -17,9 +17,42 @@
 
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
-            <x-textarea label="Dimensi Deskripsi" wire:model="dimensiDeskripsi" disabled />
-            <x-textarea label="Elemen Deskripsi" wire:model="elemenDeskripsi" disabled />
-            <x-textarea label="Sub Elemen Deskripsi" wire:model="subelemenDeskripsi" disabled />
+            <div class="block md:flex md:items-center md:justify-between md:space-x-2">
+                <x-native-select class="h-20" label="Dimensi" placeholder="Pilih Dimensi"
+                    wire:model.defer="selectedDimensi" x-on:change="$wire.getElemen">
+                    <option value="">--Pilih Dimensi--</option>
+                    @foreach ($daftarDimensi as $dimensi)
+                        <option value="{{ $dimensi->id }}" class="w-full">
+                            {{ Str::of($dimensi->deskripsi)->words('25', ' ...') }}
+                        </option>
+                    @endforeach
+                </x-native-select>
+
+                <x-native-select class="h-20" label="Elemen" placeholder="Pilih Elemen"
+                    wire:model.defer="selectedElemen" x-on:change="$wire.getSubelemen">
+                    <option value="">--Pilih Subelemen--</option>
+                    @if ($selectedDimensi && $daftarElemen)
+                        @foreach ($daftarElemen as $elemen)
+                            <option value="{{ $elemen->id }}" class="w-full">
+                                {{ Str::of($elemen->deskripsi)->words('25', ' ...') }}
+                            </option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
+            <div class="block md:flex md:items-center md:justify-between md:space-x-2 w-[50%]">
+                <x-native-select class="h-20" label="Subelemen" placeholder="Pilih Subelemen"
+                    wire:model.defer="selectedSubelemen">
+                    <option value="">--Pilih Subelemen--</option>
+                    @if ($selectedDimensi && $daftarElemen && $daftarSubelemen)
+                        @foreach ($daftarSubelemen as $subelemen)
+                            <option value="{{ $subelemen->id }}" class="w-full">
+                                {{ Str::of($subelemen->deskripsi)->words('25', ' ...') }}
+                            </option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
             <div class="space-y-2">
                 <p>Pilih Fase</p>
                 <x-radio id="fase a" value="a" label="Fase A" wire:model.defer="fase" />

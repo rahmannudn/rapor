@@ -42,7 +42,11 @@ class Edit extends Component
         $this->selectedDimensi = $data['dimensi_id'];
         $this->originDimensi = $data['dimensi_id'];
 
-        $this->daftarElemen = Elemen::select('deskripsi', 'id')->orderBy('created_at', 'DESC')->get();
+        $this->daftarElemen = Elemen::select('deskripsi', 'id')
+            ->where('dimensi_id', $this->selectedDimensi)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         $this->selectedElemen = $data['elemen_id'];
         $this->originElemen = $data['elemen_id'];
 
