@@ -61,21 +61,21 @@ class Create extends Component
         }
     }
 
-    public function showForm()
-    {
-        $validated = $this->validate([
-            'selectedDimensi' => 'required',
-            'selectedElemen' => 'required',
-            'selectedSubelemen' => 'required',
-        ], [
-            'selectedDimensi.required' => 'Dimensi field is required.',
-            'selectedElemen.required' => 'Elemen field is required.',
-            'selectedSublemen.required' => 'Subelemen field is required.',
-        ]);
+    // public function showForm()
+    // {
+    //     $validated = $this->validate([
+    //         'selectedDimensi' => 'required',
+    //         'selectedElemen' => 'required',
+    //         'selectedSubelemen' => 'required',
+    //     ], [
+    //         'selectedDimensi.required' => 'Dimensi field is required.',
+    //         'selectedElemen.required' => 'Elemen field is required.',
+    //         'selectedSublemen.required' => 'Subelemen field is required.',
+    //     ]);
 
-        if (is_null($this->selectedDimensi) && is_null($this->selectedElemen) && is_null($this->selectedSubelemen)) return;
-        $this->formCreate = 'true';
-    }
+    //     if (is_null($this->selectedDimensi) && is_null($this->selectedElemen) && is_null($this->selectedSubelemen)) return;
+    //     $this->formCreate = 'true';
+    // }
 
     public function save()
     {

@@ -46,27 +46,21 @@
 
     <div class="mb-2 space-y-4">
         <div class="space-y-2">
-            @if ($formCreate)
-                <div class="space-y-2">
-                    <p>Pilih Fase</p>
-                    <x-radio id="fase a" value="a" label="Fase A" wire:model.defer="fase" />
-                    <x-radio id="fase b" value="b" label="Fase B" wire:model.defer="fase" />
-                    <x-radio id="fase c" value="c" label="Fase C" wire:model.defer="fase" />
-                </div>
-                <x-input label="Deskripsi Subelemen" placeholder="Masukkan Deskripsi Subelemen" wire:model='deskripsi'
-                    autofocus />
-            @endif
+            <div class="space-y-2">
+                <p>Pilih Fase</p>
+                <x-radio id="fase a" value="a" label="Fase A" wire:model.defer="fase" />
+                <x-radio id="fase b" value="b" label="Fase B" wire:model.defer="fase" />
+                <x-radio id="fase c" value="c" label="Fase C" wire:model.defer="fase" />
+            </div>
+            <x-input label="Deskripsi Subelemen" placeholder="Masukkan Deskripsi Subelemen" wire:model='deskripsi'
+                autofocus />
         </div>
     </div>
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
-            @if ($formCreate)
-                <x-button href="{{ route('capaianFaseIndex') }}" secondary label="Cancel" x-on:click="close" />
-                <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
-            @else
-                <x-button primary label="Tampilkan Form" x-on:click="$wire.showForm" spinner />
-            @endif
+            <x-button href="{{ route('capaianFaseIndex') }}" secondary label="Cancel" x-on:click="close" />
+            <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
         </div>
     </div>
 
