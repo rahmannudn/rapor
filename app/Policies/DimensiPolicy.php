@@ -10,7 +10,7 @@ class DimensiPolicy
 {
     public function before(User $user)
     {
-        return $user->role = 'guru';
+        return $user->role == 'guru';
     }
     /**
      * Determine whether the user can view any models.

@@ -10,7 +10,7 @@ class ElemenPolicy
 {
     public function before(User $user)
     {
-        return $user->role = 'guru';
+        return $user->role == 'guru';
     }
 
     /**
@@ -34,7 +34,7 @@ class ElemenPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role = 'admin';
+        // 
     }
 
     /**
