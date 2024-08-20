@@ -26,7 +26,7 @@ class NilaiSubproyekPolicy
      */
     public function view(User $user, NilaiProyek $nilaiProyek): bool
     {
-        //
+        // 
     }
 
     /**

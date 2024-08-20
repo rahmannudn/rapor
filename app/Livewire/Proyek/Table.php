@@ -26,8 +26,6 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        $this->authorize('view', Proyek::class);
-
         $daftarProyek = '';
         $this->selectedTahunAjaran = TahunAjaran::where('aktif', 1)->select('id')->first()['id'];
 

@@ -173,13 +173,7 @@ Route::middleware(['auth', 'check_permission:isKepsek'])->group(function () {
 });
 
 // guru kelas
-Route::middleware(['auth', 'can:view,App\Models\Proyek'])->group(function () {
-    Route::name('proyek')->prefix('proyek')->group(function () {
-        Route::get('/', ProyekIndex::class)->name('Index')->lazy();
-        Route::get('/create', ProyekCreate::class)->name('Create');
-        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit');
-    });
-
+Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::name('dimensi')->prefix('dimensi')->group(function () {
         Route::get('/', DimensiIndex::class)->name('Index')->lazy();
         Route::get('/create', DimensiCreate::class)->name('Create');
@@ -205,7 +199,13 @@ Route::middleware(['auth', 'can:view,App\Models\Proyek'])->group(function () {
     });
 });
 
-Route::middleware(['auth'], function () {
+Route::middleware(['auth',])->group(function () {
+    Route::name('proyek')->prefix('proyek')->group(function () {
+        Route::get('/', ProyekIndex::class)->name('Index')->lazy();
+        Route::get('/create', ProyekCreate::class)->name('Create');
+        Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit');
+    });
+
     Route::name('catatanProyek')->prefix('catatan_proyek')->group(function () {
         Route::get('/', CatatanProyekIndex::class)
             ->name('Index');
@@ -221,21 +221,23 @@ Route::middleware(['auth'], function () {
 });
 
 // guru mapel
-Route::name('tujuanPembelajaran')->prefix('tujuan_pembelajaran')->group(function () {
-    Route::get('/', TujuanPembelajaranIndex::class)->middleware(['auth'])
-        ->name('Index')->lazy();
-    Route::get('/create', TujuanPembelajaranCreate::class)->middleware(['auth'])
-        ->name('Create');
-    Route::get('/{tujuanPembelajaran}/edit', TujuanPembelajaranEdit::class)
-        ->middleware(['auth'])->name('Edit');
-});
+Route::middleware(['auth'])->group(function () {
+    Route::name('tujuanPembelajaran')->prefix('tujuan_pembelajaran')->group(function () {
+        Route::get('/', TujuanPembelajaranIndex::class)
+            ->name('Index')->lazy();
+        Route::get('/create', TujuanPembelajaranCreate::class)
+            ->name('Create');
+        Route::get('/{tujuanPembelajaran}/edit', TujuanPembelajaranEdit::class)
+            ->name('Edit');
+    });
 
-Route::name('lingkupMateri')->prefix('lingkup_materi')->group(function () {
-    Route::get('/', LingkupMateriIndex::class)->middleware(['auth'])
-        ->name('Index')->lazy();
-    Route::get('/create', LingkupMateriCreate::class)->middleware(['auth'])
-        ->name('Create');
-    Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->middleware(['auth'])->name('Edit');
+    Route::name('lingkupMateri')->prefix('lingkup_materi')->group(function () {
+        Route::get('/', LingkupMateriIndex::class)
+            ->name('Index')->lazy();
+        Route::get('/create', LingkupMateriCreate::class)
+            ->name('Create');
+        Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->name('Edit');
+    });
 });
 
 Route::view('profile', 'profile')

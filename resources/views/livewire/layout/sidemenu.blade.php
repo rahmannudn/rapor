@@ -201,7 +201,7 @@ new class extends Component {
                     </li>
                 @endcan
 
-                @can('view', App\Models\Proyek::class)
+                @can('isWaliKelas', auth()->user())
                     <li>
                         <a href="{{ route('dimensiIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('dimensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"

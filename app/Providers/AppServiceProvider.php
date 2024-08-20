@@ -3,13 +3,15 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Proyek;
 use Livewire\Livewire;
 use App\Livewire\Navbar;
-use App\Models\Proyek;
-use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
+use App\Models\TahunAjaran;
 use App\Policies\ProyekPolicy;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -50,8 +52,9 @@ class AppServiceProvider extends ServiceProvider
             return $user->role == 'guru';
         });
         Gate::define('isWaliKelas', function (User $user) {
-
-            return $user->role == 'guru';
+            $tahunAjaran = Cache::get('tahunAjaranAktif');
+            $waliKelas = WaliKelas::where('user_id', '=', Auth::id())->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
+            return count($waliKelas) > 0 || $user->role == 'kepsek';
         });
         Gate::define('isKepsek', function (User $user) {
             return $user->role == 'kepsek';

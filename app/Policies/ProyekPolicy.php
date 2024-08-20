@@ -14,19 +14,21 @@ class ProyekPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool {}
+    public function viewAny(User $user, Proyek $proyek): bool
+    {
+        $tahunAjaran = Cache::get('tahunAjaranAktif');
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $proyek->wali_kelas_id == $waliKelas;
+    }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user): bool
-    {
-        // dd($user);
-        $tahunAjaran = Cache::get('tahunAjaranAktif');
-        $waliKelas = WaliKelas::where('user_id', '=', Auth::id())->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
-        return count($waliKelas) > 0 || $user->role == 'kepsek';
-        // return true;
-    }
+    public function view(User $user): bool {}
 
     /**
      * Determine whether the user can create models.

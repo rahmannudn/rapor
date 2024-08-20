@@ -4,14 +4,13 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\dimensi;
+use App\Models\WaliKelas;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class DimensiPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'guru';
-    }
     /**
      * Determine whether the user can view any models.
      */
