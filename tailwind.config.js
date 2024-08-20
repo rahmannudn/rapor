@@ -3,7 +3,7 @@ import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: "class",
+    darkMode: "false",
     presets: [require("./vendor/wireui/wireui/tailwind.config.js")],
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",

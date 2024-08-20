@@ -80,6 +80,7 @@ class Create extends Component
     public function save()
     {
         $this->authorize('create', CapaianFase::class);
+
         $validated = $this->validate([
             'selectedDimensi' => 'required',
             'selectedElemen' => 'required',

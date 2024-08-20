@@ -2,30 +2,30 @@
 
 namespace App\Policies;
 
-use App\Models\Proyek;
 use App\Models\User;
+use App\Models\Proyek;
+use App\Models\WaliKelas;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ProyekPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
-    {
-    }
+    public function viewAny(User $user): bool {}
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Proyek $proyek): bool
+    public function view(User $user): bool
     {
-        if ($user->role == 'kepsek' || $user->role == 'guru') return true;
-        return false;
+        // dd($user);
+        $tahunAjaran = Cache::get('tahunAjaranAktif');
+        $waliKelas = WaliKelas::where('user_id', '=', Auth::id())->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
+        return count($waliKelas) > 0 || $user->role == 'kepsek';
+        // return true;
     }
 
     /**

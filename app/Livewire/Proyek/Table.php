@@ -6,6 +6,7 @@ use App\Models\Kelas;
 use App\Models\Proyek;
 use Livewire\Component;
 use App\Models\TahunAjaran;
+use App\Policies\ProyekPolicy;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
@@ -25,6 +26,8 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
+        $this->authorize('view', Proyek::class);
+
         $daftarProyek = '';
         $this->selectedTahunAjaran = TahunAjaran::where('aktif', 1)->select('id')->first()['id'];
 

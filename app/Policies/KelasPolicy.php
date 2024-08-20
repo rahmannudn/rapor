@@ -8,12 +8,17 @@ use Illuminate\Auth\Access\Response;
 
 class KelasPolicy
 {
+
+    public function before(User $user)
+    {
+        return $user->role === 'superadmin';
+    }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === 'kepsek';
+        //
     }
 
     /**
@@ -30,8 +35,7 @@ class KelasPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->role === 'admin' || $user->role === 'kepsek') return true;
-        return false;
+        //
     }
 
     /**
@@ -39,8 +43,7 @@ class KelasPolicy
      */
     public function update(User $user, Kelas $kelas): bool
     {
-        if ($user->role === 'admin' || $user->role === 'kepsek') return true;
-        return false;
+        //
     }
 
     /**
@@ -48,8 +51,7 @@ class KelasPolicy
      */
     public function delete(User $user, Kelas $kelas): bool
     {
-        if ($user->role === 'admin' || $user->role === 'kepsek') return true;
-        return false;
+        //
     }
 
     /**

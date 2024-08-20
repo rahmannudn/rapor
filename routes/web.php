@@ -139,6 +139,12 @@ Route::middleware(['auth', 'check_permission:superAdminOrAdmin'])->group(functio
         Route::get('/create', KepsekCreate::class)->name('Create');
         Route::get('/{kepsek}/edit', KepsekEdit::class)->name('Edit');
     });
+
+    Route::name('tahunAjaran')->prefix('tahun_ajaran')->group(function () {
+        Route::get('/', TahunAjaranIndex::class)->name('Index')->lazy();
+        Route::get('/create', TahunAjaranCreate::class)->name('Create');
+        Route::get('/{tahunAjaran}/edit', TahunAjaranEdit::class)->name('Edit');
+    });
 });
 
 Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function () {
@@ -153,12 +159,6 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
 
 // kepsek
 Route::middleware(['auth', 'check_permission:isKepsek'])->group(function () {
-    Route::name('tahunAjaran')->prefix('tahun_ajaran')->group(function () {
-        Route::get('/', TahunAjaranIndex::class)->name('Index')->lazy();
-        Route::get('/create', TahunAjaranCreate::class)->name('Create');
-        Route::get('/{tahunAjaran}/edit', TahunAjaranEdit::class)->name('Edit');
-    });
-
     Route::name('waliKelas')->prefix('wali_kelas')->group(function () {
         Route::get('/', WaliKelasIndex::class)->name('Index')->lazy();
         Route::get('/create', WaliKelasCreate::class)->name('Create');

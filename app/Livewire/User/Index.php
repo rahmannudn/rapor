@@ -4,6 +4,9 @@ namespace App\Livewire\User;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Models\WaliKelas;
+use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {

@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Kelas;
 use App\Models\Proyek;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Cache;
 
 class FunctionHelper
 {
@@ -52,5 +53,13 @@ class FunctionHelper
                 'tahun_ajaran.semester',
             )
             ->first();
+    }
+
+    public static function setCacheTahunAjaran()
+    {
+        Cache::forget('tahunAjaranAktif');
+        Cache::remember('tahunAjaranAktif', 60 * 10, function () {
+            return TahunAjaran::where('aktif', 1)->first()['id'];
+        });
     }
 }

@@ -26,7 +26,7 @@ class TahunAjaranPolicy
      */
     public function view(User $user, TahunAjaran $TahunAjaran): bool
     {
-        return $user->role == 'kepsek';
+        return $user->role == 'admin';
     }
 
     /**
@@ -34,7 +34,7 @@ class TahunAjaranPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role == 'kepsek';
+        return $user->role == 'admin';
     }
 
     /**
@@ -42,7 +42,7 @@ class TahunAjaranPolicy
      */
     public function update(User $user, TahunAjaran $TahunAjaran): bool
     {
-        return $user->role == 'kepsek';
+        return $user->role == 'admin';
     }
 
     /**
@@ -50,7 +50,7 @@ class TahunAjaranPolicy
      */
     public function delete(User $user, TahunAjaran $TahunAjaran): bool
     {
-        return $user->role == 'kepsek';
+        return $user->role == 'admin';
     }
 
     /**

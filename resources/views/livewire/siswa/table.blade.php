@@ -37,7 +37,8 @@
                 <th scope="col" class="px-4 py-3 w-[10%]">
                     Foto
                 </th>
-                @can('update', Auth::id())
+
+                @can('update', auth()->user())
                     <th scope="col" class="px-4 py-3 w-[10%]">
                         Action
                     </th>
@@ -76,7 +77,8 @@
                             <x-badge negative label="Tidak ada foto" />
                         @endif
                     </td>
-                    @can('update', Auth::id())
+
+                    @can('update', auth()->user())
                         <td class="px-4 py-4 space-x-2 w-[10%]">
                             <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
                                 wire:navigate />

@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Sekolah;
+use App\Models\TahunAjaran;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Livewire\Forms\LoginForm;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
+use App\Helpers\FunctionHelper;
 
 new #[Layout('layouts.guest')] class extends Component {
     public LoginForm $form;
@@ -27,6 +29,7 @@ new #[Layout('layouts.guest')] class extends Component {
     public function rendering()
     {
         $this->checkAndSetSekolahSession();
+        FunctionHelper::setCacheTahunAjaran();
     }
 
     public function checkAndSetSekolahSession()

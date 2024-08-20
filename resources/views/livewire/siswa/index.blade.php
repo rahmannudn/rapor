@@ -14,7 +14,9 @@
 
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Siswa</h1>
 
-    <x-button href="{{ route('siswaCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Siswa" />
+    @can('isAdmin', auth()->user())
+        <x-button href="{{ route('siswaCreate') }}" wire:navigate class="mb-3" icon="plus" info label="Tambah Siswa" />
+    @endcan
 
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedSiswa = null">
         <x-card title="Delete Note">
