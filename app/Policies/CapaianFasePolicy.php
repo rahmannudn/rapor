@@ -10,7 +10,7 @@ class CapaianFasePolicy
 {
     public function before(User $user)
     {
-        return $user->role == 'superadmin';
+        return $user->role == 'guru';
     }
 
     /**
@@ -18,7 +18,7 @@ class CapaianFasePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role == 'admin';
+        // 
     }
 
     /**
@@ -26,7 +26,7 @@ class CapaianFasePolicy
      */
     public function view(User $user, CapaianFase $capaianFase): bool
     {
-        return $user->role == 'admin';
+        // 
     }
 
     /**
@@ -34,7 +34,7 @@ class CapaianFasePolicy
      */
     public function create(User $user): bool
     {
-        return $user->role == 'admin';
+        // 
     }
 
     /**
@@ -42,7 +42,7 @@ class CapaianFasePolicy
      */
     public function update(User $user, CapaianFase $capaianFase): bool
     {
-        return $user->role == 'admin';
+        // 
     }
 
     /**
@@ -50,7 +50,7 @@ class CapaianFasePolicy
      */
     public function delete(User $user, CapaianFase $capaianFase): bool
     {
-        return $user->role == 'admin';
+        // 
     }
 
     /**
