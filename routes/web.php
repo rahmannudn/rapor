@@ -80,11 +80,10 @@ use App\Livewire\CatatanProyek\Edit as CatatanProyekEdit;
 use App\Livewire\Subproyek\Index as SubproyekIndex;
 
 use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
+
+use App\Livewire\Raporp5\Index as RaporP5Index;
+
 use App\Models\Kelas;
-use App\Models\NilaiSubproyek;
-use App\Models\Proyek;
-use App\Models\Siswa;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -240,6 +239,8 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
             ->name('Create');
         Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->name('Edit');
     });
+
+    Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
 });
 
 Route::view('profile', 'profile')

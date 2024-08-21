@@ -21,6 +21,9 @@ class Edit extends Component
     public $semester;
     public $semesterAktif;
     public $confirmModal;
+    public $daftarTahunAjaran;
+    public $prevTahunAjaran;
+    public $tglRapor;
 
     #[Locked]
     public $validatedData;
@@ -32,6 +35,7 @@ class Edit extends Component
         $this->tahunAkhir = TA::getTahunAkhir($this->tahunAjaran['tahun']);
         $this->semester = $this->tahunAjaran['semester'];
         $this->semesterAktif = $this->tahunAjaran['aktif'];
+        $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get()->toArray();
     }
 
     public function render()
@@ -55,8 +59,11 @@ class Edit extends Component
         $tahunAjaran->update([
             'tahun' => TA::concatTahunAjaran($this->validatedData['tahunAwal'], $this->validatedData['tahunAkhir']),
             'semester' => $this->validatedData['semester'],
-            'aktif' => $this->validatedData['semesterAktif']
+            'aktif' => $this->validatedData['semesterAktif'],
+            'prev_tahun_ajaran_id' => $this->validatedData['prevTahunAjaran'],
+            'tgl_rapor' => $this->tglRapor,
         ]);
+
         if ($tahunAjaran['aktif'] == 1)
             FunctionHelper::setCacheInfoSekolah();
 
@@ -76,7 +83,9 @@ class Edit extends Component
             'tahunAwal' => ['required', new IsValidYear($this->tahunAkhir)],
             'tahunAkhir' => ['required',],
             'semester' => ['required', 'string'],
-            'semesterAktif' => ['required', 'boolean']
+            'semesterAktif' => ['required', 'boolean'],
+            'prevTahunAjaran' => ['nullable', 'integer'],
+            'tglRapor' => ['nullable', 'date'],
         ];
     }
 
@@ -86,7 +95,9 @@ class Edit extends Component
             $validated = $this->validate();
             $this->validatedData = $validated;
 
-            if ($validated['semesterAktif'] === '0') {
+            if ($this->tahunAjaran['aktif'] == 1 && $this->validatedData['semesterAktif'] == 0) return;
+
+            if ($validated['semesterAktif'] == 0) {
                 $this->validatedData['semesterAktif'] = $validated['semesterAktif'];
                 $this->validatedData = $validated;
                 $this->update();
@@ -97,7 +108,7 @@ class Edit extends Component
             $semesterSedangAktif = TA::firstWhere('aktif', 1);
 
             // jika tidak ditemukan semester yang sedang aktif
-            if (!$semesterSedangAktif) {
+            if ($semesterSedangAktif->id == $tahunAjaran->id) {
                 $this->update();
                 return;
             }

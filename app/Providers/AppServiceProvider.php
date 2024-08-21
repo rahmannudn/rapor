@@ -31,9 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        FunctionHelper::setCacheTahunAjaran();
-        FunctionHelper::setCacheInfoSekolah();
-
         Gate::define('isSuperAdmin', function (User $user) {
             return $user->role == 'superadmin';
         });
