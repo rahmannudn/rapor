@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TahunAjaran;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,9 +14,11 @@ return new class extends Migration
     {
         Schema::create('tahun_ajaran', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('prev_tahun_ajaran_id')->nullable()->constrained('tahun_ajaran');
             $table->string('tahun');
             $table->enum('semester', ['ganjil', 'genap']);
             $table->boolean('aktif')->nullable('false');
+            $table->date('tgl_rapor')->nullable();
             $table->timestamps();
         });
     }

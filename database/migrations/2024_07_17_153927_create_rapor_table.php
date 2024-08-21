@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa');
             $table->foreignId('wali_kelas_id')->constrained('wali_kelas');
-            $table->date('tgl_rapor')->nullable();
             $table->boolean('keputusan')->nullable(); //naik atau tinggal kelas
             $table->text('keterangan')->nullable();
             $table->timestamps();
