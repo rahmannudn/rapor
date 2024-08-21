@@ -22,8 +22,7 @@
 @endsection
 <div>
     <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-        @can('viewAny', \App\Models\NilaiSubproyek::class)
-            <div class="w-52">
+        {{-- <div class="w-52">
                 <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
                     x-on:change="$wire.getDaftarProyek">
                     <option value="">--Pilih Kelas--</option>
@@ -33,9 +32,9 @@
                         @endforeach
                     @endif
                 </x-native-select>
-            </div>
+            </div> --}}
 
-            @can('superAdminOrKepsek')
+        {{-- @can('superAdminOrKepsek')
                 <div class="w-52">
                     <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran" wire:model.defer="tahunAjaranAktif"
                         x-on:change="$wire.getDaftarProyek">
@@ -46,21 +45,24 @@
                         @endif
                     </x-native-select>
                 </div>
-            @endcan
+            @endcan --}}
 
-            <div class="w-full md:w-[40%]">
-                <x-native-select label="Proyek" placeholder="Pilih Proyek" wire:model.defer="selectedProyek"
-                    x-on:change="$wire.getProyek">
-                    @if ($daftarProyek)
-                        @foreach ($daftarProyek as $proyek)
-                            <option value="{{ $proyek['id'] }}">Proyek - {{ $loop->index + 1 }}
-                                {{ $proyek['judul_proyek'] }}
-                            </option>
-                        @endforeach
-                    @endif
-                </x-native-select>
-            </div>
-        @endcan
+        <div class="w-full md:w-[40%]">
+            <x-native-select label="Proyek" placeholder="Pilih Proyek" wire:model.defer="selectedProyek">
+                @if ($daftarProyek)
+                    @foreach ($daftarProyek as $proyek)
+                        <option value="{{ $proyek['id'] }}">Proyek - {{ $loop->index + 1 }}
+                            {{ $proyek['judul_proyek'] }}
+                        </option>
+                    @endforeach
+                @endif
+            </x-native-select>
+        </div>
+    </div>
+    <div class="flex justify-between my-2 gap-x-4">
+        <div class="flex gap-x-2">
+            <x-button primary label="Tampilkan Tabel Nilai" x-on:click="$wire.showForm" spinner />
+        </div>
     </div>
 
     @if ($showTable)
@@ -176,12 +178,4 @@
             </table>
         </div>
     @endif
-
-    <div class="flex justify-between my-2 gap-x-4">
-        <div class="flex gap-x-2">
-            @if (!$showTable)
-                <x-button primary label="Tampilkan Tabel" x-on:click="$wire.showForm" spinner />
-            @endif
-        </div>
-    </div>
 </div>

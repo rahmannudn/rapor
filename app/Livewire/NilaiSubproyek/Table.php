@@ -21,6 +21,10 @@ class Table extends Component
 {
     #[Locked]
     public $waliKelasId;
+    #[Locked]
+    public Proyek $proyek;
+
+    public $waliKelas;
     public $daftarKelas;
     public $daftarTahunAjaran;
     public $tahunAjaranAktif;
@@ -41,68 +45,80 @@ class Table extends Component
     public function mount()
     {
         $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
-        if (Gate::allows('viewAny', NilaiSubproyek::class)) {
-            $this->daftarKelas = FunctionHelper::getDaftarKelasHasProyek($this->tahunAjaranAktif);
+        $this->waliKelas = WaliKelas::where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->where('wali_kelas.user_id', auth()->id())
+            ->select(
+                'wali_kelas.id',
+                'wali_kelas.kelas_id',
+            )
+            ->first();
+        $this->waliKelasId = $this->waliKelas['id'];
+        $this->selectedKelas = $this->waliKelas['kelas_id'];
+        $this->getDaftarProyek();
 
-            $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')
-                ->orderBy('created_at')
-                ->get();
-        }
+        // $dataKelas = WaliKelas::searchAndJoinKelas($this->proyek['wali_kelas_id'])
+        //     ->join('users', 'wali_kelas.user_id', '=', 'users.id')
+        //     ->select('kelas.nama as nama_kelas', 'users.name as nama_guru')
+        //     ->first();
 
-        if (Gate::allows('guru')) {
-        }
+        // if (Gate::allows('viewAny', NilaiSubproyek::class)) {
+        // $this->daftarKelas = FunctionHelper::getDaftarKelasHasProyek($this->tahunAjaranAktif);
+
+        // $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')
+        //     ->orderBy('created_at')
+        //     ->get();
     }
 
     public function showForm()
     {
-        $this->validate(
-            ['selectedKelas' => 'required',],
-            ['selectedKelas.required' => 'Kelas field is required.',]
-        );
-        if (is_null($this->selectedKelas)) return;
-
         $this->showTable = true;
-        if (count($this->proyekData) == 0) $this->getProyek();
+        // if (count($this->proyekData) == 0) $this->getProyek();
+        $this->getKelasInfo();
+        $this->getProyek();
     }
 
     public function getKelasInfo()
     {
         $this->kelasInfo = [];
-        $waliKelas = '';
-
         $waliKelas = WaliKelas::where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
-            ->where('wali_kelas.kelas_id', $this->selectedKelas)
-            ->select('wali_kelas.id')
+            ->where('wali_kelas.user_id', auth()->id())
+            ->join('proyek', 'proyek.wali_kelas_id', 'wali_kelas.id')
+            ->where('proyek.id', $this->selectedProyek)
+            ->join('users', 'users.id', 'wali_kelas.user_id')
+            ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
+            ->join('tahun_ajaran', 'tahun_ajaran.id', 'wali_kelas.tahun_ajaran_id')
+            ->select(
+                'wali_kelas.id',
+                'proyek.judul_proyek as judul',
+                'kelas.nama as nama_kelas',
+                'users.name as nama_wali',
+                'kelas.id as kelas_id',
+                'kelas.fase',
+                'tahun_ajaran.tahun',
+                'tahun_ajaran.semester',
+            )
             ->first();
-
-        $data = null;
-        if ($this->selectedKelas && $waliKelas) {
-            $data = FunctionHelper::getKelasInfo($waliKelas['id']);
+        if ($waliKelas) {
+            $this->kelasInfo['judul'] = $waliKelas['judul'];
+            $this->kelasInfo['namaKelas'] = $waliKelas['nama_kelas'];
+            $this->kelasInfo['fase'] = $waliKelas['fase'];
+            $this->kelasInfo['tahunAjaran'] = $waliKelas['tahun'] . ' - ' . ucfirst($waliKelas['semester']);
+            $this->kelasInfo['namaWaliKelas'] = $waliKelas['nama_wali'];
         }
 
-        if ($data) {
-            $proyek = Proyek::where('wali_kelas_id', '=', $waliKelas['id'])->select('judul_proyek as judul')->first();
-            $this->kelasInfo['judul'] = $proyek['judul'];
-            $this->kelasInfo['namaKelas'] = $data['nama_kelas'];
-            $this->kelasInfo['fase'] = $data['fase'];
-            $this->kelasInfo['tahunAjaran'] = $data['tahun'] . ' - ' . ucfirst($data['semester']);
-        }
-
-        if (Gate::allows('superAdminOrKepsek') && $waliKelas) {
-            $waliKelasInfo = WaliKelas::where('wali_kelas.id', $waliKelas['id'])
-                ->joinUser()
-                ->select('users.name as nama_wali', 'wali_kelas.id as wali_kelas_id')
-                ->first();
-            $this->kelasInfo['namaWaliKelas'] = $waliKelasInfo['nama_wali'];
-            $this->kelasInfo['waliKelasId'] = $waliKelasInfo['wali_kelas_id'];
-        }
+        // $proyek = Proyek::where('wali_kelas_id', '=', $this->waliKelasId)->select('judul_proyek as judul')->first();
+        // $waliKelasInfo = WaliKelas::where('wali_kelas.id', $waliKelas['id'])
+        //     ->joinUser()
+        //     ->select('users.name as nama_wali', 'wali_kelas.id as wali_kelas_id')
+        //     ->first();
+        // $this->kelasInfo['namaWaliKelas'] = $waliKelasInfo['nama_wali'];
+        // $this->kelasInfo['waliKelasId'] = $waliKelasInfo['wali_kelas_id'];
     }
 
     public function getDaftarProyek()
     {
         $this->daftarProyek = [];
         $this->proyekData = [];
-        $this->getKelasInfo();
 
         if ($this->selectedKelas && $this->tahunAjaranAktif) {
             $this->daftarProyek = Proyek::query()
@@ -112,7 +128,8 @@ class Table extends Component
                     'proyek.judul_proyek',
                 )
                 ->orderBy('proyek.created_at')
-                ->get()->toArray();
+                ->get()
+                ->toArray();
 
             if (count($this->daftarProyek) > 0) {
                 $this->selectedProyek = $this->daftarProyek[0]['id'];
@@ -125,6 +142,8 @@ class Table extends Component
     {
         $this->proyekData = [];
         if ($this->selectedKelas && $this->tahunAjaranAktif && $this->selectedProyek) {
+            $this->proyek = Proyek::find($this->selectedProyek);
+
             $this->proyekData = Proyek::query()
                 ->joinAndSearchWaliKelas($this->tahunAjaranAktif, $this->selectedKelas)
                 ->where('proyek.id', '=', $this->selectedProyek)
@@ -182,7 +201,7 @@ class Table extends Component
 
     public function update($dataIndex, $nilaiIndex)
     {
-        $this->authorize('update', NilaiSubproyek::class);
+        $this->authorize('update', [NilaiSubproyek::class, $this->proyek]);
 
         // mengambil data siswa yang berubah
         $data = $this->nilaiData[$dataIndex];
