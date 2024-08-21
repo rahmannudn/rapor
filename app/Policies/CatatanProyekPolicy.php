@@ -2,16 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\CatatanProyek;
 use App\Models\User;
+use App\Models\Proyek;
+use App\Models\WaliKelas;
+use App\Models\CatatanProyek;
+use App\Helpers\FunctionHelper;
 use Illuminate\Auth\Access\Response;
 
 class CatatanProyekPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
     /**
      * Determine whether the user can view any models.
      */
@@ -39,9 +38,15 @@ class CatatanProyekPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, CatatanProyek $catatanProyek): bool
+    public function update(User $user, Proyek $proyek): bool
     {
-        //
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+            ->where('user_id', $user->id)
+            ->select('id')
+            ->first();
+
+        return $proyek->wali_kelas_id == $waliKelas['id'];
     }
 
     /**

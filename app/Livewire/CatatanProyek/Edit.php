@@ -2,16 +2,21 @@
 
 namespace App\Livewire\CatatanProyek;
 
-use App\Helpers\FunctionHelper;
 use App\Models\Siswa;
 use App\Models\Proyek;
 use Livewire\Component;
+use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
 use App\Models\CatatanProyek;
+use App\Helpers\FunctionHelper;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class Edit extends Component
 {
+    public $kelasNama;
+    public $namaWaliKelas;
+
     public $daftarKelas;
     public $daftarTahunAjaran;
     public $tahunAjaranAktif;
@@ -29,28 +34,36 @@ class Edit extends Component
     public function mount()
     {
         $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
-        if (Gate::allows('viewAny', CatatanProyek::class)) {
-            $this->daftarKelas = FunctionHelper::getDaftarKelasHasProyek($this->tahunAjaranAktif);
 
-            $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')
-                ->orderBy('created_at')
-                ->get();
-        }
+        $waliKelas = WaliKelas::join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
+            ->where('tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->where('user_id', auth()->id())
+            ->join('users', 'wali_kelas.user_id', 'users.id')
+            ->select(
+                'wali_kelas.id as wali_kelas_id',
+                'wali_kelas.kelas_id as kelas_id',
+                'kelas.nama as nama_kelas',
+                'users.name as nama_wali'
+            )
+            ->first();
 
-        if (Gate::allows('guru')) {
-        }
+        $this->kelasNama = $waliKelas['nama_kelas'];
+        $this->namaWaliKelas = $waliKelas['nama_wali'];
+        $this->selectedKelas = $waliKelas['kelas_id'];
+
+        $this->getCatatan();
     }
 
-    public function showForm()
-    {
-        $this->validate(
-            ['selectedKelas' => 'required'],
-            ['selectedKelas.required' => 'Kelas field is required.',]
-        );
-        if (is_null($this->selectedKelas)) return;
+    // public function showForm()
+    // {
+    //     $this->validate(
+    //         ['selectedKelas' => 'required'],
+    //         ['selectedKelas.required' => 'Kelas field is required.',]
+    //     );
+    //     if (is_null($this->selectedKelas)) return;
 
-        $this->formCreate = true;
-    }
+    //     $this->formCreate = true;
+    // }
 
     public function getCatatan()
     {
@@ -98,8 +111,10 @@ class Edit extends Component
 
     public function update(int $siswaIndex, string $proyekIndex)
     {
-        $this->authorize('update', CatatanProyek::class);
         $data = $this->catatanSiswa[$siswaIndex]['catatan_proyek'][$proyekIndex];
+        $proyek = Proyek::find($data['proyek_id']);
+
+        $this->authorize('update', [CatatanProyek::class, $proyek]);
         if (is_null($data['catatan']) && $data['catatan']) return;
         $siswaId = $this->catatanSiswa[$siswaIndex]['siswa_id'];
 
