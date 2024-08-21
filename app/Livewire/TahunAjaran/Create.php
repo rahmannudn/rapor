@@ -23,6 +23,9 @@ class Create extends Component
     public $semester;
     public $semesterAktif;
     public $confirmModal;
+    public $daftarTahunAjaran;
+    public $prevTahunAjaran;
+    public $tglRapor;
 
     #[Locked]
     public $validatedData;
@@ -32,16 +35,26 @@ class Create extends Component
         return view('livewire.tahun-ajaran.create');
     }
 
+    public function mount()
+    {
+        $this->reset();
+
+        $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get()->toArray();
+        // mengambil data tahun sekarang
+        $this->years = FunctionHelper::getDynamicYear();
+    }
+
     public function rules()
     {
         return [
             'tahunAwal' => ['required', new IsValidYear($this->tahunAkhir)],
             'tahunAkhir' => ['required',],
             'semester' => ['required', 'string'],
-            'semesterAktif' => ['required', 'boolean']
+            'semesterAktif' => ['required', 'boolean'],
+            'prevTahunAjaran' => ['nullable', 'integer'],
+            'tglRapor' => ['nullable', 'date'],
         ];
     }
-
 
     public function create($id = null)
     {
@@ -58,10 +71,12 @@ class Create extends Component
         TA::create([
             'tahun' => TA::concatTahunAjaran($this->validatedData['tahunAwal'], $this->validatedData['tahunAkhir']),
             'semester' => $this->validatedData['semester'],
-            'aktif' => $this->validatedData['semesterAktif']
+            'aktif' => $this->validatedData['semesterAktif'],
+            'prevTahunAjaran' => ['nullable', 'integer'],
+            'tglRapor' => ['nullable', 'date'],
         ]);
 
-        FunctionHelper::setCacheInfoSekolah();
+        $this->validatedData['semesterAktif'] ?? FunctionHelper::setCacheInfoSekolah();
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
         $this->redirectRoute('tahunAjaranIndex');
@@ -87,23 +102,15 @@ class Create extends Component
         $semesterSedangAktif = TahunAjaran::firstWhere('aktif', 1);
 
         // jika tidak ditemukan semester yang sedang aktif
-        if (!$semesterSedangAktif) {
-            $this->validatedData = $validated;
-            $this->create();
-            return;
-        }
+        // if (!$semesterSedangAktif) {
+        //     $this->validatedData = $validated;
+        //     $this->create();
+        //     return;
+        // }
 
         // jika semester aktif bernilai 1 dan ditemukan sudah ada semester yang aktif
         session()->flash('confirmDialog', ['message' => "Tahun ajaran aktif saat ini {$semesterSedangAktif['tahun']} {$semesterSedangAktif['semester']}. Perubahan tahun ajaran aktif dapat menimbulkan error pada penginputan nilai", 'id' => $semesterSedangAktif['id']]);
         $this->confirmModal = true;
         $this->validatedData = $validated;
-    }
-
-    public function mount()
-    {
-        $this->reset();
-
-        // mengambil data tahun sekarang
-        $this->years = FunctionHelper::getDynamicYear();
     }
 }

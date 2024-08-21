@@ -63,6 +63,20 @@
             <option value="1">Aktif</option>
             <option value="0">Tidak Aktif</option>
         </x-native-select>
+
+        <x-native-select wire:model='prevTahunAjaran' label="Tahun Ajaran Sebelumnya" class="mb-2">
+            <option value="" selected>-- Pilih semester sebelumnya --</option>
+            @foreach ($daftarTahunAjaran as $ta)
+                <option wire:key='{{ $ta['id'] }}' value="{{ $ta['id'] }}">
+                    {{ $ta['tahun'] }} - {{ Str::ucfirst($ta['semester']) }}
+                </option>
+            @endforeach
+        </x-native-select>
+
+        <div class="max-w-72">
+            <x-datetime-picker label="Tanggal Pembagian Rapor" placeholder="Masukkan Tanggal rapor"
+                display-format="DD-MM-YYYY" wire:model.defer="tgl_rapor" without-time="true" without-tips="true" />
+        </div>
     </div>
 
 
