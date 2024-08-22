@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kepsek', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('awal_menjabat')->constrained(table: 'tahun_ajaran');
+            $table->foreignId('awal_menjabat')->nullable()->constrained(table: 'tahun_ajaran');
             $table->foreignId('akhir_menjabat')->nullable()->constrained(table: 'tahun_ajaran');
             $table->foreignId('user_id')->constrained(table: 'users');
             $table->boolean('aktif');

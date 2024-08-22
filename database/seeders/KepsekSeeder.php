@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Kepsek;
+use App\Models\TahunAjaran;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class KepsekSeeder extends Seeder
 {
@@ -12,6 +14,17 @@ class KepsekSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $dataKepsek = [
+            [
+                'awal_menjabat' => null,
+                'akhir_menjabat' => null,
+                'user_id' => 5,
+                'aktif' => 1,
+            ],
+        ];
+
+        foreach ($dataKepsek as $kepsek) {
+            Kepsek::create($kepsek);
+        }
     }
 }

@@ -4,9 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\GuruMapel;
-use App\Models\NilaiSubproyek;
-use App\Models\Proyek;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SekolahSeeder::class,
             KelasSeeder::class,
+            KepsekSeeder::class,
             TahunAjaranSeeder::class,
             MapelSeeder::class,
             SiswaSeeder::class,
