@@ -2,14 +2,15 @@
 
 namespace App\Providers;
 
-use App\Helpers\FunctionHelper;
 use App\Models\User;
+use App\Models\Kepsek;
 use App\Models\Proyek;
 use Livewire\Livewire;
 use App\Livewire\Navbar;
 use App\Models\WaliKelas;
 use App\Models\TahunAjaran;
 use App\Policies\ProyekPolicy;
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -35,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->role == 'superadmin';
         });
         Gate::define('superAdminOrKepsek', function (User $user) {
-            if ($user->role == 'superadmin' || $user->role == 'kepsek') return true;
+            $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
+            if ($user->role == 'superadmin' || $isKepsekAktif) return true;
             return false;
         });
         Gate::define('superAdminOrAdmin', function (User $user) {
@@ -43,7 +45,9 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
         Gate::define('isAdminOrKepsek', function (User $user) {
-            if ($user->role == 'admin' || $user->role == 'superadmin' || $user->role == 'kepsek') return true;
+            $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
+
+            if ($user->role == 'admin' || $user->role == 'superadmin' || $isKepsekAktif) return true;
             return false;
         });
         Gate::define('isAdmin', function (User $user) {
@@ -54,11 +58,14 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('isWaliKelas', function (User $user) {
             $tahunAjaran = Cache::get('tahunAjaranAktif');
-            $waliKelas = WaliKelas::where('user_id', '=', Auth::id())->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
-            return count($waliKelas) > 0 || $user->role == 'kepsek';
+            $waliKelas = WaliKelas::where('user_id', '=', $user->id)->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
+            // $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
+
+            return count($waliKelas) > 0;
         });
         Gate::define('isKepsek', function (User $user) {
-            return $user->role == 'kepsek';
+            $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === $user->id;
+            return $isKepsekAktif;
         });
     }
 }

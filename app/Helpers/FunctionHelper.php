@@ -3,9 +3,11 @@
 namespace App\Helpers;
 
 use App\Models\Kelas;
+use App\Models\Kepsek;
 use App\Models\Proyek;
 use App\Models\Sekolah;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class FunctionHelper
@@ -62,6 +64,15 @@ class FunctionHelper
         Cache::remember('tahunAjaranAktif', now()->addMinutes(15), function () {
             return TahunAjaran::where('aktif', 1)->first()['id'];
         });
+    }
+
+    public static function setCacheKepsekAktif()
+    {
+        // $kepsekAktif = Kepsek::where('aktif', 1)->select('user_id')->first()->toArray();
+        // return auth()->id() === $kepsekAktif['user_id'];
+        Cache::forget('kepsekAktif');
+        $kepsekAktif = Kepsek::where('aktif', 1)->select('user_id')->first()->toArray();
+        Cache::put('kepsekAktif', $kepsekAktif['user_id'], now()->addDays(1));
     }
 
     public static function setCacheInfoSekolah()

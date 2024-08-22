@@ -8,6 +8,9 @@ use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Helpers\FunctionHelper;
+use App\Models\WaliKelas;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
 
 class Table extends Component
@@ -22,10 +25,11 @@ class Table extends Component
     public function render()
     {
         $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+
         $kelasData = Kelas::search($this->searchQuery)
             ->leftJoin('wali_kelas', function (JoinClause $join) {
                 $join->on('wali_kelas.kelas_id', '=', 'kelas.id')
-                    ->where('wali_kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif['id']);
+                    ->where('wali_kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif);
             })
             ->leftJoin('users', 'users.id', 'wali_kelas.user_id')
             ->select('kelas.id as id', 'kelas.nama as nama', 'kelas.fase as fase', 'users.name as nama_guru')

@@ -155,7 +155,7 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
         Route::get('/{kelasData}/edit', KelasEdit::class)->name('Edit');
     });
 
-    Route::get('/{kelasData}/config', KelasConfig::class)->name('kelasConfig')->can('viewAny', Kelas::class);
+    Route::get('/{kelasData}/config', KelasConfig::class)->name('kelasConfig')->middleware('check_permission:isKepsek');
 });
 
 // kepsek

@@ -19,6 +19,14 @@ new class extends Component {
         $this->redirect('/');
     }
 
+    public function mount()
+    {
+        FunctionHelper::setCacheTahunAjaran();
+        FunctionHelper::setCacheInfoSekolah();
+        FunctionHelper::setCacheKepsekAktif();
+        FunctionHelper::setCacheTahunAjaran();
+    }
+
     // public function rendering()
     // {
     //     if (!Session::get('tahunAjaranAktif')) {

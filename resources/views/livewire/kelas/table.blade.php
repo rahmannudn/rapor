@@ -53,7 +53,7 @@
                         {{ Str::upper($data->fase) }}
                     </td>
                     <td class="px-4 py-4">
-                        @can('viewAny', Auth::id())
+                        @can('isKepsek', auth()->user())
                             <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
                                 class="mb-3" icon="cog" info label="Atur Rombel" />
                         @endcan

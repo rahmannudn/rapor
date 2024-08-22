@@ -2,6 +2,7 @@
 
 namespace App\Livewire\TahunAjaran;
 
+use App\Models\Kepsek;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Title;
@@ -13,6 +14,8 @@ class Index extends Component
 
     public $selectedTahunAjaran;
     public $deleteModal;
+
+    public function mount() {}
 
     public function render()
     {
