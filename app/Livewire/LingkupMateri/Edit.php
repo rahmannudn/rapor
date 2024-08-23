@@ -4,7 +4,9 @@ namespace App\Livewire\LingkupMateri;
 
 use Livewire\Component;
 use App\Models\LingkupMateri;
+use App\Models\DetailGuruMapel;
 use App\Models\TujuanPembelajaran;
+use Illuminate\Support\Facades\Auth;
 
 class Edit extends Component
 {
@@ -44,7 +46,13 @@ class Edit extends Component
 
     public function update(LingkupMateri $lm)
     {
-        $this->authorize('update', LingkupMateri::class);
+        $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $lm->detail_guru_mapel_id)
+            ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+            ->where('guru_mapel.user_id', Auth::id())
+            ->select('guru_mapel.user_id')
+            ->first();
+
+        $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
 
         $validated = $this->validate([
             'deskripsi' => 'required|string|min:3',

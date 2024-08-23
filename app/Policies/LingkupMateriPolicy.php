@@ -2,16 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\LingkupMateri;
 use App\Models\User;
+use App\Models\Mapel;
+use App\Models\LingkupMateri;
+use App\Models\DetailGuruMapel;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class LingkupMateriPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
     /**
      * Determine whether the user can view any models.
      */
@@ -31,9 +30,9 @@ class LingkupMateriPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, $detailIdUser): bool
     {
-        //
+        return $user->id === $detailIdUser['user_id'];
     }
 
     /**

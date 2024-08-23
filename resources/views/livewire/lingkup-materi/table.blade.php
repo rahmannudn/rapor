@@ -20,22 +20,22 @@
                     </x-native-select>
                 </div>
             @endcan
-            <div class="max-w-44">
+            {{-- <div class="max-w-44">
                 <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
                     <option value="">Semua</option>
                     @foreach ($daftarKelas as $kelas)
                         <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
                     @endforeach
                 </x-native-select>
-            </div>
-            <div class="max-w-44">
+            </div> --}}
+            {{-- <div class="max-w-44">
                 <x-native-select label="Mapel" wire:model.change='selectedMapel' class="w-[30%]">
                     <option value="">Semua</option>
                     @foreach ($daftarMapel as $mapel)
                         <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
                     @endforeach
                 </x-native-select>
-            </div>
+            </div> --}}
         </div>
 
         <div class="block md:w-80">

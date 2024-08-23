@@ -220,6 +220,10 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::get('/nilai_proyek', NilaiSubproyekIndex::class)
         ->name('nilaiSubproyekIndex')->lazy();
+
+    Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
+    Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
 });
 
 // guru mapel
@@ -240,10 +244,6 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
             ->name('Create');
         Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->name('Edit');
     });
-
-    Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
-    Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
-    Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
 });
 
 Route::view('profile', 'profile')

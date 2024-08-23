@@ -59,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('isWaliKelas', function (User $user) {
             $tahunAjaran = Cache::get('tahunAjaranAktif');
             $waliKelas = WaliKelas::where('user_id', '=', $user->id)->where('tahun_ajaran_id', '=', $tahunAjaran)->get();
-            // $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
 
             return count($waliKelas) > 0;
         });

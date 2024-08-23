@@ -2,8 +2,10 @@
 
 namespace App\Livewire\LingkupMateri;
 
-use App\Models\LingkupMateri;
 use Livewire\Component;
+use App\Models\LingkupMateri;
+use App\Models\DetailGuruMapel;
+use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
@@ -18,9 +20,15 @@ class Index extends Component
     public function destroy()
     {
         try {
-            $this->authorize('delete', LingkupMateri::class);
-
             $lm = LingkupMateri::find($this->selectedLM);
+
+            $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $lm->detail_guru_mapel_id)
+                ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+                ->where('guru_mapel.user_id', Auth::id())
+                ->select('guru_mapel.user_id')
+                ->first();
+
+            $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
             if (!$lm) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
             }
