@@ -190,7 +190,7 @@ new class extends Component {
                     </li>
                 @endcan
 
-                @can('isKepsek', Auth::id())
+                {{-- @can('isKepsek', Auth::id())
                     <li>
                         <a href="{{ route('waliKelasIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('waliKelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
@@ -208,7 +208,7 @@ new class extends Component {
                             <span class="ms-3">Wali Kelas</span>
                         </a>
                     </li>
-                @endcan
+                @endcan --}}
 
                 @can('isWaliKelas', auth()->user())
                     <li>
