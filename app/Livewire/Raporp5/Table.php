@@ -23,6 +23,7 @@ class Table extends Component
             ->join('kelas_siswa', 'kelas_siswa.kelas_id', 'wali_kelas.kelas_id')
             ->where('kelas_siswa.tahun_ajaran_id', $tahunAjaranAktif)
             ->join('siswa', 'siswa.id', 'kelas_siswa.siswa_id')
+            ->orderBy('siswa.nama', 'ASC')
             ->select('siswa.id', 'siswa.nama')
             ->paginate($this->show);
 

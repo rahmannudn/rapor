@@ -16,11 +16,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            width: 210mm;
+            width: 100%;
             min-height: 297mm;
             margin: auto;
             background: white;
-            padding: 20mm 15mm;
         }
 
         .container {
@@ -192,122 +191,136 @@
         <table id="info-table">
             <tr>
                 <td class="label">Nama Sekolah</td>
-                <td class="value">: SD NEGERI KUIN UTARA 7</td>
+                <td class="value">: {{ $result['nama_sekolah'] }}</td>
                 <td class="right-label">Kelas</td>
-                <td class="right-value">: IV</td>
+                <td class="right-value">: {{ $result['nama_kelas'] }}</td>
             </tr>
             <tr>
                 <td class="label">Alamat Sekolah</td>
-                <td class="value">: Gg. Al Mizan Jl. Kuin Utara</td>
+                <td class="value">: {{ $result['alamat_sekolah'] }}</td>
                 <td class="right-label">Fase</td>
-                <td class="right-value">: B</td>
+                <td class="right-value">: {{ Str::ucfirst($result['fase']) }}</td>
             </tr>
             <tr>
                 <td class="label">Nama Siswa</td>
-                <td class="value">: Siti Sultonah</td>
+                <td class="value">: {{ $result['nama_siswa'] }}</td>
                 <td class="right-label">TA</td>
-                <td class="right-value">: 2023/2024</td>
+                <td class="right-value">: {{ $result['tahun_ajaran'] }}</td>
             </tr>
             <tr>
                 <td class="label">NISN</td>
-                <td class="value">:</td>
+                <td class="value">: {{ $result['nisn'] }}</td>
                 <td class="right-label"></td>
                 <td class="right-value"></td>
             </tr>
         </table>
 
-        <div class="project-box">
-            <p class="project-title">Proyek 1 : Dari Sampah Plastik Menjadi Karya Menarik</p>
-            <p class="project-content">
-                Pemanfaatan sampah plastik untuk pembuatan ecobrick adalah pendekatan kreatif dan berkelanjutan dalam
-                menghadapi masalah limbah plastik yang terus meningkat.
-                Dengan mengumpulkan, mencacah, dan mengisi botol plastik bekas dengan plastik yang padat, ecobrick
-                menjadi bata plastik yang solid. Proses ini membantu mengurangi jumlah sampah plastik yang berakhir di
-                lingkungan dan memberikan solusi yang ramah lingkungan dengan mengubah sampah plastik menjadi sumber
-                daya yang bernilai.
-            </p>
-        </div>
+        @foreach ($result['proyek'] as $proyek)
+            <div class="project-box">
+                <p class="project-title">Proyek {{ $loop->index + 1 }} : {{ $proyek['judul_proyek'] }}</p>
+                <p class="project-content">
+                    {{ $proyek['proyek_deskripsi'] }}
+                </p>
+            </div>
+        @endforeach
 
-        <div class="project-box">
-            <p class="project-title">Proyek 2 : Daur Ulang Sampah Organik Menjadi Kompos</p>
-            <p class="project-content">
-                Daur ulang sampah organik menjadi kompos adalah suatu proses yang mengubah sisa-sisa organik seperti
-                sisa makanan, daun kering, dan bahan organik lainnya menjadi bahan kompos yang bernilai tinggi.
-                Kompos yang dihasilkan dari daur ulang sampah organik ini merupakan pupuk alami yang sangat baik untuk
-                meningkatkan kesuburan tanah, meningkatkan kemampuan tanah dalam menahan air, serta mengurangi
-                ketergantungan pada pupuk kimia yang berbahaya bagi lingkungan.
-            </p>
-        </div>
-
-        <div class="project-box">
+        {{-- <div class="project-box">
             <p class="project-title"></p>
             <p class="project-content">
             </p>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Halaman 2 -->
-    <div class="page-break"></div>
-    <div class="container">
-        <table class="project-detail">
-            <tr>
-                <th rowspan="2" class="description-cell">Dari Sampah Plastik Menjadi Karya Menarik</th>
-                <th colspan="4">Penilaian</th>
-            </tr>
-            <tr>
-                <th>BB</th>
-                <th>MB</th>
-                <th>BSH</th>
-                <th>SB</th>
-            </tr>
-            <tr>
-                <td class="description-cell">Bergotong-Royong<br>Persepsi sosial - Memahami berbagai alasan orang lain
-                    menampilkan respon tertentu</td>
-                <td></td>
-                <td>&#10004;</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="description-cell">Kreatif<br>Menghasilkan karya dan tindakan yang orisinal - Mengeksplorasi
-                    dan mengekspresikan pikiran dan/atau perasaannya sesuai dengan minat dan kesukaannya dalam bentuk
-                    karya dan/atau tindakan nyata yang produktif.</td>
-                <td></td>
-                <td>&#10004;</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai dengan
-                    harapan dan tujuan kelompok.</td>
-                <td></td>
-                <td></td>
-                <td>&#10004;</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai dengan
-                    harapan dan tujuan kelompok.</td>
-                <td></td>
-                <td></td>
-                <td>&#10004;</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai dengan
-                    harapan dan tujuan kelompok.</td>
-                <td></td>
-                <td></td>
-                <td>&#10004;</td>
-                <td></td>
-            </tr>
-        </table>
+    @foreach ($result['proyek'] as $proyek)
+        <div class="page-break"></div>
+        <div class="container">
+            <table class="project-detail">
+                <tr>
+                    <th rowspan="2" class="description-cell">{{ $proyek['judul_proyek'] }}</th>
+                    <th colspan="4">Penilaian</th>
+                </tr>
+                <tr>
+                    <th>BB</th>
+                    <th>MB</th>
+                    <th>BSH</th>
+                    <th>SB</th>
+                </tr>
+                @foreach ($proyek['subproyek'] as $sub)
+                    <tr>
+                        <td class="description-cell">
+                            <strong>{{ $sub['dimensi_deskripsi'] }}</strong><br>{{ $sub['subelemen_deskripsi'] }} -
+                            {{ $sub['capaian_fase_deskripsi'] }}
+                        </td>
+                        <td>
+                            @if ($sub['nilai'] == 'bb')
+                                v
+                            @endif
+                        </td>
+                        <td>
+                            @if ($sub['nilai'] == 'mb')
+                                v
+                            @endif
+                        </td>
+                        <td>
+                            @if ($sub['nilai'] == 'bsh')
+                                v
+                            @endif
+                        </td>
+                        <td>
+                            @if ($sub['nilai'] == 'sb')
+                                v
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
 
-        <div class="notes">
-            <p>Catatan Proses</p>
-            <textarea></textarea>
+                {{-- <tr>
+                    <td class="description-cell">Kreatif<br>Menghasilkan karya dan tindakan yang orisinal -
+                        Mengeksplorasi
+                        dan mengekspresikan pikiran dan/atau perasaannya sesuai dengan minat dan kesukaannya dalam
+                        bentuk
+                        karya dan/atau tindakan nyata yang produktif.</td>
+                    <td></td>
+                    <td>&#10004;</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
+                        dengan
+                        harapan dan tujuan kelompok.</td>
+                    <td></td>
+                    <td></td>
+                    <td>&#10004;</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
+                        dengan
+                        harapan dan tujuan kelompok.</td>
+                    <td></td>
+                    <td></td>
+                    <td>&#10004;</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
+                        dengan
+                        harapan dan tujuan kelompok.</td>
+                    <td></td>
+                    <td></td>
+                    <td>&#10004;</td>
+                    <td></td>
+                </tr> --}}
+            </table>
+
+            <div class="notes">
+                <p>Catatan Proses</p>
+                <textarea>{{ $proyek['catatan'] }}</textarea>
+            </div>
         </div>
-    </div>
+    @endforeach
 
     <!-- Halaman 3 -->
     <div class="page-break"></div>

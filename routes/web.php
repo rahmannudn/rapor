@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RaporP5Controller;
 use App\Http\Middleware\CheckPermission;
 use App\Livewire\TahunAjaran\Index as TahunAjaranIndex;
 use App\Livewire\TahunAjaran\Create as TahunAjaranCreate;
@@ -241,6 +242,8 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
     });
 
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
+    Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
 });
 
 Route::view('profile', 'profile')
