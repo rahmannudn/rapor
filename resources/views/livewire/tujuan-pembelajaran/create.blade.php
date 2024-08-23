@@ -58,23 +58,23 @@
         </div>
     </div>
 
-    @if ($formCreate)
-        <div class="mb-2 space-y-4">
-            <div class="space-y-2">
-                <x-textarea label="Tujuan Pembelajaran" placeholder="Masukkan Tujuan Pembelajaran"
-                    wire:model="tujuanPembelajaran" />
-            </div>
+    {{-- @if ($formCreate) --}}
+    <div class="mb-2 space-y-4">
+        <div class="space-y-2">
+            <x-textarea label="Tujuan Pembelajaran" placeholder="Masukkan Tujuan Pembelajaran"
+                wire:model="tujuanPembelajaran" />
         </div>
-    @endif
+    </div>
+    {{-- @endif --}}
 
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
-            @if ($formCreate)
-                <x-button href="{{ route('tujuanPembelajaranIndex') }}" secondary label="Cancel" x-on:click="close" />
-                <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
-            @else
+            {{-- @if ($formCreate) --}}
+            <x-button href="{{ route('tujuanPembelajaranIndex') }}" secondary label="Cancel" x-on:click="close" />
+            <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
+            {{-- @else
                 <x-button primary label="Tampilkan Form" x-on:click="$wire.showForm" spinner />
-            @endif
+            @endif --}}
         </div>
     </div>
 </div>

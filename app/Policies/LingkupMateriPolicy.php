@@ -38,10 +38,7 @@ class LingkupMateriPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, LingkupMateri $lingkupMateri): bool
-    {
-        //
-    }
+    public function update(User $user, LingkupMateri $lingkupMateri): bool {}
 
     /**
      * Determine whether the user can delete the model.

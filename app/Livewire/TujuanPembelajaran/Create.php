@@ -20,7 +20,7 @@ use Illuminate\Database\Query\JoinClause;
 
 class Create extends Component
 {
-    public $daftarGuruMapel;
+    // public $daftarGuruMapel;
     public $daftarKelas;
     public $daftarMapel;
     public $formCreate;
@@ -41,18 +41,17 @@ class Create extends Component
     public function mount()
     {
         $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
-        if (Gate::allows('isSuperAdmin')) {
-            // menampilkan kelas yang diajar, menampilkan mata pelajaran yang diajar
-            $this->daftarGuruMapel = DB::table('users')
-                ->join('guru_mapel', 'users.id', '=', 'guru_mapel.user_id')
-                ->where('guru_mapel.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
-                ->select('users.name as nama_guru', 'guru_mapel.id')
-                ->distinct()
-                ->get();
-        }
+        // menampilkan kelas yang diajar, menampilkan mata pelajaran yang diajar
+        // $this->daftarGuruMapel = DB::table('users')
+        //     ->join('guru_mapel', 'users.id', '=', 'guru_mapel.user_id')
+        //     ->where('guru_mapel.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
+        //     ->select('users.name as nama_guru', 'guru_mapel.id')
+        //     ->distinct()
+        //     ->get();
 
-        if (Gate::allows('guru')) {
+        if (Gate::allows('isGuru')) {
             $this->selectedGuru = Auth::id();
+            $this->getKelas();
         }
     }
 
@@ -66,7 +65,7 @@ class Create extends Component
         if ($this->selectedGuru) {
             $this->daftarKelas = DB::table('detail_guru_mapel')
                 ->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
-                ->where('guru_mapel.id', '=', $this->selectedGuru)
+                ->where('guru_mapel.user_id', '=', $this->selectedGuru)
                 ->join('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
                 ->select('kelas.id', 'kelas.nama')
                 ->distinct()
@@ -84,33 +83,31 @@ class Create extends Component
                 })
                 ->join('guru_mapel', function (JoinClause $q) {
                     $q->on('guru_mapel.id', '=', 'detail_guru_mapel.guru_mapel_id')
-                        ->where('guru_mapel.id', '=', $this->selectedGuru);
+                        ->where('guru_mapel.user_id', '=', $this->selectedGuru);
                 })
                 ->select('mapel.nama_mapel', 'detail_guru_mapel.id as detail_guru_mapel_id')
                 ->get();
         }
     }
 
-    public function showForm()
-    {
-        $validated = $this->validate([
-            'selectedGuru' => 'required',
-            'selectedKelas' => 'required',
-            'selectedDetailGuruMapel' => 'required',
-        ], [
-            'selectedGuru.required' => 'Guru field is required.',
-            'selectedKelas.required' => 'Kelas field is required.',
-            'selectedDetailGuruMapel.required' => 'Mapel field is required.',
-        ]);
+    // public function showForm()
+    // {
+    //     $validated = $this->validate([
+    //         'selectedGuru' => 'required',
+    //         'selectedKelas' => 'required',
+    //         'selectedDetailGuruMapel' => 'required',
+    //     ], [
+    //         'selectedGuru.required' => 'Guru field is required.',
+    //         'selectedKelas.required' => 'Kelas field is required.',
+    //         'selectedDetailGuruMapel.required' => 'Mapel field is required.',
+    //     ]);
 
-        if (is_null($this->selectedGuru) && is_null($this->selectedKelas) && is_null($this->selectedDetailGuruMapel)) return;
-        $this->formCreate = 'true';
-    }
+    //     if (is_null($this->selectedGuru) && is_null($this->selectedKelas) && is_null($this->selectedDetailGuruMapel)) return;
+    //     $this->formCreate = 'true';
+    // }
 
     public function save()
     {
-        $this->authorize('create', TujuanPembelajaran::class);
-
         $validated = $this->validate([
             'selectedGuru' => 'required',
             'selectedKelas' => 'required',
@@ -121,6 +118,14 @@ class Create extends Component
             'selectedKelas.required' => 'Kelas field is required.',
             'selectedDetailGuruMapel.required' => 'Mapel field is required.',
         ]);
+
+        $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel)
+            ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+            ->where('guru_mapel.user_id', Auth::id())
+            ->select('guru_mapel.user_id')
+            ->first();
+
+        $this->authorize('create', [TujuanPembelajaran::class, $detailIdUser]);
 
         TujuanPembelajaran::create(
             [

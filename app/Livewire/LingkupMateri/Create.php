@@ -100,6 +100,14 @@ class Create extends Component
 
     public function save()
     {
+        $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel)
+            ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+            ->where('guru_mapel.user_id', Auth::id())
+            ->select('guru_mapel.user_id')
+            ->first();
+
+        $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
+
         $validated = $this->validate([
             'selectedGuru' => 'required',
             'selectedKelas' => 'required',
@@ -110,14 +118,6 @@ class Create extends Component
             'selectedKelas.required' => 'Kelas field is required.',
             'selectedDetailGuruMapel.required' => 'Mapel field is required.',
         ]);
-
-        $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel)
-            ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
-            ->where('guru_mapel.user_id', Auth::id())
-            ->select('guru_mapel.user_id')
-            ->first();
-
-        $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
 
         LingkupMateri::create(
             [

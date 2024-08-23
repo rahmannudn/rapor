@@ -8,10 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class TujuanPembelajaranPolicy
 {
-    public function before(User $user): bool
-    {
-        return $user->role == 'superadmin';
-    }
+    // public function before(User $user): bool
+    // {
+    //     return $user->role == 'superadmin';
+    // }
 
     /**
      * Determine whether the user can view any models.
@@ -32,9 +32,9 @@ class TujuanPembelajaranPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, $detailIdUser): bool
     {
-        //
+        return $user->id === $detailIdUser['user_id'];
     }
 
     /**

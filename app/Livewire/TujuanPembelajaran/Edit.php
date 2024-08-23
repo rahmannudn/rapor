@@ -2,12 +2,18 @@
 
 namespace App\Livewire\TujuanPembelajaran;
 
-use App\Models\TujuanPembelajaran;
 use Livewire\Component;
+use App\Models\DetailGuruMapel;
+use App\Models\TujuanPembelajaran;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Locked;
 
 class Edit extends Component
 {
     public TujuanPembelajaran $tujuanPembelajaran;
+
+    #[Locked]
+    public $detailGuruMapelId;
 
     public $namaGuru;
     public $kelas;
@@ -33,21 +39,30 @@ class Edit extends Component
                 'mapel.nama_mapel',
                 'kelas.nama as nama_kelas',
                 'users.name as nama_guru',
+                'detail_guru_mapel.id as detail_guru_mapel_id'
             )
             ->firstWhere('tujuan_pembelajaran.id', '=', $this->tujuanPembelajaran['id']);
 
         $this->namaGuru = $data['nama_guru'];
         $this->kelas = $data['nama_kelas'];
         $this->namaMapel = $data['nama_mapel'];
+        $this->detailGuruMapelId = $data['detail_guru_mapel_id'];
     }
 
     public function update(TujuanPembelajaran $tp)
     {
-        $this->authorize('update', TujuanPembelajaran::class);
+        $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $this->detailGuruMapelId)
+            ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+            ->where('guru_mapel.user_id', Auth::id())
+            ->select('guru_mapel.user_id')
+            ->first();
+
+        $this->authorize('create', [TujuanPembelajaran::class, $detailIdUser]);
 
         $validated = $this->validate([
             'deskripsi' => 'required|string|min:3',
         ]);
+
 
         if ($this->tujuanPembelajaran['deskripsi'] == $this->deskripsi) {
             session()->flash('gagal', 'Tidak ada perubahan data');

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\TujuanPembelajaran;
 
-use App\Models\TujuanPembelajaran;
 use Livewire\Component;
+use App\Models\DetailGuruMapel;
+use App\Models\TujuanPembelajaran;
+use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
@@ -18,12 +20,17 @@ class Index extends Component
     public function destroy()
     {
         try {
-            $this->authorize('delete', TujuanPembelajaran::class);
-
             $tp = TujuanPembelajaran::find($this->selectedTP);
             if (!$tp) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'Data Tidak Ditemukan', icon: 'success');
             }
+            $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $tp->detail_guru_mapel_id)
+                ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
+                ->where('guru_mapel.user_id', Auth::id())
+                ->select('guru_mapel.user_id')
+                ->first();
+
+            $this->authorize('create', [TujuanPembelajaran::class, $detailIdUser]);
             $tp->delete();
 
             session()->flash('success', 'Data Berhasil Dihapus');

@@ -10,7 +10,7 @@
                 </x-native-select>
             </div>
 
-            @can('isSuperAdmin', Auth::id())
+            {{-- @can('isSuperAdmin', Auth::id())
                 <div class="max-w-52">
                     <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
                         <option value="">Semua</option>
@@ -19,8 +19,8 @@
                         @endforeach
                     </x-native-select>
                 </div>
-            @endcan
-            <div class="max-w-44">
+            @endcan --}}
+            {{-- <div class="max-w-44">
                 <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
                     <option value="">Semua</option>
                     @foreach ($daftarKelas as $kelas)
@@ -35,7 +35,7 @@
                         <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
                     @endforeach
                 </x-native-select>
-            </div>
+            </div> --}}
         </div>
 
         <div class="block md:w-80">
@@ -62,14 +62,14 @@
                     <th scope="col" class="px-4 py-3 ">
                         Tujuan Pembelajaran
                     </th>
-                    @can('isSuperAdmin', Auth::id())
+                    {{-- @can('isSuperAdmin', Auth::id())
                         <th scope="col" class="px-4 py-3 ">
                             Kelas
                         </th>
                         <th scope="col" class="px-4 py-3 ">
                             Tahun Ajaran
                         </th>
-                    @endcan
+                    @endcan --}}
                     <th scope="col" class="px-4 py-3">
                         Action
                     </th>
