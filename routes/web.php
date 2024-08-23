@@ -84,7 +84,10 @@ use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
 
 use App\Livewire\Raporp5\Index as RaporP5Index;
 
+use App\Livewire\NilaiSumatif\Index as NilaiSumatifIndex;
+
 use App\Models\Kelas;
+use App\Models\NilaiSumatif;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -244,6 +247,9 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
             ->name('Create');
         Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->name('Edit');
     });
+
+    Route::get('/nilai_sumatif', NilaiSumatif::class)
+        ->name('nilaiSumatifIndex')->lazy();
 });
 
 Route::view('profile', 'profile')
