@@ -86,6 +86,8 @@ use App\Livewire\Raporp5\Index as RaporP5Index;
 
 use App\Livewire\NilaiSumatif\Index as NilaiSumatifIndex;
 
+use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
+
 use App\Models\Kelas;
 use App\Models\NilaiSumatif;
 use Illuminate\Support\Facades\Route;
@@ -250,6 +252,9 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
 
     Route::get('/nilai_sumatif', NilaiSumatifIndex::class)
         ->name('nilaiSumatifIndex')->lazy();
+
+    Route::get('/nilai_formatif', NilaiFormatifIndex::class)
+        ->name('nilaiFormatifIndex')->lazy();
 });
 
 Route::view('profile', 'profile')
