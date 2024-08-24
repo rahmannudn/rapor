@@ -27,17 +27,14 @@ class NilaiSumatifPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
-    {
-        //
-    }
+    public function create(User $user, $user_id): bool {}
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, NilaiSumatif $nilaiSumatif): bool
+    public function update(User $user, $user_id): bool
     {
-        //
+        return $user->id === $user_id;
     }
 
     /**

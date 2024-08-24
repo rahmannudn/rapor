@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('detail_guru_mapel_id')->constrained('detail_guru_mapel');
             $table->foreignId('rapor_id')->constrained('rapor');
             $table->foreignId('lingkup_materi_id')->constrained('lingkup_materi');
-            $table->string('nilai', 3);
+            $table->string('nilai', 3)->nullable();
             $table->timestamps();
         });
     }

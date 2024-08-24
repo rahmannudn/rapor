@@ -341,6 +341,21 @@ new class extends Component {
                     </li>
 
                     <li>
+                        <a href="{{ route('nilaiSumatifIndex') }}"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiSumatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                            wire:navigate>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                            </svg>
+
+                            <span class="ms-3">Nilai Sumatif</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('tujuanPembelajaranIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tujuanPembelajaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
                             wire:navigate>

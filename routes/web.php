@@ -248,7 +248,7 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
         Route::get('/{lingkupMateri}/edit', LingkupMateriEdit::class)->name('Edit');
     });
 
-    Route::get('/nilai_sumatif', NilaiSumatif::class)
+    Route::get('/nilai_sumatif', NilaiSumatifIndex::class)
         ->name('nilaiSumatifIndex')->lazy();
 });
 

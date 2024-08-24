@@ -79,6 +79,7 @@ class Table extends Component
                         'siswa.id as siswa_id',
                         'siswa.nama as nama_siswa',
                         'catatan_proyek.catatan',
+                        'proyek.id as proyek_id'
                     )
                     ->orderBy('siswa.nama')
                     ->orderBy('proyek.created_at')
