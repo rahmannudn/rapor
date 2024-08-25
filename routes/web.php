@@ -97,6 +97,7 @@ use App\Livewire\NilaiEkskul\Edit as NilaiEkskulEdit;
 use App\Livewire\Prestasi\Index as PrestasiIndex;
 use App\Livewire\Prestasi\Create as PrestasiCreate;
 use App\Livewire\Prestasi\Edit as PrestasiEdit;
+use App\Livewire\Prestasi\Detail as PrestasiDetail;
 
 use Illuminate\Support\Facades\Route;
 
@@ -173,6 +174,7 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
         Route::get('/', PrestasiIndex::class)->name('Index')->lazy();
         Route::get('/create', PrestasiCreate::class)->name('Create');
         Route::get('/{prestasiData}/edit', PrestasiEdit::class)->name('Edit');
+        Route::get('/{prestasiData}/detail', PrestasiDetail::class)->name('Detail');
     });
 });
 
