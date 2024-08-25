@@ -94,10 +94,10 @@ use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
 use App\Livewire\NilaiEkskul\Create as NilaiEkskulCreate;
 use App\Livewire\NilaiEkskul\Edit as NilaiEkskulEdit;
 
-use App\Models\Kelas;
-use App\Models\NilaiEkskul;
-use App\Models\NilaiSumatif;
-use App\Models\TahunAjaran;
+use App\Livewire\Prestasi\Index as PrestasiIndex;
+use App\Livewire\Prestasi\Create as PrestasiCreate;
+use App\Livewire\Prestasi\Edit as PrestasiEdit;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -168,6 +168,11 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
     });
 
     Route::get('/{kelasData}/config', KelasConfig::class)->name('kelasConfig')->middleware('check_permission:isKepsek');
+    Route::name('prestasi')->prefix('prestasi')->group(function () {
+        Route::get('/', PrestasiIndex::class)->name('Index')->lazy();
+        Route::get('/create', PrestasiCreate::class)->name('Create');
+        Route::get('/{prestasiData}/edit', PrestasiEdit::class)->name('Edit');
+    });
 });
 
 
