@@ -21,7 +21,7 @@ class GuruMapelSeeder extends Seeder
                 'tahun_ajaran_id' => 2
             ],
             [
-                'user_id' => 4,
+                'user_id' => 2,
                 'tahun_ajaran_id' => 2
             ],
         ];

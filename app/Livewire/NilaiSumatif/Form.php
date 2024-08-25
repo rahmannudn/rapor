@@ -127,7 +127,6 @@ class Form extends Component
         $nilai = Siswa::joinKelasSiswa()
             ->where('kelas_siswa.kelas_id', $this->selectedKelas)
             ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
-            ->leftJoin('rapor', 'rapor.kelas_siswa_id', 'kelas_siswa.id')
             ->leftJoin('detail_guru_mapel', function (JoinClause $q) {
                 $q->on('detail_guru_mapel.kelas_id', '=', 'kelas_siswa.kelas_id')
                     ->where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel);
@@ -135,12 +134,12 @@ class Form extends Component
             ->leftJoin('lingkup_materi', 'lingkup_materi.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
             ->leftJoin('nilai_sumatif', function (JoinClause $q) {
                 $q->on('nilai_sumatif.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
-                    ->on('nilai_sumatif.rapor_id', 'rapor.id')
-                    ->on('nilai_sumatif.lingkup_materi_id', 'lingkup_materi.id');
+                    ->on('nilai_sumatif.kelas_siswa_id', '=', 'kelas_siswa.id')
+                    ->on('nilai_sumatif.lingkup_materi_id', '=', 'lingkup_materi.id');
             })
             ->leftJoin('nilai_sumatif_akhir', function (JoinClause $q) {
                 $q->on('nilai_sumatif_akhir.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
-                    ->on('nilai_sumatif_akhir.rapor_id', '=', 'rapor.id');
+                    ->on('nilai_sumatif_akhir.kelas_siswa_id', '=', 'kelas_siswa.id');
             })
             ->select(
                 'siswa.id as id_siswa',
@@ -191,32 +190,19 @@ class Form extends Component
 
         // mencari array sesuai index nilai yang berubah
         $data = $this->nilaiData[$dataIndex];
-        // mencari data rapor siswa
-        $rapor = Rapor::where('kelas_siswa_id', '=', $data['kelas_siswa_id'])
-            ->where('wali_kelas_id', '=', $this->waliKelas['id'])
-            ->select('id')
-            ->first();
-
-        // membuat data rapor jika tidak ditemukan
-        if (!$rapor) {
-            $rapor = Rapor::create([
-                'kelas_siswa_id' => (int)$data['kelas_siswa_id'],
-                'wali_kelas_id' => $this->waliKelas['id'],
-            ]);
-        }
 
         // mengambil data siswa yang berubah        
         if ($nilaiIndex === 'nilai_tes' || $nilaiIndex === 'nilai_nontes') {
             $hasilNilai = NilaiSumatifAkhir::updateOrCreate([
                 'detail_guru_mapel_id' => $this->selectedDetailGuruMapel,
-                'rapor_id' => $rapor['id'],
+                'kelas_siswa_id' => $data['kelas_siswa_id'],
             ], [
                 $nilaiIndex => $data['nilai_sumatif_akhir'][$nilaiIndex],
             ]);
         } else {
             $hasilNilai = NilaiSumatif::updateOrCreate([
                 'detail_guru_mapel_id' => $this->selectedDetailGuruMapel,
-                'rapor_id' => $rapor['id'],
+                'kelas_siswa_id' => $data['kelas_siswa_id'],
                 'lingkup_materi_id' => $data['nilai'][$nilaiIndex]['lingkup_materi_id']
             ], [
                 'nilai' => $data['nilai'][$nilaiIndex]['nilai_sumatif'],

@@ -121,7 +121,6 @@ class Form extends Component
             ->joinKelasSiswa()
             ->where('kelas_siswa.kelas_id', $this->selectedKelas)
             ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
-            ->leftJoin('rapor', 'rapor.kelas_siswa_id', 'kelas_siswa.id')
             ->leftJoin('detail_guru_mapel', function (JoinClause $q) {
                 $q->on('detail_guru_mapel.kelas_id', '=', 'kelas_siswa.kelas_id')
                     ->where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel);
@@ -129,7 +128,7 @@ class Form extends Component
             ->leftJoin('tujuan_pembelajaran', 'tujuan_pembelajaran.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
             ->leftJoin('nilai_formatif', function (JoinClause $q) {
                 $q->on('nilai_formatif.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
-                    ->on('nilai_formatif.rapor_id', 'rapor.id')
+                    ->on('nilai_formatif.kelas_siswa_id', 'kelas_siswa.id')
                     ->on('nilai_formatif.tujuan_pembelajaran_id', 'tujuan_pembelajaran.id');
             })
             ->select(
@@ -221,25 +220,12 @@ class Form extends Component
     {
         // mencari array sesuai index nilai yang berubah
         $data = $this->nilaiData[$dataIndex];
-        // mencari data rapor siswa
-        $rapor = Rapor::where('kelas_siswa_id', '=', $data['kelas_siswa_id'])
-            ->where('wali_kelas_id', '=', $this->waliKelas['id'])
-            ->select('id')
-            ->first();
-
-        // membuat data rapor jika tidak ditemukan
-        if (!$rapor) {
-            $rapor = Rapor::create([
-                'kelas_siswa_id' => (int)$data['kelas_siswa_id'],
-                'wali_kelas_id' => $this->waliKelas['id'],
-            ]);
-        }
 
         // mencari array sesuai index nilai yang berubah
         $updatedNilai = $data['detail'][$nilaiIndex];
         $hasilNilai = NilaiFormatif::updateOrCreate([
             'detail_guru_mapel_id' => $this->selectedDetailGuruMapel,
-            'rapor_id' => $rapor['id'],
+            'kelas_siswa_id' => $data['kelas_siswa_id'],
             'tujuan_pembelajaran_id' => $updatedNilai['tujuan_pembelajaran_id'],
         ], [
             $tipe => $updatedNilai[$tipe],

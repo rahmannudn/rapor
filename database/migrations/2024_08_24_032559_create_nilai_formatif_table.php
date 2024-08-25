@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('detail_guru_mapel_id')->constrained('detail_guru_mapel');
             $table->foreignId('tujuan_pembelajaran_id')->constrained('tujuan_pembelajaran');
+            $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa');
             $table->boolean('kktp')->default(false);
             $table->boolean('tampil')->default(false);
             $table->timestamps();
