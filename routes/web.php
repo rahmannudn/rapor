@@ -90,7 +90,10 @@ use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
 
 use App\Livewire\Absensi\Index as AbsensiIndex;
 
+use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
+
 use App\Models\Kelas;
+use App\Models\NilaiEkskul;
 use App\Models\NilaiSumatif;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Route;
@@ -232,7 +235,8 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
     Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
-    // Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
+
+    Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->name('nilaiEkskulIndex');
 });
 
 // guru mapel
