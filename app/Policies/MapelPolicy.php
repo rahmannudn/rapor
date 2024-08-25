@@ -8,10 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class MapelPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
+    // public function before(User $user)
+    // {
+    //     return $user->role == 'superadmin';
+    // }
 
     /**
      * Determine whether the user can view any models.
@@ -26,7 +26,7 @@ class MapelPolicy
      */
     public function view(User $user, Mapel $mapel): bool
     {
-        return $user->role == 'admin';
+        // return $user->role == 'admin';
     }
 
     /**

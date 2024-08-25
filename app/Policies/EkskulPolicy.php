@@ -8,11 +8,6 @@ use Illuminate\Auth\Access\Response;
 
 class EkskulPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
-
     /**
      * Determine whether the user can view any models.
      */
@@ -24,10 +19,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Ekskul $ekskul): bool
-    {
-        return $user->role == 'admin';
-    }
+    public function view(User $user, Ekskul $ekskul): bool {}
 
     /**
      * Determine whether the user can create models.

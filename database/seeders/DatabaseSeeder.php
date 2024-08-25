@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             GuruMapelSeeder::class,
             WaliKelasSeeder::class,
             DimensiSeeder::class,
+            EkskulSeeder::class,
             ElemenSeeder::class,
             SubelemenSeeder::class,
             CapaianFaseSeeder::class,
