@@ -51,10 +51,11 @@ class Table extends Component
             ->select(
                 'siswa.nama as nama_siswa',
                 'siswa.nisn',
-                'siswa.id',
+                'siswa.id as id_siswa',
                 'kelas_siswa.id as kelas_siswa_id',
                 'nilai_ekskul.ekskul_id',
                 'nilai_ekskul.deskripsi',
+                'nilai_ekskul.id',
                 'ekskul.nama_ekskul',
             )
             ->orderBy('nilai_ekskul.created_at', 'DESC')

@@ -52,7 +52,7 @@ class Create extends Component
             [
                 'selectedEkskul' => 'required',
                 'selectedSiswa' => 'required',
-                'deskripsi' => 'required|string|min:5|max:150',
+                'deskripsi' => 'required|string|min:4|max:150',
             ],
             [
                 'selectedEkskul.required' => 'Ekskul field is required.',

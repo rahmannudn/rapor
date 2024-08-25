@@ -18,19 +18,19 @@ class Index extends Component
     public function destroy()
     {
         try {
-            $this->authorize('delete', NilaiEkskul::class);
+            $this->authorize('delete', [NilaiEkskul::class, $this->selectedNilai]);
 
             $nilai = NilaiEkskul::find($this->selectedNilai);
             if (!$nilai) {
                 $this->dispatch('showNotif', title: 'Gagal', description: 'nilai Tidak Ditemukan', icon: 'success');
             }
-            // $this->authorize('delete', $kelas);
             $nilai->delete();
 
             session()->flash('success', 'Data Berhasil Dihapus');
             $this->dispatch('updateData');
             $this->deleteModal = false;
         } catch (\Throwable $err) {
+            $this->deleteModal = false;
             $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
         }
     }

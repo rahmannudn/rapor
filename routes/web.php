@@ -240,7 +240,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {
         Route::get('/', NilaiEkskulIndex::class)->name('Index');
-        Route::get('{data}/edit', NilaiEkskulCreate::class)->name('Edit');
+        Route::get('/{data}/edit', NilaiEkskulEdit::class)->name('Edit');
         Route::get('/create', NilaiEkskulCreate::class)->name('Create');
     });
 });

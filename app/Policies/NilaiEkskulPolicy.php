@@ -50,15 +50,37 @@ class NilaiEkskulPolicy
      */
     public function update(User $user, NilaiEkskul $nilaiEkskul): bool
     {
-        //
+        $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
+        $kelas = NilaiEkskul::where('nilai_ekskul.id', $nilaiEkskul['id'])
+            ->join('kelas_siswa', 'kelas_siswa.id', 'nilai_ekskul.kelas_siswa_id')
+            ->where('kelas_siswa.tahun_ajaran_id', $tahunAjaranAktif)
+            ->select('kelas_siswa.kelas_id')
+            ->first();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', $tahunAjaranAktif)
+            ->where('user_id', $user->id)
+            ->select('wali_kelas.kelas_id')
+            ->first();
+
+        return $kelas['kelas_id'] === $waliKelas['kelas_id'];
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, NilaiEkskul $nilaiEkskul): bool
+    public function delete(User $user, $nilaiEkskul): bool
     {
-        //
+        $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
+        $kelas = NilaiEkskul::where('nilai_ekskul.id', $nilaiEkskul)
+            ->join('kelas_siswa', 'kelas_siswa.id', 'nilai_ekskul.kelas_siswa_id')
+            ->where('kelas_siswa.tahun_ajaran_id', $tahunAjaranAktif)
+            ->select('kelas_siswa.kelas_id')
+            ->first();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', $tahunAjaranAktif)
+            ->where('user_id', $user->id)
+            ->select('wali_kelas.kelas_id')
+            ->first();
+
+        return $kelas['kelas_id'] === $waliKelas['kelas_id'];
     }
 
     /**
