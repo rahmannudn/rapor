@@ -2,15 +2,17 @@
 
 namespace App\Livewire\TahunAjaran;
 
-use Illuminate\Http\Request;
-use App\Rules\IsValidYear;
-use App\Models\TahunAjaran as TA;
-use App\Models\TahunAjaran;
-use WireUi\Traits\Actions;
+use App\Models\Kepsek;
 use Livewire\Component;
+use App\Rules\IsValidYear;
+use WireUi\Traits\Actions;
+use App\Models\TahunAjaran;
+use Illuminate\Http\Request;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Locked;
 use App\Helpers\FunctionHelper;
+use Livewire\Attributes\Locked;
+use App\Models\TahunAjaran as TA;
+use Illuminate\Support\Facades\Cache;
 
 class Create extends Component
 {
@@ -26,6 +28,8 @@ class Create extends Component
     public $daftarTahunAjaran;
     public $prevTahunAjaran;
     public $tglRapor;
+    public $daftarKepsek;
+    public $selectedKepsek;
 
     #[Locked]
     public $validatedData;
@@ -42,6 +46,17 @@ class Create extends Component
         $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get()->toArray();
         // mengambil data tahun sekarang
         $this->years = FunctionHelper::getDynamicYear();
+        $this->daftarKepsek = Kepsek::join('tahun_ajaran', 'tahun_ajaran.kepsek_id', 'kepsek.id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'kepsek.id')
+            ->get();
+
+        $tahunAjaran = TahunAjaran::where('id', Cache::get('tahunAjaranAktif'))
+            ->select('id', 'kepsek_id')
+            ->first();
+        $this->selectedKepsek = Kepsek::where('id', $tahunAjaran['kepsek_id'])
+            ->select('id')
+            ->first()?->id;
     }
 
     public function rules()
@@ -53,6 +68,7 @@ class Create extends Component
             'semesterAktif' => ['required', 'boolean'],
             'prevTahunAjaran' => ['nullable', 'integer'],
             'tglRapor' => ['nullable', 'date'],
+            'selectedKepsek' => ['required'],
         ];
     }
 
@@ -74,6 +90,7 @@ class Create extends Component
             'aktif' => $this->validatedData['semesterAktif'],
             'prevTahunAjaran' => ['nullable', 'integer'],
             'tglRapor' => ['nullable', 'date'],
+            'kepsek_id' => $this->validatedData['kepsek_id'],
         ]);
 
         $this->validatedData['semesterAktif'] ?? FunctionHelper::setCacheInfoSekolah();

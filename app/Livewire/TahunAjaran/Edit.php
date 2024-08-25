@@ -2,13 +2,14 @@
 
 namespace App\Livewire\TahunAjaran;
 
+use App\Models\Kepsek;
 use Livewire\Component;
 use App\Rules\IsValidYear;
-use Livewire\Attributes\Title;
-use App\Models\TahunAjaran as TA;
-use Livewire\Attributes\Locked;
-use App\Helpers\FunctionHelper;
 use App\Models\TahunAjaran;
+use Livewire\Attributes\Title;
+use App\Helpers\FunctionHelper;
+use Livewire\Attributes\Locked;
+use App\Models\TahunAjaran as TA;
 
 class Edit extends Component
 {
@@ -24,6 +25,8 @@ class Edit extends Component
     public $daftarTahunAjaran;
     public $prevTahunAjaran;
     public $tglRapor;
+    public $daftarKepsek;
+    public $selectedKepsek;
 
     #[Locked]
     public $validatedData;
@@ -36,6 +39,14 @@ class Edit extends Component
         $this->semester = $this->tahunAjaran['semester'];
         $this->semesterAktif = $this->tahunAjaran['aktif'];
         $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get()->toArray();
+        $this->daftarKepsek = Kepsek::join('tahun_ajaran', 'tahun_ajaran.kepsek_id', 'kepsek.id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'kepsek.id')
+            ->get();
+
+        $this->selectedKepsek = Kepsek::where('id', $this->tahunAjaran['kepsek_id'])
+            ->select('id')
+            ->first()?->id;
     }
 
     public function render()
@@ -62,6 +73,7 @@ class Edit extends Component
             'aktif' => $this->validatedData['semesterAktif'],
             'prev_tahun_ajaran_id' => $this->validatedData['prevTahunAjaran'],
             'tgl_rapor' => $this->tglRapor,
+            'kepsek_id' => $this->validatedData['selectedKepsek'],
         ]);
 
         if ($tahunAjaran['aktif'] == 1)
@@ -86,6 +98,7 @@ class Edit extends Component
             'semesterAktif' => ['required', 'boolean'],
             'prevTahunAjaran' => ['nullable', 'integer'],
             'tglRapor' => ['nullable', 'date'],
+            'selectedKepsek' => ['required']
         ];
     }
 

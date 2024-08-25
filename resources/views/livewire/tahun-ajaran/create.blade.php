@@ -77,6 +77,15 @@
             <x-datetime-picker label="Tanggal Pembagian Rapor" placeholder="Masukkan Tanggal rapor"
                 display-format="DD-MM-YYYY" wire:model.defer="tgl_rapor" without-time="true" without-tips="true" />
         </div>
+
+        <x-native-select wire:model='selectedKepsek' label="Kepsek Aktif" class="mb-2">
+            <option value="" selected>-- Pilih Kepsek Aktif --</option>
+            @foreach ($daftarKepsek as $kepsek)
+                <option wire:key='{{ $kepsek['id'] }}' value="{{ $kepsek['id'] }}">
+                    {{ $kepsek['nama_kepsek'] }}
+                </option>
+            @endforeach
+        </x-native-select>
     </div>
 
 

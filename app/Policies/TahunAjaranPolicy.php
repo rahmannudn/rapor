@@ -8,11 +8,6 @@ use Illuminate\Auth\Access\Response;
 
 class TahunAjaranPolicy
 {
-    public function before(User $user)
-    {
-        return $user->role == 'superadmin';
-    }
-
     /**
      * Determine whether the user can view any models.
      */
@@ -40,7 +35,7 @@ class TahunAjaranPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, TahunAjaran $TahunAjaran): bool
+    public function update(User $user): bool
     {
         return $user->role == 'admin';
     }
@@ -48,7 +43,7 @@ class TahunAjaranPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, TahunAjaran $TahunAjaran): bool
+    public function delete(User $user): bool
     {
         return $user->role == 'admin';
     }
