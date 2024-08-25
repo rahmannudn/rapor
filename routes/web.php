@@ -88,6 +88,8 @@ use App\Livewire\NilaiSumatif\Index as NilaiSumatifIndex;
 
 use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
 
+use App\Livewire\Absensi\Index as AbsensiIndex;
+
 use App\Models\Kelas;
 use App\Models\NilaiSumatif;
 use App\Models\TahunAjaran;
@@ -228,6 +230,8 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
     Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+
+    Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
     // Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
 });
 
