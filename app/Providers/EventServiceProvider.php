@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \illuminate\Auth\Events\Login::class => [
+            \App\Listeners\SetCacheOnLogin::class,
+        ]
     ];
 
     /**

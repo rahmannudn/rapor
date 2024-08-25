@@ -41,17 +41,17 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
         Gate::define('superAdminOrAdmin', function (User $user) {
-            if ($user->role == 'superadmin' || $user->role == 'admin') return true;
+            if ($user->role == 'admin') return true;
             return false;
         });
         Gate::define('isAdminOrKepsek', function (User $user) {
             $isKepsekAktif = $user->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
 
-            if ($user->role == 'admin' || $user->role == 'superadmin' || $isKepsekAktif) return true;
+            if ($user->role == 'admin' || $isKepsekAktif) return true;
             return false;
         });
         Gate::define('isAdmin', function (User $user) {
-            return $user->role == 'admin';
+            return $user->role === 'admin';
         });
         Gate::define('isGuru', function (User $user) {
             return $user->role == 'guru';

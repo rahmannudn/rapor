@@ -61,18 +61,16 @@ class FunctionHelper
     public static function setCacheTahunAjaran()
     {
         Cache::forget('tahunAjaranAktif');
-        Cache::remember('tahunAjaranAktif', now()->addMinutes(15), function () {
+        Cache::remember('tahunAjaranAktif', now()->addHours(2), function () {
             return TahunAjaran::where('aktif', 1)->first()['id'];
         });
     }
 
     public static function setCacheKepsekAktif()
     {
-        // $kepsekAktif = Kepsek::where('aktif', 1)->select('user_id')->first()->toArray();
-        // return auth()->id() === $kepsekAktif['user_id'];
         Cache::forget('kepsekAktif');
         $kepsekAktif = Kepsek::where('aktif', 1)->select('user_id')->first()->toArray();
-        Cache::put('kepsekAktif', $kepsekAktif['user_id'], now()->addDays(1));
+        Cache::put('kepsekAktif', $kepsekAktif['user_id'], now()->addHours(2));
     }
 
     public static function setCacheInfoSekolah()
@@ -82,10 +80,10 @@ class FunctionHelper
         Cache::forget('semester');
 
         $sekolah = Sekolah::select('logo_sekolah', 'nama_sekolah')->get()->toArray()[0];
-        Cache::put('logo_sekolah', $sekolah['logo_sekolah'], now()->addDays(1));
-        Cache::put('nama_sekolah', $sekolah['nama_sekolah'], now()->addDays(1));
+        Cache::put('logo_sekolah', $sekolah['logo_sekolah'], now()->addHours(2));
+        Cache::put('nama_sekolah', $sekolah['nama_sekolah'], now()->addHours(2));
 
         $semester = TahunAjaran::where('aktif', '=', 1)->select('tahun', 'semester')->first();
-        Cache::put('semester', $semester['tahun'] . ' - ' . ucfirst($semester['semester']), now()->addDays(1));
+        Cache::put('semester', $semester['tahun'] . ' - ' . ucfirst($semester['semester']), now()->addHours(2));
     }
 }
