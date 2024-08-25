@@ -35,9 +35,9 @@ class AbsensiPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Absensi $absensi): bool
+    public function update(User $user, $waliKelasId): bool
     {
-        //
+        return $user->id === $waliKelasId;
     }
 
     /**

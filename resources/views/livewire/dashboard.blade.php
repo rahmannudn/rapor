@@ -1,3 +1,4 @@
+<div>
     @section('title')
         Dashboard
     @endsection
@@ -105,8 +106,6 @@
                 </div>
             </div>
             {{-- data sekolah --}}
-            @dump($dataSekolah)
-            <img class="logo" src="{{ asset('storage/' . $dataSekolah['logo_sekolah']) }}">
 
             {{-- rombel sekolah --}}
             <div class="w-full">
@@ -168,5 +167,5 @@
             </div>
             {{-- rombel sekolah --}}
         </div>
-
     </div>
+</div>

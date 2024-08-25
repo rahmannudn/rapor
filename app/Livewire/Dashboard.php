@@ -32,7 +32,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $isKepsekAktif = auth()->user()->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
+        // $isKepsekAktif = auth()->user()->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
         $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
 
         $this->jumlahRombel = Kelas::count();

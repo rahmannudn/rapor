@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('absensi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa');
-            $table->string('sakit', 3);
-            $table->string('izin', 3);
-            $table->string('alfa', 3);
+            $table->string('sakit', 3)->nullable();
+            $table->string('izin', 3)->nullable();
+            $table->string('alfa', 3)->nullable();
             $table->timestamps();
         });
     }
