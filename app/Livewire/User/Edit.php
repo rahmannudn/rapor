@@ -18,6 +18,7 @@ class Edit extends Component
     public $role;
     public $jk;
     public $jenis_pegawai;
+    public $nip;
 
     public function mount()
     {
@@ -27,6 +28,7 @@ class Edit extends Component
         $this->role = $this->user['role'];
         $this->jk = $this->user['jk'];
         $this->jenis_pegawai = $this->user['jenis_pegawai'];
+        $this->nip = $this->user['nip'];
     }
 
     public function render()
@@ -43,6 +45,7 @@ class Edit extends Component
             'role' => ['required'],
             'jk' => ['required'],
             'jenis_pegawai' => ['required'],
+            'nip' => ['required'],
         ]);
 
         // mengecek apakah ada perubahan password
