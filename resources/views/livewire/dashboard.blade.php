@@ -105,6 +105,8 @@
                 </div>
             </div>
             {{-- data sekolah --}}
+            @dump($dataSekolah)
+            <img class="logo" src="{{ asset('storage/' . $dataSekolah['logo_sekolah']) }}">
 
             {{-- rombel sekolah --}}
             <div class="w-full">

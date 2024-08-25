@@ -8,6 +8,7 @@ use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Helpers\FunctionHelper;
+use App\Models\Sekolah;
 use App\Models\WaliKelas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;

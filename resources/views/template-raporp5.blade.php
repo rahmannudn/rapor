@@ -179,14 +179,53 @@
         .kemampuan-siswa * {
             border: 1px solid black;
         }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            max-height: 100px;
+            /* Atur tinggi maksimum logo agar sesuai */
+        }
+
+        .text-header {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin: 0;
+            /* Menghilangkan margin default pada h2 agar lebih rapi */
+        }
+
+        .line {
+            width: 100%;
+            height: 2px;
+            background-color: rgb(39, 36, 36);
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
 <body>
     <!-- Halaman 1 -->
     <div class="container">
-        <h2>RAPOR PROYEK PENGUATAN</h2>
-        <h2>PROFIL PELAJAR PANCASILA</h2>
+        <div class="header">
+            <img class="logo" src="{{ base_path() . '/storage/app/public/' . $result['logo'] }}">
+            <div class="text-header">
+                <h2>RAPOR PROYEK PENGUATAN</h2>
+                <h2>PROFIL PELAJAR PANCASILA</h2>
+            </div>
+        </div>
+        <div class="line"></div>
 
         <table id="info-table">
             <tr>
@@ -274,45 +313,6 @@
                         </td>
                     </tr>
                 @endforeach
-
-                {{-- <tr>
-                    <td class="description-cell">Kreatif<br>Menghasilkan karya dan tindakan yang orisinal -
-                        Mengeksplorasi
-                        dan mengekspresikan pikiran dan/atau perasaannya sesuai dengan minat dan kesukaannya dalam
-                        bentuk
-                        karya dan/atau tindakan nyata yang produktif.</td>
-                    <td></td>
-                    <td>&#10004;</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
-                        dengan
-                        harapan dan tujuan kelompok.</td>
-                    <td></td>
-                    <td></td>
-                    <td>&#10004;</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
-                        dengan
-                        harapan dan tujuan kelompok.</td>
-                    <td></td>
-                    <td></td>
-                    <td>&#10004;</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="description-cell">Bergotong-Royong<br>Kerja sama - Menampilkan tindakan yang sesuai
-                        dengan
-                        harapan dan tujuan kelompok.</td>
-                    <td></td>
-                    <td></td>
-                    <td>&#10004;</td>
-                    <td></td>
-                </tr> --}}
             </table>
 
             <div class="notes">
@@ -355,18 +355,18 @@
                 <span class="signature-line"></span>
             </div>
             <div class="signature-box">
-                <p style="margin: 0 5px;">Banjarmasin, 17 Desember 2023</p>
-                <p style="margin: 0 5px;">Wali Kelas IV</p>
-                <p class="signature-name">Nazar Mutawali, S.Pd.</p>
+                <p style="margin: 0 5px;">Banjarmasin, {{ $result['tgl_rapor'] }}</p>
+                <p style="margin: 0 5px;">Wali Kelas {{ $result['nama_kelas'] }}</p>
+                <p class="signature-name">{{ $result['nama_wali'] }}</p>
                 <span class="signature-line"></span>
-                <p class="signature-nip">NIP. 19930401202221 1 010</p>
+                <p class="signature-nip">NIP.{{ $result['nip_wali'] }}</p>
             </div>
             <div class="signature-box">
                 <p style="margin: 0 5px;">Mengetahui,</p>
                 <p style="margin: 0 5px;">Kepala Sekolah</p>
-                <p class="signature-name">Sri Khusniyati, S.Pd.</p>
+                <p class="signature-name">{{ $result['nama_kepsek'] }}</p>
                 <span class="signature-line"></span>
-                <p class="signature-nip">NIP. 19710215 200604 2 004</p>
+                <p class="signature-nip">NIP.{{ $result['nip_kepsek'] }}</p>
             </div>
         </div>
     </div>

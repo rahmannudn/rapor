@@ -228,7 +228,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
     Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
-    Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
+    // Route::get('/raporp5/{siswa}/view', [RaporP5Controller::class, 'view'])->name('viewRaporP5');
 });
 
 // guru mapel
