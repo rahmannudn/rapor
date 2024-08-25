@@ -94,7 +94,6 @@
                     </tr>
     @endif
     </thead>
-    </thead>
     <tbody>
         @if (count($daftarLingkup) > 0)
             @foreach ($nilaiData as $nilaiDataIndex => $nilai)

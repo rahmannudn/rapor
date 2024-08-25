@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class NilaiFormatif extends Model
 {
     use HasFactory;
-    protected $table = 'nilai_sumatif';
+    protected $table = 'nilai_formatif';
     protected $guarded = ['id'];
 }

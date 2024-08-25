@@ -9,7 +9,6 @@ use App\Helpers\FunctionHelper;
 
 class App extends Component
 {
-    public function mount() {}
     public function render()
     {
         return view('livewire.layouts.app');

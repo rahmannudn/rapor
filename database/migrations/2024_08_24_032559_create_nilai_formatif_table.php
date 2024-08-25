@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('nilai_formatif', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('detail_guru_mapel_id')->constrained('detail_guru_mapel');
+            $table->foreignId('tujuan_pembelajaran_id')->constrained('tujuan_pembelajaran');
+            $table->boolean('kktp')->default(false);
+            $table->boolean('tampil')->default(false);
             $table->timestamps();
         });
     }

@@ -12,7 +12,6 @@ use App\Models\CatatanProyek;
 use App\Models\NilaiSubproyek;
 use App\Helpers\FunctionHelper;
 use App\Models\KelasSiswa;
-use App\Models\Rapor;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
@@ -105,14 +104,6 @@ class Table extends Component
             $this->kelasInfo['tahunAjaran'] = $waliKelas['tahun'] . ' - ' . ucfirst($waliKelas['semester']);
             $this->kelasInfo['namaWaliKelas'] = $waliKelas['nama_wali'];
         }
-
-        // $proyek = Proyek::where('wali_kelas_id', '=', $this->waliKelasId)->select('judul_proyek as judul')->first();
-        // $waliKelasInfo = WaliKelas::where('wali_kelas.id', $waliKelas['id'])
-        //     ->joinUser()
-        //     ->select('users.name as nama_wali', 'wali_kelas.id as wali_kelas_id')
-        //     ->first();
-        // $this->kelasInfo['namaWaliKelas'] = $waliKelasInfo['nama_wali'];
-        // $this->kelasInfo['waliKelasId'] = $waliKelasInfo['wali_kelas_id'];
     }
 
     public function getDaftarProyek()
@@ -174,7 +165,6 @@ class Table extends Component
                 ->joinWaliKelasByKelasAndTahun($this->selectedKelas, $this->tahunAjaranAktif)
                 ->searchAndJoinProyek($this->selectedProyek)
                 ->joinSubproyek()
-                ->leftJoinRapor()
                 ->leftJoinNilaiSubproyek()
                 ->leftJoinCapaianFase()
                 ->select(
@@ -187,7 +177,7 @@ class Table extends Component
                     'nilai_subproyek.nilai as nilai_subproyek',
                     'capaian_fase.deskripsi as capaian_fase_deskripsi'
                 )
-                ->orderBy('siswa.nama')
+                ->orderBy('siswa.nama', 'ASC')
                 ->orderBy('capaian_fase.created_at')
                 ->get();
 
@@ -206,27 +196,12 @@ class Table extends Component
         // mengambil data siswa yang berubah
         $data = $this->nilaiData[$dataIndex];
         if (is_null($data['nilai']) && $data['nilai']) return;
-
-        // mencari data rapor siswa
-        $rapor = Rapor::where('kelas_siswa_id', '=', $data['kelas_siswa_id'])
-            ->where('wali_kelas_id', '=', $this->waliKelasId)
-            ->select('id')
-            ->first();
-
-        // membuat data rapor jika tidak ditemukan
-        if (!$rapor) {
-            $rapor = Rapor::create([
-                'kelas_siswa_id' => $data['kelas_siswa_id'],
-                'wali_kelas_id' => $this->waliKelasId
-            ]);
-        }
-
         // mencari array sesuai index nilai yang berubah
         $updatedNilai = $data['nilai'][$nilaiIndex];
 
         $hasilNilai = NilaiSubproyek::updateOrCreate([
             'subproyek_id' => $updatedNilai['subproyek_id'],
-            'rapor_id' => $rapor['id'],
+            'kelas_siswa_id' => $data['kelas_siswa_id'],
         ], [
             'nilai' => $updatedNilai['nilai']
         ]);

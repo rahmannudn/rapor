@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('nilai_sumatif', function (Blueprint $table) {
             $table->id();
             $table->foreignId('detail_guru_mapel_id')->constrained('detail_guru_mapel');
-            $table->foreignId('rapor_id')->constrained('rapor');
             $table->foreignId('lingkup_materi_id')->constrained('lingkup_materi');
+            $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa');
             $table->string('nilai', 3)->nullable();
             $table->timestamps();
         });

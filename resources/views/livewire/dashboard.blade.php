@@ -1,10 +1,9 @@
-<div>
     @section('title')
         Dashboard
     @endsection
     <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 mt-5">
-        <div class="grid grid-cols-4 gap-4 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-5 w-96">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Siswa</h2>
@@ -23,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-96">
+            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Pengguna</h2>
@@ -40,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-96">
+            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Rombel</h2>
@@ -57,11 +56,11 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-96">
+            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Eskul</h2>
-                        <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahRombel }}</p>
+                        <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahEkskul }}</p>
                     </div>
                     <div class="bg-slate-600 text-white rounded-full p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -72,8 +71,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
 
 
         <div class="grid grid-cols-2 gap-4 justify-between items-center">
@@ -169,4 +168,3 @@
         </div>
 
     </div>
-</div>

@@ -14,6 +14,11 @@ class Kelas extends Model
     protected $guarded = ['id', 'created_at'];
     protected $primaryKey = 'id';
 
+    public function kelasSiswa()
+    {
+        return $this->hasMany(KelasSiswa::class);
+    }
+
     public function scopeSearch($query, $value)
     {
         $query->where('nama', 'like', "%{$value}%")->orWhere('kelas', 'like', "%{$value}%");

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('nilai_subproyek', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subproyek_id')->constrained('subproyek');
-            $table->foreignId('rapor_id')->constrained('rapor');
+            $table->foreignId('kelas_siswa_id')->constrained('kelas_siswa');
             $table->enum('nilai', ['bb', 'mb', 'bsh', 'sb']);
             $table->timestamps();
         });

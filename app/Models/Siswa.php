@@ -22,6 +22,11 @@ class Siswa extends Model
         return $this->belongsTo(Kelas::class);
     }
 
+    public function kelasSiswa()
+    {
+        return $this->belongsTo(KelasSiswa::class);
+    }
+
     public function tahunAjaran()
     {
         return $this->belongsTo(TahunAjaran::class, 'tahun', 'tahun_lulus');
@@ -72,8 +77,8 @@ class Siswa extends Model
     public function scopeLeftJoinNilaiSubproyek($query)
     {
         $query->leftJoin('nilai_subproyek', function (JoinClause $q) {
-            $q->on('nilai_subproyek.rapor_id', '=', 'rapor.id')
-                ->on('nilai_subproyek.subproyek_id', '=', 'subproyek.id');
+            $q->on('nilai_subproyek.subproyek_id', '=', 'subproyek.id')
+                ->on('nilai_subproyek.kelas_siswa_id', '=', 'kelas_siswa.id');
         });
     }
 

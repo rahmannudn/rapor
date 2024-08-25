@@ -6,11 +6,13 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Ekskul;
+use App\Models\Kepsek;
 use App\Models\Sekolah;
 use Livewire\Component;
 use App\Models\KelasSiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class Dashboard extends Component
@@ -30,6 +32,7 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $isKepsekAktif = auth()->user()->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
         $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
 
         $this->jumlahRombel = Kelas::count();

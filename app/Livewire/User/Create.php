@@ -16,6 +16,7 @@ class Create extends Component
     public $role;
     public $jk;
     public $jenis_pegawai;
+    public $nip;
 
     public function render()
     {
@@ -33,6 +34,7 @@ class Create extends Component
             'role' => ['required'],
             'jk' => ['required'],
             'jenis_pegawai' => ['required'],
+            'nip' => ['required', 'integer'],
         ]);
         $validated['password'] = Hash::make($validated['password']);
 

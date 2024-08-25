@@ -21,10 +21,9 @@ new class extends Component {
 
     public function mount()
     {
-        FunctionHelper::setCacheTahunAjaran();
-        FunctionHelper::setCacheInfoSekolah();
-        FunctionHelper::setCacheKepsekAktif();
-        FunctionHelper::setCacheTahunAjaran();
+        // FunctionHelper::setCacheTahunAjaran();
+        // FunctionHelper::setCacheInfoSekolah();
+        // FunctionHelper::setCacheKepsekAktif();
     }
 
     // public function rendering()
@@ -56,7 +55,7 @@ new class extends Component {
                     </a>
                 </li>
 
-                @can('superAdminOrAdmin', Auth::id())
+                @can('superAdminOrAdmin', auth()->user())
                     <li x-data="{ dropdownMaster: false }">
                         <button type="button" x-on:click="dropdownMaster = !dropdownMaster"
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -154,7 +153,7 @@ new class extends Component {
                 @endcan
 
 
-                @can('isAdminOrKepsek', Auth::id())
+                @can('isAdminOrKepsek', auth()->user())
                     <li>
                         <a href="{{ route('siswaIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('siswaIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
@@ -171,9 +170,7 @@ new class extends Component {
                             <span class="ms-3">Siswa</span>
                         </a>
                     </li>
-                @endcan
 
-                @can('isAdminOrKepsek', auth()->user())
                     <li>
                         <a href="{{ route('kelasIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
@@ -189,26 +186,6 @@ new class extends Component {
                         </a>
                     </li>
                 @endcan
-
-                {{-- @can('isKepsek', Auth::id())
-                    <li>
-                        <a href="{{ route('waliKelasIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('waliKelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path
-                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                            </svg>
-
-                            <span class="ms-3">Wali Kelas</span>
-                        </a>
-                    </li>
-                @endcan --}}
 
                 @can('isWaliKelas', auth()->user())
                     <li>

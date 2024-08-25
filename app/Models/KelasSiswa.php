@@ -12,6 +12,21 @@ class KelasSiswa extends Model
     protected $table = 'kelas_siswa';
     protected $guarded = ['id'];
 
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'kelas_siswa_id');
+    }
+
+    public function waliKelas()
+    {
+        return $this->belongsTo(WaliKelas::class);
+    }
+
     public function scopeJoinSiswa($query)
     {
         $query->rightJoin('siswa', 'kelas_siswa.siswa_id', '=', 'siswa.id');

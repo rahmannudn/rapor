@@ -21,7 +21,7 @@ class WaliKelasSeeder extends Seeder
             ],
             [
                 'kelas_id' => 3,
-                'user_id' => 4,
+                'user_id' => 2,
                 'tahun_ajaran_id' => 2
             ],
         ];

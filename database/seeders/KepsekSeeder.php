@@ -18,7 +18,7 @@ class KepsekSeeder extends Seeder
             [
                 'awal_menjabat' => null,
                 'akhir_menjabat' => null,
-                'user_id' => 5,
+                'user_id' => 4,
                 'aktif' => 1,
             ],
         ];
