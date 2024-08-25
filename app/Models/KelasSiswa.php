@@ -27,6 +27,11 @@ class KelasSiswa extends Model
         return $this->belongsTo(WaliKelas::class);
     }
 
+    public function ekskul()
+    {
+        return $this->belongsTo(Ekskul::class);
+    }
+
     public function scopeJoinSiswa($query)
     {
         $query->rightJoin('siswa', 'kelas_siswa.siswa_id', '=', 'siswa.id');

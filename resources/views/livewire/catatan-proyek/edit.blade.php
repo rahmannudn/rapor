@@ -77,7 +77,7 @@
                     <th scope="col" class="px-6 py-3" rowspan="3">
                         Nama
                     </th>
-                    <th scope="col" class="px-4 py-3" colspan="2">
+                    <th scope="col" class="px-4 py-3" colspan="{{ count($proyekData) }}">
                         Catatan Proses
                     </th>
                 </tr>

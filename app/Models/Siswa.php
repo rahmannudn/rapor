@@ -17,6 +17,22 @@ class Siswa extends Model
         $query->where('siswa.nama', 'like', "%{$value}%")->orWhere('siswa.nisn', 'like', "%{$value}%");
     }
 
+    public function scopeSearchNilaiEkskul($query, $value)
+    {
+        // $query->where(function ($query) use ($value){
+        //     $query->where('siswa.nama', 'like', "%{$value}%")
+        //     ->orWhere('siswa.nisn', 'like', "%{$value}%")
+        //     ->orWhereHas('kelasSiswa.ekskul',function($q) use($value){
+        //         $q->where('nama_ekskul','like',"%$value%");
+        //     })
+        // });
+        // ->where()
+        // $query->where(function ($q) use ($value) {
+        //     $q->where('capaian_fase.deskripsi', 'like', "%{$value}%")
+        //         ->orWhereHas('subelemen', function ($q) use ($value) {
+        //             $q->where('subelemen.deskripsi', 'like', "%{$value}%");
+    }
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);

@@ -91,6 +91,7 @@ use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
 use App\Livewire\Absensi\Index as AbsensiIndex;
 
 use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
+use App\Livewire\NilaiEkskul\Create as NilaiEkskulCreate;
 
 use App\Models\Kelas;
 use App\Models\NilaiEkskul;
@@ -236,7 +237,10 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
 
-    Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->name('nilaiEkskulIndex');
+    Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {
+        Route::get('/', NilaiEkskulIndex::class)->name('Index');
+        Route::get('/create', NilaiEkskulCreate::class)->name('Create');
+    });
 });
 
 // guru mapel

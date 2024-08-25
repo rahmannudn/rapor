@@ -9,6 +9,6 @@ class NilaiEkskul extends Model
 {
     use HasFactory;
 
-    protected $table = 'ekskul';
+    protected $table = 'nilai_ekskul';
     protected $guarded = ['id'];
 }

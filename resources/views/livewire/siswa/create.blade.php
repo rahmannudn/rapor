@@ -51,7 +51,7 @@
     <div class="flex justify-between gap-x-4">
         <div class="flex gap-x-2">
             <x-button href="{{ route('siswaIndex') }}" secondary label="Cancel" x-on:click="close" />
-            <x-button primary label="Save" x-on:click="$wire.save" x-on:shift.enter="$wire.save" spinner />
+            <x-button primary label="Save" x-on:click="$wire.save" spinner />
         </div>
     </div>
 </div>
