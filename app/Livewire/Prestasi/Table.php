@@ -40,7 +40,7 @@ class Table extends Component
                 'siswa.id as id_siswa',
                 'kelas.nama as nama_kelas',
             )
-            ->orderBy('prestasi.created_at')
+            ->orderBy('prestasi.created_at', 'DESC')
             ->paginate($this->show);
 
         return view('livewire.prestasi.table', compact('siswaData'));
