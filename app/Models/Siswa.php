@@ -33,6 +33,11 @@ class Siswa extends Model
         //             $q->where('subelemen.deskripsi', 'like', "%{$value}%");
     }
 
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class);
+    }
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);

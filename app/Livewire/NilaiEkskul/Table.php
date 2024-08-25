@@ -32,13 +32,6 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        // $namaKelas = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
-        //     ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.id')
-        //     ->where('wali_kelas.user_id', Auth::id())
-        //     ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-        //     ->select('kelas.nama')
-        //     ->first()?->nama;
-
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
 
         $siswaData = Siswa::search($this->searchQuery)

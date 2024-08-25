@@ -168,6 +168,7 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
     });
 
     Route::get('/{kelasData}/config', KelasConfig::class)->name('kelasConfig')->middleware('check_permission:isKepsek');
+
     Route::name('prestasi')->prefix('prestasi')->group(function () {
         Route::get('/', PrestasiIndex::class)->name('Index')->lazy();
         Route::get('/create', PrestasiCreate::class)->name('Create');
