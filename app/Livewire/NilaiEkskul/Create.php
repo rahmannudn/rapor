@@ -60,6 +60,8 @@ class Create extends Component
             ]
         );
 
+        $this->authorize('create', [NilaiEkskul::class, $this->selectedSiswa]);
+
         NilaiEkskul::create([
             'ekskul_id' => $validated['selectedEkskul'],
             'kelas_siswa_id' => $validated['selectedSiswa'],

@@ -2,9 +2,12 @@
 
 namespace App\Policies;
 
+use App\Models\KelasSiswa;
 use App\Models\NilaiEkskul;
 use App\Models\User;
+use App\Models\WaliKelas;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Cache;
 
 class NilaiEkskulPolicy
 {
@@ -21,15 +24,25 @@ class NilaiEkskulPolicy
      */
     public function view(User $user, NilaiEkskul $nilaiEkskul): bool
     {
-        //
+        // 
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, $siswaId): bool
     {
-        //
+        $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
+        $kelas = KelasSiswa::where('tahun_ajaran_id', $tahunAjaranAktif)
+            ->where('siswa_id', $siswaId)
+            ->select('kelas_siswa.kelas_id')
+            ->first();
+        $waliKelas = WaliKelas::where('tahun_ajaran_id', $tahunAjaranAktif)
+            ->where('user_id', $user->id)
+            ->select('wali_kelas.kelas_id')
+            ->first();
+
+        return $kelas['kelas_id'] === $waliKelas['kelas_id'];
     }
 
     /**

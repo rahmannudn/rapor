@@ -57,10 +57,10 @@
                         {{ $data->deskripsi }}
                     </td>
                     <td class="px-4 py-4 space-x-2 w-[10%]">
-                        <x-button.circle green icon="pencil-alt" href="{{ route('siswaEdit', ['siswa' => $data]) }}"
-                            wire:navigate />
+                        <x-button.circle green icon="pencil-alt"
+                            href="{{ route('nilaiEkskulEdit', ['data' => $data]) }}" wire:navigate />
                         <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-siswa',{{ $data->id }}); $openModal('deleteModal');" />
+                            x-on:click="$dispatch('set-nilai',{{ $data->id }}); $openModal('deleteModal');" />
                     </td>
                 </tr>
             @empty
