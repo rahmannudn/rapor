@@ -25,8 +25,10 @@ return new class extends Migration
             $table->string('kecamatan', 80);
             $table->string('kota', 80);
             $table->string('provinsi', 80);
-            $table->string('nama_ayah', 80);
+            $table->string('nama_ayah', 80)->nullable();
+            $table->string('pekerjaan_ayah', 80)->nullable();
             $table->string('nama_ibu', 80);
+            $table->string('pekerjaan_ibu', 80)->nullable();
             $table->string('hp_ortu', 13);
             $table->string('foto')->nullable();
             $table->timestamps();
