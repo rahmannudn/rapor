@@ -29,7 +29,7 @@ class RaporIntraController extends Controller
         $results['sekolah'] = $dataSekolah;
 
         return view('template-sampul', ['results' => $results]);
-        // $pdf = Pdf::loadView('template-sampul', ['results' => $results])->setPaper('a4', 'portrait');
-        // return $pdf->stream($siswa['nama'] . " sampul.pdf");
     }
+
+    public function cetakRapor(Siswa $siswa, KelasSiswa $kelasSiswa) {}
 }

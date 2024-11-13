@@ -188,104 +188,113 @@ new class extends Component {
                 @endcan
 
                 @can('isWaliKelas', auth()->user())
-                    <li>
-                        <a href="{{ route('dimensiIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('dimensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            <span class="ms-3">Dimensi</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('elemenIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('elemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            <span class="ms-3">Elemen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('subelemenIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('subelemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            <span class="ms-3">Subelemen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('capaianFaseIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('capaianFaseIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                    <li x-data="{ dropdownMasterProyek: false }">
+                        <button type="button" x-on:click="dropdownMasterProyek = !dropdownMasterProyek"
+                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
                             </svg>
-                            <span class="ms-3">Capaian Fase</span>
-                        </a>
-                    </li>
+                            <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Master Proyek</span>
 
-                    <li>
-                        <a href="{{ route('proyekIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path
-                                    d="M7.5 3.375c0-1.036.84-1.875 1.875-1.875h.375a3.75 3.75 0 0 1 3.75 3.75v1.875C13.5 8.161 14.34 9 15.375 9h1.875A3.75 3.75 0 0 1 21 12.75v3.375C21 17.16 20.16 18 19.125 18h-9.75A1.875 1.875 0 0 1 7.5 16.125V3.375Z" />
-                                <path
-                                    d="M15 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 17.25 7.5h-1.875A.375.375 0 0 1 15 7.125V5.25ZM4.875 6H6v10.125A3.375 3.375 0 0 0 9.375 19.5H16.5v1.125c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V7.875C3 6.839 3.84 6 4.875 6Z" />
+                            <svg :class="dropdownMasterProyek && 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                             </svg>
-                            <span class="ms-3">Proyek</span>
-                        </a>
+
+                            <svg :class="dropdownMasterProyek || 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+
+                        </button>
+                        <ul x-show="dropdownMasterProyek" class="py-2 space-y-2" x-transition>
+                            <li>
+                                <a href="{{ route('dimensiIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('dimensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Dimensi</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('elemenIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('elemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Elemen</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('subelemenIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('subelemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Subelemen</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('capaianFaseIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('capaianFaseIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Capaian Fase</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <a href="{{ route('catatanProyekEdit') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('catatanProyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                    <li x-data="{ dropdownProyek: false }">
+                        <button type="button" x-on:click="dropdownProyek = !dropdownProyek"
+                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
                             </svg>
-                            <span class="ms-3">Catatan Proyek</span>
-                        </a>
-                    </li>
 
-                    <li>
-                        <a href="{{ route('nilaiSubproyekIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Proyek</span>
+
+                            <svg :class="dropdownProyek && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                             </svg>
-                            <span class="ms-3">Penilaian Proyek</span>
-                        </a>
-                    </li>
+
+                            <svg :class="dropdownProyek || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+
+                        </button>
+                        <ul x-show="dropdownProyek" class="py-2 space-y-2" x-transition>
+                            <li>
+                                <a href="{{ route('proyekIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Daftar Proyek</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('catatanProyekEdit') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('catatanProyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Catatan Proyek</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('nilaiSubproyekIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                    wire:navigate>
+                                    <span class="ms-3">Penilaian Proyek</span>
+                                </a>
+                            </li>
+                        </ul>
 
                     <li>
                         <a href="{{ route('raporP5Index') }}"
@@ -363,6 +372,21 @@ new class extends Component {
                             <span class="ms-3">Tujuan Pembelajaran</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('nilaiFormatifIndex') }}"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiFormatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                            wire:navigate>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="ms-3">Nilai Formatif</span>
+                        </a>
+                    </li>
+
 
                     <li>
                         <a href="{{ route('absensiIndex') }}"

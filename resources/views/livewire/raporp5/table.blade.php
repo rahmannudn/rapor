@@ -42,8 +42,8 @@
                         {{ $siswa->nama }}
                     </th>
                     <td class="px-4 py-4">
-                        <x-button href="{{ route('cetakRaporP5', ['siswa' => $siswa]) }}" wire:navigate class="mb-3"
-                            icon="folder-download" info label="Download" target="_blank" />
+                        <x-button class="mb-3" icon="folder-download" info label="Download"
+                            x-on:click="window.open('{{ route('cetakRaporP5', ['siswa' => $siswa]) }}', '_blank')" />
                     </td>
                 </tr>
             @empty

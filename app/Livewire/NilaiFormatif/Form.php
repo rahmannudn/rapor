@@ -168,53 +168,53 @@ class Form extends Component
             $results[] = $siswa;
         }
         $this->nilaiData = $results;
-        $this->generateDeskripsiRapor();
     }
 
-    public function generateDeskripsiRapor($index = null)
-    {
-        if ($index == null) {
-            foreach ($this->nilaiData as $siswaIndex => $siswa) {
-                $siswa['deskripsi_tertinggi'] = $siswa['nama_siswa'] . " menunjukkan pemahaman dalam ";
-                $siswa['deskripsi_terendah'] = $siswa['nama_siswa'] . " membutuhkan bimbingan dalam ";
+    // public function generateDeskripsiRapor($index = null)
+    // {
+    //     if ($index == null) {
+    //         foreach ($this->nilaiData as $siswaIndex => $siswa) {
+    //             $siswa['deskripsi_tertinggi'] = $siswa['nama_siswa'] . " menunjukkan pemahaman dalam ";
+    //             $siswa['deskripsi_terendah'] = $siswa['nama_siswa'] . " membutuhkan bimbingan dalam ";
 
-                foreach ($siswa['detail'] as $detail) {
-                    if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
-                        $siswa['deskripsi_tertinggi'] .= $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
-                    } elseif ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
-                        $siswa['deskripsi_terendah'] = $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
-                    }
-                }
-                $this->nilaiData[$siswaIndex]['deskripsi_tertinggi'] = $siswa['deskripsi_tertinggi'];
-                $this->nilaiData[$siswaIndex]['deskripsi_terendah'] = $siswa['deskripsi_terendah'];
-            }
-            return;
-        }
-        if (!is_null($index)) {
-            $deskripsiTertinggi = $this->nilaiData[$index]['nama_siswa'] . " menunjukkan pemahaman dalam ";
-            $deskripsiTerendah = $this->nilaiData[$index]['nama_siswa'] . " membutuhkan bimbingan dalam ";
-            foreach ($this->nilaiData[$index]['detail'] as $detail) {
-                foreach ($this->nilaiData[$index]['detail'] as $detail) {
-                    if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
-                        $deskripsiTertinggi .=  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
-                    }
-                    if ($detail['kktp'] === 1 && $detail['tampil'] === 0) continue;
-                    if ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
-                        $deskripsiTerendah =  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
-                    }
-                    if ($detail['kktp'] === 0 && $detail['tampil'] === 0) continue;
-                }
-            }
-            $this->nilaiData[$index]['deskripsi_tertinggi'] = '';
-            $this->nilaiData[$index]['deskripsi_terendah'] = '';
+    //             foreach ($siswa['detail'] as $detail) {
+    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
+    //                     $siswa['deskripsi_tertinggi'] .= $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
+    //                 } elseif ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
+    //                     $siswa['deskripsi_terendah'] = $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
+    //                 }
+    //             }
+    //             $this->nilaiData[$siswaIndex]['deskripsi_tertinggi'] = $siswa['deskripsi_tertinggi'];
+    //             $this->nilaiData[$siswaIndex]['deskripsi_terendah'] = $siswa['deskripsi_terendah'];
+    //         }
+    //         return;
+    //     }
+    //     if (!is_null($index)) {
+    //         $deskripsiTertinggi = $this->nilaiData[$index]['nama_siswa'] . " menunjukkan pemahaman dalam ";
+    //         $deskripsiTerendah = $this->nilaiData[$index]['nama_siswa'] . " membutuhkan bimbingan dalam ";
+    //         foreach ($this->nilaiData[$index]['detail'] as $detail) {
+    //             foreach ($this->nilaiData[$index]['detail'] as $detail) {
+    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
+    //                     $deskripsiTertinggi .=  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
+    //                 }
+    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 0) continue;
+    //                 if ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
+    //                     $deskripsiTerendah =  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
+    //                 }
+    //                 if ($detail['kktp'] === 0 && $detail['tampil'] === 0) continue;
+    //             }
+    //         }
+    //         $this->nilaiData[$index]['deskripsi_tertinggi'] = '';
+    //         $this->nilaiData[$index]['deskripsi_terendah'] = '';
 
-            $this->nilaiData[$index]['deskripsi_tertinggi'] = $deskripsiTertinggi;
-            $this->nilaiData[$index]['deskripsi_terendah'] = $deskripsiTerendah;
+    //         $this->nilaiData[$index]['deskripsi_tertinggi'] = $deskripsiTertinggi;
+    //         $this->nilaiData[$index]['deskripsi_terendah'] = $deskripsiTerendah;
 
-            dump($this->nilaiData[$index]);
-            return;
-        }
-    }
+    //         return;
+    //     }
+    // }
+
+
 
     public function update($dataIndex, $nilaiIndex, $tipe)
     {
@@ -230,7 +230,5 @@ class Form extends Component
         ], [
             $tipe => $updatedNilai[$tipe],
         ]);
-
-        $this->generateDeskripsiRapor($dataIndex);
     }
 }

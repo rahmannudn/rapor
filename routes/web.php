@@ -252,6 +252,9 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::get('/raporintra/{siswa}/{kelasSiswa}/sampul/download', [RaporIntraController::class, 'cetakSampul'])
         ->name('cetakSampulRapor');
 
+    Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
+        ->name('cetakRaporIntra');
+
     Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
 
     Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {

@@ -43,9 +43,11 @@
                     </th>
                     <td class="px-4 py-4">
                         <x-button
-                            href="{{ route('cetakSampulRapor', ['siswa' => $siswa->id, 'kelasSiswa' => $siswa->kelas_siswa_id]) }}"
-                            wire:navigate class="mb-3" icon="folder-download" info label="Cetak Sampul"
-                            target="_blank" />
+                            x-on:click="window.open('{{ route('cetakSampulRapor', ['siswa' => $siswa->id, 'kelasSiswa' => $siswa->kelas_siswa_id]) }}', '_blank')"
+                            icon="folder-download" info label="Sampul" />
+                        <x-button
+                            x-on:click="window.open('{{ route('cetakRaporIntra', ['siswa' => $siswa->id, 'kelasSiswa' => $siswa->kelas_siswa_id]) }}', '_blank')"
+                            icon="folder-download" info label="Rapor" />
                     </td>
                 </tr>
             @empty
