@@ -10,10 +10,12 @@ use App\Helpers\FunctionHelper;
 use App\Models\NilaiFormatif;
 use Livewire\Attributes\Locked;
 use App\Models\TujuanPembelajaran;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
+use Livewire\Attributes\On;
 
 class Form extends Component
 {
@@ -167,7 +169,9 @@ class Form extends Component
             $siswa['detail'] = $detail;
             $results[] = $siswa;
         }
-        $this->nilaiData = $results;
+        $results;
+
+        $this->dispatch('generateDeskripsi', json_encode($results, true));
     }
 
     // public function generateDeskripsiRapor($index = null)
@@ -214,9 +218,13 @@ class Form extends Component
     //     }
     // }
 
+    #[On('updateDeskripsi')]
+    public function updateDeskripsi($modifiedData)
+    {
+        $this->nilaiData = $modifiedData;
+    }
 
-
-    public function update($dataIndex, $nilaiIndex, $tipe)
+    public function update($dataIndex = '', $nilaiIndex = '', $tipe = '')
     {
         // mencari array sesuai index nilai yang berubah
         $data = $this->nilaiData[$dataIndex];

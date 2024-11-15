@@ -53,12 +53,12 @@
                             <th scope="col"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700"
                                 colspan="{{ count($daftarTP) + 2 }}">Tujuan Pembelajaran</th>
-                            {{-- <th scope="col"
+                            <th scope="col"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700"
                                 rowspan="4">Deskripsi Capaian Tertinggi Dalam Rapor</th>
                             <th scope="col"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700"
-                                rowspan="4">Deskripsi Capaian Terendah Dalam Rapor</th> --}}
+                                rowspan="4">Deskripsi Capaian Terendah Dalam Rapor</th>
                     </tr>
 
                     <tr>
@@ -121,15 +121,19 @@
                                 @if ($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['tampil']) ? checked @endif>
                         </td>
                     @endforeach
-                    {{-- <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">
                         {{ $nilai['deskripsi_tertinggi'] }}
                     </td>
                     <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">
                         {{ $nilai['deskripsi_terendah'] }}
-                    </td> --}}
+                    </td>
                 </tr>
             @endforeach
         @endif
     </tbody>
     @endif
+
+    @push('scripts')
+        <script src="{{ asset('resources/js/generateDeskripsi.js') }}"></script>
+    @endpush
 </div>
