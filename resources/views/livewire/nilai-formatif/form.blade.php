@@ -101,24 +101,24 @@
     <tbody>
         @if (count($daftarTP) > 0)
             @foreach ($nilaiData as $nilaiDataIndex => $nilai)
-                <tr
-                    class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    wire:key="$nilai['siswa_id']">
                     <td class="w-5 px-4 py-4">{{ $loop->index + 1 }}</td>
                     <td class="px-4 py-4">{{ $nilai['nama_siswa'] }}</td>
                     @foreach ($nilai['detail'] as $nilaiIndex => $n)
-                        <td
-                            class="flex items-center justify-center px-4 py-4 text-center border-l border-r dark:bg-gray-800 dark:border-gray-700">
+                        <td class="flex items-center justify-center px-4 py-4 text-center border-l border-r dark:bg-gray-800 dark:border-gray-700"
+                            wire:key="$nilai['siswa_id']['detail'][$nilaiIndex]">
                             <input type="checkbox" id="{{ $nilaiDataIndex }}/{{ $nilaiIndex }}"
                                 wire:model.defer="nilaiData.{{ $nilaiDataIndex }}.detail.{{ $nilaiIndex }}.kktp"
                                 x-on:change="$wire.update('{{ $nilaiDataIndex }}','{{ $nilaiIndex }}','kktp')"
-                                @if ($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['kktp']) ? checked @endif>
+                                @checked($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['kktp'])>
                         </td>
                         <td
-                            class="px-4 py-4 mx-auto text-center border-l border-r dark:bg-gray-800 dark:border-gray-700">
+                            class="px-4 py-4 mx-auto text-center border-l border-r  dark:bg-gray-800 dark:border-gray-700">
                             <input type="checkbox" id="{{ $nilaiDataIndex }}/{{ $nilaiIndex }}"
                                 wire:model.defer="nilaiData.{{ $nilaiDataIndex }}.detail.{{ $nilaiIndex }}.tampil"
                                 x-on:change="$wire.update('{{ $nilaiDataIndex }}','{{ $nilaiIndex }}','tampil')"
-                                @if ($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['tampil']) ? checked @endif>
+                                @checked($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['tampil'])>
                         </td>
                     @endforeach
                     <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">

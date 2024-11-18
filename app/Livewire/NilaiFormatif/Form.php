@@ -159,8 +159,8 @@ class Form extends Component
             $detail = [];
             foreach ($records as $index => $record) {
                 $detail[$index] = [
-                    'kktp' => $record->kktp,
-                    'tampil' => $record->tampil,
+                    'kktp' => (bool)$record->kktp,
+                    'tampil' => (bool)$record->tampil,
                     'tujuan_pembelajaran_deksripsi' => $record->tujuan_pembelajaran_deskripsi,
                     'tujuan_pembelajaran_id' => $record->tujuan_pembelajaran_id
                 ];
@@ -169,68 +169,28 @@ class Form extends Component
             $siswa['detail'] = $detail;
             $results[] = $siswa;
         }
-        $results;
 
-        $this->dispatch('generateDeskripsi', json_encode($results, true));
+        $this->dispatch('generateDeskripsi', dataIndex: null, nilaiIndex: null, nilaiData: $results);
     }
-
-    // public function generateDeskripsiRapor($index = null)
-    // {
-    //     if ($index == null) {
-    //         foreach ($this->nilaiData as $siswaIndex => $siswa) {
-    //             $siswa['deskripsi_tertinggi'] = $siswa['nama_siswa'] . " menunjukkan pemahaman dalam ";
-    //             $siswa['deskripsi_terendah'] = $siswa['nama_siswa'] . " membutuhkan bimbingan dalam ";
-
-    //             foreach ($siswa['detail'] as $detail) {
-    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
-    //                     $siswa['deskripsi_tertinggi'] .= $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
-    //                 } elseif ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
-    //                     $siswa['deskripsi_terendah'] = $detail['tujuan_pembelajaran_deksripsi'] . ' ,';
-    //                 }
-    //             }
-    //             $this->nilaiData[$siswaIndex]['deskripsi_tertinggi'] = $siswa['deskripsi_tertinggi'];
-    //             $this->nilaiData[$siswaIndex]['deskripsi_terendah'] = $siswa['deskripsi_terendah'];
-    //         }
-    //         return;
-    //     }
-    //     if (!is_null($index)) {
-    //         $deskripsiTertinggi = $this->nilaiData[$index]['nama_siswa'] . " menunjukkan pemahaman dalam ";
-    //         $deskripsiTerendah = $this->nilaiData[$index]['nama_siswa'] . " membutuhkan bimbingan dalam ";
-    //         foreach ($this->nilaiData[$index]['detail'] as $detail) {
-    //             foreach ($this->nilaiData[$index]['detail'] as $detail) {
-    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 1) {
-    //                     $deskripsiTertinggi .=  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
-    //                 }
-    //                 if ($detail['kktp'] === 1 && $detail['tampil'] === 0) continue;
-    //                 if ($detail['kktp'] === 0 && $detail['tampil'] === 1) {
-    //                     $deskripsiTerendah =  $detail['tujuan_pembelajaran_deksripsi'] . ', ';
-    //                 }
-    //                 if ($detail['kktp'] === 0 && $detail['tampil'] === 0) continue;
-    //             }
-    //         }
-    //         $this->nilaiData[$index]['deskripsi_tertinggi'] = '';
-    //         $this->nilaiData[$index]['deskripsi_terendah'] = '';
-
-    //         $this->nilaiData[$index]['deskripsi_tertinggi'] = $deskripsiTertinggi;
-    //         $this->nilaiData[$index]['deskripsi_terendah'] = $deskripsiTerendah;
-
-    //         return;
-    //     }
-    // }
 
     #[On('updateDeskripsi')]
     public function updateDeskripsi($modifiedData)
     {
-        $this->nilaiData = $modifiedData;
+        $this->nilaiData = json_decode($modifiedData, true);
     }
 
-    public function update($dataIndex = '', $nilaiIndex = '', $tipe = '')
+    public function update($dataIndex, $nilaiIndex, $tipe)
     {
         // mencari array sesuai index nilai yang berubah
         $data = $this->nilaiData[$dataIndex];
 
         // mencari array sesuai index nilai yang berubah
         $updatedNilai = $data['detail'][$nilaiIndex];
+
+        // memastikan data yang disimpan adalah boolean
+        $updatedNilai['kktp'] = (bool)$updatedNilai['kktp'];
+        $updatedNilai['tampil'] = (bool)$updatedNilai['tampil'];
+
         $hasilNilai = NilaiFormatif::updateOrCreate([
             'detail_guru_mapel_id' => $this->selectedDetailGuruMapel,
             'kelas_siswa_id' => $data['kelas_siswa_id'],
@@ -238,5 +198,12 @@ class Form extends Component
         ], [
             $tipe => $updatedNilai[$tipe],
         ]);
+
+        $this->dispatch(
+            'generateDeskripsi',
+            dataIndex: $dataIndex,
+            nilaiIndex: $nilaiIndex,
+            nilaiData: $this->nilaiData
+        );
     }
 }
