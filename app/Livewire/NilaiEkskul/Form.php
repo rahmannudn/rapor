@@ -40,6 +40,7 @@ class Form extends Component
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
 
         $this->daftarEkskul = Ekskul::select('id', 'nama_ekskul')
+            ->orderBy('created_at')
             ->get()
             ->toArray();
 

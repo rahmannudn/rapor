@@ -1,4 +1,8 @@
 <div x-on:set-nilai="$wire.selectedNilai = $event.detail">
+    @push('table-responsive')
+        <link rel="stylesheet" href="{{ asset('resources/css/responsive-table.css') }}">
+    @endpush
+
     @section('title')
         Nilai Ekskul
     @endsection
@@ -12,8 +16,8 @@
     {{-- blade-formatter-enable --}}
 
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Nilai Ekskul</h1>
-    <x-button href="{{ route('nilaiEkskulCreate') }}" wire:navigate class="mb-3" icon="plus" info
-        label="Tambah Nilai Ekskul" />
+    {{-- <x-button href="{{ route('nilaiEkskulCreate') }}" wire:navigate class="mb-3" icon="plus" info
+        label="Tambah Nilai Ekskul" /> --}}
 
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedNilai = null">
         <x-card title="Delete Note">
@@ -31,5 +35,6 @@
         </x-card>
     </x-modal>
 
-    <livewire:nilai-ekskul.table />
+    <livewire:nilai-ekskul.form />
+    {{-- <livewire:nilai-ekskul.table /> --}}
 </div>

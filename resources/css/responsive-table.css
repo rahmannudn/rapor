@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+thead {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+tr:hover {
+    background-color: #e9ecef;
+}
+
+.ekskul-option {
+    width: 15rem;
+    display: inline-block;
+}
+
+.ekskul-description {
+    display: inline-block;
+    width: 25rem;
+}
+
+th:first-child,
+td:first-child,
+th:nth-child(2),
+td:nth-child(2) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+}

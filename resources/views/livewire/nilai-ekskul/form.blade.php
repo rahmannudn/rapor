@@ -1,66 +1,47 @@
 <div>
     <p class="text-red-500 dark:bg-gray-800 dark:border-gray-700">*Kosongi kolom jika tidak mengikuti ekskul</p>
     <p class="text-gray-900 dark:bg-gray-800 dark:border-gray-700">{{ $namaKelas }}</p>
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-center text-gray-500 rtl:text-right dark:text-gray-400">
-            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+    <div class="container">
+        <table class="w-full">
+            <thead>
                 <tr>
-                    <th scope="col" class="px-1 py-3 w-[5%]" rowspan="2">
-                        No
-                    </th>
-                    <th scope="col" class="px-6 py-3 w-64" rowspan="2">
-                        Nama Siswa
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-36">
-                        Pilihan Ekskul 1
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-48">
-                        Deskripsi Ekskul 1
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-36">
-                        Pilihan Ekskul 2
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-48">
-                        Deskripsi Ekskul 2
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-36">
-                        Pilihan Ekskul 3
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-48">
-                        Deskripsi Ekskul 3
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-36">
-                        Pilihan Ekskul 4
-                    </th>
-                    <th scope="col" class="px-4 py-3 w-48">
-                        Deskripsi Ekskul 4
-                    </th>
+                    <th>NO</th>
+                    <th>Nama Siswa</th>
+                    <th class="ekskul-option">Pilihan Ekskul 1</th>
+                    <th class="ekskul-description">Deskripsi Ekskul 1</th>
+                    <th class="ekskul-option">Pilihan Ekskul 2</th>
+                    <th class="ekskul-description">Deskripsi Ekskul 2</th>
+                    <th class="ekskul-option">Pilihan Ekskul 3</th>
+                    <th class="ekskul-description">Deskripsi Ekskul 3</th>
+                    <th class="ekskul-option">Pilihan Ekskul 4</th>
+                    <th class="ekskul-description">Deskripsi Ekskul 4</th>
                 </tr>
             </thead>
             <tbody class="w-full">
                 @forelse($siswaData as $index => $data)
-                    <tr key="{{ $data['id'] }}"
-                        class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="px-1 py-4 w-[5%]">
+                    <tr key="{{ $data['id'] }}" class="h-20 text-center">
+                        <td class="px-1  w-[5%] text-center">
                             {{ $loop->index + 1 }}
                         </td>
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-64">
+                        <td scope="row" class="w-64 px-6 font-medium">
                             {{ $data['nama_siswa'] }}
-                        </th>
+                        </td>
                         @for ($i = 0; $i < 4; $i++)
-                            <td scope="col" class="px-4 py-3 w-36">
-                                <x-select class="max-w-72" placeholder="Pilih Ekskul"
-                                    wire:model.defer="eskuls.{{ $index }}.{{ $i }}">
-                                    @foreach ($daftarEkskul as $value)
-                                        <x-select.option value="{{ $value['id'] }}"
-                                            label="{{ $value['nama_ekskul'] }}" />
-                                    @endforeach
-                                </x-select>
-                            </td>
-                            <td scope="col" class="px-4 py-3 w-48">
-                                <x-textarea class="text-black" />
-                            </td>
+                            @if (count($daftarEkskul) > 0)
+                                <td class="px-4 py-6 ekskul-option" wire:key="$i">
+                                    <x-native-select class="h-20">
+                                        <option value="">--Pilih Eskul--</option>
+                                        @foreach ($daftarEkskul as $ekskul)
+                                            <option value="{{ $ekskul['id'] }}" class="w-full">
+                                                {{ $ekskul['nama_ekskul'] }}
+                                            </option>
+                                        @endforeach
+                                    </x-native-select>
+                                </td>
+                                <td class="px-4 py-4 ekskul-description">
+                                    <x-textarea class="text-black" />
+                                </td>
+                            @endif
                         @endfor
                     </tr>
                 @empty
@@ -76,7 +57,7 @@
             </tbody>
         </table>
     </div>
-    <div class="flex gap-x-2 mt-2">
+    <div class="flex mt-2 gap-x-2">
         <x-button primary label="Simpan" x-on:click="$wire.simpan" spinner />
     </div>
 </div>
