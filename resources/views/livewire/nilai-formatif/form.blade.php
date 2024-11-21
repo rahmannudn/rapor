@@ -41,12 +41,12 @@
     @if ($showForm)
         <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
             <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 ">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200">
                     <tr class="">
                         <th scope="col" class="w-5 px-2 py-3" rowspan="4">
                             No
                         </th>
-                        <th scope="col" class="px-6 py-3" rowspan="4">
+                        <th scope="col" class="z-20 px-6 py-3" rowspan="4">
                             Nama Siswa
                         </th>
                         @if (count($daftarTP) > 0)
@@ -61,7 +61,7 @@
                                 rowspan="4">Deskripsi Capaian Terendah Dalam Rapor</th>
                     </tr>
 
-                    <tr>
+                    <tr class="text-center">
                         @for ($i = 0; $i < count($daftarTP); $i++)
                             <th scope="col" colspan="2"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
@@ -70,7 +70,7 @@
                         @endfor
                     </tr>
 
-                    <tr>
+                    <tr class="text-center">
                         @foreach ($daftarTP as $data)
                             <th scope="col" colspan="2" wire:key="$data['id']"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
@@ -79,14 +79,14 @@
                         @endforeach
                     </tr>
 
-                    <tr>
+                    <tr class="text-center">
                         @for ($i = 0; $i < count($daftarTP); $i++)
-                            <td
+                            <th
                                 class="px-4 py-3 border-t border-b border-l border-r border-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                KKTP</td>
-                            <td
+                                KKTP</th>
+                            <th
                                 class="px-4 py-3 border-t border-b border-l border-r border-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700">
-                                Tampil/ Tidak</td>
+                                Tampil/ Tidak</th>
                         @endfor
                     </tr>
                 @else
@@ -106,7 +106,7 @@
                     <td class="w-5 px-4 py-4">{{ $loop->index + 1 }}</td>
                     <td class="px-4 py-4">{{ $nilai['nama_siswa'] }}</td>
                     @foreach ($nilai['detail'] as $nilaiIndex => $n)
-                        <td class="flex items-center justify-center px-4 py-4 text-center border-l border-r dark:bg-gray-800 dark:border-gray-700"
+                        <td class="flex items-center justify-center px-4 py-5 text-center border-l border-r dark:bg-gray-800 dark:border-gray-700"
                             wire:key="$nilai['siswa_id']['detail'][$nilaiIndex]">
                             <input type="checkbox" id="{{ $nilaiDataIndex }}/{{ $nilaiIndex }}"
                                 wire:model.defer="nilaiData.{{ $nilaiDataIndex }}.detail.{{ $nilaiIndex }}.kktp"
@@ -114,7 +114,7 @@
                                 @checked($nilaiData[$nilaiDataIndex]['detail'][$nilaiIndex]['kktp'])>
                         </td>
                         <td
-                            class="px-4 py-4 mx-auto text-center border-l border-r  dark:bg-gray-800 dark:border-gray-700">
+                            class="px-4 py-4 mx-auto text-center border-l border-r dark:bg-gray-800 dark:border-gray-700">
                             <input type="checkbox" id="{{ $nilaiDataIndex }}/{{ $nilaiIndex }}"
                                 wire:model.defer="nilaiData.{{ $nilaiDataIndex }}.detail.{{ $nilaiIndex }}.tampil"
                                 x-on:change="$wire.update('{{ $nilaiDataIndex }}','{{ $nilaiIndex }}','tampil')"

@@ -19,7 +19,7 @@
             </thead>
             <tbody class="w-full">
                 @forelse($siswaData as $index => $data)
-                    <tr key="{{ $data['id'] }}" class="h-20 text-center">
+                    <tr key="{{ $data['siswa_id'] }}" class="h-20 text-center">
                         <td class="px-1  w-[5%] text-center">
                             {{ $loop->index + 1 }}
                         </td>
