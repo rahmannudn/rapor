@@ -46,7 +46,7 @@
                         <th scope="col" class="w-5 px-2 py-3" rowspan="4">
                             No
                         </th>
-                        <th scope="col" class="z-20 px-6 py-3" rowspan="4">
+                        <th scope="col" class="sticky left-0 z-50 px-6 py-3 " rowspan="4">
                             Nama Siswa
                         </th>
                         @if (count($daftarTP) > 0)
@@ -132,6 +132,10 @@
         @endif
     </tbody>
     @endif
+
+    <div class="flex mt-2 gap-x-2">
+        <x-button primary label="Simpan" x-on:click="$wire.simpan" spinner />
+    </div>
 
     @push('scripts')
         <script src="{{ asset('resources/js/generateDeskripsi.js') }}"></script>

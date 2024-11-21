@@ -7,9 +7,11 @@ use App\Models\Ekskul;
 use Livewire\Component;
 use App\Models\WaliKelas;
 use App\Models\KelasSiswa;
+use App\Models\NilaiEkskul;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\Rule;
 
 class Form extends Component
 {
@@ -69,12 +71,60 @@ class Form extends Component
         $this->siswaData = $this->generateDataSiswa($groupedDataSiswa);
     }
 
+    public function update(int $dataIndex, int $ekskulIndex, $field)
+    {
+        // mencari array sesuai index nilai yang berubah
+        $data = $this->siswaData[$dataIndex];
+
+        // mencari array sesuai index nilai yang berubah
+        $updatedNilai = $data['nilai_ekskul'][$ekskulIndex];
+        if (!$updatedNilai[$field]) {
+            session()->flash('gagal', 'data tidak ditemukan');
+            return;
+        }
+
+        // Ambil nilai ekskul_id dan deskripsi_ekskul dari data siswa
+        $ekskulId = $this->siswaData[$dataIndex]['nilai_ekskul'][$ekskulIndex]['ekskul_id'] ?? null;
+        $deskripsiEkskul = $this->siswaData[$dataIndex]['nilai_ekskul'][$ekskulIndex]['deskripsi'] ?? null;
+
+        // Validasi jika salah satu field berubah
+        $validated = $this->validate([
+            "siswaData.$dataIndex.nilai_ekskul.$ekskulIndex.ekskul_id" => [
+                'nullable', // Tidak wajib diisi
+                'integer',
+                Rule::in(array_column($this->daftarEkskul, 'id')), // Validasi ekskul_id harus ada di daftarEkskul
+                function ($attribute, $value, $fail) use ($deskripsiEkskul) {
+                    if ($value !== null && empty($deskripsiEkskul)) {
+                        $fail('Deskripsi tidak boleh kosong');
+                    }
+                },
+            ],
+            "siswaData.$dataIndex.nilai_ekskul.$ekskulIndex.deskripsi" => [
+                'nullable', // Tidak wajib diisi
+                'string',
+                function ($attribute, $value, $fail) use ($ekskulId) {
+                    if ($value !== null && empty($ekskulId)) {
+                        $fail('Ekskul tidak boleh kosong');
+                    }
+                },
+            ],
+        ]);
+
+        $hasilNilai = NilaiEkskul::updateOrCreate([
+            'kelas_siswa_id' => $data['kelas_siswa_id'],
+            'ekskul_id' => $updatedNilai['ekskul_id'],
+            'deskripsi' => $updatedNilai['deskripsi'],
+        ], [
+            $field => $updatedNilai[$field],
+        ]);
+    }
+
     public function generateDataSiswa($data)
     {
         $results = [];
         foreach ($data as $siswa) {
             $dataSiswa = [
-                'siswa_id' => $siswa->first()->siswa_id,
+                'siswa_id' => (int)$siswa->first()->siswa_id,
                 'nama_siswa' => $siswa->first()->nama_siswa,
                 'kelas_siswa_id' => $siswa->first()->kelas_siswa_id
             ];
@@ -83,12 +133,18 @@ class Form extends Component
             for ($i = 0; $i < 4; $i++) {
                 $nilaiEkskul[$i] = [
                     'ekskul_id' => $siswa[$i]['ekskul_id'] ?? null,
-                    'deskripsi_ekskul' => $siswa[$i]['deskripsi'] ?? null
+                    'deskripsi' => $siswa[$i]['deskripsi'] ?? null
                 ];
             }
             $dataSiswa['nilai_ekskul'] = $nilaiEkskul;
             $results[] = $dataSiswa;
         }
         return $results;
+    }
+
+    public function simpan()
+    {
+        session()->flash('success', 'Data Berhasil Ditambahkan');
+        $this->redirectRoute('nilaiEkskulIndex');
     }
 }

@@ -206,4 +206,10 @@ class Form extends Component
             nilaiData: $this->nilaiData
         );
     }
+
+    public function simpan()
+    {
+        session()->flash('success', 'Data Berhasil Ditambahkan');
+        $this->redirectRoute('nilaiFormatifIndex');
+    }
 }

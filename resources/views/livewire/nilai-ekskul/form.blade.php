@@ -19,30 +19,33 @@
             </thead>
             <tbody class="w-full">
                 @forelse($siswaData as $index => $data)
-                    <tr key="{{ $data['siswa_id'] }}" class="h-20 text-center">
+                    <tr key="{{ $data['siswa_id'] }}" class="h-20 text-center" wire:key="$data['siswa_id']">
                         <td class="px-1  w-[5%] text-center">
                             {{ $loop->index + 1 }}
                         </td>
                         <td scope="row" class="w-64 px-6 font-medium">
                             {{ $data['nama_siswa'] }}
                         </td>
-                        @for ($i = 0; $i < 4; $i++)
-                            @if (count($daftarEkskul) > 0)
-                                <td class="px-4 py-6 ekskul-option" wire:key="$i">
-                                    <x-native-select class="h-20">
-                                        <option value="">--Pilih Eskul--</option>
-                                        @foreach ($daftarEkskul as $ekskul)
-                                            <option value="{{ $ekskul['id'] }}" class="w-full">
-                                                {{ $ekskul['nama_ekskul'] }}
-                                            </option>
-                                        @endforeach
-                                    </x-native-select>
-                                </td>
-                                <td class="px-4 py-4 ekskul-description">
-                                    <x-textarea class="text-black" />
-                                </td>
-                            @endif
-                        @endfor
+                        @foreach ($data['nilai_ekskul'] as $ekskulIndex => $nilai)
+                            <td class="px-4 py-6 ekskul-option" wire:key="$ekskulIndex">
+                                <x-native-select class="h-20"
+                                    wire:model.defer="siswaData.{{ $index }}.nilai_ekskul.{{ $ekskulIndex }}.ekskul_id"
+                                    x-on:change="$wire.update('{{ $index }}','{{ $ekskulIndex }}','ekskul_id')">
+                                    <option value="">--Pilih Eskul--</option>
+                                    @foreach ($daftarEkskul as $ekskul)
+                                        <option value="{{ $ekskul['id'] }}" class="w-full">
+                                            {{ $ekskul['nama_ekskul'] }}
+                                        </option>
+                                    @endforeach
+                                </x-native-select>
+                            </td>
+                            <td class="px-4 py-4 ekskul-description">
+                                <x-textarea
+                                    wire:model.defer="siswaData.{{ $index }}.nilai_ekskul.{{ $ekskulIndex }}.deskripsi"
+                                    x-on:blur="$wire.update('{{ $index }}','{{ $ekskulIndex }}','deskripsi')"
+                                    class="text-black" />
+                            </td>
+                        @endforeach
                     </tr>
                 @empty
 
