@@ -42,8 +42,7 @@ new class extends Component {
             <ul class="space-y-2 font-medium">
                 <li>
                     <a href="{{ route('dashboard') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('dashboard') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                        wire:navigate>
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('dashboard') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                         <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                             <path
@@ -82,22 +81,19 @@ new class extends Component {
                         <ul x-show="dropdownMaster" class="py-2 space-y-2" x-transition>
                             <li>
                                 <a href="{{ route('sekolahIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('sekolahIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('sekolahIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     Sekolah
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('ekskulIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('ekskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('ekskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     Ekskul
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('mapelIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('mapelIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('mapelIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     Mapel
                                 </a>
                             </li>
@@ -106,8 +102,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('tahunAjaranIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tahunAjaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tahunAjaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -121,8 +116,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('userIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -136,8 +130,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('kepsekIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kepsekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kepsekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -156,8 +149,7 @@ new class extends Component {
                 @can('isAdminOrKepsek', auth()->user())
                     <li>
                         <a href="{{ route('siswaIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('siswaIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('siswaIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 <path fill-rule="evenodd"
@@ -173,8 +165,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('kelasIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('kelasIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -215,32 +206,28 @@ new class extends Component {
                         <ul x-show="dropdownMasterProyek" class="py-2 space-y-2" x-transition>
                             <li>
                                 <a href="{{ route('dimensiIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('dimensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('dimensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Dimensi</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('elemenIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('elemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('elemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Elemen</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('subelemenIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('subelemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('subelemenIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Subelemen</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('capaianFaseIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('capaianFaseIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('capaianFaseIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Capaian Fase</span>
                                 </a>
                             </li>
@@ -273,24 +260,21 @@ new class extends Component {
                         <ul x-show="dropdownProyek" class="py-2 space-y-2" x-transition>
                             <li>
                                 <a href="{{ route('proyekIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Daftar Proyek</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('catatanProyekEdit') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('catatanProyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('catatanProyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Catatan Proyek</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('nilaiSubproyekIndex') }}"
-                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                    wire:navigate>
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Penilaian Proyek</span>
                                 </a>
                             </li>
@@ -298,8 +282,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('raporP5Index') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporP5Index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporP5Index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -312,8 +295,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('nilaiEkskulIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiEkskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiEkskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -328,8 +310,7 @@ new class extends Component {
                 @can('isGuru', auth()->user())
                     <li>
                         <a href="{{ route('lingkupMateriIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('lingkupMateriIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('lingkupMateriIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 <path
@@ -342,8 +323,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('tujuanPembelajaranIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tujuanPembelajaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tujuanPembelajaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -360,8 +340,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('nilaiSumatifIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiSumatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiSumatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
@@ -377,8 +356,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('nilaiFormatifIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiFormatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiFormatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -391,8 +369,7 @@ new class extends Component {
 
                     <li>
                         <a href="{{ route('absensiIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('absensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                            wire:navigate>
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('absensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor"
@@ -408,8 +385,7 @@ new class extends Component {
 
                 @can('isWaliKelas', auth()->user())
                     <a href="{{ route('raporIntraIndex') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporIntraIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                        wire:navigate>
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporIntraIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor"

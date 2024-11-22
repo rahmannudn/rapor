@@ -1,7 +1,7 @@
 <div x-on:set-nilai="$wire.selectedNilai = $event.detail">
-    @push('table-responsive')
+    @section('table-responsive')
         <link rel="stylesheet" href="{{ asset('resources/css/responsive-table.css') }}">
-    @endpush
+    @endsection
 
     @section('title')
         Nilai Ekskul
