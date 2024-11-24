@@ -234,6 +234,7 @@ new class extends Component {
                         </ul>
                     </li>
 
+                    {{-- dropdownProyek --}}
                     <li x-data="{ dropdownProyek: false }">
                         <button type="button" x-on:click="dropdownProyek = !dropdownProyek"
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -279,6 +280,8 @@ new class extends Component {
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    {{-- dropdownProyek --}}
 
                     <li>
                         <a href="{{ route('raporP5Index') }}"
@@ -293,84 +296,71 @@ new class extends Component {
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('nilaiEkskulIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiEkskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                            <span class="ms-3">Penilaian Ekskul</span>
-                        </a>
-                    </li>
+                    <hr class="w-full h-[1px] bg-slate-200">
                 @endcan
 
                 @can('isGuru', auth()->user())
-                    <li>
-                        <a href="{{ route('lingkupMateriIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('lingkupMateriIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                    {{-- inputan mapel --}}
+                    <li x-data="{ dropdownInputanMapel: false }">
+                        <button type="button" x-on:click="dropdownInputanMapel = !dropdownInputanMapel"
+                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 <path
                                     d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
                             </svg>
 
-                            <span class="ms-3">Lingkup Materi</span>
-                        </a>
-                    </li>
+                            <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Inputan
+                                Mapel</span>
 
-                    <li>
-                        <a href="{{ route('tujuanPembelajaranIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('tujuanPembelajaranIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                <path
-                                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
-                                <path
-                                    d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+                            <svg :class="dropdownInputanMapel && 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                             </svg>
 
-                            <span class="ms-3">Tujuan Pembelajaran</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('nilaiSumatifIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiSumatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                            <svg :class="dropdownInputanMapel || 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
+                        </button>
 
-                            <span class="ms-3">Nilai Sumatif</span>
-                        </a>
+                        <ul x-show="dropdownInputanMapel" class="py-2 space-y-2" x-transition>
+                            <li>
+                                <a href="{{ route('lingkupMateriIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Lingkup Materi</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('tujuanPembelajaranIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Tujuan Pembelajaran</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('nilaiSumatifIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Nilai Sumatif</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('nilaiFormatifIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Nilai Formatif</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+                    {{-- inputan mapel --}}
+                @endcan
 
-
-
-                    <li>
-                        <a href="{{ route('nilaiFormatifIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiFormatifIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="ms-3">Nilai Formatif</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('absensiIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('absensiIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-
+                @can('isWaliKelas', auth()->user())
+                    {{-- dropdownInputanWali --}}
+                    <li x-data="{ dropdownInputanWali: false }">
+                        <button type="button" x-on:click="dropdownInputanWali = !dropdownInputanWali"
+                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
@@ -378,25 +368,51 @@ new class extends Component {
                                     d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002" />
                             </svg>
 
-                            <span class="ms-3">Absensi</span>
+                            <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Inputan Wali Kelas</span>
+
+                            <svg :class="dropdownInputanWali && 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+
+                            <svg :class="dropdownInputanWali || 'hidden'" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" x-transition>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+
+                        </button>
+                        <ul x-show="dropdownInputanWali" class="py-2 space-y-2" x-transition>
+                            <li>
+                                <a href="{{ route('absensiIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Absensi Proyek</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('nilaiEkskulIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Nilai Ekskul</span>
+                                </a>
+                            </li>
+                        </ul>
+                        {{-- dropdownInputanWali --}}
+
+                    <li>
+                        <a href="{{ route('raporIntraIndex') }}"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporIntraIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+                            </svg>
+
+                            <span class="ms-3">Rapor Intra</span>
                         </a>
                     </li>
-                @endcan
-
-                @can('isWaliKelas', auth()->user())
-                    <a href="{{ route('raporIntraIndex') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporIntraIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
-                        </svg>
-
-
-                        <span class="ms-3">Rapor Intra</span>
-                    </a>
                 @endcan
 
                 <li>
