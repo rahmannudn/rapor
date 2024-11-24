@@ -42,7 +42,7 @@
     <script>
         window.addEventListener('showNotif', function(e) {
             const {
-                title = 'Berhasil', description = 'Data berhasil disimpan', icon = 'success', timeout = 1500
+                title = 'Berhasil', description = 'Data berhasil disimpan', icon = 'success', timeout = 3000
             } = event.detail;
             $wireui.notify({
                 title,

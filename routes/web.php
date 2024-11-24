@@ -100,7 +100,7 @@ use App\Livewire\Prestasi\Create as PrestasiCreate;
 use App\Livewire\Prestasi\Edit as PrestasiEdit;
 use App\Livewire\Prestasi\Detail as PrestasiDetail;
 
-use App\Livewire\Raporintra\Index as raporIntraIndex;
+use App\Livewire\Raporintra\Index as RaporIntraIndex;
 
 use Illuminate\Support\Facades\Route;
 
@@ -247,7 +247,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
     Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
-    Route::get('/raporintra', raporIntraIndex::class)->name('raporIntraIndex');
+    Route::get('/raporintra', RaporIntraIndex::class)->name('raporIntraIndex');
 
     Route::get('/raporintra/{siswa}/{kelasSiswa}/sampul/download', [RaporIntraController::class, 'cetakSampul'])
         ->name('cetakSampulRapor');

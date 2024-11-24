@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\DetailGuruMapel;
 use App\Models\Ekskul;
+use App\Models\GuruMapel;
 use App\Models\Kelas;
 use App\Models\KelasSiswa;
 use App\Models\Kepsek;
@@ -57,21 +59,57 @@ class RaporIntraController extends Controller
             )
             ->first();
 
-        if (!$data) $this->redirectBack('data tidak ditemukan');
+        if (is_null($data))
+            return redirect()->route('raporIntraIndex')->with('gagal', 'Data tidak ditemukan');
 
         $absensi = Absensi::where('kelas_siswa_id', $kelasSiswa['id'])
             ->select('sakit', 'izin', 'alfa')
             ->first();
 
-        if (!$absensi) $this->redirectBack('Data absensi siswa ini belum disii');
-
+        if (is_null($absensi))
+            return redirect()->route('raporIntraIndex')->with('gagal', 'Data absensi siswa ini belum disii');
 
         $ekskul = NilaiEkskul::where('nilai_ekskul.kelas_siswa_id', $kelasSiswa['id'])
             ->join('ekskul', 'ekskul.id', 'nilai_ekskul.ekskul_id')
             ->select('nilai_ekskul.deskripsi', 'ekskul.nama_ekskul')
             ->get();
 
-        if (!$ekskul) $this->redirectBack('Data ekskul siswa ini belum disii');
+        if (is_null($ekskul))
+            return redirect()->route('raporIntraIndex')->with('gagal', 'Data ekskul siswa ini belum disii');
+
+        $dataNilai = GuruMapel::where('guru_mapel.tahun_ajaran_id', $kelasSiswa['tahun_ajaran_id'])
+            ->join('detail_guru_mapel', function (JoinClause $q) use ($kelasSiswa) {
+                $q->on('detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
+                    ->where('detail_guru_mapel.kelas_id', '=', $kelasSiswa['kelas_id']);
+            })
+            ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
+            ->join('nilai_sumatif', function (JoinClause $q) use ($kelasSiswa) {
+                $q->on('nilai_sumatif.detail_guru_mapel_id', '=', 'detail_guru_mapel.id')
+                    ->where('nilai_sumatif.kelas_siswa_id', '=', $kelasSiswa['id']);
+            })
+            ->join('nilai_sumatif_akhir', function (JoinClause $q) use ($kelasSiswa) {
+                $q->on('nilai_sumatif_akhir.detail_guru_mapel_id', 'detail_guru_mapel.id')
+                    ->where('nilai_sumatif_akhir.kelas_siswa_id', '=', $kelasSiswa['id']);
+            })
+            ->join('nilai_formatif', function (JoinClause $q) use ($kelasSiswa) {
+                $q->on('nilai_formatif.detail_guru_mapel_id', 'detail_guru_mapel.id')
+                    ->where('nilai_formatif.kelas_siswa_id', '=', $kelasSiswa['id']);
+            })
+            ->join('tujuan_pembelajaran', 'tujuan_pembelajaran.id', 'nilai_formatif.tujuan_pembelajaran_id')
+            ->select(
+                'mapel.id as mapel_id',
+                'mapel.nama_mapel',
+                'nilai_sumatif.id as nilai_sumatif_id',
+                'nilai_sumatif.nilai as nilai_sumatif',
+                'nilai_sumatif_akhir.nilai_nontes',
+                'nilai_sumatif_akhir.nilai_tes',
+                'nilai_formatif.id as nilai_formatif_id',
+                'nilai_formatif.kktp',
+                'nilai_formatif.tampil',
+                'tujuan_pembelajaran.deskripsi as tujuan_pembelajaran_deskripsi',
+            )
+            ->get();
+        dd($dataNilai);
 
         $results['kepsek'] = $this->getKepsekData($kelasSiswa);
         $results['nama_siswa'] = $siswa['nama'];
@@ -81,9 +119,8 @@ class RaporIntraController extends Controller
 
     public function redirectBack($message)
     {
-        session()->flash('gagal', $message);
-        $this->redirectRoute('raporIntraIndex');
-        return;
+        return redirect()->route('raporIntraIndex')->with('gagal', $message);
+        // redirect()->route('raporIntraIndex')->with('gagal', $message);
     }
 
     public function getKepsekData(KelasSiswa $kelasSiswa)
