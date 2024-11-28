@@ -110,8 +110,6 @@ class Create extends Component
             ->select('guru_mapel.user_id')
             ->first();
 
-        dd($detailIdUser);
-
         $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
 
         $validated = $this->validate([

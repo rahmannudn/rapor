@@ -143,7 +143,7 @@ class Config extends Component
 
     public function save()
     {
-        $this->authorize('viewAny', Kelas::class);
+        $this->authorize('create', Kelas::class);
 
         if (count($this->savedMapelDanPengajar) === 0 && ($this->originWaliKelas === $this->waliKelasAktif)) {
             session()->flash('gagal', 'Tidak Ditemukan Perubahan Data');
