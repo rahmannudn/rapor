@@ -11,7 +11,7 @@ class KelasPolicy
 
     public function before(User $user)
     {
-        return $user->role === 'superadmin';
+        // return $user->role === 'superadmin';
     }
     /**
      * Determine whether the user can view any models.
@@ -35,7 +35,7 @@ class KelasPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === 'kepsek';
     }
 
     /**

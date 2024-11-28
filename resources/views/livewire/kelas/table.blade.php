@@ -60,7 +60,7 @@
 
                         <div class="flex flex-row items-center justify-center space-x-2">
                             <x-button.circle green icon="pencil-alt"
-                                href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" wire:navigate />
+                                href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" />
                             <x-button.circle negative icon="trash"
                                 x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
                         </div>
