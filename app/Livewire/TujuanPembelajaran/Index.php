@@ -37,8 +37,9 @@ class Index extends Component
             $this->dispatch('updateData');
             $this->deleteModal = false;
         } catch (\Throwable $err) {
-            dd($err);
-            $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
+            // dd($err);
+            $this->deleteModal = false;
+            $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan periksa kembali nilai formatif', icon: 'error');
         }
     }
 }

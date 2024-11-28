@@ -52,7 +52,8 @@
                         @if (count($daftarTP) > 0)
                             <th scope="col"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700"
-                                colspan="{{ count($daftarTP) + 2 }}">Tujuan Pembelajaran</th>
+                                colspan="{{ count($daftarTP) > 1 ? count($daftarTP) + 2 : count($daftarTP) + 1 }}">
+                                Tujuan Pembelajaran</th>
                             <th scope="col"
                                 class="px-4 py-3 border-b border-l border-r border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-700"
                                 rowspan="4">Deskripsi Capaian Tertinggi Dalam Rapor</th>
