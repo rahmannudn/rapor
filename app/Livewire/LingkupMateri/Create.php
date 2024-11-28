@@ -76,7 +76,10 @@ class Create extends Component
                     $q->on('detail_guru_mapel.mapel_id', '=', 'mapel.id')
                         ->where('detail_guru_mapel.kelas_id', '=', (int)$this->selectedKelas);
                 })
-                ->join('guru_mapel', 'guru_mapel.id', '=', 'detail_guru_mapel.guru_mapel_id')
+                ->join('guru_mapel', function (JoinClause $q) {
+                    $q->on('guru_mapel.id', '=', 'detail_guru_mapel.guru_mapel_id')
+                        ->where('guru_mapel.user_id', '=', Auth::id());
+                })
                 ->select('mapel.nama_mapel', 'detail_guru_mapel.id as detail_guru_mapel_id')
                 ->get();
         }
@@ -103,8 +106,11 @@ class Create extends Component
         $detailIdUser = DetailGuruMapel::where('detail_guru_mapel.id', '=', $this->selectedDetailGuruMapel)
             ->join('guru_mapel', 'guru_mapel.id', 'detail_guru_mapel.guru_mapel_id')
             ->where('guru_mapel.user_id', Auth::id())
+            ->where('guru_mapel.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->select('guru_mapel.user_id')
             ->first();
+
+        dd($detailIdUser);
 
         $this->authorize('create', [LingkupMateri::class, $detailIdUser]);
 
