@@ -24,7 +24,7 @@ class RaporIntraController extends Controller
     public function __construct(Siswa $siswa)
     {
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
-        $this->dataSekolah = Sekolah::find(1)->toArray();
+        $this->dataSekolah = Sekolah::find(1)->makeHidden(['created_at', 'updated_at', 'id'])->toArray();
     }
 
     public function cetakSampul(Siswa $siswa, KelasSiswa $kelasSiswa)
@@ -106,15 +106,79 @@ class RaporIntraController extends Controller
                 'nilai_formatif.id as nilai_formatif_id',
                 'nilai_formatif.kktp',
                 'nilai_formatif.tampil',
-                'tujuan_pembelajaran.deskripsi as tujuan_pembelajaran_deskripsi',
+                'tujuan_pembelajaran.deskripsi as tp_deskripsi',
             )
             ->get();
-        dd($dataNilai);
+
+        $groupedNilai = $dataNilai->groupBy('mapel_id')->toArray();
+        $result  = [];
+        foreach ($groupedNilai as $i => $nilai) {
+            $dataMapel  = [];
+            $sumatif = [];
+            $formatif = [];
+            $deskripsiTertinggi = [];
+            $deskripsiTerendah = [];
+            // menyimpan id data yang sudah di input
+            $sumatifIds = [];
+            $formatifIds = [];
+            foreach ($nilai as $mapelIndex => $mapel) {
+                $sumatif[$mapelIndex] = [
+                    'mapel_id' => $mapel['mapel_id'],
+                    'nama_mapel' => $mapel['nama_mapel'],
+                ];
+
+                if (!isset($sumatif[$mapelIndex]['total_nilai'])) $sumatif[$mapelIndex]['total_nilai'] = 0;
+                if (!isset($sumatif[$mapelIndex]['rata_nilai'])) $sumatif[$mapelIndex]['rata_nilai'] = 0;
+                if (!isset($sumatif[$mapelIndex]['jumlah_sumatif'])) $sumatif[$mapelIndex]['jumlah_sumatif'] = 0;
+
+                $sumatifId = $mapel['nilai_sumatif_id'];
+                $formatifId = $mapel['nilai_formatif_id'];
+
+                // mengecek apakah id sudah ada di array tersebut, jika ada maka nilai ditambahkan ke property total nilai
+                if (!isset($sumatifIds[$mapelIndex][$sumatifId])) {
+                    $sumatifIds[$mapelIndex][$sumatifId][] = $sumatifId;
+                    $sumatif[$mapelIndex]['total_nilai'] += $mapel['nilai_sumatif'];
+                    $sumatif[$mapelIndex]['jumlah_sumatif']++;
+                }
+
+                if (!isset($formatifIds[$mapelIndex][$formatifId])) {
+                    $formatifIds[$mapelIndex][$formatifId][] = $formatifId;
+                    if ($mapel['tampil'] === 1) {
+                        if ($mapel['kktp'] === 1) array_push($deskripsiTertinggi, $mapel['tp_deskripsi']);
+                        if ($mapel['kktp'] === 0) array_push($deskripsiTerendah, $mapel['tp_deskripsi']);
+                    }
+                }
+
+                // jika loop sudah di index terakhir atau loop terakhir
+                if ($mapelIndex === count($nilai) - 1) {
+                    if ((int)$mapel['nilai_tes'] !== 0) {
+                        $sumatif[$mapelIndex]['total_nilai'] += (int)$mapel['nilai_tes'];
+                        $sumatif[$mapelIndex]['jumlah_sumatif']++;
+                    }
+                    if ((int)$mapel['nilai_nontes'] !== 0) {
+                        $sumatif[$mapelIndex]['total_nilai'] += (int)$mapel['nilai_nontes'];
+                        $sumatif[$mapelIndex]['jumlah_sumatif']++;
+                    }
+                    $sumatif[$mapelIndex]['rata_nilai'] = (int)$sumatif[$mapelIndex]['total_nilai'] / $sumatif[$mapelIndex]['jumlah_sumatif'];
+
+                    $dataMapel[$i] = $sumatif[$mapelIndex];
+
+                    $dataMapel[$i]['deskripsi_tertinggi'] = "{$siswa['nama']} menunjukkan pemahaman dalam " . implode(', ', $deskripsiTertinggi) . '.';
+                    $dataMapel[$i]['deskripsi_terendah'] = "{$siswa['nama']} membutuhkan bimbingan dalam " . implode(', ', $deskripsiTerendah) . '.';
+                    $dataMapel[$i]['total_nilai'] = $sumatif[$mapelIndex]['total_nilai'];
+                    $dataMapel[$i]['rata_nilai'] = $sumatif[$mapelIndex]['rata_nilai'];
+                    $dataMapel[$i]['jumlah_sumatif'] = $sumatif[$mapelIndex]['jumlah_sumatif'];
+                    $result[$i] = $dataMapel[$i];
+                }
+            }
+        }
 
         $results['kepsek'] = $this->getKepsekData($kelasSiswa);
         $results['nama_siswa'] = $siswa['nama'];
         $results['nisn'] = $siswa['nisn'];
         $results['sekolah'] = $this->dataSekolah;
+        $results['nilai_mapel'] = $result;
+        dd($results);
     }
 
     public function redirectBack($message)
