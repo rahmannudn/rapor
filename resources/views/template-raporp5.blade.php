@@ -8,13 +8,14 @@
     <style>
         @page {
             size: A4;
-            margin: 20mm 15mm;
+            margin: 0;
+            /* margin: 20mm 15mm; */
         }
 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 40px;
             box-sizing: border-box;
             width: 100%;
             min-height: 297mm;
@@ -168,6 +169,8 @@
         }
 
         .page-break {
+            margin-top: 40px;
+            margin-bottom: 40px;
             page-break-before: always;
         }
 
@@ -212,14 +215,22 @@
             background-color: rgb(39, 36, 36);
             margin-bottom: 10px;
         }
+
+        @media print {
+            #printButton {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <button id="printButton" style="background: red; padding:20px; text-color:white;">Print</button>
+
     <!-- Halaman 1 -->
     <div class="container">
         <div class="header">
-            <img class="logo" src="{{ base_path() . '/storage/app/public/' . $result['logo'] }}">
+            <img src="{{ url('storage/' . $result['logo']) }}" alt="Sekolah Logo" class="logo">
             <div class="text-header">
                 <h2>RAPOR PROYEK PENGUATAN</h2>
                 <h2>PROFIL PELAJAR PANCASILA</h2>
@@ -371,5 +382,15 @@
         </div>
     </div>
 </body>
+
+<script>
+    document.getElementById("printButton").onclick = function() {
+        window.print();
+    }
+    window.onload = function() {
+        // Tampilkan window print setelah halaman selesai dimuat
+        window.print();
+    };
+</script>
 
 </html>

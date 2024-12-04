@@ -14,8 +14,8 @@
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 40px;
         }
 
         .header {
@@ -81,6 +81,11 @@
             display: inline-block;
         }
 
+        .text-vertical {
+            text-align: center;
+            vertical-align: middle;
+        }
+
         @media print {
             #printButton {
                 display: none;
@@ -122,19 +127,19 @@
 
     <table>
         <thead>
-            <tr style="text-align: center; vertical-align: middle">
-                <th style="text-align: center; vertical-align: middle">No</th>
-                <th style="text-align: center; vertical-align: middle">Muatan Pelajaran</th>
-                <th style="text-align: center; vertical-align: middle">Nilai Akhir</th>
-                <th style="text-align: center; vertical-align: middle">Capaian Kompetensi</th>
+            <tr class="text-vertical">
+                <th class="text-vertical">No</th>
+                <th class="text-vertical">Muatan Pelajaran</th>
+                <th class="text-vertical">Nilai Akhir</th>
+                <th class="text-vertical">Capaian Kompetensi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($results['nilai_mapel'] as $mapel)
                 <tr>
-                    <td rowspan="2" style="text-align: center; vertical-align:middle">{{ $loop->index + 1 }}</td>
+                    <td rowspan="2" class="text-vertical">{{ $loop->index + 1 }}</td>
                     <td rowspan="2" style="vertical-align:middle">{{ $mapel['nama_mapel'] }}</td>
-                    <td rowspan="2" style="text-align: center; vertical-align:middle">{{ $mapel['rata_nilai'] }}
+                    <td rowspan="2" class="text-vertical">{{ $mapel['rata_nilai'] }}
                     </td>
                     <td>{{ $mapel['deskripsi_tertinggi'] }}</td>
                 </tr>
@@ -151,15 +156,15 @@
     <table>
         <thead>
             <tr>
-                <th>No</th>
-                <th>Ekstrakurikuler</th>
-                <th>Keterangan</th>
+                <th class="text-vertical">No</th>
+                <th class="text-vertical">Ekstrakurikuler</th>
+                <th class="text-vertical">Keterangan</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($results['ekskul'] as $ekskul)
                 <tr>
-                    <td>{{ $loop->index + 1 }}</td>
+                    <td class="text-vertical">{{ $loop->index + 1 }}</td>
                     <td>{{ $ekskul['nama_ekskul'] }}</td>
                     <td>{{ $ekskul['deskripsi'] }}</td>
                 </tr>
