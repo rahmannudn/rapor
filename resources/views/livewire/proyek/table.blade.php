@@ -10,7 +10,7 @@
                 </x-native-select>
             </div>
 
-            {{-- <div class="max-w-52">
+            <div class="max-w-52">
                 <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
                     <option value="">Semua</option>
                     @foreach ($daftarTahunAjaran as $TA)
@@ -18,7 +18,7 @@
                             {{ $TA->tahun }}-{{ $TA->semester }}</option>
                     @endforeach
                 </x-native-select>
-            </div> --}}
+            </div>
 
             {{-- @can('isKepsek', Auth::id())
                 <div class="max-w-44">
@@ -59,6 +59,10 @@
                             Kelas
                         </th>
                     @endcan --}}
+
+                    <th scope="col" class="px-4 py-3 ">
+                        Kelas
+                    </th>
                     <th scope="col" class="px-4 py-3 ">
                         Tahun Ajaran
                     </th>
@@ -82,14 +86,17 @@
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}
                         </td>
-                        @can('isKepsek', Auth::id())
+                        {{-- @can('isKepsek', Auth::id())
                             <td scope="col" class="px-4 py-4">
                                 {{ $proyek->nama_guru }}
                             </td>
                             <td scope="col" class="px-4 py-4">
                                 {{ $proyek->nama_kelas }}
                             </td>
-                        @endcan
+                        @endcan --}}
+                        <td scope="col" class="px-4 py-4">
+                            {{ $proyek->nama_kelas }}
+                        </td>
                         <th scope="col" class="px-4 py-3 ">
                             {{ $proyek->tahun }}-{{ $proyek->semester }}
                         </th>

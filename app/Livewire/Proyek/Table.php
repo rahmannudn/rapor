@@ -26,14 +26,9 @@ class Table extends Component
     public $daftarTahunAjaran;
     public $daftarKelas;
 
-    #[On('updateData')]
-    public function render()
+    public function mount()
     {
-        $daftarProyek = '';
         $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
-
-        // $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->orderBy('created_at', 'DESC')->get();
-        // $this->daftarKelas = Kelas::select('nama', 'id')->orderBy('created_at', 'DESC')->get();
 
         $this->selectedKelas = WaliKelas::where('tahun_ajaran_id', '=', $this->selectedTahunAjaran)
             ->where('user_id', '=', Auth::id())
@@ -42,11 +37,23 @@ class Table extends Component
             ->first()
             ->toArray();
 
+        $this->daftarTahunAjaran = TahunAjaran::select('tahun_ajaran.id', 'tahun_ajaran.tahun', 'tahun_ajaran.semester')
+            ->join('wali_kelas', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id')
+            ->where('wali_kelas.user_id', Auth::id())
+            ->orderBy('tahun_ajaran.created_at', 'DESC')
+            ->get();
+    }
+
+    #[On('updateData')]
+    public function render()
+    {
+        $daftarProyek = '';
+
         $daftarProyek = Proyek::query()
             ->search($this->searchQuery)
             ->joinWaliKelas()
+            ->joinKelasByWaliKelas()
             ->joinUsers()
-            ->filterKelas($this->selectedKelas['id_kelas'])
             ->filterTahunAjaran($this->selectedTahunAjaran)
             ->select(
                 'proyek.id',
@@ -62,4 +69,6 @@ class Table extends Component
 
         return view('livewire.proyek.table', compact('daftarProyek'));
     }
+
+    public function updated($item, $data) {}
 }
