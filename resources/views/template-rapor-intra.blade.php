@@ -93,7 +93,9 @@
     <button id="printButton" style="background: red; padding:20px; text-color:white;">Print</button>
 
     <div class="header">
-        <h2>LAPORAN HASIL BELAJAR<br>(RAPOR)</h2>
+        <b>
+            <h2>LAPORAN HASIL BELAJAR<br>(RAPOR)</h2>
+        </b>
     </div>
 
     <div class="student-info">
