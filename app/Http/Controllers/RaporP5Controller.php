@@ -80,7 +80,6 @@ class RaporP5Controller extends Controller
             ->get()
             ->toArray();
 
-
         $grouped_data = [];
         foreach ($proyek as $item) {
             $judul_proyek = $item['judul_proyek'];
@@ -120,7 +119,6 @@ class RaporP5Controller extends Controller
         $result['nisn'] = $siswa->nisn;
         $result['tgl_rapor'] = $siswa->tgl_rapor;
 
-        $pdf = Pdf::loadView('template-raporp5', ['result' => $result])->setPaper('a4', 'portrait');
-        return $pdf->stream($result['nama_siswa'] . " p5.pdf");
+        return view('template-raporp5', ['result' => $result]);
     }
 }
