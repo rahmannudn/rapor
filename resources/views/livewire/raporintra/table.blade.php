@@ -4,7 +4,7 @@
         <div class="flex flex-row items-center space-x-2 md:w-[40%]">
             <div class="block md:w-20">
                 <x-native-select label="Show" wire:model.change='show'>
-                    <option value="">Semua</option>
+                    {{-- <option value="">Semua</option> --}}
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
