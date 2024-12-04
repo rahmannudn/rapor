@@ -10,16 +10,14 @@
                 </x-native-select>
             </div>
 
-            @can('isSuperAdmin', Auth::id())
-                <div class="max-w-52">
-                    <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
-                        <option value="">Semua</option>
-                        @foreach ($daftarTahunAjaran as $TA)
-                            <option value="{{ $TA->id }}">{{ $TA->tahun }} {{ $TA->semester }}</option>
-                        @endforeach
-                    </x-native-select>
-                </div>
-            @endcan
+            <div class="max-w-52">
+                <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
+                    <option value="">Semua</option>
+                    @foreach ($daftarTahunAjaran as $TA)
+                        <option value="{{ $TA->id }}">{{ $TA->tahun }} {{ $TA->semester }}</option>
+                    @endforeach
+                </x-native-select>
+            </div>
             {{-- <div class="max-w-44">
                 <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
                     <option value="">Semua</option>
@@ -62,14 +60,12 @@
                     <th scope="col" class="px-4 py-3 ">
                         Lingkup Materi
                     </th>
-                    @can('isSuperAdmin', Auth::id())
-                        <th scope="col" class="px-4 py-3 ">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-4 py-3 ">
-                            Tahun Ajaran
-                        </th>
-                    @endcan
+                    <th scope="col" class="px-4 py-3 ">
+                        Kelas
+                    </th>
+                    <th scope="col" class="px-4 py-3 ">
+                        Tahun Ajaran
+                    </th>
                     <th scope="col" class="px-4 py-3">
                         Action
                     </th>
@@ -94,14 +90,12 @@
                         <td class="px-4 py-4">
                             {{ $data->lingkup_materi_deskripsi }}
                         </td>
-                        @can('isSuperAdmin', Auth::id())
-                            <td class="px-4 py-3 ">
-                                {{ $data->nama_kelas }}
-                            </td>
-                            <td class="px-4 py-3">
-                                {{ $data->tahun }} - {{ $data->semester }}
-                            </td>
-                        @endcan
+                        <td class="px-4 py-3 ">
+                            {{ $data->nama_kelas }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ $data->tahun }} - {{ $data->semester }}
+                        </td>
                         <td class="px-4 py-4">
                             <x-button.circle green icon="pencil-alt"
                                 href="{{ route('lingkupMateriEdit', ['lingkupMateri' => $data->id]) }}"

@@ -66,6 +66,15 @@ class FunctionHelper
         });
     }
 
+    public static function getDaftarTahunAjaranByWaliKelas()
+    {
+        return TahunAjaran::select('tahun_ajaran.id', 'tahun_ajaran.tahun', 'tahun_ajaran.semester')
+            ->join('wali_kelas', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id')
+            ->where('wali_kelas.user_id', Auth::id())
+            ->orderBy('tahun_ajaran.created_at', 'DESC')
+            ->get();
+    }
+
     public static function setCacheKepsekAktif()
     {
         Cache::forget('kepsekAktif');

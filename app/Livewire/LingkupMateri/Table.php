@@ -2,14 +2,15 @@
 
 namespace App\Livewire\LingkupMateri;
 
-use App\Models\GuruMapel;
 use App\Models\Kelas;
 use App\Models\Mapel;
 use Livewire\Component;
+use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Models\LingkupMateri;
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -37,7 +38,7 @@ class Table extends Component
             ->search($this->searchQuery)
             ->joinDetailGuruMapel()
             ->searchAndJoinMapel($this->selectedMapel)
-            // ->searchAndJoinKelas($this->selectedKelas)
+            ->searchAndJoinKelas($this->selectedKelas)
             ->joinGuruMapel()
             ->searchAndJoinUsers($this->selectedGuru)
             ->searchAndJoinTahunAjaran($this->selectedTahunAjaran)
@@ -45,7 +46,7 @@ class Table extends Component
                 'lingkup_materi.id',
                 'lingkup_materi.deskripsi as lingkup_materi_deskripsi',
                 'mapel.nama_mapel',
-                // 'kelas.nama as nama_kelas',
+                'kelas.nama as nama_kelas',
                 'users.name as nama_guru',
                 'tahun_ajaran.tahun',
                 'tahun_ajaran.semester'
@@ -65,8 +66,7 @@ class Table extends Component
         // $this->daftarKelas = Kelas::select('id', 'kelas', 'nama')->get();
         // $this->daftarMapel = Mapel::select('id', 'nama_mapel')->orderBy('nama_mapel', 'ASC')->get();
 
-        if (Gate::allows('isSuperAdmin'))
-            $this->daftarTahunAjaran = TahunAjaran::select('id', 'tahun', 'semester')->get();
+        $this->daftarTahunAjaran = FunctionHelper::getDaftarTahunAjaranByWaliKelas();
 
         if (Gate::allows('isGuru'))
             $this->selectedGuru = Auth::id();
