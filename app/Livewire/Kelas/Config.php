@@ -62,10 +62,26 @@ class Config extends Component
             $this->waliKelasId = $waliKelas['id'];
         }
 
+        // $this->daftarGuru = User::select('users.id', 'users.name')
+        //     ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
+        //     ->where('role', 'guru')
+        //     ->whereNull('wali_kelas.user_id')
+        //     ->when($this->originWaliKelas, function ($q) use ($waliKelas) {
+        //         $q->orWhere('wali_kelas.user_id', $waliKelas['user_id']);
+        //     })
+        //     ->get()
+        //     ->toArray();
+
+        $tahunAjaran = $this->tahunAjaranAktif;
         $this->daftarGuru = User::select('users.id', 'users.name')
-            ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
             ->where('role', 'guru')
-            ->whereNull('wali_kelas.user_id')
+            ->whereNotExists(function ($query) use ($tahunAjaran) {
+                $query->select(DB::raw(1))
+                    ->from('wali_kelas')
+                    ->whereColumn('wali_kelas.user_id', 'users.id')
+                    ->where('wali_kelas.tahun_ajaran_id', $tahunAjaran);
+            })
+            ->leftJoin('wali_kelas', 'wali_kelas.user_id', 'users.id')
             ->when($this->originWaliKelas, function ($q) use ($waliKelas) {
                 $q->orWhere('wali_kelas.user_id', $waliKelas['user_id']);
             })
