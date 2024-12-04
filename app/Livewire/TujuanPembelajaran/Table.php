@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use App\Helpers\FunctionHelper;
 use App\Models\TujuanPembelajaran;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -62,6 +63,8 @@ class Table extends Component
     public function mount()
     {
         $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
+        $this->daftarTahunAjaran = FunctionHelper::getDaftarTahunAjaranByWaliKelas();
+
         // $this->daftarKelas = Kelas::select('id', 'kelas', 'nama')->get();
         // $this->daftarMapel = Mapel::select('id', 'nama_mapel')->orderBy('nama_mapel', 'ASC')->get();
 
