@@ -4,14 +4,24 @@ namespace App\Exports;
 
 use App\Models\Proyek;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class DaftarProyekExport implements FromCollection
+
+class DaftarProyekExport implements FromArray
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+     * @return \Illuminate\Support\Collection
+     */
+
+    protected $daftarProyek;
+
+    public function __construct(array $data)
     {
-        return Proyek::all();
+        $this->daftarProyek = $data;
+    }
+
+    public function array(): array
+    {
+        return $this->daftarProyek;
     }
 }

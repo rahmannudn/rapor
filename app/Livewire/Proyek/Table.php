@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Proyek;
 
+use App\Exports\DaftarProyekExport;
 use App\Helpers\FunctionHelper;
 use App\Models\Kelas;
 use App\Models\Proyek;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Excel;
 
 class Table extends Component
 {
@@ -44,8 +46,6 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        $daftarProyek = '';
-
         $daftarProyek = Proyek::query()
             ->search($this->searchQuery)
             ->joinWaliKelas()
@@ -65,6 +65,29 @@ class Table extends Component
             ->paginate($this->show);
 
         return view('livewire.proyek.table', compact('daftarProyek'));
+    }
+
+    public function exportExcel(Excel $excel)
+    {
+        $data = Proyek::query()
+            ->search($this->searchQuery)
+            ->joinWaliKelas()
+            ->joinKelasByWaliKelas()
+            ->joinUsers()
+            ->filterTahunAjaran($this->selectedTahunAjaran)
+            ->select(
+                'proyek.id',
+                'proyek.judul_proyek',
+                'proyek.deskripsi',
+                'kelas.nama as nama_kelas',
+                'users.name as nama_guru',
+                'tahun_ajaran.tahun',
+                'tahun_ajaran.semester'
+            )
+            ->orderBy('proyek.created_at', 'DESC')
+            ->get();
+
+        return $excel->download(new DaftarProyekExport([$data]), 'daftar_proyek.xlsx');
     }
 
     public function updated($item, $data) {}
