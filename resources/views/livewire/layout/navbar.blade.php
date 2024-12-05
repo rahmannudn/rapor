@@ -41,8 +41,8 @@ new class extends Component {
                             </path>
                         </svg>
                     </button>
-                    <a href="{{ route('dashboard') }}" class="flex ms-2 md:me-2">
-                        <img src="{{ url('storage/' . $logo_sekolah) }}" class="h-12 me-3"
+                    <a href="{{ route('dashboard') }}" class="hidden md:flex ms-2 md:me-2">
+                        <img src="{{ url('storage/' . $logo_sekolah) }}" class="h-12 me-3 "
                             alt="Logo {{ $nama_sekolah }}" />
                     </a>
                     <span
