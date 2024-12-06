@@ -5,13 +5,14 @@ namespace App\Livewire\Siswa;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use Livewire\Component;
-use Livewire\Attributes\Validate;
 use App\Enums\AgamaList;
 use App\Models\KelasSiswa;
 use App\Models\TahunAjaran;
-use Illuminate\Validation\Rules\Enum;
-use Livewire\Attributes\Locked;
 use Livewire\WithFileUploads;
+use App\Helpers\FunctionHelper;
+use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
+use Illuminate\Validation\Rules\Enum;
 
 class Edit extends Component
 {
@@ -41,6 +42,7 @@ class Edit extends Component
     public $daftarKelas;
     public $tahun_lulus;
     public $daftarSemester;
+    public $tahunAjaranAktif;
 
     #[Validate('nullable|image|max:1536')] // 1,5MB Max
     public $foto;
@@ -52,6 +54,8 @@ class Edit extends Component
 
     public function mount()
     {
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+
         $this->nisn = $this->siswa['nisn'];
         $this->nidn = $this->siswa['nidn'];
         $this->nama = $this->siswa['nama'];
@@ -71,8 +75,11 @@ class Edit extends Component
         $this->daftarKelas = Kelas::all();
         $this->daftarSemester = TahunAjaran::all();
 
-        $kelas = KelasSiswa::where('siswa_id', $this->siswa['id'])->select('kelas_id as id')->get();
-        $this->kelas_id = $kelas->first()['id'];
+        $kelas = KelasSiswa::where('siswa_id', $this->siswa['id'])->where('tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->select('kelas_id as id')
+            ->get();
+
+        $this->kelas_id = $kelas->first()['id'] ?? null;
         $this->originKelas = $this->kelas_id;
     }
 
@@ -112,7 +119,10 @@ class Edit extends Component
         }
 
         if ($this->kelas_id !== $this->originKelas) {
-            $targetKelas = KelasSiswa::firstWhere('siswa_id', '=', $this->siswa['id']);
+            $targetKelas = KelasSiswa::firstOrCreate([
+                'siswa_id' => $this->siswa['id'],
+                'tahun_ajaran_id' => $this->tahunAjaranAktif
+            ], ['kelas_id' => $this->kelas_id]);
             $targetKelas->kelas_id = $this->kelas_id;
             $targetKelas->save();
         }

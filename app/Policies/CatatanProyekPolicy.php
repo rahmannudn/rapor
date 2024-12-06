@@ -16,7 +16,7 @@ class CatatanProyekPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role == 'admin' || $user->role == 'kepsek';
+        // return $user->role == 'admin' || $user->role == 'kepsek';
     }
 
     /**

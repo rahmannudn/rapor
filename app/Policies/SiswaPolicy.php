@@ -10,7 +10,7 @@ class SiswaPolicy
 {
     public function before(User $user)
     {
-        return $user->role == 'superadmin';
+        // return $user->role == 'superadmin';
     }
 
     /**
@@ -40,7 +40,7 @@ class SiswaPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Siswa $siswa): bool
+    public function update(User $user): bool
     {
         return $user->role == 'admin';
     }
