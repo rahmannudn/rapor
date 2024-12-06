@@ -9,8 +9,10 @@ use App\Models\GuruMapel;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Excel;
 use App\Models\LingkupMateri;
 use App\Helpers\FunctionHelper;
+use App\Exports\LingkupMateriExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -70,5 +72,15 @@ class Table extends Component
 
         if (Gate::allows('isGuru'))
             $this->selectedGuru = Auth::id();
+    }
+
+    public function exportExcel()
+    {
+        return (new LingkupMateriExport(
+            tahunAjaran: $this->selectedTahunAjaran,
+            mapel: $this->selectedMapel,
+            kelas: $this->selectedKelas,
+            guru: $this->selectedGuru
+        ))->download('daftar_lingkup_materi.xlsx', Excel::XLSX);
     }
 }
