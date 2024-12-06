@@ -69,25 +69,25 @@ class Table extends Component
 
     public function exportExcel(Excel $excel)
     {
-        $data = Proyek::query()
-            ->search($this->searchQuery)
-            ->joinWaliKelas()
-            ->joinKelasByWaliKelas()
-            ->joinUsers()
-            ->filterTahunAjaran($this->selectedTahunAjaran)
-            ->select(
-                'proyek.id',
-                'proyek.judul_proyek',
-                'proyek.deskripsi',
-                'kelas.nama as nama_kelas',
-                'users.name as nama_guru',
-                'tahun_ajaran.tahun',
-                'tahun_ajaran.semester'
-            )
-            ->orderBy('proyek.created_at', 'DESC')
-            ->get();
+        // $data = Proyek::query()
+        //     ->joinWaliKelas()
+        //     ->joinKelasByWaliKelas()
+        //     ->joinUsers()
+        //     ->filterTahunAjaran($this->selectedTahunAjaran)
+        //     ->select(
+        //         'proyek.id',
+        //         'proyek.judul_proyek',
+        //         'proyek.deskripsi',
+        //         'kelas.nama as nama_kelas',
+        //         'users.name as nama_guru',
+        //         'tahun_ajaran.tahun',
+        //         'tahun_ajaran.semester'
+        //     )
+        //     ->orderBy('proyek.created_at', 'DESC')
+        //     ->get();
 
-        return $excel->download(new DaftarProyekExport([$data]), 'daftar_proyek.xlsx');
+        // return $excel->download(new DaftarProyekExport([$data]), 'daftar_proyek.xlsx');
+        return (new DaftarProyekExport($this->selectedTahunAjaran))->download('daftar_proyek.xlsx', Excel::XLSX);
     }
 
     public function updated($item, $data) {}

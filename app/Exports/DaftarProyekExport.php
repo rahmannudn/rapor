@@ -3,25 +3,55 @@
 namespace App\Exports;
 
 use App\Models\Proyek;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-
-class DaftarProyekExport implements FromArray
+class DaftarProyekExport implements FromQuery, WithHeadings, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
      */
+    use Exportable;
 
-    protected $daftarProyek;
+    protected $selectedTahunAjaran;
 
-    public function __construct(array $data)
+    public function __construct($selectedTahunAjaran)
     {
-        $this->daftarProyek = $data;
+        $this->selectedTahunAjaran = $selectedTahunAjaran;
     }
 
-    public function array(): array
+    public function query()
     {
-        return $this->daftarProyek;
+        return Proyek::query()
+            ->joinWaliKelas()
+            ->joinKelasByWaliKelas()
+            ->joinUsers()
+            ->filterTahunAjaran($this->selectedTahunAjaran)
+            ->select(
+                'proyek.id',
+                'proyek.judul_proyek',
+                'proyek.deskripsi',
+                'kelas.nama as nama_kelas',
+                'users.name as nama_guru',
+                'tahun_ajaran.tahun',
+                'tahun_ajaran.semester'
+            )
+            ->orderBy('proyek.created_at', 'DESC');
+    }
+
+    public function headings(): array
+    {
+        return ['NO', 'Judul Proyek', 'Deskripsi', 'Nama Kelas', 'Nama Guru', 'Tahun Ajaran', 'Semester'];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['font' => ['bold' => true]],
+        ];
     }
 }
