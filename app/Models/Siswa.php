@@ -77,6 +77,14 @@ class Siswa extends Model
         });
     }
 
+    public function scopeJoinAndSearchKelasSiswa($query, $tahunAjaranId)
+    {
+        $query->leftJoin('kelas_siswa', function (JoinClause $q) use ($tahunAjaranId) {
+            $q->on('kelas_siswa.siswa_id', '=', 'siswa.id')
+                ->where('kelas_siswa.tahun_ajaran_id', '=', $tahunAjaranId);
+        });
+    }
+
     public function scopeSearchAndJoinProyek($query, $proyekId)
     {
         $query->join('proyek', function (JoinClause $q) use ($proyekId) {
