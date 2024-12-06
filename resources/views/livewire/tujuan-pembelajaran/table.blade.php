@@ -18,6 +18,10 @@
                     @endforeach
                 </x-native-select>
             </div>
+
+            <x-button class="mt-6" primary icon="folder-download" label="Download Excel"
+                x-on:click="$wire.exportExcel" />
+
             {{-- <div class="max-w-44">
                 <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
                     <option value="">Semua</option>

@@ -8,11 +8,13 @@ use Livewire\Component;
 use App\Models\TahunAjaran;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Excel;
 use App\Helpers\FunctionHelper;
 use App\Models\TujuanPembelajaran;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
+use App\Exports\TujuanPembelajaranExport;
 
 class Table extends Component
 {
@@ -73,5 +75,15 @@ class Table extends Component
 
         if (Gate::allows('isGuru'))
             $this->selectedGuru = Auth::id();
+    }
+
+    public function exportExcel()
+    {
+        return (new TujuanPembelajaranExport(
+            tahunAjaran: $this->selectedTahunAjaran,
+            mapel: $this->selectedMapel,
+            kelas: $this->selectedKelas,
+            guru: $this->selectedGuru
+        ))->download('daftar_tujuan_pembelajaran.xlsx', Excel::XLSX);
     }
 }
