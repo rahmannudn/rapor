@@ -21,18 +21,24 @@ class Table extends Component
     public $show = 10;
     public $searchQuery;
     public $tahunAjaranAktif;
+    public $daftarTahunAjaran;
+
+    public function mount()
+    {
+        $this->daftarTahunAjaran = TahunAjaran::all('id', 'semester', 'tahun');
+        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+    }
 
     #[On('updateData')]
     public function render()
     {
-        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
-
         $kelasData = Kelas::search($this->searchQuery)
             ->leftJoin('wali_kelas', function (JoinClause $join) {
                 $join->on('wali_kelas.kelas_id', '=', 'kelas.id')
                     ->where('wali_kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif);
             })
             ->leftJoin('users', 'users.id', 'wali_kelas.user_id')
+            ->where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->select('kelas.id as id', 'kelas.nama as nama', 'kelas.fase as fase', 'users.name as nama_guru')
             ->orderBy('kelas.nama', 'ASC')
             ->orderBy('kelas.created_at', 'DESC')

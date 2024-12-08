@@ -1,13 +1,25 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     {{-- show & search --}}
     <div class="block mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
-        <div class="block md:w-20">
-            <x-native-select label="Show" wire:model.change='show'>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </x-native-select>
+        <div class="flex flex-row items-center space-x-2 md:w-[40%]">
+            <div class="block md:w-20">
+                <x-native-select label="Show" wire:model.change='show'>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </x-native-select>
+            </div>
+            <div class="w-52">
+                <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
+                    wire:model.change="tahunAjaranAktif">
+                    @if ($daftarTahunAjaran)
+                        @foreach ($daftarTahunAjaran as $ta)
+                            <option value="{{ $ta->id }}">{{ $ta->tahun }} - {{ $ta->semester }}</option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
         </div>
 
         <div class="block md:w-80">
