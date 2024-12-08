@@ -7,6 +7,7 @@ use App\Models\Kelas;
 use Livewire\Component;
 use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 
 class Edit extends Component
@@ -30,7 +31,7 @@ class Edit extends Component
 
     public function update(Kelas $kelasData)
     {
-        $this->authorize('update', Kelas::class);
+        $this->authorize('update', [Kelas::class, $kelasData]);
 
         $validated = $this->validate([
             'nama' => 'required|string|min:3|max:10',

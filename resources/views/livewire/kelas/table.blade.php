@@ -12,7 +12,7 @@
             </div>
             <div class="w-52">
                 <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
-                    wire:model.change="tahunAjaranAktif">
+                    wire:model.change="selectedTahunAjaran">
                     @if ($daftarTahunAjaran)
                         @foreach ($daftarTahunAjaran as $ta)
                             <option value="{{ $ta->id }}">{{ $ta->tahun }} - {{ $ta->semester }}</option>
@@ -65,17 +65,20 @@
                         {{ Str::upper($data->fase) }}
                     </td>
                     <td class="px-4 py-4">
-                        @can('isKepsek', auth()->user())
-                            <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
-                                class="mb-3" icon="cog" info label="Atur Rombel" />
-                        @endcan
+                        @if ($data->tahun_ajaran_id === $tahunAjaranAktif)
+                            @can('isKepsek', auth()->user())
+                                <x-button href="{{ route('kelasConfig', ['kelasData' => $data->id]) }}" wire:navigate
+                                    class="mb-3" icon="cog" info label="Atur Rombel" />
+                            @endcan
 
-                        <div class="flex flex-row items-center justify-center space-x-2">
-                            <x-button.circle green icon="pencil-alt"
-                                href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" />
-                            <x-button.circle negative icon="trash"
-                                x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
-                        </div>
+                            <div class="flex flex-row items-center justify-center space-x-2">
+                                <x-button.circle green icon="pencil-alt"
+                                    href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" />
+                                <x-button.circle negative icon="trash"
+                                    x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
+                            </div>
+                        @endif
+
                     </td>
                 </tr>
             @empty

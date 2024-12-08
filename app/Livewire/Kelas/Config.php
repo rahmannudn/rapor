@@ -15,11 +15,13 @@ use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isNull;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Auth;
 
 class Config extends Component
 {
     public Kelas $kelasData;
     public $daftarGuru;
+    public $selectedTahunAjaran;
     public $tahunAjaranAktif;
 
     // menyimpan id_user dari wali kelas tabel
@@ -48,10 +50,10 @@ class Config extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+        $this->selectedTahunAjaran = FunctionHelper::getTahunAjaranAktif();
 
         $waliKelas = WaliKelas::where('kelas_id', $this->kelasData['id'])
-            ->where('tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->where('tahun_ajaran_id', $this->selectedTahunAjaran)
             ->select('wali_kelas.id', 'wali_kelas.user_id')
             ->first();
 
@@ -72,7 +74,7 @@ class Config extends Component
         //     ->get()
         //     ->toArray();
 
-        $tahunAjaran = $this->tahunAjaranAktif;
+        $tahunAjaran = $this->selectedTahunAjaran;
         $this->daftarGuru = User::select('users.id', 'users.name')
             ->where('role', 'guru')
             ->whereNotExists(function ($query) use ($tahunAjaran) {
@@ -101,7 +103,7 @@ class Config extends Component
             ->leftJoin('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
             ->leftJoin('tahun_ajaran', function (JoinClause $join) {
                 $join->on('tahun_ajaran.id', '=', 'guru_mapel.tahun_ajaran_id')
-                    ->where('tahun_ajaran.id', '=', $this->tahunAjaranAktif);
+                    ->where('tahun_ajaran.id', '=', $this->selectedTahunAjaran);
             })
             ->leftJoin('users', 'guru_mapel.user_id', '=', 'users.id')
             ->leftJoin('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
@@ -159,7 +161,7 @@ class Config extends Component
 
     public function save()
     {
-        $this->authorize('create', Kelas::class);
+        $this->authorize('update', [Kelas::class, $this->kelasData]);
 
         if (count($this->savedMapelDanPengajar) === 0 && ($this->originWaliKelas === $this->waliKelasAktif)) {
             session()->flash('gagal', 'Tidak Ditemukan Perubahan Data');
@@ -170,19 +172,21 @@ class Config extends Component
         $waliKelasData = [
             'kelas_id' => $this->kelasData['id'],
             'user_id' => $this->waliKelasAktif,
-            'tahun_ajaran_id' => $this->tahunAjaranAktif
+            'tahun_ajaran_id' => $this->selectedTahunAjaran
         ];
 
         if ($this->originWaliKelas)
             $waliKelasData['id'] = $this->waliKelasId; // Jika ada data lama, gunakan ID yang lama
 
 
-        if ($this->originWaliKelas && !$this->waliKelasAktif) {
+        if ($this->originWaliKelas && !empty($this->waliKelasAktif)) {
             $waliKelas = WaliKelas::find($this->waliKelasId);
             $waliKelas->user_id = null;
             $waliKelas->save();
-        } else WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
-
+        } else {
+            if (!empty($this->waliKelasAktif))
+                WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
+        }
 
         if (count($this->savedMapelDanPengajar) > 0) {
             foreach ($this->savedMapelDanPengajar as $data) {
@@ -195,7 +199,7 @@ class Config extends Component
                 if ($data['id_user']) {
                     $guruMapel = GuruMapel::firstOrCreate([
                         'user_id' => $data['id_user'],
-                        'tahun_ajaran_id' => $this->tahunAjaranAktif
+                        'tahun_ajaran_id' => $this->selectedTahunAjaran
                     ]);
                     // jika id_kelas dan id_mapel yang sesuai ditemukan, guru_mapel_id pada tabel detailGuruMapel akan diupdate
                     // jika tidak ditemukan maka akan membuat data baru pada tabel detail

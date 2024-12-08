@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Kelas;
 use App\Models\User;
+use App\Models\Kelas;
+use App\Helpers\FunctionHelper;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Cache;
 
 class KelasPolicy
 {
@@ -24,7 +26,7 @@ class KelasPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Kelas $kelas): bool
+    public function view(User $user): bool
     {
         if ($user->role === 'admin' || $user->role === 'kepsek') return true;
         return false;
@@ -43,7 +45,8 @@ class KelasPolicy
      */
     public function update(User $user, Kelas $kelas): bool
     {
-        //
+        $tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+        return $user->role === 'kepsek' && $kelas['tahun_ajaran_id'] === $tahunAjaranAktif;
     }
 
     /**
