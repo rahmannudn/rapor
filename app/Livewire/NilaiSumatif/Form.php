@@ -81,6 +81,7 @@ class Form extends Component
             ->where('guru_mapel.user_id', '=', $this->selectedGuru)
             ->where('guru_mapel.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
             ->join('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
+            ->where('kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
             ->select('kelas.id', 'kelas.nama')
             ->distinct()
             ->get();

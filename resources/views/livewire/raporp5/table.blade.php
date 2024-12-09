@@ -14,7 +14,6 @@
 
             <div class="max-w-52">
                 <x-native-select label="Tahun Ajaran" wire:model.change='selectedTahunAjaran' class="w-[30%]">
-                    <option value="">Semua</option>
                     @foreach ($daftarTahunAjaran as $TA)
                         <option value="{{ $TA->id }}">{{ $TA->tahun }} {{ $TA->semester }}</option>
                     @endforeach
