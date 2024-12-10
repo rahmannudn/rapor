@@ -67,6 +67,7 @@ class Create extends Component
                 ->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
                 ->where('guru_mapel.user_id', '=', $this->selectedGuru)
                 ->join('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
+                ->where('kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
                 ->select('kelas.id', 'kelas.nama')
                 ->distinct()
                 ->get();
