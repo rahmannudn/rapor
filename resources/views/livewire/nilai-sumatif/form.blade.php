@@ -13,7 +13,8 @@
         </div>
 
         <div class="w-52">
-            <x-native-select label="Mata Pelajaran" placeholder="Pilih Mapel" wire:model.defer="selectedDetailGuruMapel">
+            <x-native-select label="Mata Pelajaran" placeholder="Pilih Mapel"
+                wire:model.change="selectedDetailGuruMapel">
                 <option value="">--Pilih Mapel--</option>
                 @if ($selectedGuru && $daftarMapel)
                     @foreach ($daftarMapel as $mapel)

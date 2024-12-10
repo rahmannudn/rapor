@@ -47,7 +47,6 @@ class Table extends Component
     #[On('updateData')]
     public function render()
     {
-        dump($this->selectedKelas);
         $dataLM = '';
         $dataLM = LingkupMateri::query()
             ->search($this->searchQuery)
@@ -72,7 +71,6 @@ class Table extends Component
             // ->orderBy('kelas.nama')
             ->orderBy('users.name')
             ->paginate($this->show);
-        dump($dataLM);
 
         return view('livewire.lingkup-materi.table', compact('dataLM'));
     }
