@@ -32,36 +32,6 @@ class Table extends Component
     public $daftarTahunAjaran;
     // public $daftarKelas;
 
-    #[On('updateData')]
-    public function render()
-    {
-        $dataLM = '';
-        $dataLM = LingkupMateri::query()
-            ->search($this->searchQuery)
-            ->joinDetailGuruMapel()
-            ->searchAndJoinMapel($this->selectedMapel)
-            ->searchAndJoinKelas($this->selectedKelas)
-            ->joinGuruMapel()
-            ->searchAndJoinUsers($this->selectedGuru)
-            ->searchAndJoinTahunAjaran($this->selectedTahunAjaran)
-            ->select(
-                'lingkup_materi.id',
-                'lingkup_materi.deskripsi as lingkup_materi_deskripsi',
-                'mapel.nama_mapel',
-                'kelas.nama as nama_kelas',
-                'users.name as nama_guru',
-                'tahun_ajaran.tahun',
-                'tahun_ajaran.semester'
-            )
-            ->orderBy('lingkup_materi.created_at')
-            ->orderBy('tahun_ajaran.tahun')
-            // ->orderBy('kelas.nama')
-            ->orderBy('users.name')
-            ->paginate($this->show);
-
-        return view('livewire.lingkup-materi.table', compact('dataLM'));
-    }
-
     public function mount()
     {
         $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
@@ -72,6 +42,39 @@ class Table extends Component
 
         if (Gate::allows('isGuru'))
             $this->selectedGuru = Auth::id();
+    }
+
+    #[On('updateData')]
+    public function render()
+    {
+        dump($this->selectedKelas);
+        $dataLM = '';
+        $dataLM = LingkupMateri::query()
+            ->search($this->searchQuery)
+            ->joinDetailGuruMapel()
+            ->searchAndJoinMapel($this->selectedMapel)
+            ->joinGuruMapel()
+            ->searchAndJoinTahunAjaran($this->selectedTahunAjaran)
+            ->searchAndJoinUsers($this->selectedGuru)
+            ->joinKelas($this->selectedKelas)
+            ->select(
+                'lingkup_materi.id',
+                'lingkup_materi.deskripsi as lingkup_materi_deskripsi',
+                'mapel.nama_mapel',
+                'kelas.nama as nama_kelas',
+                'users.name as nama_guru',
+                'tahun_ajaran.id as tahun_ajaran_id',
+                'tahun_ajaran.tahun',
+                'tahun_ajaran.semester'
+            )
+            ->orderBy('lingkup_materi.created_at')
+            ->orderBy('tahun_ajaran.tahun')
+            // ->orderBy('kelas.nama')
+            ->orderBy('users.name')
+            ->paginate($this->show);
+        dump($dataLM);
+
+        return view('livewire.lingkup-materi.table', compact('dataLM'));
     }
 
     public function exportExcel()

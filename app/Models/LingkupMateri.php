@@ -67,13 +67,11 @@ class LingkupMateri extends Model
         });
     }
 
-    public function scopeSearchAndJoinKelas($query, $kelasId)
+    public function scopeSearchAndJoinKelas($query, $kelasId,)
     {
-        $query->join('kelas', function (JoinClause $q) use ($kelasId) {
-            $q->on('detail_guru_mapel.kelas_id', 'kelas.id');
-            if ($kelasId) {
-                $q->where('detail_guru_mapel.kelas_id', '=', $kelasId);
-            }
+        $query->join('kelas', function (JoinClause $q) use ($kelasId,) {
+            $q->on('detail_guru_mapel.kelas_id', 'kelas.id')
+                ->where('detail_guru_mapel.kelas_id', '=', $kelasId);
         });
     }
 
