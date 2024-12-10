@@ -40,6 +40,7 @@ class Dashboard extends Component
         $this->jumlahSiswa = Siswa::count();
         $this->jumlahEkskul = Ekskul::count();
         $this->jumlahSiswaPerRombel = DB::table('kelas')
+            ->where('kelas.tahun_ajaran_id', '=', $tahunAjaranAktif)
             ->leftJoin('wali_kelas', function ($join) use ($tahunAjaranAktif) {
                 $join->on('wali_kelas.kelas_id', '=', 'kelas.id')
                     ->where('wali_kelas.tahun_ajaran_id', '=', $tahunAjaranAktif);
