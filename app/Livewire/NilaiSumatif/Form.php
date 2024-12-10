@@ -30,7 +30,7 @@ class Form extends Component
 
     public $tahunAjaranAktif;
 
-    public $selectedGuru;
+    public $selectedGuruMapel;
     public $selectedKelas;
     public $selectedDetailGuruMapel;
     public $showForm;
@@ -57,14 +57,13 @@ class Form extends Component
         //         ->distinct()
         //         ->get();
         // }
-        $this->selectedGuru = Auth::id();
         $this->waliKelas = WaliKelas::where('wali_kelas.user_id', Auth::id())
             ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->select('id')
             ->first();
+        $this->selectedGuruMapel = GuruMapel::where('tahun_ajaran_id', '=', $this->tahunAjaranAktif)->where('user_id', '=', Auth::id())->select('id')->first()['id'];
 
         if (Gate::allows('isGuru')) {
-            $this->selectedGuru = Auth::id();
             $this->getKelas();
         }
     }
@@ -78,8 +77,7 @@ class Form extends Component
 
         $this->daftarKelas = DB::table('detail_guru_mapel')
             ->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', '=', 'guru_mapel.id')
-            ->where('guru_mapel.user_id', '=', $this->selectedGuru)
-            ->where('guru_mapel.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
+            ->where('guru_mapel.id', '=', $this->selectedGuruMapel)
             ->join('kelas', 'detail_guru_mapel.kelas_id', '=', 'kelas.id')
             ->where('kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
             ->select('kelas.id', 'kelas.nama')
@@ -89,13 +87,11 @@ class Form extends Component
 
     public function getMapel()
     {
-        if ($this->selectedGuru && $this->selectedKelas) {
-            $this->daftarMapel = DB::table('mapel')
-                ->join('detail_guru_mapel', function (JoinClause $q) {
-                    $q->on('detail_guru_mapel.mapel_id', '=', 'mapel.id')
-                        ->where('detail_guru_mapel.kelas_id', '=', (int)$this->selectedKelas);
-                })
-                ->join('guru_mapel', 'guru_mapel.id', '=', 'detail_guru_mapel.guru_mapel_id')
+        if ($this->selectedGuruMapel && $this->selectedKelas) {
+            $this->daftarMapel = DB::table('detail_guru_mapel')
+                ->where('detail_guru_mapel.kelas_id', '=', (int)$this->selectedKelas)
+                ->where('detail_guru_mapel.guru_mapel_id', '=', $this->selectedGuruMapel)
+                ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
                 ->select('mapel.nama_mapel', 'detail_guru_mapel.id as detail_guru_mapel_id')
                 ->get();
         }

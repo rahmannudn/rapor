@@ -4,7 +4,7 @@
             <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
                 x-on:change="$wire.getMapel">
                 <option value="">--Pilih Kelas--</option>
-                @if ($selectedGuru && $daftarKelas)
+                @if ($selectedGuruMapel && $daftarKelas)
                     @foreach ($daftarKelas as $kelas)
                         <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
                     @endforeach
@@ -16,7 +16,7 @@
             <x-native-select label="Mata Pelajaran" placeholder="Pilih Mapel"
                 wire:model.change="selectedDetailGuruMapel">
                 <option value="">--Pilih Mapel--</option>
-                @if ($selectedGuru && $daftarMapel)
+                @if ($selectedGuruMapel && $daftarMapel)
                     @foreach ($daftarMapel as $mapel)
                         {{-- menggunakan id detail sebagai value --}}
                         <option value="{{ $mapel->detail_guru_mapel_id }}">{{ $mapel->nama_mapel }}
