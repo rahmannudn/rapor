@@ -42,6 +42,10 @@
     </div>
 
     @if ($showForm)
+        <div class="flex gap-x-2">
+            <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
+                x-on:click="$wire.exportExcel" />
+        </div>
         <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
             <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 ">

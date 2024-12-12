@@ -5,15 +5,17 @@ namespace App\Livewire\NilaiSumatif;
 use App\Models\Rapor;
 use App\Models\Siswa;
 use Livewire\Component;
+use App\Models\GuruMapel;
 use App\Models\WaliKelas;
 use App\Models\NilaiSumatif;
+use Maatwebsite\Excel\Excel;
 use App\Models\LingkupMateri;
 use App\Helpers\FunctionHelper;
 use App\Models\DetailGuruMapel;
-use App\Models\GuruMapel;
 use Livewire\Attributes\Locked;
 use App\Models\NilaiSumatifAkhir;
 use Illuminate\Support\Facades\DB;
+use App\Exports\NilaiSumatifExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
@@ -217,6 +219,49 @@ class Form extends Component
         $totalNilai += (int)$this->nilaiData[$dataIndex]['nilai_sumatif_akhir']['nilai_nontes'];
 
         $this->nilaiData['total_nilai'] = $totalNilai;
+    }
+
+    public function exportExcel()
+    {
+        if (!empty($this->nilaiData)) {
+            $nilaiData = $this->nilaiData;
+            foreach ($nilaiData as &$data) {
+                $data['rata_nilai'] = 0;
+                $totalNilai = 0;
+                $jumlahNilai = 0; // menampung jumlah nilai sumatif yang tidak bernilai 0
+
+                // loop nilai sumatif
+                foreach ($data['nilai'] as &$sumatif) {
+                    if (empty($sumatif['nilai_sumatif'])) $sumatif['nilai_sumatif'] = 0;
+                    $totalNilai += $sumatif['nilai_sumatif'];
+
+                    // jika nilai sumatif 0 jumlah nilai tidak ditambahkan
+                    $sumatif['nilai_sumatif'] !== 0 ? $jumlahNilai++ : '';
+                }
+
+                $nilaiTes = $data['nilai_sumatif_akhir']['nilai_tes'] ?? 0;
+                if ($nilaiTes !== 0) {
+                    $totalNilai += $nilaiTes;
+                    $jumlahNilai++;
+                }
+
+                $nilaiNontes = $data['nilai_sumatif_akhir']['nilai_nontes'] ?? 0;
+                if ($nilaiNontes !== 0) {
+                    $totalNilai += $nilaiNontes;
+                    $jumlahNilai++;
+                }
+
+                // hitung rata-rata
+                if (!empty($totalNilai) && !empty($jumlahNilai)) $data['rata_nilai'] = $totalNilai / $jumlahNilai;
+
+                // menghapus siswa_id dari array
+                unset($data['siswa_id']);
+
+                $data['daftar_lingkup'] = $this->daftarLingkup;
+            }
+
+            return (new NilaiSumatifExport($nilaiData, $this->daftarLingkup->toArray()))->download('nilai_sumatif.xlsx', Excel::XLSX);
+        }
     }
 
     public function simpan()
