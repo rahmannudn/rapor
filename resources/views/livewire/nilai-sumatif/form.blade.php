@@ -45,6 +45,8 @@
         <div class="flex gap-x-2">
             <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
                 x-on:click="$wire.exportExcel" />
+            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+                x-on:click="$wire.exportPDF" />
         </div>
         <div class="mt-2 mb-2 space-y-4 overflow-x-auto">
             <table class="w-full text-sm text-gray-500 rtl:text-right dark:text-gray-400">
@@ -136,5 +138,18 @@
 <div class="flex gap-x-2">
     <x-button primary label="Simpan" x-on:click="$wire.simpan" spinner />
 </div>
+
 @endif
 </div>
+
+<script>
+    document.addEventListener('livewire:init', function() {
+        window.addEventListener('dataProcessed', function(data) {
+            const {
+                url
+            } = event.detail;
+            const newTab = window.open('about:blank', '_blank');
+            newTab.location.href = url;
+        });
+    });
+</script>

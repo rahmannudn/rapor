@@ -1,108 +1,109 @@
 <?php
 
-use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\RaporIntraController;
-use App\Http\Controllers\RaporP5Controller;
+use App\Livewire\Dashboard;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\User\Edit as UserEdit;
 use App\Http\Middleware\CheckPermission;
-use App\Livewire\TahunAjaran\Index as TahunAjaranIndex;
-use App\Livewire\TahunAjaran\Create as TahunAjaranCreate;
-use App\Livewire\TahunAjaran\Edit as TahunAjaranEdit;
-
-use App\Livewire\Siswa\Index as SiswaIndex;
-use App\Livewire\Siswa\Create as SiswaCreate;
+use App\Livewire\Kelas\Edit as KelasEdit;
+use App\Livewire\Mapel\Edit as MapelEdit;
 use App\Livewire\Siswa\Edit as SiswaEdit;
 
-use App\Livewire\Sekolah\Index as SekolahIndex;
-use App\Livewire\Sekolah\Edit as SekolahEdit;
+use App\Livewire\User\Index as UserIndex;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RaporP5Controller;
+
+use App\Livewire\Ekskul\Edit as EkskulEdit;
+use App\Livewire\Elemen\Edit as ElemenEdit;
 
 use App\Livewire\Kelas\Index as KelasIndex;
-use App\Livewire\Kelas\Create as KelasCreate;
-use App\Livewire\Kelas\Edit as KelasEdit;
-use App\Livewire\Kelas\Config as KelasConfig;
+use App\Livewire\Kepsek\Edit as KepsekEdit;
+use App\Livewire\Mapel\Index as MapelIndex;
+use App\Livewire\Proyek\Edit as ProyekEdit;
+
+use App\Livewire\Siswa\Index as SiswaIndex;
+use App\Livewire\User\Create as UserCreate;
+use App\Livewire\Dimensi\Edit as DimensiEdit;
 
 use App\Livewire\Ekskul\Index as EkskulIndex;
-use App\Livewire\Ekskul\Create as EkskulCreate;
-use App\Livewire\Ekskul\Edit as EkskulEdit;
+use App\Livewire\Elemen\Index as ElemenIndex;
+use App\Livewire\Kelas\Config as KelasConfig;
 
-use App\Livewire\Mapel\Index as MapelIndex;
+use App\Livewire\Kelas\Create as KelasCreate;
+use App\Livewire\Kepsek\Index as KepsekIndex;
 use App\Livewire\Mapel\Create as MapelCreate;
-use App\Livewire\Mapel\Edit as MapelEdit;
 
-use App\Livewire\User\Index as UserIndex;
-use App\Livewire\User\Create as UserCreate;
-use App\Livewire\User\Edit as UserEdit;
+use App\Livewire\Proyek\Index as ProyekIndex;
+use App\Livewire\Sekolah\Edit as SekolahEdit;
+use App\Livewire\Siswa\Create as SiswaCreate;
 
-use App\Livewire\WaliKelas\Index as WaliKelasIndex;
-use App\Livewire\WaliKelas\Create as WaliKelasCreate;
+use App\Http\Controllers\RaporIntraController;
+use App\Livewire\Absensi\Index as AbsensiIndex;
+use App\Livewire\Dimensi\Index as DimensiIndex;
+
+use App\Livewire\Ekskul\Create as EkskulCreate;
+use App\Livewire\Elemen\Create as ElemenCreate;
+use App\Livewire\Kepsek\Create as KepsekCreate;
+
+use App\Livewire\Prestasi\Edit as PrestasiEdit;
+use App\Livewire\Proyek\Create as ProyekCreate;
+use App\Livewire\Raporp5\Index as RaporP5Index;
+
+use App\Livewire\Sekolah\Index as SekolahIndex;
+use App\Livewire\Dimensi\Create as DimensiCreate;
+use App\Livewire\GuruMapel\Edit as GuruMapelEdit;
+
+use App\Livewire\Prestasi\Index as PrestasiIndex;
+use App\Livewire\Subelemen\Edit as SubelemenEdit;
 use App\Livewire\WaliKelas\Edit as WaliKelasEdit;
 
 use App\Livewire\GuruMapel\Index as GuruMapelIndex;
-use App\Livewire\GuruMapel\Create as GuruMapelCreate;
-use App\Livewire\GuruMapel\Edit as GuruMapelEdit;
-
-use App\Livewire\MateriMapel\Index as MateriMapelIndex;
-use App\Livewire\MateriMapel\Create as MateriMapelCreate;
-use App\Livewire\MateriMapel\Edit as MateriMapelEdit;
-
-use App\Livewire\Kepsek\Index as KepsekIndex;
-use App\Livewire\Kepsek\Create as KepsekCreate;
-use App\Livewire\Kepsek\Edit as KepsekEdit;
-
-use App\Livewire\Proyek\Index as ProyekIndex;
-use App\Livewire\Proyek\Create as ProyekCreate;
-use App\Livewire\Proyek\Edit as ProyekEdit;
-
-use App\Livewire\Dimensi\Index as DimensiIndex;
-use App\Livewire\Dimensi\Create as DimensiCreate;
-use App\Livewire\Dimensi\Edit as DimensiEdit;
-
-use App\Livewire\Elemen\Index as ElemenIndex;
-use App\Livewire\Elemen\Create as ElemenCreate;
-use App\Livewire\Elemen\Edit as ElemenEdit;
+use App\Livewire\Prestasi\Create as PrestasiCreate;
+use App\Livewire\Prestasi\Detail as PrestasiDetail;
 
 use App\Livewire\Subelemen\Index as SubelemenIndex;
+use App\Livewire\Subproyek\Index as SubproyekIndex;
+use App\Livewire\WaliKelas\Index as WaliKelasIndex;
+
+use App\Livewire\CapaianFase\Edit as CapaianFaseEdit;
+use App\Livewire\GuruMapel\Create as GuruMapelCreate;
+use App\Livewire\MateriMapel\Edit as MateriMapelEdit;
+
+use App\Livewire\NilaiEkskul\Edit as NilaiEkskulEdit;
+use App\Livewire\Raporintra\Index as RaporIntraIndex;
 use App\Livewire\Subelemen\Create as SubelemenCreate;
-use App\Livewire\Subelemen\Edit as SubelemenEdit;
+
+use App\Livewire\TahunAjaran\Edit as TahunAjaranEdit;
+use App\Livewire\WaliKelas\Create as WaliKelasCreate;
+use App\Http\Controllers\NilaiSumatifExportController;
 
 use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
+use App\Livewire\MateriMapel\Index as MateriMapelIndex;
+use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
+use App\Livewire\TahunAjaran\Index as TahunAjaranIndex;
+
 use App\Livewire\CapaianFase\Create as CapaianFaseCreate;
-use App\Livewire\CapaianFase\Edit as CapaianFaseEdit;
+
+use App\Livewire\CatatanProyek\Edit as CatatanProyekEdit;
+
+use App\Livewire\LingkupMateri\Edit as LingkupMateriEdit;
+
+use App\Livewire\MateriMapel\Create as MateriMapelCreate;
+
+use App\Livewire\NilaiEkskul\Create as NilaiEkskulCreate;
+
+use App\Livewire\NilaiSumatif\Index as NilaiSumatifIndex;
+use App\Livewire\TahunAjaran\Create as TahunAjaranCreate;
+use App\Livewire\CatatanProyek\Index as CatatanProyekIndex;
+
+use App\Livewire\LingkupMateri\Index as LingkupMateriIndex;
+use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
+use App\Livewire\LingkupMateri\Create as LingkupMateriCreate;
+use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
+
+use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
 
 use App\Livewire\TujuanPembelajaran\Index as TujuanPembelajaranIndex;
 use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
-use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
-
-use App\Livewire\LingkupMateri\Index as LingkupMateriIndex;
-use App\Livewire\LingkupMateri\Create as LingkupMateriCreate;
-use App\Livewire\LingkupMateri\Edit as LingkupMateriEdit;
-
-use App\Livewire\CatatanProyek\Index as CatatanProyekIndex;
-use App\Livewire\CatatanProyek\Edit as CatatanProyekEdit;
-use App\Livewire\Dashboard;
-use App\Livewire\Subproyek\Index as SubproyekIndex;
-
-use App\Livewire\NilaiSubproyek\Index as NilaiSubproyekIndex;
-
-use App\Livewire\Raporp5\Index as RaporP5Index;
-
-use App\Livewire\NilaiSumatif\Index as NilaiSumatifIndex;
-
-use App\Livewire\NilaiFormatif\Index as NilaiFormatifIndex;
-
-use App\Livewire\Absensi\Index as AbsensiIndex;
-
-use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
-use App\Livewire\NilaiEkskul\Create as NilaiEkskulCreate;
-use App\Livewire\NilaiEkskul\Edit as NilaiEkskulEdit;
-
-use App\Livewire\Prestasi\Index as PrestasiIndex;
-use App\Livewire\Prestasi\Create as PrestasiCreate;
-use App\Livewire\Prestasi\Edit as PrestasiEdit;
-use App\Livewire\Prestasi\Detail as PrestasiDetail;
-
-use App\Livewire\Raporintra\Index as RaporIntraIndex;
-
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -289,6 +290,9 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
     Route::get('/nilai_formatif', NilaiFormatifIndex::class)
         ->name('nilaiFormatifIndex')->lazy();
 });
+
+Route::get('/nilai_sumatif_permapel', [NilaiSumatifExportController::class, 'cetak_permapel'])->middleware(['auth'])
+    ->name('cetak_sumatif_permapel')->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

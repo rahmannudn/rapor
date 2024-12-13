@@ -2,6 +2,7 @@
 
 namespace App\Livewire\NilaiSumatif;
 
+use App\Models\Kelas;
 use App\Models\Rapor;
 use App\Models\Siswa;
 use Livewire\Component;
@@ -12,13 +13,17 @@ use Maatwebsite\Excel\Excel;
 use App\Models\LingkupMateri;
 use App\Helpers\FunctionHelper;
 use App\Models\DetailGuruMapel;
+use function PHPSTORM_META\map;
 use Livewire\Attributes\Locked;
 use App\Models\NilaiSumatifAkhir;
 use Illuminate\Support\Facades\DB;
 use App\Exports\NilaiSumatifExport;
+use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Session;
 
 class Form extends Component
 {
@@ -223,6 +228,62 @@ class Form extends Component
 
     public function exportExcel()
     {
+        $nilaiData = $this->getRataNilaiSiswa(daftarLingkup: true);
+
+        return (new NilaiSumatifExport($nilaiData, $this->daftarLingkup->toArray()))->download('nilai_sumatif.xlsx', Excel::XLSX);
+    }
+
+    public function exportPDF()
+    {
+        $nilaiData = [];
+        $nilaiData['siswa'] = $this->getRataNilaiSiswa();
+
+        $rataNilaiPermapel = 0;
+        $totalNilaiPermapel = 0;
+        $jumlahNilai = 0;
+        $nilaiTerendah = (int)$nilaiData['siswa'][0]['nilai'][0]['nilai_sumatif'];
+        $nilaiTertinggi = (int)$nilaiData['siswa'][0]['nilai'][0]['nilai_sumatif'];
+        $dataMapel = DetailGuruMapel::where('detail_guru_mapel.id', $this->tahunAjaranAktif)
+            ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
+            ->join('guru_mapel', 'detail_guru_mapel.guru_mapel_id', 'guru_mapel.id')
+            ->join('users', 'users.id', 'guru_mapel.user_id')
+            ->select('users.name as nama_guru', 'mapel.nama_mapel')
+            ->first();
+        $dataKelas = Kelas::where('id', $this->selectedKelas)->first()->value('nama');
+        $dataTahun = TahunAjaran::where('id', $this->tahunAjaranAktif)->select('tahun', 'semester')->first();
+
+        foreach ($nilaiData['siswa'] as $i => $data) {
+            foreach ($data['nilai'] as $nilai) {
+                $totalNilaiPermapel += (int)$nilai['nilai_sumatif'];
+
+                if ($nilaiTerendah >= $nilai['nilai_sumatif']) $nilaiTerendah = $nilai['nilai_sumatif'];
+                if ($nilaiTertinggi <= $nilai['nilai_sumatif']) $nilaiTertinggi = $nilai['nilai_sumatif'];
+
+                $jumlahNilai++;
+            }
+
+            // loop terakhir
+            if (end($nilaiData['siswa']) == $data) {
+                $rataNilaiPermapel = $totalNilaiPermapel / $jumlahNilai;
+            }
+        }
+
+        $nilaiData['rata_nilai_permapel'] = $rataNilaiPermapel;
+        $nilaiData['nilai_tertinggi'] = $nilaiTertinggi;
+        $nilaiData['nilai_terendah'] = $nilaiTerendah;
+        $nilaiData['nama_mapel'] = $dataMapel['nama_mapel'] ?? '';
+        $nilaiData['nama_guru'] = $dataMapel['nama_guru'] ?? '';
+        $nilaiData['nama_kelas'] = $dataKelas ?? '';
+        $nilaiData['tahun'] = $dataTahun['tahun'] ?? '';
+        $nilaiData['semester'] = $dataTahun['semester'] ?? '';
+
+        session()->put('result', $nilaiData);
+
+        $this->dispatch('dataProcessed', url: route('cetak_sumatif_permapel'));
+    }
+
+    public function getRataNilaiSiswa($daftarLingkup = null)
+    {
         if (!empty($this->nilaiData)) {
             $nilaiData = $this->nilaiData;
             foreach ($nilaiData as &$data) {
@@ -257,10 +318,10 @@ class Form extends Component
                 // menghapus siswa_id dari array
                 unset($data['siswa_id']);
 
-                $data['daftar_lingkup'] = $this->daftarLingkup;
+                if ($daftarLingkup === true)
+                    $data['daftar_lingkup'] = $this->daftarLingkup;
             }
-
-            return (new NilaiSumatifExport($nilaiData, $this->daftarLingkup->toArray()))->download('nilai_sumatif.xlsx', Excel::XLSX);
+            return $nilaiData;
         }
     }
 
