@@ -105,6 +105,8 @@ use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
 use App\Livewire\TujuanPembelajaran\Index as TujuanPembelajaranIndex;
 use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
 
+use App\Livewire\NilaiSumatif\LaporanSumatifPerkelas as LaporanSumatifPerkelas;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -293,6 +295,10 @@ Route::middleware(['auth', 'check_permission:isGuru'])->group(function () {
 
 Route::get('/nilai_sumatif_permapel', [NilaiSumatifExportController::class, 'cetak_permapel'])->middleware(['auth'])
     ->name('cetak_sumatif_permapel')->lazy();
+
+Route::get('/laporan_sumatif_kelas', LaporanSumatifPerkelas::class)
+    ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
+    ->name('laporan_sumatif_kelas')->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

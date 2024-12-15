@@ -132,11 +132,11 @@
             @endforeach
         @endif
     </tbody>
-    @endif
-
     <div class="flex mt-2 gap-x-2">
         <x-button primary label="Simpan" x-on:click="$wire.simpan" spinner />
     </div>
+    @endif
+
 
     @push('scripts')
         <script src="{{ asset('resources/js/generateDeskripsi.js') }}"></script>
