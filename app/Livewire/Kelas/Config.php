@@ -178,12 +178,17 @@ class Config extends Component
         if ($this->originWaliKelas)
             $waliKelasData['id'] = $this->waliKelasId; // Jika ada data lama, gunakan ID yang lama
 
-
-        if ($this->originWaliKelas && !empty($this->waliKelasAktif)) {
+        // ketika walikelasorigin, walikelasaktif tidak bernilai empty 
+        // dan nilai originwalikelas !== walikelasaktif
+        // jika nilai originwalikelas dan walikelasaktif sama maka tidak mengeksekusi apa-apa
+        if ((!empty($this->originWaliKelas) && !empty($this->waliKelasAktif)) &&
+            ($this->originWaliKelas !== $this->waliKelasAktif)
+        ) {
             $waliKelas = WaliKelas::find($this->waliKelasId);
-            $waliKelas->user_id = null;
+            $waliKelas->user_id = $waliKelasData['user_id'];
             $waliKelas->save();
         } else {
+            // ketika originwalikelas bernilai empty
             if (!empty($this->waliKelasAktif))
                 WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
         }
