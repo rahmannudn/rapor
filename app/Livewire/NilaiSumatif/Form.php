@@ -8,6 +8,7 @@ use App\Models\Siswa;
 use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\WaliKelas;
+use App\Models\TahunAjaran;
 use App\Models\NilaiSumatif;
 use Maatwebsite\Excel\Excel;
 use App\Models\LingkupMateri;
@@ -18,12 +19,12 @@ use Livewire\Attributes\Locked;
 use App\Models\NilaiSumatifAkhir;
 use Illuminate\Support\Facades\DB;
 use App\Exports\NilaiSumatifExport;
-use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Query\JoinClause;
 
 class Form extends Component
 {
@@ -54,7 +55,7 @@ class Form extends Component
 
     public function mount()
     {
-        $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+        $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
         // if (Gate::allows('isSuperAdmin')) {
         //     // menampilkan kelas yang diajar, menampilkan mata pelajaran yang diajar
         //     $this->daftarGuruMapel = DB::table('users')
