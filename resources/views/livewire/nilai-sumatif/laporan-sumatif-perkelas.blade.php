@@ -18,6 +18,12 @@
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Laporan Nilai Sumatif</h1>
 
     @if (!empty($daftarMapel))
+        <div class="flex gap-x-2">
+            <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
+                x-on:click="$wire.exportExcel" />
+            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+                x-on:click="$wire.exportPDF" />
+        </div>
         <div class="relative overflow-x-auto w-[55%] mb-4 mt-2">
             <table
                 class="w-full text-sm text-left text-gray-500 border border-gray-400 shadow-md rtl:text-right dark:text-gray-400 sm:rounded-lg">

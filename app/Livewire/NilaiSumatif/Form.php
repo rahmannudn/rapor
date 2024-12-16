@@ -230,8 +230,9 @@ class Form extends Component
     public function exportExcel()
     {
         $nilaiData = $this->getRataNilaiSiswa(daftarLingkup: true);
+        $daftarLingkup = $this->daftarLingkup;
 
-        return (new NilaiSumatifExport($nilaiData, $this->daftarLingkup->toArray()))->download('nilai_sumatif.xlsx', Excel::XLSX);
+        return (new NilaiSumatifExport($nilaiData, $daftarLingkup->toArray()))->download('nilai_sumatif.xlsx', Excel::XLSX);
     }
 
     public function exportPDF()
@@ -269,7 +270,7 @@ class Form extends Component
             }
         }
 
-        $nilaiData['rata_nilai_permapel'] = $rataNilaiPermapel;
+        $nilaiData['rata_nilai_permapel'] = round($rataNilaiPermapel, 2);
         $nilaiData['nilai_tertinggi'] = $nilaiTertinggi;
         $nilaiData['nilai_terendah'] = $nilaiTerendah;
         $nilaiData['nama_mapel'] = $dataMapel['nama_mapel'] ?? '';

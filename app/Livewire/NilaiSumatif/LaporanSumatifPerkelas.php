@@ -7,10 +7,12 @@ use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\WaliKelas;
 use App\Models\KelasSiswa;
+use Maatwebsite\Excel\Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Query\JoinClause;
+use App\Exports\LaporanSumatifPerkelasExport;
 
 class LaporanSumatifPerkelas extends Component
 {
@@ -156,7 +158,7 @@ class LaporanSumatifPerkelas extends Component
                     'nama_mapel' => $mapel->first()->nama_mapel,
                     'total_nilai' => $totalNilai,
                     'jumlah_nilai' => $jumlahNilai,
-                    'rata_nilai' => round($rataNilai, 2)
+                    'rata_nilai' => round($rataNilai, 2),
                 ];
             }
 
@@ -165,4 +167,14 @@ class LaporanSumatifPerkelas extends Component
 
         return $results;
     }
+
+    public function exportExcel()
+    {
+        $dataSiswa = $this->dataSiswa;
+        $daftarMapel = $this->daftarMapel;
+        return (new LaporanSumatifPerkelasExport($dataSiswa, $daftarMapel))
+            ->download('lapora_sumatif_perkelas.xlsx', Excel::XLSX);
+    }
+
+    public function exportPDF() {}
 }
