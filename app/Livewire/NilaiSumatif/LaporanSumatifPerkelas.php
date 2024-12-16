@@ -18,6 +18,12 @@ class LaporanSumatifPerkelas extends Component
     public $tahunAjaranAktif;
     public $dataSiswa;
     public $dataKelas;
+    public $daftarMapel;
+
+    public function render()
+    {
+        return view('livewire.nilai-sumatif.laporan-sumatif-perkelas');
+    }
 
     public function mount()
     {
@@ -26,29 +32,26 @@ class LaporanSumatifPerkelas extends Component
         $this->dataKelas = WaliKelas::where('wali_kelas.user_id', Auth::id())
             ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
+            ->join('tahun_ajaran', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id')
             ->select(
+                'tahun_ajaran.semester',
+                'tahun_ajaran.tahun',
                 'wali_kelas.id as wali_kelas_id',
                 'kelas.id as kelas_id',
-                'kelas.nama',
+                'kelas.nama as nama_kelas',
                 'kelas.fase',
                 'kelas.kelas'
             )
             ->first()
             ->toArray();
-        $dataSiswa = $this->getSiswaData();
-        if (count($dataSiswa) >= 1) {
-            $this->dataSiswa = $dataSiswa->groupBy('id_siswa');
-            dump($this->dataSiswa);
-        }
+
+        $this->dataSiswa = $this->getSiswaData();
+        if (!empty($this->dataSiswa)) $this->daftarMapel = $this->dataSiswa[0]['mapel'];
+
         // } catch (\Throwable $th) {
         //     session()->flash('gagal', 'terjadi suatu kesalahan');
         //     return redirect()->route('dashboard');
         // }
-    }
-
-    public function render()
-    {
-        return view('livewire.nilai-sumatif.laporan-sumatif-perkelas');
     }
 
     public function getSiswaData()
@@ -67,17 +70,23 @@ class LaporanSumatifPerkelas extends Component
                     ->where('guru_mapel.tahun_ajaran_id', '=', $tahunAjaranId);
             })
             ->join('mapel', 'detail_guru_mapel.mapel_id', '=', 'mapel.id')
+            ->leftJoin('lingkup_materi', function ($join) {
+                $join->on('lingkup_materi.detail_guru_mapel_id', '=', 'detail_guru_mapel.id');
+            })
             ->leftJoin('nilai_sumatif', function ($join) {
                 $join->on('kelas_siswa.id', '=', 'nilai_sumatif.kelas_siswa_id')
-                    ->on('detail_guru_mapel.id', '=', 'nilai_sumatif.detail_guru_mapel_id');
+                    ->on('detail_guru_mapel.id', '=', 'nilai_sumatif.detail_guru_mapel_id')
+                    ->on('lingkup_materi.detail_guru_mapel_id', '=', 'nilai_sumatif.detail_guru_mapel_id');
             })
             ->leftJoin('nilai_sumatif_akhir', function ($join) {
                 $join->on('kelas_siswa.id', '=', 'nilai_sumatif_akhir.kelas_siswa_id')
                     ->on('detail_guru_mapel.id', '=', 'nilai_sumatif_akhir.detail_guru_mapel_id');
             })
             ->select(
+                'lingkup_materi.id as id_lingkup_materi',
                 'siswa.id as id_siswa',
                 'siswa.nama as nama_siswa',
+                'mapel.id as id_mapel',
                 'mapel.nama_mapel as nama_mapel',
                 DB::raw('COALESCE(nilai_sumatif.nilai, 0) as nilai'),
                 DB::raw('COALESCE(nilai_sumatif_akhir.nilai_tes, 0) as nilai_tes'),
@@ -94,20 +103,66 @@ class LaporanSumatifPerkelas extends Component
 
     public function formatDataSiswa($data)
     {
-        return $data->groupBy('id_siswa')->map(function ($items, $idSiswa) {
-            $firstItem = $items->first();
-            return [
-                'id_siswa' => $idSiswa,
-                'nama_siswa' => $firstItem->nama_siswa,
-                'mapel' => $items->map(function ($item) {
-                    return [
-                        'nama_mapel' => $item->nama_mapel,
-                        'nilai' => $item->nilai,
-                        'nilai_tes' => $item->nilai_tes,
-                        'nilai_nontes' => $item->nilai_nontes,
-                    ];
-                })->toArray(),
+        $groupedData = $data->groupBy('id_siswa');
+        $results = [];
+
+        foreach ($groupedData as $studentId => $studentData) {
+            $result = [
+                'id_siswa' => $studentId,
+                'nama_siswa' => $studentData->first()->nama_siswa,
+                'mapel' => []
             ];
-        });
+
+            $mapelData = $studentData->groupBy('id_mapel');
+
+            foreach ($mapelData as $mapelId => $mapel) {
+                $totalNilai = 0;
+                $jumlahNilai = 0;
+                $nilaiTes = 0;
+                $nilaiNontes = 0;
+                $processedLingkupMateri = [];
+
+                foreach ($mapel as $item) {
+                    // Cek apakah id_lingkup_materi sudah diproses sebelumnya
+                    if (!in_array($item->id_lingkup_materi, $processedLingkupMateri)) {
+                        $totalNilai += $item->nilai;
+                        $jumlahNilai++;
+                        $processedLingkupMateri[] = $item->id_lingkup_materi;
+                    }
+
+                    // Hanya ambil nilai_tes dan nilai_nontes sekali
+                    if ($nilaiTes == 0 && $item->nilai_tes > 0) {
+                        $nilaiTes = $item->nilai_tes;
+                    }
+                    if ($nilaiNontes == 0 && $item->nilai_nontes > 0) {
+                        $nilaiNontes = $item->nilai_nontes;
+                    }
+                }
+
+                // Tambahkan nilai_tes dan nilai_nontes jika ada
+                if ($nilaiTes > 0) {
+                    $totalNilai += $nilaiTes;
+                    $jumlahNilai++;
+                }
+                if ($nilaiNontes > 0) {
+                    $totalNilai += $nilaiNontes;
+                    $jumlahNilai++;
+                }
+
+                $rataNilai = $jumlahNilai > 0 ? $totalNilai / $jumlahNilai : 0;
+
+                $result['mapel'][] = [
+                    'id_mapel' => $mapelId,
+                    'nama_mapel' => $mapel->first()->nama_mapel,
+                    'total_nilai' => $totalNilai,
+                    'jumlah_nilai' => $jumlahNilai,
+                    'rata_nilai' => round($rataNilai, 2)
+                ];
+            }
+
+            $results[] = $result;
+        }
+
+        return $results;
     }
 }
