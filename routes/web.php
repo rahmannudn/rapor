@@ -75,7 +75,7 @@ use App\Livewire\Subelemen\Create as SubelemenCreate;
 use App\Livewire\TahunAjaran\Edit as TahunAjaranEdit;
 use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
-
+use App\Http\Controllers\NilaiSumatifPerkelasPDFController;
 use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
 use App\Livewire\MateriMapel\Index as MateriMapelIndex;
 use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
@@ -299,6 +299,10 @@ Route::get('/nilai_sumatif_permapel', [NilaiSumatifExportController::class, 'cet
 Route::get('/laporan_sumatif_kelas', LaporanSumatifPerkelas::class)
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas')->lazy();
+
+Route::get('/laporan_sumatif_kelas/{kelas}', NilaiSumatifPerkelasPDFController::class)
+    ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
+    ->name('laporan_sumatif_kelas_pdf')->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
