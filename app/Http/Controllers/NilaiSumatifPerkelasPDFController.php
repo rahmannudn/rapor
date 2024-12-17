@@ -10,12 +10,10 @@ class NilaiSumatifPerkelasPDFController extends Controller
     public function __invoke(Request $request, $kelas)
     {
         $kelasId = $kelas;
-
         $dataSiswa = $request->session()->get('dataSiswa');
         $daftarMapel = $request->session()->get('daftarMapel');
-        $request->session()->forget('dataSiswa');
-        $request->session()->forget('daftarMapel');
 
-        dump($dataSiswa);
+        // $request->session()->forget('dataSiswa');
+        // $request->session()->forget('daftarMapel');
     }
 }

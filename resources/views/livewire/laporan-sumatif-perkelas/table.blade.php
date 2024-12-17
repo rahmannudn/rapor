@@ -85,14 +85,18 @@
 
 <script>
     document.addEventListener('livewire:init', function() {
-        window.addEventListener('dataProcessed', function(data) {
+        window.addEventListener('dataProcessed', function(event) {
             let {
                 kelas
-            } = event.detail;
-            const newTab = window.open('about:blank', '_blank');
-            let formatedUrl =
-                `{{ route('laporan_sumatif_kelas_pdf', ['kelas' => '']) }}/${kelas}`;
+            } = event.detail[0]; // Ambil kelas dari event
 
+            // Buat tab baru
+            const newTab = window.open('about:blank', '_blank');
+
+            // Buat URL dengan kelas
+            let formatedUrl = `{{ url('laporan_sumatif_kelas') }}/${kelas}`;
+
+            // Redirect ke URL di tab baru
             newTab.location.href = formatedUrl;
         });
     });

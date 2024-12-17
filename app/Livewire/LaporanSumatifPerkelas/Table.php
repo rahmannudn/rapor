@@ -184,9 +184,11 @@ class Table extends Component
         $daftarMapel = $this->daftarMapel;
         $kelas = $this->selectedKelas;
 
+        // Simpan data di session
         session()->put('dataSiswa', $dataSiswa);
         session()->put('daftarMapel', $daftarMapel);
 
-        $this->dispatch('dataProcessed', kelas: $kelas);
+        // Dispatch event dengan detail kelas
+        $this->dispatch('dataProcessed', ['kelas' => $kelas]);
     }
 }
