@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\NilaiSumatif;
+namespace App\Livewire\LaporanSumatifPerkelas;
 
 use App\Models\Kelas;
 use Livewire\Component;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Query\JoinClause;
 use App\Exports\LaporanSumatifPerkelasExport;
 
-class LaporanSumatifPerkelas extends Component
+class Table extends Component
 {
     public $selectedKelas;
     public $tahunAjaranAktif;
@@ -24,7 +24,7 @@ class LaporanSumatifPerkelas extends Component
 
     public function render()
     {
-        return view('livewire.nilai-sumatif.laporan-sumatif-perkelas');
+        return view('livewire.laporan-sumatif-perkelas.table');
     }
 
     public function mount()
@@ -47,6 +47,8 @@ class LaporanSumatifPerkelas extends Component
             ->first()
             ->toArray();
 
+        if (!empty($this->dataKelas)) $this->selectedKelas = $this->dataKelas['kelas_id'];
+
         $this->dataSiswa = $this->getSiswaData();
         if (!empty($this->dataSiswa)) $this->daftarMapel = $this->dataSiswa[0]['mapel'];
 
@@ -58,7 +60,7 @@ class LaporanSumatifPerkelas extends Component
 
     public function getSiswaData()
     {
-        $kelasId = $this->dataKelas['kelas_id'];
+        $kelasId = $this->selectedKelas;
         $tahunAjaranId = $this->tahunAjaranAktif;
 
         $dataSiswa =  DB::table('kelas_siswa')
@@ -176,5 +178,15 @@ class LaporanSumatifPerkelas extends Component
             ->download('lapora_sumatif_perkelas.xlsx', Excel::XLSX);
     }
 
-    public function exportPDF() {}
+    public function exportPDF()
+    {
+        $dataSiswa = $this->dataSiswa;
+        $daftarMapel = $this->daftarMapel;
+        $kelas = $this->selectedKelas;
+
+        session()->put('dataSiswa', $dataSiswa);
+        session()->put('daftarMapel', $daftarMapel);
+
+        $this->dispatch('dataProcessed', kelas: $kelas);
+    }
 }

@@ -7,7 +7,15 @@ use Illuminate\Http\Request;
 
 class NilaiSumatifPerkelasPDFController extends Controller
 {
-    public Kelas $kelas;
+    public function __invoke(Request $request, $kelas)
+    {
+        $kelasId = $kelas;
 
-    public function __invoke() {}
+        $dataSiswa = $request->session()->get('dataSiswa');
+        $daftarMapel = $request->session()->get('daftarMapel');
+        $request->session()->forget('dataSiswa');
+        $request->session()->forget('daftarMapel');
+
+        dump($dataSiswa);
+    }
 }

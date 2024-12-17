@@ -105,7 +105,7 @@ use App\Livewire\TujuanPembelajaran\Edit as TujuanPembelajaranEdit;
 use App\Livewire\TujuanPembelajaran\Index as TujuanPembelajaranIndex;
 use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
 
-use App\Livewire\NilaiSumatif\LaporanSumatifPerkelas as LaporanSumatifPerkelas;
+use App\Livewire\LaporanSumatifPerkelas\Index as LaporanSumatifPerkelas;
 
 /*
 |--------------------------------------------------------------------------

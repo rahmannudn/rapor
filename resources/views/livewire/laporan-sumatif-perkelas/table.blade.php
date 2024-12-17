@@ -1,28 +1,9 @@
 <div>
-    @section('table-responsive')
-        <link rel="stylesheet" href="{{ asset('resources/css/responsive-table.css') }}">
-    @endsection
-
-    @section('title')
-        Laporan Nilai Sumatif
-    @endsection
-    {{-- blade-formatter-disable --}}
-    @if (session('success'))
-        <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
-    @endif
-    @if (session('gagal'))
-        <div x-init="$dispatch('showNotif', { title: 'Gagal', description: '{{ session('gagal') }}', icon: 'error' })"></div>
-    @endif
-    {{-- blade-formatter-enable --}}
-
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Laporan Nilai Sumatif</h1>
-
     @if (!empty($daftarMapel))
         <div class="flex gap-x-2">
             <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
                 x-on:click="$wire.exportExcel" />
-            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
-                x-on:click="$wire.exportPDF" />
+            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner x-on:click="$wire.exportPDF" />
         </div>
         <div class="relative overflow-x-auto w-[55%] mb-4 mt-2">
             <table
@@ -100,5 +81,19 @@
             </table>
         </div>
     @endif
-
 </div>
+
+<script>
+    document.addEventListener('livewire:init', function() {
+        window.addEventListener('dataProcessed', function(data) {
+            let {
+                kelas
+            } = event.detail;
+            const newTab = window.open('about:blank', '_blank');
+            let formatedUrl =
+                `{{ route('laporan_sumatif_kelas_pdf', ['kelas' => '']) }}/${kelas}`;
+
+            newTab.location.href = formatedUrl;
+        });
+    });
+</script>
