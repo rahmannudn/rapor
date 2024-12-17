@@ -270,7 +270,7 @@ class Form extends Component
             }
         }
 
-        $nilaiData['rata_nilai_permapel'] = round($rataNilaiPermapel, 2);
+        $nilaiData['rata_nilai_permapel'] = floor($rataNilaiPermapel);
         $nilaiData['nilai_tertinggi'] = $nilaiTertinggi;
         $nilaiData['nilai_terendah'] = $nilaiTerendah;
         $nilaiData['nama_mapel'] = $dataMapel['nama_mapel'] ?? '';
@@ -315,7 +315,7 @@ class Form extends Component
                 }
 
                 // hitung rata-rata
-                if (!empty($totalNilai) && !empty($jumlahNilai)) $data['rata_nilai'] = $totalNilai / $jumlahNilai;
+                if (!empty($totalNilai) && !empty($jumlahNilai)) $data['rata_nilai'] = floor($totalNilai / $jumlahNilai);
 
                 // menghapus siswa_id dari array
                 unset($data['siswa_id']);

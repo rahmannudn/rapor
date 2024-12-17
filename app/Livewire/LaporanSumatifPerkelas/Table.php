@@ -160,7 +160,7 @@ class Table extends Component
                     'nama_mapel' => $mapel->first()->nama_mapel,
                     'total_nilai' => $totalNilai,
                     'jumlah_nilai' => $jumlahNilai,
-                    'rata_nilai' => round($rataNilai, 2),
+                    'rata_nilai' => floor($rataNilai),
                 ];
             }
 

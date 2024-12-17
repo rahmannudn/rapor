@@ -86,8 +86,8 @@
         <h1>Laporan Nilai Sumatif</h1>
 
         <div class="header-info">
-            <p>Tahun Ajaran : _______________</p>
-            <p>Kelas : _______________</p>
+            <p>Tahun Ajaran : {{ $kelasData['tahun'] }} - {{ $kelasData['semester'] }}</p>
+            <p>Kelas : {{ $kelasData['nama_kelas'] }}</p>
         </div>
 
         <table>
@@ -95,52 +95,46 @@
                 <tr>
                     <th rowspan="2">NO</th>
                     <th rowspan="2">NAMA SISWA</th>
-                    <th colspan="3">NILAI AKHIR</th>
-                    <th class="average-column" rowspan="2">RATA-RATA <br> SEMUA MAPEL</th>
+                    <th colspan="{{ count($subjects) + 1 }}">NILAI AKHIR</th>
                 </tr>
                 <tr>
-                    <th>MATEMATIKA</th>
-                    <th>BAHASA INDONESIA</th>
-                    <th>SENI BUDAYA</th>
+                    @foreach ($subjects as $subject)
+                        <th>{{ strtoupper($subject) }}</th>
+                    @endforeach
+                    <th class="average-column">RATA-RATA</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td class="nama-siswa"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="average-column"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td class="nama-siswa"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="average-column"></td>
-                </tr>
+                @foreach ($processedStudents as $index => $student)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td class="nama-siswa">{{ $student['nama_siswa'] }}</td>
+                        @foreach ($student['nilai'] as $nilai)
+                            <td>{{ $nilai }}</td>
+                        @endforeach
+                        <td class="average-column">{{ number_format($student['rata_rata']) }}</td>
+                    </tr>
+                @endforeach
                 <tr class="summary-row">
                     <td colspan="2">NILAI TERTINGGI</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="average-column"></td>
+                    @foreach ($summary['tertinggi'] as $nilai)
+                        <td>{{ $nilai }}</td>
+                    @endforeach
+                    <td class="average-column">{{ $summary['tertinggi']->max() }}</td>
                 </tr>
                 <tr class="summary-row">
                     <td colspan="2">NILAI TERENDAH</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="average-column"></td>
+                    @foreach ($summary['terendah'] as $nilai)
+                        <td>{{ $nilai }}</td>
+                    @endforeach
+                    <td class="average-column">{{ $summary['terendah']->min() }}</td>
                 </tr>
                 <tr class="summary-row">
                     <td colspan="2">NILAI RATA-RATA</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="average-column"></td>
+                    @foreach ($summary['rata_rata'] as $nilai)
+                        <td>{{ $nilai }}</td>
+                    @endforeach
+                    <td class="average-column">{{ number_format($summary['rata_rata_total'], 2) }}</td>
                 </tr>
             </tbody>
         </table>

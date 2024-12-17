@@ -300,7 +300,7 @@ Route::get('/laporan_sumatif_kelas', LaporanSumatifPerkelas::class)
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas')->lazy();
 
-Route::get('/laporan_sumatif_kelas/{kelas}', NilaiSumatifPerkelasPDFController::class)
+Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController::class, 'printNilai'])
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas_pdf')->lazy();
 
