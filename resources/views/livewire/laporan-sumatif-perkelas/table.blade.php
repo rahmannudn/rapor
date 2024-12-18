@@ -1,10 +1,36 @@
 <div>
-    @if (!empty($daftarMapel))
-        <div class="flex gap-x-2">
-            <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
-                x-on:click="$wire.exportExcel" />
-            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner x-on:click="$wire.exportPDF" />
+    @can('isKepsek', auth()->user())
+        <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
+            <div class="w-52">
+                <x-native-select class="max-w-48" label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
+                    wire:model.change="tahunAjaranAktif" x-on:change="$wire.getDaftarKelas">
+                    @foreach ($daftarTahunAjaran as $tahun)
+                        <option wire.key="{{ $tahun->id }}" value="{{ $tahun->id }}">{{ $tahun->tahun }} -
+                            {{ $tahun->semester }}</option>
+                    @endforeach
+                </x-native-select>
+            </div>
+
+            <div class="w-52">
+                <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.change='selectedKelas'>
+                    <option value="">--Pilih Kelas--</option>
+                    @if ($daftarKelas)
+                        @foreach ($daftarKelas as $kelas)
+                            <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
         </div>
+
+        <div class="flex justify-between my-2 gap-x-4">
+            <div class="flex gap-x-2">
+                <x-button primary label="Tampilkan Tabel Nilai" x-on:click="$wire.getSiswaData" spinner />
+            </div>
+        </div>
+    @endcan
+
+    @if (!empty($daftarMapel))
         <div class="relative overflow-x-auto w-[55%] mb-4 mt-2">
             <table
                 class="w-full text-sm text-left text-gray-500 border border-gray-400 shadow-md rtl:text-right dark:text-gray-400 sm:rounded-lg">
@@ -16,6 +42,7 @@
                     <td class="px-6 py-1">
                         {{ $dataKelas['nama_kelas'] }}
                     </td>
+
                 </tr>
                 <tr>
                     <th scope="row"
@@ -26,7 +53,24 @@
                         {{ $dataKelas['tahun'] }} / {{ $dataKelas['semester'] }}
                     </td>
                 </tr>
+                @can('isKepsek', auth()->user())
+                    <tr>
+                        <th scope="row"
+                            class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                            Wali Kelas
+                        </th>
+                        <td class="px-6 py-1">
+                            {{ $dataKelas['nama_wali'] }}
+                        </td>
+                    </tr>
+                @endcan
             </table>
+        </div>
+        <div class="flex gap-x-2">
+            <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
+                x-on:click="$wire.exportExcel" />
+            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+                x-on:click="$wire.exportPDF" />
         </div>
 
         <div class="container">

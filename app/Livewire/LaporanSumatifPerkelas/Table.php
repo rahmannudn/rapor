@@ -13,14 +13,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Query\JoinClause;
 use App\Exports\LaporanSumatifPerkelasExport;
+use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Gate;
 
 class Table extends Component
 {
-    public $selectedKelas;
-    public $tahunAjaranAktif;
     public $dataSiswa;
     public $dataKelas;
     public $daftarMapel;
+
+    public $daftarTahunAjaran;
+    public $tahunAjaranAktif;
+    public $daftarKelas;
+    public $selectedKelas;
 
     public function render()
     {
@@ -29,37 +34,81 @@ class Table extends Component
 
     public function mount()
     {
-        // try {
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
-        $this->dataKelas = WaliKelas::where('wali_kelas.user_id', Auth::id())
-            ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
-            ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-            ->join('tahun_ajaran', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id')
-            ->select(
-                'tahun_ajaran.semester',
-                'tahun_ajaran.tahun',
-                'wali_kelas.id as wali_kelas_id',
-                'kelas.id as kelas_id',
-                'kelas.nama as nama_kelas',
-                'kelas.fase',
-                'kelas.kelas'
-            )
-            ->first()
-            ->toArray();
+        if (Gate::allows('isKepsek')) {
+            $this->daftarTahunAjaran = TahunAjaran::all(['tahun', 'semester', 'id']);
 
-        if (!empty($this->dataKelas)) $this->selectedKelas = $this->dataKelas['kelas_id'];
+            if (empty($this->daftarKelas)) $this->getDaftarKelas();
+        }
 
-        $this->dataSiswa = $this->getSiswaData();
-        if (!empty($this->dataSiswa)) $this->daftarMapel = $this->dataSiswa[0]['mapel'];
+        if (Gate::allows('isWaliKelas')) {
+            $this->dataKelas = WaliKelas::where('wali_kelas.user_id', Auth::id())
+                ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+                ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
+                ->join('tahun_ajaran', 'wali_kelas.tahun_ajaran_id', 'tahun_ajaran.id')
+                ->select(
+                    'tahun_ajaran.semester',
+                    'tahun_ajaran.tahun',
+                    'wali_kelas.id as wali_kelas_id',
+                    'kelas.id as kelas_id',
+                    'kelas.nama as nama_kelas',
+                    'kelas.fase',
+                    'kelas.kelas'
+                )
+                ->first()
+                ->toArray();
 
-        // } catch (\Throwable $th) {
-        //     session()->flash('gagal', 'terjadi suatu kesalahan');
-        //     return redirect()->route('dashboard');
-        // }
+            if (!empty($this->dataKelas)) $this->selectedKelas = $this->dataKelas['kelas_id'];
+
+            $this->getSiswaData();
+        }
     }
+
+    public function getDaftarMapel()
+    {
+        if (Gate::allows('isKepsek')) {
+            $this->dataKelas = Kelas::where('kelas.id', $this->selectedKelas)
+                ->where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+                ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas.tahun_ajaran_id')
+                ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+                ->join('users', 'users.id', 'wali_kelas.user_id')
+                ->select(
+                    'users.name as nama_wali',
+                    'tahun_ajaran.semester',
+                    'tahun_ajaran.tahun',
+                    'wali_kelas.id as wali_kelas_id',
+                    'kelas.id as kelas_id',
+                    'kelas.nama as nama_kelas',
+                    'kelas.fase',
+                    'kelas.kelas'
+                )
+                ->first()
+                ->toArray();
+        }
+
+        if (!empty($this->dataSiswa)) $this->daftarMapel = $this->dataSiswa[0]['mapel'];
+    }
+
+    public function getDaftarKelas()
+    {
+        $this->dataKelas = '';
+        $this->daftarMapel = '';
+        $this->daftarKelas = Kelas::where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+            ->select('kelas.nama', 'kelas.id')
+            ->get();
+    }
+
 
     public function getSiswaData()
     {
+        if (Gate::allows('isKepsek')) {
+            $this->validate([
+                'selectedKelas' => 'required',
+                'tahunAjaranAktif' => 'required'
+            ]);
+        }
+
         $kelasId = $this->selectedKelas;
         $tahunAjaranId = $this->tahunAjaranAktif;
 
@@ -102,7 +151,7 @@ class Table extends Component
             ->orderBy('mapel.nama_mapel')
             ->get();
 
-        return $this->formatDataSiswa($dataSiswa);
+        $this->formatDataSiswa($dataSiswa);
     }
 
     public function formatDataSiswa($data)
@@ -167,7 +216,8 @@ class Table extends Component
             $results[] = $result;
         }
 
-        return $results;
+        $this->dataSiswa = $results;
+        $this->getDaftarMapel();
     }
 
     public function exportExcel()
