@@ -57,7 +57,8 @@
                         {{ $data->nisn }}
                     </th>
                     <td class="px-4 py-4 w-[20%]">
-                        {{ ucfirst($data->nama) }}
+                        <a class="text-blue-800 underline"
+                            href="{{ route('detail_siswa', ['siswa' => $data]) }}">{{ ucfirst($data->nama) }}</a>
                     </td>
                     <td class="px-4 py-4 w-[5%]">
                         {{ Str::upper($data->jk) }}
