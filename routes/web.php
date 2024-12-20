@@ -249,7 +249,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
         ->name('nilaiSubproyekIndex')->lazy();
 
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
-    Route::get('/raporp5/{siswa}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporp5/{siswa}/{kelasSiswa?}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
     Route::get('/raporintra', RaporIntraIndex::class)->name('raporIntraIndex');
 

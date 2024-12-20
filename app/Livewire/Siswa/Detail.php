@@ -14,10 +14,11 @@ class Detail extends Component
 {
     public Siswa $siswa;
     public $riwayatKelasProyek;
+    public $riwayatKelasSiswa;
 
     public function mount()
     {
-        $this->riwayatKelasProyek = $this->getRiwayatProyek();
+        $this->getRiwayatProyek();
     }
 
     public function render()
@@ -38,6 +39,7 @@ class Detail extends Component
                     ->on('catatan_proyek.siswa_id', '=', 'kelas_siswa.siswa_id');
             })
             ->select(
+                'kelas_siswa.siswa_id as siswa_id',
                 'kelas_siswa.id as kelas_siswa_id',
                 'kelas.nama as nama_kelas',
                 'users.name as nama_wali_kelas',
@@ -60,8 +62,9 @@ class Detail extends Component
 
     function processData($data)
     {
-        $result = [];
+        $riwayatProyek = [];
         $groupedData = [];
+        $kelasSiswa = [];
 
         // Group data by tahun_ajaran_id
         foreach ($data as $item) {
@@ -75,6 +78,14 @@ class Detail extends Component
                     'tahun' => $item['tahun'],
                     'semester' => $item['semester'],
                     'proyekData' => []
+                ];
+
+                $kelasSiswa[$tahunAjaranId] = [
+                    'id' => $item['kelas_siswa_id'],
+                    'nama_kelas' => $item['nama_kelas'],
+                    'tahun' => $item['tahun'],
+                    'semester' => $item['semester'],
+                    'tahun_ajaran_id' => $item['tahun_ajaran_id'],
                 ];
             }
 
@@ -90,9 +101,10 @@ class Detail extends Component
 
         // Convert grouped data to the desired output format
         foreach ($groupedData as $group) {
-            $result[] = $group;
+            $riwayatProyek[] = $group;
         }
 
-        return $result;
+        $this->riwayatKelasProyek = $riwayatProyek;
+        $this->riwayatKelasSiswa = $kelasSiswa;
     }
 }
