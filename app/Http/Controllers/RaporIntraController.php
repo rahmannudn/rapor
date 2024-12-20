@@ -58,13 +58,13 @@ class RaporIntraController extends Controller
 
             return view('template-rapor-intra', ['results' => $results]);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('raporIntraIndex')->with('gagal', 'Data tidak ditemukan');
+            return redirect()->back()->with('gagal', 'Data tidak ditemukan');
         }
     }
 
     public function redirectBack($message)
     {
-        return redirect()->route('raporIntraIndex')->with('gagal', $message);
+        return redirect()->back()->with('gagal', $message);
     }
 
     public function getKepsekData(KelasSiswa $kelasSiswa)
