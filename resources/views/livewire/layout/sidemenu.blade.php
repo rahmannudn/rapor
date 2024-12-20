@@ -54,6 +54,20 @@ new class extends Component {
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('userIndex') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="ms-3">Pengguna</span>
+                    </a>
+                </li>
+
                 @can('superAdminOrAdmin', auth()->user())
                     <li x-data="{ dropdownMaster: false }">
                         <button type="button" x-on:click="dropdownMaster = !dropdownMaster"
@@ -114,19 +128,7 @@ new class extends Component {
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('userIndex') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('userIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <span class="ms-3">Pengguna</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="{{ route('kepsekIndex') }}"

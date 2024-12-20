@@ -150,7 +150,6 @@ Route::middleware(['auth', 'check_permission:isAdmin'])->group(function () {
     });
 
     Route::name('user')->prefix('user')->group(function () {
-        Route::get('/', UserIndex::class)->name('Index')->lazy();
         Route::get('/create', UserCreate::class)->name('Create');
         Route::get('/{user}/edit', UserEdit::class)->name('Edit');
     });
@@ -308,6 +307,11 @@ Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController:
 Route::get('/siswa/detail/{siswa}', SiswaDetail::class)
     ->middleware(['auth'])
     ->name('detail_siswa')->lazy();
+
+Route::get('/user', UserIndex::class)
+    ->middleware(['auth'])
+    ->name('userIndex')
+    ->lazy();
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

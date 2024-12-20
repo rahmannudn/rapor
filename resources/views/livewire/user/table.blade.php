@@ -36,9 +36,11 @@
                 <th scope="col" class="px-4 py-3">
                     Jenis Pegawai
                 </th>
-                <th scope="col" class="px-4 py-3">
-                    Action
-                </th>
+                @can('isAdmin')
+                    <th scope="col" class="px-4 py-3">
+                        Action
+                    </th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -63,12 +65,14 @@
                     <td class="px-4 py-4">
                         {{ Str::ucfirst($data->jenis_pegawai) }}
                     </td>
-                    <td class="px-4 py-4">
-                        <x-button.circle green icon="pencil-alt" href="{{ route('userEdit', ['user' => $data]) }}"
-                            wire:navigate />
-                        <x-button.circle negative icon="trash"
-                            x-on:click="$dispatch('set-user', {{ $data->id }}); $openModal('deleteModal');" />
-                    </td>
+                    @can('isAdmin')
+                        <td class="px-4 py-4">
+                            <x-button.circle green icon="pencil-alt" href="{{ route('userEdit', ['user' => $data]) }}"
+                                wire:navigate />
+                            <x-button.circle negative icon="trash"
+                                x-on:click="$dispatch('set-user', {{ $data->id }}); $openModal('deleteModal');" />
+                        </td>
+                    @endcan
                 </tr>
             @empty
                 <tr
