@@ -4,6 +4,7 @@ namespace App\Livewire\Siswa;
 
 use App\Models\Kelas;
 use App\Models\KelasSiswa;
+use App\Models\Prestasi;
 use App\Models\Siswa;
 use Illuminate\Database\Query\JoinClause;
 use Livewire\Component;
@@ -15,10 +16,13 @@ class Detail extends Component
     public Siswa $siswa;
     public $riwayatKelasProyek;
     public $riwayatKelasSiswa;
+    public $dataPrestasi;
 
     public function mount()
     {
         $this->getRiwayatProyek();
+
+        $this->dataPrestasi = Prestasi::where('siswa_id', $this->siswa['id'])->get();
     }
 
     public function render()

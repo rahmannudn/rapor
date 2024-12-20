@@ -63,64 +63,131 @@
         </div>
         {{-- biodata siswa --}}
 
-        {{-- rombel sekolah --}}
-        <div class="w-full">
-            <h2 class="mb-4 text-2xl font-bold">Rapor Siswa</h2>
-            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                <thead
-                    class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            NO
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tahun Ajaran
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Rapor
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($riwayatKelasSiswa as $kelasSiswa)
-                        <tr
-                            class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $loop->index + 1 }}
+        <div class="w-full space-y-4">
+            {{-- riwayat rapor --}}
+            <div>
+                <h2 class="mb-4 text-2xl font-bold">Rapor Siswa</h2>
+                <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                    <thead
+                        class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                NO
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Tahun Ajaran
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Kelas
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Rapor
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($riwayatKelasSiswa as $kelasSiswa)
+                            <tr
+                                class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $loop->index + 1 }}
+                                </th>
 
-                            <th scope="row"
-                                class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $kelasSiswa['nama_kelas'] }}
+                                <th scope="row"
+                                    class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $kelasSiswa['nama_kelas'] }}
+                                </th>
+                                <th scope="row" class="px-6 py-3">
+                                    {{ $kelasSiswa['tahun'] }} - {{ Str::upper($kelasSiswa['semester']) }}
+                                </th>
+                                <th scope="row" class="px-6 py-3">
+                                    <x-button class="mb-3" icon="folder-download" info label="Rapor P5"
+                                        x-on:click="window.open('{{ route('cetakRaporP5', ['siswa' => $siswa, 'kelasSiswa' => $kelasSiswa['id']]) }}', '_blank')" />
+                                    <x-button
+                                        x-on:click="window.open('{{ route('cetakRaporIntra', ['siswa' => $siswa, 'kelasSiswa' => $kelasSiswa['id']]) }}', '_blank')"
+                                        icon="folder-download" info label="Rapor Intra" />
+                                </th>
+                            </tr>
+                        @empty
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="block px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Data Tidak Ditemukan
+                                </th>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            {{-- riwayat rapor --}}
+
+            {{-- prestasi --}}
+            <div>
+                <h2 class="mb-4 text-2xl font-bold">Prestasi</h2>
+                <table class="w-full text-sm text-center text-gray-500 rtl:text-right dark:text-gray-400">
+                    <thead
+                        class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-1 py-3 w-[5%]">
+                                No
                             </th>
-                            <th scope="row" class="px-6 py-3">
-                                {{ $kelasSiswa['tahun'] }} - {{ Str::upper($kelasSiswa['semester']) }}
+                            <th scope="col" class="w-56 px-4 py-3">
+                                Prestasi
                             </th>
-                            <th scope="row" class="px-6 py-3">
-                                <x-button class="mb-3" icon="folder-download" info label="Rapor P5"
-                                    x-on:click="window.open('{{ route('cetakRaporP5', ['siswa' => $siswa, 'kelasSiswa' => $kelasSiswa['id']]) }}', '_blank')" />
-                                <x-button
-                                    x-on:click="window.open('{{ route('cetakRaporIntra', ['siswa' => $siswa, 'kelasSiswa' => $kelasSiswa['id']]) }}', '_blank')"
-                                    icon="folder-download" info label="Rapor Intra" />
+                            <th scope="col" class="w-24 px-4 py-3">
+                                Tanggal Prestasi
+                            </th>
+                            <th scope="col" class="w-48 px-4 py-3">
+                                Penyelenggara
+                            </th>
+                            <th scope="col" class="px-4 py-3 w-[10%]">
+                                Deskripsi
+                            </th>
+                            <th scope="col" class="px-4 py-3 w-[10%]">
+                                Bukti
                             </th>
                         </tr>
-                    @empty
-                        <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="block px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Data Tidak Ditemukan
-                            </th>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="w-full">
+                        @forelse($dataPrestasi as $data)
+                            <tr key="{{ $data->id }}"
+                                class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-1 py-4 w-[5%]">
+                                    {{ $dataPrestasi->firstItem() + $loop->index }}
+                                </td>
+                                <td class="px-4 py-4 w-14">
+                                    {{ $data->nama_prestasi }}
+                                </td>
+                                <td class="w-24 px-4 py-3">
+                                    {{ \Carbon\Carbon::parse($data->tgl_prestasi)->translatedFormat('d F Y') }}
+                                </td>
+                                <td class="w-48 px-4 py-3">
+                                    {{ $data->penyelenggara }}
+                                </td>
+                                <td class="w-48 px-4 py-3">
+                                    {{ $data->deskripsi }}
+                                </td>
+                                <td class="w-48 px-4 py-3">
+                                    {{ $data->bukti }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="block px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Data Tidak Ditemukan
+                                </th>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            {{-- prestasi --}}
+
         </div>
-        {{-- rombel sekolah --}}
     </div>
 
     {{-- tabel riwayat kelas & proyek --}}
