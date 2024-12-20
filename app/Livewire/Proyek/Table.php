@@ -33,7 +33,7 @@ class Table extends Component
     {
         $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
 
-        $this->selectedKelas = WaliKelas::where('tahun_ajaran_id', '=', $this->selectedTahunAjaran)
+        $this->selectedKelas = WaliKelas::where('wali_kelas.tahun_ajaran_id', '=', $this->selectedTahunAjaran)
             ->where('user_id', '=', Auth::id())
             ->join('kelas', 'wali_kelas.kelas_id', 'kelas.id')
             ->select('kelas.nama', 'kelas.id as id_kelas')
