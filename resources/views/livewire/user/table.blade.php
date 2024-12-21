@@ -51,7 +51,8 @@
                         {{ $userData->firstItem() + $loop->index }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ Str::ucfirst($data->name) }}
+                        <a class="text-blue-800 underline"
+                            href="{{ route('userDetail', ['user' => $data]) }}">{{ Str::ucfirst($data->name) }}</a>
                     </th>
                     <td class="px-4 py-4">
                         {{ $data->email }}

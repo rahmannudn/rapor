@@ -108,6 +108,8 @@ use App\Livewire\TujuanPembelajaran\Create as TujuanPembelajaranCreate;
 
 use App\Livewire\LaporanSumatifPerkelas\Index as LaporanSumatifPerkelas;
 
+use App\Livewire\User\Detail as UserDetail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -304,14 +306,20 @@ Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController:
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas_pdf')->lazy();
 
-Route::get('/siswa/detail/{siswa}', SiswaDetail::class)
-    ->middleware(['auth'])
-    ->name('detail_siswa')->lazy();
+Route::middleware(['auth'])->group(function () {
+    Route::get('/siswa/detail/{siswa}', SiswaDetail::class)
+        ->name('detail_siswa')->lazy();
 
-Route::get('/user', UserIndex::class)
-    ->middleware(['auth'])
-    ->name('userIndex')
-    ->lazy();
+    Route::name('user')->prefix('user')->group(function () {
+        Route::get('/', UserIndex::class)
+            ->name('Index')
+            ->lazy();
+
+        Route::get('/detail/{user}', UserDetail::class)
+            ->name('Detail')
+            ->lazy();
+    });
+});
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
