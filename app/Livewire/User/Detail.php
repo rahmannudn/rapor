@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\GuruMapel;
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Gate;
 
 class Detail extends Component
@@ -22,7 +23,6 @@ class Detail extends Component
     {
         if ($this->user['role'] == 'guru') {
             $this->riwayatMapel = $this->getRiwayatMapel();
-            dump($this->riwayatMapel);
         }
     }
 
@@ -31,7 +31,10 @@ class Detail extends Component
         $dataMapel = GuruMapel::where('guru_mapel.user_id', $this->user['id'])
             ->join('tahun_ajaran', 'tahun_ajaran.id', 'guru_mapel.tahun_ajaran_id')
             ->join('detail_guru_mapel', 'detail_guru_mapel.guru_mapel_id', 'guru_mapel.id')
-            ->join('kelas', 'kelas.id', 'detail_guru_mapel.kelas_id')
+            ->join('kelas', function (JoinClause $q) {
+                $q->on('kelas.id', '=', 'detail_guru_mapel.kelas_id')
+                    ->on('kelas.tahun_ajaran_id', '=', 'tahun_ajaran.id');
+            })
             ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
             ->select(
                 'mapel.nama_mapel',
@@ -42,7 +45,10 @@ class Detail extends Component
                 'kelas.nama as nama_kelas',
                 'kelas.id as kelas_id'
             )
-            ->get()->toArray();
+            ->orderBy('kelas.nama')
+            ->orderBy('tahun_ajaran.id')
+            ->get()
+            ->toArray();
 
         return $this->formatDataMapel($dataMapel);
     }
