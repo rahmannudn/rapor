@@ -64,7 +64,8 @@ class Detail extends Component
                 ->get()
                 ->toArray();
         }
-        if (Gate::allows('isWaliKelas')) {
+
+        if (Gate::allows('isGuru')) {
             $proyekData = KelasSiswa::where('kelas_siswa.siswa_id', $this->siswa['id'])
                 ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
                 ->join('wali_kelas', function (JoinClause $q) {
