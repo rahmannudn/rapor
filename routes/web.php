@@ -77,6 +77,7 @@ use App\Livewire\TahunAjaran\Edit as TahunAjaranEdit;
 use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
 use App\Http\Controllers\NilaiSumatifPerkelasPDFController;
+use App\Http\Controllers\LaporanEkskulExportPDF;
 use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
 use App\Livewire\MateriMapel\Index as MateriMapelIndex;
 use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
@@ -319,6 +320,9 @@ Route::middleware(['auth'])->group(function () {
             ->name('Detail')
             ->lazy();
     });
+
+    Route::get('/laporan_export_ekskul/{tahunAjaran}/{kelas?}', LaporanEkskulExportPDF::class)
+        ->name('laporan_ekskul_pdf');
 });
 
 Route::view('profile', 'profile')
