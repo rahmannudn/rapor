@@ -1,4 +1,5 @@
 <div>
+
     @section('title', "Detail {$user['name']}")
 
     {{-- blade-formatter-disable --}}
@@ -19,7 +20,7 @@
         <div class="p-4 space-y-4 text-black bg-white rounded-md">
             <h2 class="text-2xl font-bold">Biodata</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div>
+                <div class="space-y-2">
                     <p class="font-semibold">NIP</p>
                     <p>{{ $user['nip'] ?? '-' }}</p>
                     <p class="font-semibold">Nama Siswa</p>
@@ -37,7 +38,7 @@
         </div>
         {{-- biodata pengguna --}}
 
-        @can('isGuru', auth()->user())
+        @if ($user->role === 'guru')
             <div class="w-full space-y-4">
                 {{-- riwayat mapel --}}
                 <div>
@@ -99,6 +100,67 @@
                 </div>
                 {{-- riwayat mapel --}}
             </div>
-        @endcan
+        @endif
     </div>
+
+    {{-- tabel riwayat kelas & proyek --}}
+    @if ($user->role === 'guru')
+        <div class="w-full my-4">
+            <h2 class="mb-4 text-2xl font-bold">Riwayat Kelas & Proyek</h2>
+            <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+                <thead
+                    class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" rowspan="2" class="px-6 py-3">NO</th>
+                        <th scope="col" rowspan="2" class="px-6 py-3">Rombel</th>
+                        <th scope="col" rowspan="2" class="px-6 py-3">Wali Kelas</th>
+                        <th scope="col" rowspan="2" class="px-6 py-3">Tahun Ajaran</th>
+                        <th scope="col" class="px-6 py-3">Judul Proyek</th>
+                        <th scope="col" class="px-6 py-3">Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($riwayatKelasProyek as $kelas)
+                        @php
+                            $rowCount = count($kelas['proyekData'] ?? [1]);
+                        @endphp
+                        @foreach ($kelas['proyekData'] ?? [] as $index => $proyek)
+                            <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
+                                @if ($index === 0)
+                                    <th scope="row" rowspan="{{ $rowCount }}"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $loop->parent->index + 1 }}
+                                    </th>
+                                    <th scope="row" rowspan="{{ $rowCount }}"
+                                        class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $kelas['nama_kelas'] }}
+                                    </th>
+                                    <th scope="row" rowspan="{{ $rowCount }}" class="px-6 py-3">
+                                        {{ $kelas['nama_wali_kelas'] ? $kelas['nama_wali_kelas'] : 'Belum ada Wali Kelas' }}
+                                    </th>
+                                    <th scope="row" rowspan="{{ $rowCount }}"
+                                        class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
+                                        {{ $kelas['tahun'] }} - {{ Str::upper($kelas['semester']) }}
+                                    </th>
+                                @endif
+                                <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
+                                    {{ $proyek['judul_proyek'] }}</td>
+                                <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
+                                    {{ $proyek['deskripsi_proyek'] }}</td>
+                            </tr>
+                        @endforeach
+                    @empty
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <th scope="row" colspan="7"
+                                class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
+                                Data Tidak Ditemukan
+                            </th>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    @endif
+    {{-- tabel riwayat kelas & proyek --}}
 </div>
