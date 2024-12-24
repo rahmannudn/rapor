@@ -1,6 +1,9 @@
 <div>
     <p class="text-red-500 dark:bg-gray-800 dark:border-gray-700">*Kosongi kolom jika tidak mengikuti ekskul</p>
     <p class="text-gray-900 dark:bg-gray-800 dark:border-gray-700">{{ $namaKelas }}</p>
+    <x-button
+        x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $kelasId]) }}', '_blank')"
+        icon="folder-download" info label="Download PDF" />
     <div class="container">
         <table class="w-full responsive-table">
             <thead class="head-style">

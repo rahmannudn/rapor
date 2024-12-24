@@ -24,17 +24,20 @@ class Form extends Component
     public $daftarEkskul;
 
     public $eskuls;
+    public $kelasId;
 
     public function render()
     {
-        $namaKelas = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
+        $dataKelas = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.id')
             ->where('wali_kelas.user_id', Auth::id())
             ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-            ->select('kelas.nama')
-            ->first()?->nama;
+            ->select('kelas.nama', 'kelas.id as kelas_id')
+            ->first();
 
-        return view('livewire.nilai-ekskul.form', ['namaKelas' => $namaKelas]);
+        $this->kelasId = $dataKelas['kelas_id'];
+
+        return view('livewire.nilai-ekskul.form', ['namaKelas' => $dataKelas['nama']]);
     }
 
     public function mount()
