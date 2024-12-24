@@ -21,8 +21,11 @@ class LaporanEkskulExportPDF extends Controller
         $this->tahunAjaran = $tahunAjaran;
         $this->kelas = $kelas;
 
-        $ekskulSiswa = $this->getEkskulSiswa();
-        dump($ekskulSiswa);
+        $ekskulSiswa['siswaData'] = $this->getEkskulSiswa();
+        $ekskulSiswa['nama_kelas'] = $this->kelas['nama'];
+        $ekskulSiswa['tahun_ajaran'] = $this->tahunAjaran['tahun'] . " - " . $this->tahunAjaran['semester'];
+
+        return view('template-laporan-ekskul', ['data' => $ekskulSiswa]);
     }
 
     private function getEkskulSiswa()

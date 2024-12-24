@@ -8,32 +8,89 @@
         /* A4 Print Styles */
         @page {
             size: A4;
-            margin: 0cm;
+            margin: 0;
+            margin-top: 20px;
+            padding-top: 20px;
+            /* Jarak atas di setiap halaman */
+            padding-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         @media print {
             body {
-                margin: 0;
-                padding: 40px;
+                /* padding: 40px; */
+            }
+
+            .container {
+                /* padding: 1.5cm; */
+            }
+
+            thead {
+                display: table-header-group;
+            }
+
+            /* Reset margin for repeated headers */
+            thead::after {
+                margin-top: 0 !important;
+            }
+
+            /* Control page breaks */
+            tr {
+                page-break-inside: avoid;
+            }
+
+            /* Adjust spacing for subsequent pages */
+            .table-wrapper {
+                margin-top: 0;
+            }
+
+            /* Remove extra space after table on page breaks */
+            table {
+                margin-bottom: 0;
             }
         }
 
         /* General Styles */
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            line-height: 1.5;
+        }
+
+        .table-wrapper {
+            /* margin-top: 20px; */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Hindari putusnya baris di tengah */
+        tr {
+            page-break-inside: avoid;
         }
 
         .container {
             max-width: 21cm;
-            /* A4 width */
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
+            margin-top: 0;
         }
 
         .header-info {
@@ -44,69 +101,94 @@
             margin: 5px 0;
         }
 
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
+        .text-center {
             text-align: center;
         }
 
-        th {
+        thead th {
             background-color: #f2f2f2;
+            padding: 12px 8px;
+            /* Jarak dalam heading */
         }
 
-        .nama-siswa {
-            text-align: left;
+        thead {
+            margin-bottom: 10px;
+            /* Tambahkan jarak di bawah heading */
         }
 
-        .summary-row {
-            font-weight: bold;
-            background-color: #f2f2f2;
+        /* Print button styles */
+        #printButton {
+            background-color: #ff0000;
+            color: white;
+            padding: 20px;
+            border: none;
+            cursor: pointer;
+            /* margin-bottom: 20px; */
         }
 
-        .average-column {
-            background-color: #e6e6e6;
+        @media print {
+            #printButton {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <button id="printButton">Print</button>
         <h1>Laporan Ekskul</h1>
 
         <div class="header-info">
-            <p>Tahun Ajaran : </p>
-            <p>Kelas : </p>
+            <p>Tahun Ajaran : {{ $data['tahun_ajaran'] }}</p>
+            <p>Kelas : {{ $data['nama_kelas'] }}</p>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>NO</th>
-                    <th>NAMA SISWA</th>
-                    <th>KELAS</th>
-                    <th>NAMA KELAS</th>
-                    <th>NILAI KELAS</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>jajang</td>
-                    <td>2a</td>
-                    <td>Pramuka</td>
-                    <td>Baik baik sajaa</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>NAMA SISWA</th>
+                        <th>NAMA EKSKUL</th>
+                        <th>NILAI KELAS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data['siswaData'] as $index => $item)
+                        @php
+                            $ekskulData = $item['ekskulData'] ?? [];
+                            $rowCount = max(count($ekskulData), 1);
+                        @endphp
+                        @for ($i = 0; $i < $rowCount; $i++)
+                            <tr>
+                                @if ($i === 0)
+                                    <td class="text-center" rowspan="{{ $rowCount }}">{{ $index + 1 }}</td>
+                                    <td rowspan="{{ $rowCount }}">{{ $item['nama_siswa'] }}</td>
+                                @endif
+                                @if (isset($ekskulData[$i]))
+                                    <td>{{ $ekskulData[$i]['nama_ekskul'] }}</td>
+                                    <td>{{ $ekskulData[$i]['deskripsi'] }}</td>
+                                @else
+                                    <td>-</td>
+                                    <td>-</td>
+                                @endif
+                            </tr>
+                        @endfor
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <script>
+        document.getElementById("printButton").onclick = function() {
+            window.print();
+        }
+        window.onload = function() {
+            window.print();
+        };
+    </script>
 </body>
 
 </html>
