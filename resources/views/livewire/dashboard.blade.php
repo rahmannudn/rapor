@@ -2,15 +2,21 @@
     @section('title')
         Dashboard
     @endsection
-    <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 mt-5">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
+
+    @section('js')
+        <script src="{{ $siswaPertahun->cdn() }}"></script>
+
+        {{ $siswaPertahun->script() }}
+    @endsection
+    <div class="p-4 mt-5 border-2 border-gray-200 rounded-lg dark:border-gray-700">
+        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="w-full p-5 bg-white shadow-lg rounded-xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Siswa</h2>
+                        <h2 class="text-sm font-medium tracking-wide text-gray-600">Jumlah Siswa</h2>
                         <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahSiswa }}</p>
                     </div>
-                    <div class="bg-slate-600 text-white rounded-full p-2">
+                    <div class="p-2 text-white rounded-full bg-slate-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                             <path fill-rule="evenodd"
@@ -23,13 +29,13 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
+            <div class="w-full p-5 bg-white shadow-lg rounded-xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Pengguna</h2>
+                        <h2 class="text-sm font-medium tracking-wide text-gray-600">Jumlah Pengguna</h2>
                         <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahPengguna }}</p>
                     </div>
-                    <div class="bg-slate-600 text-white rounded-full p-2">
+                    <div class="p-2 text-white rounded-full bg-slate-600">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -40,13 +46,13 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
+            <div class="w-full p-5 bg-white shadow-lg rounded-xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Rombel</h2>
+                        <h2 class="text-sm font-medium tracking-wide text-gray-600">Jumlah Rombel</h2>
                         <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahRombel }}</p>
                     </div>
-                    <div class="bg-slate-600 text-white rounded-full p-2">
+                    <div class="p-2 text-white rounded-full bg-slate-600">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -57,14 +63,14 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-5 w-full">
+            <div class="w-full p-5 bg-white shadow-lg rounded-xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-sm font-medium text-gray-600 tracking-wide">Jumlah Eskul</h2>
+                        <h2 class="text-sm font-medium tracking-wide text-gray-600">Jumlah Eskul</h2>
                         <p class="mt-2 text-4xl font-extrabold text-gray-700">{{ $jumlahEkskul }}</p>
                     </div>
-                    <div class="bg-slate-600 text-white rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    <div class="p-2 text-white rounded-full bg-slate-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -74,11 +80,9 @@
             </div>
         </div>
 
-
-
-        <div class="grid grid-cols-2 gap-4 justify-between items-center">
+        <div class="grid items-center justify-between grid-cols-2 gap-4">
             {{-- data sekolah --}}
-            <div class="p-4 py-8 bg-white text-black space-y-4 rounded-md">
+            <div class="p-4 py-8 space-y-4 text-black bg-white rounded-md">
                 <h2 class="text-2xl font-bold">Data Sekolah</h2>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -166,6 +170,10 @@
                 </table>
             </div>
             {{-- rombel sekolah --}}
+        </div>
+
+        <div class="w-[50%]">
+            {!! $siswaPertahun->container() !!}
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Charts\SiswaPerTahun;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
@@ -25,12 +26,12 @@ class Dashboard extends Component
     public $kepalaSekolah;
     public $jumlahEkskul;
 
-    public function render()
+    public function render(SiswaPerTahun $chart)
     {
-        return view('livewire.dashboard');
+        return view('livewire.dashboard', ['siswaPertahun' => $chart->build()]);
     }
 
-    public function mount()
+    public function mount(SiswaPerTahun $chart)
     {
         // $isKepsekAktif = auth()->user()->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
         $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
