@@ -19,7 +19,7 @@ class KelasSiswa extends Model
 
     public function siswa()
     {
-        return $this->hasMany(Siswa::class, 'kelas_siswa_id');
+        return $this->belongsTo(Siswa::class);
     }
 
     public function waliKelas()
@@ -30,6 +30,11 @@ class KelasSiswa extends Model
     public function ekskul()
     {
         return $this->belongsTo(Ekskul::class);
+    }
+
+    public function tahunAjaran()
+    {
+        return $this->belongsTo(TahunAjaran::class);
     }
 
     public function scopeJoinSiswa($query)

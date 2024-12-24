@@ -35,6 +35,11 @@ class TahunAjaran extends Model
         return substr($data, 7);
     }
 
+    public function kelasSiswa()
+    {
+        return $this->hasMany(KelasSiswa::class);
+    }
+
     public function waliKelas()
     {
         return $this->hasMany(WaliKelas::class);

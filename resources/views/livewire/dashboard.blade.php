@@ -172,7 +172,7 @@
             {{-- rombel sekolah --}}
         </div>
 
-        <div class="w-[50%]">
+        <div class="mt-4">
             {!! $siswaPertahun->container() !!}
         </div>
     </div>
