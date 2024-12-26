@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Siswa;
 
+use App\Charts\NilaiSiswaPerSemester;
 use App\Models\Kelas;
 use App\Models\KelasSiswa;
 use App\Models\Prestasi;
@@ -29,9 +30,11 @@ class Detail extends Component
         $this->dataPrestasi = Prestasi::where('siswa_id', $this->siswa['id'])->get();
     }
 
-    public function render()
+    public function render(NilaiSiswaPerSemester $chart)
     {
-        return view('livewire.siswa.detail');
+        $chart->getNilaiSiswa($this->siswa);
+
+        return view('livewire.siswa.detail', ['nilaiSiswaPersemester' => $chart->build()]);
     }
 
     public function getRiwayatProyek()

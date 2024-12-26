@@ -1,6 +1,10 @@
 <div>
     @section('title', "Detail {$siswa['nama']}")
 
+    <script src="{{ $nilaiSiswaPersemester->cdn() }}"></script>
+
+    {{ $nilaiSiswaPersemester->script() }}
+
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
@@ -252,4 +256,7 @@
     </div>
     {{-- tabel riwayat kelas & proyek --}}
 
+    <div class="mt-4">
+        {!! $nilaiSiswaPersemester->container() !!}
+    </div>
 </div>
