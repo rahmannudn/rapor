@@ -36,7 +36,7 @@ class Edit extends Component
         $this->tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
 
         $waliKelas = WaliKelas::join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-            ->where('tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->where('user_id', auth()->id())
             ->join('users', 'wali_kelas.user_id', 'users.id')
             ->select(
