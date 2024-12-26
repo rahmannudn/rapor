@@ -35,7 +35,7 @@ use App\Livewire\Mapel\Create as MapelCreate;
 use App\Livewire\Proyek\Index as ProyekIndex;
 use App\Livewire\Sekolah\Edit as SekolahEdit;
 use App\Livewire\Siswa\Create as SiswaCreate;
-use App\Livewire\Siswa\Detail as SiswaDetail;
+use App\Livewire\SiswaDetail\Index as SiswaDetail;
 
 use App\Http\Controllers\RaporIntraController;
 use App\Livewire\Absensi\Index as AbsensiIndex;
@@ -307,9 +307,11 @@ Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController:
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas_pdf')->lazy();
 
+Route::get('/siswa/{siswa}', SiswaDetail::class)
+    ->middleware(['auth'])
+    ->name('detail_siswa')->lazy();
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/siswa/detail/{siswa}', SiswaDetail::class)
-        ->name('detail_siswa')->lazy();
 
     Route::name('user')->prefix('user')->group(function () {
         Route::get('/', UserIndex::class)
