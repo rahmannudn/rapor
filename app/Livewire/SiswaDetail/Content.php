@@ -27,11 +27,9 @@ class Content extends Component
         $this->dataPrestasi = Prestasi::where('siswa_id', $this->siswa['id'])->get();
     }
 
-    public function render(NilaiSiswaPerSemester $chart)
+    public function render()
     {
-        $chart->getNilaiSiswa($this->siswa);
-
-        return view('livewire.siswa-detail.content', ['nilaiSiswaPersemester' => $chart->build()]);
+        return view('livewire.siswa-detail.content');
     }
 
     public function getRiwayatProyek()

@@ -1,10 +1,4 @@
 <div>
-    @section('js')
-        <script src="{{ $nilaiSiswaPersemester->cdn() }}"></script>
-
-        {{ $nilaiSiswaPersemester->script() }}
-    @endsection
-
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Detail : {{ $siswa['nama'] }}</h1>
 
     <x-button href="{{ route('siswaIndex') }}" class="mb-3" icon="arrow-left" info label="Kembali" />
@@ -247,7 +241,5 @@
     </div>
     {{-- tabel riwayat kelas & proyek --}}
 
-    <div class="mt-4">
-        {!! $nilaiSiswaPersemester->container() !!}
-    </div>
+    <livewire:siswa-detail.chart-table :siswa="$siswa" />
 </div>
