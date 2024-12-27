@@ -1,4 +1,50 @@
 <div class="mt-4">
+    @php
+        // Mengolah data untuk Chart 1 (Rata-rata nilai per semester)
+        $labels = [];
+        $dataRataRata = [];
+
+        foreach ($rataRataSeluruhNilai as $semester) {
+            $labels[] = $semester['tingkat_kelas']; // Nama semester
+            $dataRataRata[] = $semester['rata_nilai']; // Rata-rata nilai
+        }
+
+        // Mengolah data untuk Chart 2 (Nilai mata pelajaran per semester)
+        $mapelLabels = [];
+        $datasetsMapel = [];
+        $mapelNames = [];
+
+        foreach ($rataRataSeluruhNilai as $semester) {
+            foreach ($semester['mapel'] as $mapel) {
+                $mapelNames[$mapel['mapel_id']] = $mapel['nama_mapel']; // Nama mata pelajaran
+            }
+        }
+
+        foreach ($mapelNames as $mapelId => $mapelName) {
+            $mapelLabels[] = $mapelName;
+            $dataset = [
+                'label' => $mapelName,
+                'data' => [],
+                'backgroundColor' => 'rgba(' . rand(50, 255) . ', ' . rand(50, 255) . ', ' . rand(50, 255) . ', 0.2)',
+                'borderColor' => 'rgba(' . rand(50, 255) . ', ' . rand(50, 255) . ', ' . rand(50, 255) . ', 1)',
+                'borderWidth' => 1,
+            ];
+
+            foreach ($rataRataSeluruhNilai as $semester) {
+                $nilaiMapel = 0;
+                foreach ($semester['mapel'] as $mapel) {
+                    if ($mapel['mapel_id'] == $mapelId) {
+                        $nilaiMapel = $mapel['rata_nilai'];
+                        break;
+                    }
+                }
+                $dataset['data'][] = $nilaiMapel; // Tambahkan nilai per semester
+            }
+
+            $datasetsMapel[] = $dataset;
+        }
+    @endphp
+
     <h2 class="mb-4 text-2xl font-bold">Grafik Perkembangan Nilai Siswa</h2>
     <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
@@ -19,56 +65,45 @@
     <div id="default-tab-content">
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="nilai-keseluruhan" role="tabpanel"
             aria-labelledby="nilai-keseluruhan-tab">
-            {{-- {!! $nilaiSiswaPersemester->container() !!} --}}
             <canvas id="nilaiPersemesterChart"></canvas>
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="nilai-permapel" role="tabpanel"
             aria-labelledby="nilai-permapel-tab">
-            {{-- {!! $nilaiSiswaPerMapel->container() !!} --}}
-            {{-- <div class="grid grid-cols-2 gap-4">
-                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                        class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>.
-                    Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-                    classes to control the content visibility and styling.</p>
-            </div> --}}
+            <!-- Chart 2 -->
+            <div class="grid grid-cols-2 gap-4">
+                @foreach ($mapelNames as $mapelId => $mapelName)
+                    <div class="p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
+                        <h3 class="text-lg font-semibold">{{ $mapelName }}</h3>
+                        <canvas id="mapelChart-{{ $mapelId }}"></canvas>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
-
-    @php
-        // Mengolah data dari $rataRataSeluruhNilai
-        $labels = [];
-        $dataRataRata = [];
-
-        foreach ($rataRataSeluruhNilai as $semester) {
-            $labels[] = $semester['tingkat_kelas']; // Nama semester
-            $dataRataRata[] = $semester['rata_nilai']; // Rata-rata nilai
-        }
-    @endphp
 
     @section('js')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const ctx = document.getElementById('nilaiPersemesterChart').getContext('2d');
-                const data = {
-                    labels: @json($labels), // Label semester
-                    datasets: [{
-                        label: 'Rata-rata Nilai per Semester',
-                        data: @json($dataRataRata), // Data rata-rata nilai
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                };
-
-                new Chart(ctx, {
-                    type: 'bar', // Gunakan tipe chart bar
-                    data: data,
+                // Chart 1: Rata-rata nilai per semester
+                const ctx1 = document.getElementById('nilaiPersemesterChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: @json($labels),
+                        datasets: [{
+                            label: 'Rata-rata Nilai per Semester',
+                            data: @json($dataRataRata),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
                     options: {
                         responsive: true,
                         plugins: {
                             legend: {
                                 display: true,
-                                position: 'top',
+                                position: 'top'
                             },
                             title: {
                                 display: true,
@@ -81,6 +116,57 @@
                             }
                         }
                     }
+                });
+
+                // Chart 2
+                const mapelData = @json($datasetsMapel); // Data per mapel
+                const labels = @json($labels); // Semester labels
+                console.log(mapelData);
+
+                mapelData.forEach((dataset, index) => {
+                    const ctx = document.getElementById(`mapelChart-${index + 1}`).getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar', // Gunakan tipe "bar" sebagai tipe dasar
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                    type: 'bar',
+                                    label: `Nilai ${dataset.label}`,
+                                    data: dataset.data,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    type: 'line', // Tambahkan garis penghubung
+                                    label: `Perkembangan ${dataset.label}`,
+                                    data: dataset.data,
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2,
+                                    fill: false, // Garis tanpa isian di bawahnya
+                                    tension: 0.3 // Membuat garis melengkung
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                },
+                                title: {
+                                    display: true,
+                                    text: `Perkembangan Nilai ${dataset.label}`
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
                 });
             });
         </script>

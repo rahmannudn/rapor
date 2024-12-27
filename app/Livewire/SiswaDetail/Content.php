@@ -194,7 +194,7 @@ class Content extends Component
             $tahunAjaranData = [
                 "kelas_siswa_id" => $kelasSiswaId,
                 "tahun_ajaran_id" => $items[0]['tahun_ajaran_id'],
-                "tingkat_kelas" => $items[0]['tingkat_kelas'] . " " . $items[0]['semester'],
+                "tingkat_kelas" => "kelas " . $items[0]['tingkat_kelas'] . " - " . $items[0]['semester'],
                 "total_nilai" => 0,
                 "jumlah_nilai" => 0,
                 "rata_nilai" => 0,
