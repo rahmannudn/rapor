@@ -91,12 +91,22 @@
                     data: {
                         labels: @json($labels),
                         datasets: [{
-                            label: 'Rata-rata Nilai per Semester',
-                            data: @json($dataRataRata),
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
+                                label: 'Rata-rata Nilai per Semester',
+                                data: @json($dataRataRata),
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                type: 'line', // Tambahkan garis penghubung
+                                label: `Perkembangan Nilai`,
+                                data: @json($dataRataRata),
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 2,
+                                fill: false, // Garis tanpa isian di bawahnya
+                                tension: 0.3 // Membuat garis melengkung
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,

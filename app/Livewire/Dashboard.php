@@ -38,7 +38,7 @@ class Dashboard extends Component
         ]);
     }
 
-    public function mount(SiswaPerTahun $chart)
+    public function mount()
     {
         // $isKepsekAktif = auth()->user()->role == 'kepsek' && Cache::get('kepsekAktif') === Auth::id();
         $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
