@@ -26,9 +26,16 @@ class Dashboard extends Component
     public $kepalaSekolah;
     public $jumlahEkskul;
 
-    public function render(SiswaPerTahun $chart)
+    public function render()
     {
-        return view('livewire.dashboard', ['siswaPertahun' => $chart->build()]);
+        $data = $this->getGrafikDataSiswa();
+
+        return view('livewire.dashboard', [
+            'data_perempuan' => $data['data_perempuan'],
+            'data_laki_laki' => $data['data_laki_laki'],
+            'dataTotal' => $data['dataTotal'],
+            'label' => $data['dataTotal'],
+        ]);
     }
 
     public function mount(SiswaPerTahun $chart)
@@ -68,5 +75,44 @@ class Dashboard extends Component
             ->first();
 
         $this->dataSekolah = Sekolah::find(1);
+    }
+
+    public function getGrafikDataSiswa()
+    {
+        // Ambil data tahun ajaran dan jumlah siswa
+        $tahunAjaranData = TahunAjaran::with(['kelasSiswa.siswa'])->get();
+
+        $labels = [];
+        $dataPerempuan = [];
+        $dataLakiLaki = [];
+        $dataTotal = [];
+
+        foreach ($tahunAjaranData as $tahunAjaran) {
+            $labels[] = $tahunAjaran->tahun . ' - ' . $tahunAjaran->semester;
+
+            // Hitung jumlah siswa berdasarkan jenis kelamin
+            $jumlahPerempuan = KelasSiswa::where('tahun_ajaran_id', $tahunAjaran->id)
+                ->whereHas('siswa', function ($query) {
+                    $query->where('jk', 'p'); // 'p' untuk perempuan
+                })
+                ->count();
+
+            $jumlahLakiLaki = KelasSiswa::where('tahun_ajaran_id', $tahunAjaran->id)
+                ->whereHas('siswa', function ($query) {
+                    $query->where('jk', 'l'); // 'l' untuk laki-laki
+                })
+                ->count();
+
+            $dataPerempuan[] = $jumlahPerempuan;
+            $dataLakiLaki[] = $jumlahLakiLaki;
+            $dataTotal[] = $jumlahPerempuan + $jumlahLakiLaki;
+        }
+
+        return [
+            'data_perempuan' => $dataPerempuan,
+            'data_laki_laki' => $dataLakiLaki,
+            'dataTotal' => $dataTotal,
+            'label' => $labels,
+        ];
     }
 }

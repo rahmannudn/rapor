@@ -3,11 +3,6 @@
         Dashboard
     @endsection
 
-    @section('js')
-        <script src="{{ $siswaPertahun->cdn() }}"></script>
-
-        {{ $siswaPertahun->script() }}
-    @endsection
     <div class="p-4 mt-5 border-2 border-gray-200 rounded-lg dark:border-gray-700">
         <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
             <div class="w-full p-5 bg-white shadow-lg rounded-xl">
@@ -173,7 +168,73 @@
         </div>
 
         <div class="mt-4">
-            {!! $siswaPertahun->container() !!}
+            <canvas id="siswaChart"></canvas>
         </div>
     </div>
+
+    @section('js')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Data dari server (Anda dapat mengganti dengan data dinamis)
+                const labels = ["2023 / 2024 - ganjil", "2023 / 2024 - genap"];
+                const dataLakiLaki = [1, 52];
+                const dataPerempuan = [0, 48];
+                const dataTotal = [1, 100];
+
+                // Konfigurasi data chart
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                            label: 'Laki-laki',
+                            data: dataLakiLaki,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                        },
+                        {
+                            label: 'Perempuan',
+                            data: dataPerempuan,
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                        },
+                        {
+                            label: 'Total Siswa',
+                            data: dataTotal,
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        }
+                    ],
+                };
+
+                // Konfigurasi chart
+                const config = {
+                    type: 'bar', // Bisa diganti dengan 'line', 'pie', dll.
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Grafik Perkembangan Siswa'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    },
+                };
+
+                // Render chart ke canvas
+                const ctx = document.getElementById('siswaChart').getContext('2d');
+                new Chart(ctx, config);
+            });
+        </script>
+    @endsection
 </div>
