@@ -1,10 +1,4 @@
 <div class="mt-4">
-    @section('js')
-        <script src="{{ $nilaiSiswaPersemester->cdn() }}"></script>
-
-        {{ $nilaiSiswaPersemester->script() }}
-    @endsection
-
     <h2 class="mb-4 text-2xl font-bold">Grafik Perkembangan Nilai Siswa</h2>
     <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
@@ -25,16 +19,70 @@
     <div id="default-tab-content">
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="nilai-keseluruhan" role="tabpanel"
             aria-labelledby="nilai-keseluruhan-tab">
-            {!! $nilaiSiswaPersemester->container() !!}
+            {{-- {!! $nilaiSiswaPersemester->container() !!} --}}
+            <canvas id="nilaiPersemesterChart"></canvas>
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="nilai-permapel" role="tabpanel"
             aria-labelledby="nilai-permapel-tab">
-            <div class="grid grid-cols-2 gap-4">
+            {{-- {!! $nilaiSiswaPerMapel->container() !!} --}}
+            {{-- <div class="grid grid-cols-2 gap-4">
                 <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
                         class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>.
                     Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
                     classes to control the content visibility and styling.</p>
-            </div>
+            </div> --}}
         </div>
     </div>
+
+    @php
+        // Mengolah data dari $rataRataSeluruhNilai
+        $labels = [];
+        $dataRataRata = [];
+
+        foreach ($rataRataSeluruhNilai as $semester) {
+            $labels[] = $semester['tingkat_kelas']; // Nama semester
+            $dataRataRata[] = $semester['rata_nilai']; // Rata-rata nilai
+        }
+    @endphp
+
+    @section('js')
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const ctx = document.getElementById('nilaiPersemesterChart').getContext('2d');
+                const data = {
+                    labels: @json($labels), // Label semester
+                    datasets: [{
+                        label: 'Rata-rata Nilai per Semester',
+                        data: @json($dataRataRata), // Data rata-rata nilai
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                };
+
+                new Chart(ctx, {
+                    type: 'bar', // Gunakan tipe chart bar
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Perbandingan Rata-rata Nilai Siswa per Semester'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    @endsection
 </div>

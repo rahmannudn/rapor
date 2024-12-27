@@ -2,6 +2,7 @@
 
 namespace App\Livewire\SiswaDetail;
 
+use App\Charts\NilaiSiswaPerMapel;
 use App\Models\Siswa;
 use Livewire\Component;
 use App\Charts\NilaiSiswaPerSemester;
@@ -13,10 +14,8 @@ class ChartTable extends Component
 
     public function mount() {}
 
-    public function render(NilaiSiswaPerSemester $chart)
+    public function render()
     {
-        $chart->getRataRataSeluruhNilai($this->rataRataSeluruhNilai);
-
-        return view('livewire.siswa-detail.chart-table', ['nilaiSiswaPersemester' => $chart->build()]);
+        return view('livewire.siswa-detail.chart-table');
     }
 }
