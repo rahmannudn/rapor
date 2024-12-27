@@ -18,11 +18,13 @@ class Content extends Component
     public $riwayatKelasSiswa;
     public $dataPrestasi;
     public $dataNilai;
+    public $rataRataSeluruhNilai;
 
     public function mount()
     {
         $this->getRiwayatProyek();
         $this->getNilaiSiswa();
+        $this->rataRataSeluruhNilai = $this->getNilaiSiswa();
 
         $this->dataPrestasi = Prestasi::where('siswa_id', $this->siswa['id'])->get();
     }
@@ -174,13 +176,14 @@ class Content extends Component
                 'nilai_sumatif_akhir.nilai_tes',
                 'nilai_sumatif_akhir.nilai_nontes',
                 'mapel.id as mapel_id',
+                'mapel.nama_mapel',
                 'tahun_ajaran.semester',
             )
             ->get()
             ->groupBy('kelas_siswa_id')
             ->toArray();
 
-        $this->dataNilai = array_values($this->formatNilaiSiswa($data));
+        return array_values($this->formatNilaiSiswa($data));
     }
 
     public function formatNilaiSiswa($data)
@@ -202,10 +205,12 @@ class Content extends Component
 
             foreach ($items as $item) {
                 $mapelId = $item['mapel_id'];
+                $namaMapel = $item['nama_mapel'];
 
                 if (!isset($groupedByMapel[$mapelId])) {
                     $groupedByMapel[$mapelId] = [
                         "mapel_id" => $mapelId,
+                        "nama_mapel" => $namaMapel,
                         "total_nilai" => 0,
                         "jumlah_nilai" => 0,
                         "nilai_tes" => null,

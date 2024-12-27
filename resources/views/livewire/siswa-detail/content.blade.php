@@ -241,5 +241,5 @@
     </div>
     {{-- tabel riwayat kelas & proyek --}}
 
-    <livewire:siswa-detail.chart-table :siswa="$siswa" />
+    <livewire:siswa-detail.chart-table :rataRataSeluruhNilai="$rataRataSeluruhNilai" />
 </div>

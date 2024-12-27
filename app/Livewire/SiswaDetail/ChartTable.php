@@ -9,10 +9,13 @@ use App\Charts\NilaiSiswaPerSemester;
 class ChartTable extends Component
 {
     public Siswa $siswa;
+    public array $rataRataSeluruhNilai;
+
+    public function mount() {}
 
     public function render(NilaiSiswaPerSemester $chart)
     {
-        $chart->getNilaiSiswa($this->siswa);
+        $chart->getRataRataSeluruhNilai($this->rataRataSeluruhNilai);
 
         return view('livewire.siswa-detail.chart-table', ['nilaiSiswaPersemester' => $chart->build()]);
     }
