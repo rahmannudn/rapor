@@ -23,7 +23,7 @@ class NilaiSiswaPerSemester
         $series = array_map(fn($item) => $item['rata_nilai'], $this->dataNilai);
 
         return $this->chart->barChart()
-            ->setTitle('Grafik Perkembangan Nilai Siswa')
+            ->setTitle('Rata-rata Nilai Persemester')
             ->setXAxis($labels)
             ->setDataset([
                 [
@@ -59,6 +59,7 @@ class NilaiSiswaPerSemester
                 'nilai_sumatif_akhir.nilai_tes',
                 'nilai_sumatif_akhir.nilai_nontes',
                 'mapel.id as mapel_id',
+                'mapel.nama_mapel',
                 'tahun_ajaran.semester',
             )
             ->get()
@@ -87,10 +88,12 @@ class NilaiSiswaPerSemester
 
             foreach ($items as $item) {
                 $mapelId = $item['mapel_id'];
+                $namaMapel = $item['nama_mapel'];
 
                 if (!isset($groupedByMapel[$mapelId])) {
                     $groupedByMapel[$mapelId] = [
                         "mapel_id" => $mapelId,
+                        "nama_mapel" => $namaMapel,
                         "total_nilai" => 0,
                         "jumlah_nilai" => 0,
                         "nilai_tes" => null,
