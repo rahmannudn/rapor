@@ -12,11 +12,13 @@ use App\Models\WaliKelas;
 use App\Models\Sekolah;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class RaporP5Controller extends Controller
@@ -36,12 +38,44 @@ class RaporP5Controller extends Controller
     public function cetak(Siswa $siswa, $kelasSiswa)
     {
         try {
-            $waliKelas = WaliKelas::where('tahun_ajaran_id', $this->tahunAjaranAktif)
-                ->where('user_id', Auth::id())
-                ->select('id', 'user_id')
-                ->first();
+            // $waliKelas = WaliKelas::where('tahun_ajaran_id', $this->tahunAjaranAktif)
+            //     ->where('user_id', Auth::id())
+            //     ->select('id', 'user_id')
+            //     ->first();
 
-            $dataWaliKelas = User::where('id', $waliKelas['user_id'])->select('name as nama_wali', 'nip as nip_wali')->first();
+            if (Gate::allows('isWaliKelas') && empty($kelasSiswa)) {
+                $waliKelas = WaliKelas::where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+                    ->where('wali_kelas.user_id', Auth::id())
+                    ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+                    ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+                    ->join('users', 'users.id', 'wali_kelas.user_id')
+                    ->select(
+                        'wali_kelas.id',
+                        'wali_kelas.user_id',
+                        'kelas.id as kelas_id',
+                        'kelas.nama as nama_kelas',
+                        'kelas.fase',
+                        'users.name as nama_wali',
+                        'users.nip as nip_wali'
+                    )
+                    ->first();
+            }
+            if (!empty($kelasSiswa)) {
+                $waliKelas = KelasSiswa::where('kelas_siswa.id', $kelasSiswa)
+                    ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+                    ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+                    ->join('users', 'users.id', 'wali_kelas.user_id')
+                    ->select(
+                        'wali_kelas.id',
+                        'wali_kelas.user_id',
+                        'kelas.id as kelas_id',
+                        'kelas.nama as nama_kelas',
+                        'kelas.fase',
+                        'users.name as nama_wali',
+                        'users.nip as nip_wali'
+                    )
+                    ->first();
+            }
 
             $dataSekolah = Sekolah::where('id', 1)->select('nama_sekolah', 'alamat_sekolah', 'logo_sekolah')->first();
 
@@ -54,11 +88,10 @@ class RaporP5Controller extends Controller
                 ->first();
 
             $proyek = Proyek::where('proyek.wali_kelas_id', $waliKelas['id'])
-                ->join('wali_kelas', 'wali_kelas.id', 'proyek.wali_kelas_id')
-                ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-                ->join('kelas_siswa', function (JoinClause $q) {
-                    $q->on('kelas_siswa.kelas_id', '=', 'kelas.id')
-                        ->where('kelas_siswa.tahun_ajaran_id', '=', $this->tahunAjaranAktif);
+                ->join('wali_kelas', 'wali_kelas.id', '=', 'proyek.wali_kelas_id')
+                ->join('kelas_siswa', function (JoinClause $q) use ($siswa) {
+                    $q->on('kelas_siswa.kelas_id', '=', 'wali_kelas.kelas_id')
+                        ->where('kelas_siswa.siswa_id', '=', $siswa->id);
                 })
                 ->join('subproyek', 'subproyek.proyek_id', 'proyek.id')
                 ->join('capaian_fase', 'capaian_fase.id', 'subproyek.capaian_fase_id')
@@ -74,8 +107,6 @@ class RaporP5Controller extends Controller
                         ->where('catatan_proyek.siswa_id', '=', $siswa->id);
                 })
                 ->select(
-                    'kelas.nama as nama_kelas',
-                    'kelas.fase',
                     'proyek.deskripsi as proyek_deskripsi',
                     'proyek.judul_proyek',
                     'capaian_fase.deskripsi as capaian_fase_deskripsi',
@@ -88,7 +119,7 @@ class RaporP5Controller extends Controller
                 )
                 ->get()
                 ->toArray();
-            if (empty($proyek))  return redirect()->back()->with('gagal', 'Proyek tidak boleh kosong.');
+            if (empty($proyek))  return redirect()->back()->with('gagal', 'Nilai Proyek tidak boleh kosong.');
 
             $grouped_data = [];
             foreach ($proyek as $item) {
@@ -115,10 +146,10 @@ class RaporP5Controller extends Controller
             }
 
             $result['proyek'] = $grouped_data;
-            $result['nama_kelas'] = $proyek[0]['nama_kelas'] ?? null;
-            $result['fase'] = $proyek[0]['fase'] ?? null;
-            $result['nama_wali'] = $dataWaliKelas['nama_wali'];
-            $result['nip_wali'] = $dataWaliKelas['nip_wali'];
+            $result['nama_kelas'] = $waliKelas['nama_kelas'] ?? null;
+            $result['fase'] = $waliKelas['fase'] ?? null;
+            $result['nama_wali'] = $waliKelas['nama_wali'];
+            $result['nip_wali'] = $waliKelas['nip_wali'];
             $result['nama_kepsek'] = $dataKepsek['nama_kepsek'];
             $result['nip_kepsek'] = $dataKepsek['nip_kepsek'];
             $result['nama_sekolah'] = $dataSekolah['nama_sekolah'];
