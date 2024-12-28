@@ -250,6 +250,16 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::get('/nilai_proyek', NilaiSubproyekIndex::class)
         ->name('nilaiSubproyekIndex')->lazy();
 
+    Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
+
+    Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {
+        Route::get('/', NilaiEkskulIndex::class)->name('Index');
+        Route::get('/{data}/edit', NilaiEkskulEdit::class)->name('Edit');
+        Route::get('/create', NilaiEkskulCreate::class)->name('Create');
+    });
+});
+
+Route::middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])->group(function () {
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
     Route::get('/raporp5/{siswa}/{kelasSiswa?}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
@@ -260,14 +270,6 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
     Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
         ->name('cetakRaporIntra');
-
-    Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
-
-    Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {
-        Route::get('/', NilaiEkskulIndex::class)->name('Index');
-        Route::get('/{data}/edit', NilaiEkskulEdit::class)->name('Edit');
-        Route::get('/create', NilaiEkskulCreate::class)->name('Create');
-    });
 });
 
 // guru mapel
