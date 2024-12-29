@@ -20,12 +20,15 @@
                     @endif
                 </x-native-select>
             </div>
-        </div>
-
-        <div class="block md:w-80">
-            <x-input icon="search" label="Search" wire:model.live.debounce.1500ms='searchQuery' />
+            @can('isKepsek', Auth::user())
+                <div class="flex flex-row items-center md:mt-6 space-x-2">
+                    <x-button x-on:click="window.open('{{ route('laporanRiwayatWaliKelas') }}', '_blank')"
+                        icon="folder-download" info label="Riwayat Wali Kelas" />
+                </div>
+            @endcan
         </div>
     </div>
+
     {{-- table --}}
     <table class="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
         <thead class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">

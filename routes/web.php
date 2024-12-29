@@ -78,6 +78,7 @@ use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
 use App\Http\Controllers\NilaiSumatifPerkelasPDFController;
 use App\Http\Controllers\LaporanEkskulExportPDF;
+use App\Http\Controllers\RiwayatWaliKelasController;
 use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
 use App\Livewire\MateriMapel\Index as MateriMapelIndex;
 use App\Livewire\NilaiEkskul\Index as NilaiEkskulIndex;
@@ -111,6 +112,7 @@ use App\Livewire\LaporanSumatifPerkelas\Index as LaporanSumatifPerkelas;
 
 use App\Livewire\User\Detail as UserDetail;
 
+use App\Livewire\LaporanEkskul\Index as LaporanEkskulIndex;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -314,7 +316,6 @@ Route::get('/siswa/{siswa}', SiswaDetail::class)
     ->name('detail_siswa')->lazy();
 
 Route::middleware(['auth'])->group(function () {
-
     Route::name('user')->prefix('user')->group(function () {
         Route::get('/', UserIndex::class)
             ->name('Index')
@@ -327,6 +328,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/laporan_export_ekskul/{tahunAjaran}/{kelas?}', LaporanEkskulExportPDF::class)
         ->name('laporan_ekskul_pdf');
+
+    Route::get('/laporan_ekskul', LaporanEkskulIndex::class)
+        ->name('laporanEkskulIndex');
+
+    Route::get('/riwayat_wali_kelas', RiwayatWaliKelasController::class)
+        ->name('laporanRiwayatWaliKelas');
 });
 
 Route::view('profile', 'profile')
