@@ -37,6 +37,8 @@ class RiwayatGuruMapelController extends Controller
             ->toArray();
 
         $formattedData = $this->formatData($data);
+
+        return view('template-laporan-guru_mapel', ['formattedData' => $formattedData]);
     }
 
     private function formatData($data)
@@ -44,55 +46,53 @@ class RiwayatGuruMapelController extends Controller
         $result = [];
 
         foreach ($data as $item) {
-            $tahunAjaranId = $item['tahun_ajaran_id'];
-            $guruMapelId = $item['guru_mapel_id'];
-            $kelasId = $item['kelas_id'];
+            $tahunAjaranKey = $item['tahun_ajaran_id'];
+            $guruMapelKey = $item['guru_mapel_id'];
 
-            // Initialize tahun ajaran if not exists
-            if (!isset($result[$tahunAjaranId])) {
-                $result[$tahunAjaranId] = [
-                    'tahun_ajaran_id' => $tahunAjaranId,
-                    'semester' => $item['semester'],
+            // Buat grup tahun ajaran jika belum ada
+            if (!isset($result[$tahunAjaranKey])) {
+                $result[$tahunAjaranKey] = [
                     'tahun' => $item['tahun'],
+                    'semester' => $item['semester'],
                     'guru_mapel' => []
                 ];
             }
 
-            // Initialize guru mapel if not exists
-            if (!isset($result[$tahunAjaranId]['guru_mapel'][$guruMapelId])) {
-                $result[$tahunAjaranId]['guru_mapel'][$guruMapelId] = [
-                    'guru_mapel_id' => $guruMapelId,
+            // Buat grup guru mapel jika belum ada
+            if (!isset($result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey])) {
+                $result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey] = [
                     'nama_guru' => $item['nama_guru'],
                     'detail_guru_mapel' => []
                 ];
             }
 
-            // Initialize kelas if not exists
-            if (!isset($result[$tahunAjaranId]['guru_mapel'][$guruMapelId]['detail_guru_mapel'][$kelasId])) {
-                $result[$tahunAjaranId]['guru_mapel'][$guruMapelId]['detail_guru_mapel'][$kelasId] = [
-                    'kelas_id' => $kelasId,
+            // Tambahkan detail kelas dan mapel
+            $kelasKey = $item['kelas_id'];
+            if (!isset($result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey]['detail_guru_mapel'][$kelasKey])) {
+                $result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey]['detail_guru_mapel'][$kelasKey] = [
                     'nama_kelas' => $item['nama_kelas'],
                     'data_mapel' => []
                 ];
             }
 
-            // Add mapel to data_mapel if not exists
+            // Tambahkan mapel ke kelas
             $mapelExists = false;
-            foreach ($result[$tahunAjaranId]['guru_mapel'][$guruMapelId]['detail_guru_mapel'][$kelasId]['data_mapel'] as $mapel) {
+            foreach ($result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey]['detail_guru_mapel'][$kelasKey]['data_mapel'] as $mapel) {
                 if ($mapel['mapel_id'] == $item['mapel_id']) {
                     $mapelExists = true;
                     break;
                 }
             }
+
             if (!$mapelExists) {
-                $result[$tahunAjaranId]['guru_mapel'][$guruMapelId]['detail_guru_mapel'][$kelasId]['data_mapel'][] = [
+                $result[$tahunAjaranKey]['guru_mapel'][$guruMapelKey]['detail_guru_mapel'][$kelasKey]['data_mapel'][] = [
                     'mapel_id' => $item['mapel_id'],
                     'nama_mapel' => $item['nama_mapel']
                 ];
             }
         }
 
-        // Convert associative arrays to indexed arrays
+        // Ubah grup guru mapel menjadi indexed array untuk mempermudah di view
         foreach ($result as &$tahunAjaran) {
             $tahunAjaran['guru_mapel'] = array_values($tahunAjaran['guru_mapel']);
             foreach ($tahunAjaran['guru_mapel'] as &$guruMapel) {
