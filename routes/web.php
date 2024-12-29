@@ -78,6 +78,8 @@ use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
 use App\Http\Controllers\NilaiSumatifPerkelasPDFController;
 use App\Http\Controllers\LaporanEkskulExportPDF;
+use App\Http\Controllers\RiwayatGuruMapel;
+use App\Http\Controllers\RiwayatGuruMapelController;
 use App\Http\Controllers\RiwayatWaliKelasController;
 use App\Livewire\CapaianFase\Index as CapaianFaseIndex;
 use App\Livewire\MateriMapel\Index as MateriMapelIndex;
@@ -334,6 +336,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/riwayat_wali_kelas', RiwayatWaliKelasController::class)
         ->name('laporanRiwayatWaliKelas');
+
+    Route::get('/riwayat_guru_mapel', RiwayatGuruMapelController::class)
+        ->name('laporanRiwayatGuruMapel');
 });
 
 Route::view('profile', 'profile')

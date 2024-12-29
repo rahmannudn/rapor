@@ -25,6 +25,10 @@
                     <x-button x-on:click="window.open('{{ route('laporanRiwayatWaliKelas') }}', '_blank')"
                         icon="folder-download" info label="Riwayat Wali Kelas" />
                 </div>
+                <div class="flex flex-row items-center md:mt-6 space-x-2">
+                    <x-button x-on:click="window.open('{{ route('laporanRiwayatGuruMapel') }}', '_blank')"
+                        icon="folder-download" info label="Riwayat Guru Mapel" />
+                </div>
             @endcan
         </div>
     </div>
