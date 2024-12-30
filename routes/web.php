@@ -236,7 +236,6 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
 Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::name('proyek')->prefix('proyek')->group(function () {
-        Route::get('/', ProyekIndex::class)->name('Index')->lazy();
         Route::get('/create', ProyekCreate::class)->name('Create');
         Route::get('/{proyek}/edit', ProyekEdit::class)->name('Edit')->middleware('check_proyek_permission');
     });
@@ -339,6 +338,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/riwayat_guru_mapel', RiwayatGuruMapelController::class)
         ->name('laporanRiwayatGuruMapel');
+
+    Route::get('/', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
 });
 
 Route::view('profile', 'profile')
