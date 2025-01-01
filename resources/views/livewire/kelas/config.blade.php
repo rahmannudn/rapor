@@ -1,7 +1,8 @@
 <div class="w-full p-4 space-y-4 bg-white border-b border-gray-200 rounded-md dark:bg-gray-800 dark:border-gray-700">
-    @section('title')
+    <x-slot:title>
         Atur Rombel
-    @endsection
+    </x-slot>
+
     <x-button href="{{ route('kelasIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
 
     {{-- blade-formatter-disable --}}

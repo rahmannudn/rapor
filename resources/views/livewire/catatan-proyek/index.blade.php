@@ -1,7 +1,8 @@
 <div>
-    @section('title')
+    <x-slot:title>
         Catatan Proyek
-    @endsection
+    </x-slot>
+
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

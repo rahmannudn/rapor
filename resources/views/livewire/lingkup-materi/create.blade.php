@@ -1,8 +1,7 @@
 <div class="w-full p-4 space-y-4 bg-white border-b border-gray-200 rounded-md dark:bg-gray-800 dark:border-gray-700">
-    @section('title')
+    <x-slot:title>
         Tambah Lingkup Materi
-    @endsection
-
+    </x-slot:title>
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

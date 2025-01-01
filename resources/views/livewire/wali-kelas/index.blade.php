@@ -1,8 +1,7 @@
 <div x-on:set-wali="$wire.selectedWali = $event.detail">
-    @section('title')
+    <x-slot:title>
         Wali Kelas
-    @endsection
-    {{-- blade-formatter-disable --}}
+    </x-slot:title> {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
     @endif

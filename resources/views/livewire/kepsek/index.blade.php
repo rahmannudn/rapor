@@ -1,8 +1,7 @@
 <div x-on:set-kepsek="$wire.selectedKepsek = $event.detail">
-    @section('title')
+    <x-slot:title>
         Kepsek
-    @endsection
-    {{-- blade-formatter-disable --}}
+    </x-slot:title> {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
     @endif

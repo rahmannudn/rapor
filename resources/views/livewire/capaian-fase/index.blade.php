@@ -1,7 +1,8 @@
 <div x-on:set-capaianfase="$wire.selectedCapaianFase = $event.detail">
-    @section('title')
+    <x-slot:title>
         Capaian Fase
-    @endsection
+    </x-slot>
+
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

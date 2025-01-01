@@ -1,8 +1,7 @@
 <div x-on:set-siswa="$wire.selectedSiswa = $event.detail">
-    @section('title')
+    <x-slot:title>
         Daftar Siswa
-    @endsection
-
+    </x-slot:title>
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

@@ -1,7 +1,8 @@
 <div x-on:set-dimensi="$wire.selectedDimensi = $event.detail">
-    @section('title')
+    <x-slot:title>
         Dimensi
-    @endsection
+    </x-slot>
+
     {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>

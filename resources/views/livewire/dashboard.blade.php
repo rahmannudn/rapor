@@ -1,7 +1,7 @@
 <div>
-    @section('title')
+    <x-slot:title>
         Dashboard
-    @endsection
+    </x-slot>
 
     <div class="p-4 mt-5 border-2 border-gray-200 rounded-lg dark:border-gray-700">
         <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">

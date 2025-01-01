@@ -1,8 +1,7 @@
 <div>
-    @section('title')
+    <x-slot:title>
         Subproyek
-    @endsection
-
+    </x-slot:title>
     <x-button href="{{ route('proyekIndex') }}" wire:navigate class="mb-1" icon="arrow-left" info label="Kembali" />
 
     {{-- blade-formatter-disable --}}

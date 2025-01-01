@@ -20,8 +20,10 @@
                 </x-native-select>
             </div>
 
-            <x-button class="mt-6" primary icon="folder-download" label="Download Excel"
-                x-on:click="$wire.exportExcel" />
+            @can('isWaliKelas', auth()->user())
+                <x-button class="mt-6" primary icon="folder-download" label="Download Excel"
+                    x-on:click="$wire.exportExcel" />
+            @endcan
 
             {{-- @can('isKepsek', Auth::id())
                 <div class="max-w-44">
@@ -54,24 +56,22 @@
                     <th scope="col" class="px-4 py-3 ">
                         Deskripsi
                     </th>
-                    {{-- @can('isKepsek', Auth::id())
+                    @can('isKepsek', Auth::id())
                         <th scope="col" class="px-4 py-3 ">
                             Nama Guru
                         </th>
-                        <th scope="col" class="px-4 py-3 ">
-                            Kelas
-                        </th>
-                    @endcan --}}
-
+                    @endcan
                     <th scope="col" class="px-4 py-3 ">
                         Kelas
                     </th>
                     <th scope="col" class="px-4 py-3 ">
                         Tahun Ajaran
                     </th>
-                    <th scope="col" class="px-4 py-3">
-                        Action
-                    </th>
+                    @can('isGuru', auth()->user())
+                        <th scope="col" class="px-4 py-3">
+                            Action
+                        </th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -89,30 +89,30 @@
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}
                         </td>
-                        {{-- @can('isKepsek', Auth::id())
+                        @can('isKepsek', Auth::id())
                             <td scope="col" class="px-4 py-4">
                                 {{ $proyek->nama_guru }}
                             </td>
-                            <td scope="col" class="px-4 py-4">
-                                {{ $proyek->nama_kelas }}
-                            </td>
-                        @endcan --}}
+                        @endcan
                         <td scope="col" class="px-4 py-4">
                             {{ $proyek->nama_kelas }}
                         </td>
                         <th scope="col" class="px-4 py-3 ">
                             {{ $proyek->tahun }}-{{ $proyek->semester }}
                         </th>
-                        <td class="flex-col justify-center px-4 py-4 space-y-1">
-                            <x-button href="{{ route('subproyekIndex', ['proyek' => $proyek->id]) }}" wire:navigate
-                                class="mb-3" icon="cog" info label="Atur Dimensi" />
-                            <div class="flex flex-row items-center justify-center space-x-2">
-                                <x-button.circle green icon="pencil-alt"
-                                    href="{{ route('proyekEdit', ['proyek' => $proyek->id]) }}" wire:navigate />
-                                <x-button.circle negative icon="trash"
-                                    x-on:click="$dispatch('set-proyek', {{ $proyek->id }}); $openModal('deleteModal');" />
-                            </div>
-                        </td>
+                        @can('isGuru', Auth::id())
+                            <td class="flex-col justify-center px-4 py-4 space-y-1">
+                                <x-button href="{{ route('subproyekIndex', ['proyek' => $proyek->id]) }}" wire:navigate
+                                    class="mb-3" icon="cog" info label="Atur Dimensi" />
+                                <div class="flex flex-row items-center justify-center space-x-2">
+                                    <x-button.circle green icon="pencil-alt"
+                                        href="{{ route('proyekEdit', ['proyek' => $proyek->id]) }}" wire:navigate />
+                                    <x-button.circle negative icon="trash"
+                                        x-on:click="$dispatch('set-proyek', {{ $proyek->id }}); $openModal('deleteModal');" />
+                                </div>
+                            </td>
+                        @endcan
+
                     </tr>
                 @empty
                     <tr

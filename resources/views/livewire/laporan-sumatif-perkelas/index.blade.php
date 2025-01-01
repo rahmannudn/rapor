@@ -3,10 +3,9 @@
         <link rel="stylesheet" href="{{ asset('resources/css/responsive-table.css') }}">
     @endsection
 
-    @section('title')
+    <x-slot:title>
         Laporan Nilai Sumatif
-    @endsection
-    {{-- blade-formatter-disable --}}
+    </x-slot:title> {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
     @endif

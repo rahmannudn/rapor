@@ -1,7 +1,8 @@
 <div class="w-full p-4 space-y-4 bg-white border-b border-gray-200 rounded-md dark:bg-gray-800 dark:border-gray-700">
-    @section('title')
+    <x-slot:title>
         Edit Proyek
-    @endsection
+    </x-slot>
+
     {{-- blade-formatter-disable --}}
     @if (session('gagal'))
         <div x-init="$dispatch('showNotif', { title: 'Gagal', description: '{{ session('gagal') }}', icon: 'error' })"></div>

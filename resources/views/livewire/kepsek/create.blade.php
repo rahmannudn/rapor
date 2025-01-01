@@ -1,8 +1,7 @@
 <div class="w-full p-4 space-y-4 bg-white border-b border-gray-200 rounded-md dark:bg-gray-800 dark:border-gray-700">
-    @section('title')
+    <x-slot:title>
         Tambah Kepsek
-    @endsection
-
+    </x-slot:title>
     @if (session('confirmDialog'))
         <x-modal blur wire:model.defer="confirmModal" x-on:close="$wire.confirmModal = false">
             <x-card title="Yakin mengubah kepsek aktif?">

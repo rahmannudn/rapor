@@ -1,8 +1,7 @@
 {{-- <x-app-layout>
-    @section('title')
+    <x-slot:title>
         Dashboard
-    @endsection
-    <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 mt-5">
+    </x-slot:title>    <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 mt-5">
         <div class="grid grid-cols-3 gap-4 mb-4">
 
             <div class="bg-white rounded-xl shadow-lg p-5 w-96">
