@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        Rapor | @yield('title')
+        Rapor | {{ $title }}
     </title>
 
     <!-- Fonts -->
