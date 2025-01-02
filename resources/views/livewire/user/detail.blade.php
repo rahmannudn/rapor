@@ -1,6 +1,8 @@
 <div>
 
-    @section('title', "Detail {$user['name']}")
+    <x-slot:title>
+        {{ $user['name'] }}
+    </x-slot:title>
 
     {{-- blade-formatter-disable --}}
     @if (session('success'))
