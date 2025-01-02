@@ -1,7 +1,7 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     {{-- show & search --}}
     <div class="block mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
-        <div class="flex flex-row items-center space-x-2 md:w-[40%]">
+        <div class="flex flex-row items-center space-x-2 md:w-[50%]">
             <div class="block md:w-20">
                 <x-native-select label="Show" wire:model.change='show'>
                     <option value="10">10</option>
@@ -20,14 +20,14 @@
                     @endif
                 </x-native-select>
             </div>
-            @can('isKepsek', Auth::user())
-                <div class="flex flex-row items-center md:mt-6 space-x-2">
+            @can('isKepsek', Auth::id())
+                <div class="flex flex-row items-center space-x-2 md:mt-6">
                     <x-button x-on:click="window.open('{{ route('laporanRiwayatWaliKelas') }}', '_blank')"
-                        icon="folder-download" info label="Riwayat Wali Kelas" />
+                        icon="folder-download" info label="Laporan Riwayat Wali Kelas" />
                 </div>
-                <div class="flex flex-row items-center md:mt-6 space-x-2">
+                <div class="flex flex-row items-center space-x-2 md:mt-6">
                     <x-button x-on:click="window.open('{{ route('laporanRiwayatGuruMapel') }}', '_blank')"
-                        icon="folder-download" info label="Riwayat Guru Mapel" />
+                        icon="folder-download" info label="Laporan Riwayat Guru Mapel" />
                 </div>
             @endcan
         </div>

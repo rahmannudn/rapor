@@ -339,7 +339,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat_guru_mapel', RiwayatGuruMapelController::class)
         ->name('laporanRiwayatGuruMapel');
 
-    Route::get('/', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
+    Route::get('/proyek', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
 });
 
 Route::view('profile', 'profile')
