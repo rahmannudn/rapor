@@ -81,10 +81,10 @@
                         <th scope="row"
                             class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $daftarProyek->firstItem() + $loop->index }}
-
                         </th>
                         <td scope="col" class="px-4 py-4">
-                            {{ $proyek->judul_proyek }}
+                            <a class="text-blue-800 underline"
+                                href="{{ route('proyekDetail', ['proyek' => $proyek]) }}">{{ $proyek->judul_proyek }}</a>
                         </td>
                         <td scope="col" class="px-4 py-4 max-w-96">
                             {{ Str::of($proyek->deskripsi)->words('25', ' ...') }}

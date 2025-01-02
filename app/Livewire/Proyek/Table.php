@@ -72,7 +72,6 @@ class Table extends Component
             ->orderBy('proyek.created_at', 'DESC')
             ->paginate($this->show);
 
-
         return view('livewire.proyek.table', compact('daftarProyek'));
     }
 
@@ -96,7 +95,9 @@ class Table extends Component
         //     ->get();
 
         // return $excel->download(new DaftarProyekExport([$data]), 'daftar_proyek.xlsx');
-        return (new DaftarProyekExport($this->selectedTahunAjaran))->download('daftar_proyek.xlsx', Excel::XLSX);
+        if (Gate::allows('isWaliKelas')) {
+            return (new DaftarProyekExport($this->selectedTahunAjaran))->download('daftar_proyek.xlsx', Excel::XLSX);
+        }
     }
 
     public function updated($item, $data) {}

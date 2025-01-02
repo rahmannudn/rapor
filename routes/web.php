@@ -114,7 +114,10 @@ use App\Livewire\LaporanSumatifPerkelas\Index as LaporanSumatifPerkelas;
 
 use App\Livewire\User\Detail as UserDetail;
 
+use App\Livewire\Proyek\Detail as ProyekDetail;
+
 use App\Livewire\LaporanEkskul\Index as LaporanEkskulIndex;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -340,6 +343,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('laporanRiwayatGuruMapel');
 
     Route::get('/proyek', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
+    Route::get('/proyek/{proyek}', ProyekDetail::class)->name('proyekDetail')
+        ->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
 });
 
 Route::view('profile', 'profile')
