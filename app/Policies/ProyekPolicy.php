@@ -17,13 +17,16 @@ class ProyekPolicy
      */
     public function viewAny(User $user, Proyek $proyek): bool
     {
-        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
-        $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
-            ->where('user_id', $user->id)
-            ->select('id')
+        // $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        // $waliKelas = WaliKelas::where('tahun_ajaran_id', '=', $tahunAjaran)
+        //     ->where('user_id', $user->id)
+        //     ->select('id')
+        //     ->first();
+        $waliKelas = WaliKelas::where('wali_kelas.id', '=', $proyek['wali_kelas_id'])
+            ->select('wali_kelas.user_id')
             ->first();
 
-        return $proyek->wali_kelas_id == $waliKelas['id'];
+        return ($user->id == $waliKelas['user_id']) || $user->role === 'kepsek';
     }
 
     /**

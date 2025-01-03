@@ -344,7 +344,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/proyek', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
     Route::get('/proyek/{proyek}', ProyekDetail::class)->name('proyekDetail')
-        ->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
+        ->middleware(['check_permission:isKepsekOrWaliKelas', 'check_proyek_permission'])->lazy();
 });
 
 Route::view('profile', 'profile')
