@@ -17,6 +17,7 @@ class Index extends Component
 
     public function mount() {}
 
+    #[Title('Tahun Ajaran')]
     public function render()
     {
         return view('livewire.tahun-ajaran.index');

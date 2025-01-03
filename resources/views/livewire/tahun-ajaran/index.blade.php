@@ -1,7 +1,9 @@
 <div x-on:set-tahun-ajaran="$wire.selectedTahunAjaran = $event.detail">
     <x-slot:title>
         Tahun Ajaran
-    </x-slot:title> {{-- blade-formatter-disable --}}
+    </x-slot:title>
+
+    {{-- blade-formatter-disable --}}
     @if (session('success'))
         <div x-init="$dispatch('showNotif', { title: 'Berhasil', description: '{{ session('success') }}', icon: 'success' })"></div>
     @endif
