@@ -261,7 +261,6 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
     Route::get('/absensi', AbsensiIndex::class)->name('absensiIndex');
 
     Route::name('nilaiEkskul')->prefix('nilai_ekskul')->group(function () {
-        Route::get('/', NilaiEkskulIndex::class)->name('Index');
         Route::get('/{data}/edit', NilaiEkskulEdit::class)->name('Edit');
         Route::get('/create', NilaiEkskulCreate::class)->name('Create');
     });
@@ -350,6 +349,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/laporan_proyek/{tahunAjaran?}/{query?}', LaporanProyekExportPDF::class)->name('laporanProyek')
         ->middleware(['check_permission:isKepsek'])->lazy();
+
+    Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->middleware(['check_permission:isKepsekOrWaliKelas'])
+        ->name('nilaiEkskulIndex');
 });
 
 Route::view('profile', 'profile')
