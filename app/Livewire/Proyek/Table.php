@@ -102,6 +102,7 @@ class Table extends Component
 
     public function downloadLaporan()
     {
+        $data = $this->getSubproyekInfo();
         return view('template-laporan-proyek', ['data' => $this->getSubproyekInfo()]);
     }
 

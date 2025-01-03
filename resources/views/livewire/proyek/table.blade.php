@@ -19,10 +19,9 @@
                     @endforeach
                 </x-native-select>
             </div>
-
             @can('isKepsek', auth()->user())
                 <x-button class="mt-6" primary icon="folder-download" label="Download Laporan Proyek"
-                    x-on:click="$wire.downloadLaporan" />
+                    x-on:click="window.open('{{ route('laporanProyek', ['tahunAjaran' => $selectedTahunAjaran, 'query' => $searchQuery]) }}', '_blank')" />
             @endcan
 
             @can('isWaliKelas', auth()->user())

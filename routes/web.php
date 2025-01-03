@@ -78,6 +78,8 @@ use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
 use App\Http\Controllers\NilaiSumatifPerkelasPDFController;
 use App\Http\Controllers\LaporanEkskulExportPDF;
+use App\Http\Controllers\LaporanProyekExportPDF;
+use App\Http\Controllers\LaporanProyeklExportPDF;
 use App\Http\Controllers\RiwayatGuruMapel;
 use App\Http\Controllers\RiwayatGuruMapelController;
 use App\Http\Controllers\RiwayatWaliKelasController;
@@ -345,6 +347,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proyek', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
     Route::get('/proyek/{proyek}', ProyekDetail::class)->name('proyekDetail')
         ->middleware(['check_permission:isKepsekOrWaliKelas', 'check_proyek_permission'])->lazy();
+
+    Route::get('/laporan_proyek/{tahunAjaran?}/{query?}', LaporanProyekExportPDF::class)->name('laporanProyek')
+        ->middleware(['check_permission:isKepsek'])->lazy();
 });
 
 Route::view('profile', 'profile')
