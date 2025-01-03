@@ -20,6 +20,11 @@
                 </x-native-select>
             </div>
 
+            @can('isKepsek', auth()->user())
+                <x-button class="mt-6" primary icon="folder-download" label="Download Laporan Proyek"
+                    x-on:click="$wire.downloadLaporan" />
+            @endcan
+
             @can('isWaliKelas', auth()->user())
                 <x-button class="mt-6" primary icon="folder-download" label="Download Excel"
                     x-on:click="$wire.exportExcel" />
