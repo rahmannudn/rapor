@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class RaporP5Controller extends Controller
@@ -30,25 +31,23 @@ class RaporP5Controller extends Controller
         if (!empty($kelasSiswa)) {
             $this->tahunAjaranAktif = $kelasSiswa::where('id', $kelasSiswa)->first()->value('tahun_ajaran_id');
         }
-
-
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
     }
 
-    public function cetak(Siswa $siswa, $kelasSiswa)
+    public function cetak(Siswa $siswa, $kelasSiswa = null)
     {
-        try {
-            // $waliKelas = WaliKelas::where('tahun_ajaran_id', $this->tahunAjaranAktif)
-            //     ->where('user_id', Auth::id())
-            //     ->select('id', 'user_id')
-            //     ->first();
+        $isWaliKelas = Gate::allows('isWaliKelas');
+        $userId = Auth::user()->id;
 
-            if (Gate::allows('isWaliKelas') && empty($kelasSiswa)) {
-                $waliKelas = WaliKelas::where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
-                    ->where('wali_kelas.user_id', Auth::id())
-                    ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
-                    ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
-                    ->join('users', 'users.id', 'wali_kelas.user_id')
+        try {
+            $waliKelas = '';
+
+            if ($isWaliKelas && empty($kelasSiswa)) {
+                $waliKelas = Kelas::join('wali_kelas', function (JoinClause $q) use ($userId) {
+                    $q->on('wali_kelas.kelas_id', '=', 'kelas.id')
+                        ->where('wali_kelas.tahun_ajaran_id', '=', $this->tahunAjaranAktif)
+                        ->where('wali_kelas.user_id', '=', $userId);
+                })->join('users', 'users.id', 'wali_kelas.user_id')
                     ->select(
                         'wali_kelas.id',
                         'wali_kelas.user_id',
@@ -121,31 +120,9 @@ class RaporP5Controller extends Controller
                 ->toArray();
             if (empty($proyek))  return redirect()->back()->with('gagal', 'Nilai Proyek tidak boleh kosong.');
 
-            $grouped_data = [];
-            foreach ($proyek as $item) {
-                $judul_proyek = $item['judul_proyek'];
+            $formattedData = $this->formatData($proyek);
 
-                if (!isset($grouped_data[$judul_proyek])) {
-                    $grouped_data[$judul_proyek] = [
-                        'proyek_deskripsi' => $item['proyek_deskripsi'],
-                        'judul_proyek' => $judul_proyek,
-                        'catatan' => $item['catatan_proyek'],
-                        'subproyek' => []
-                    ];
-                }
-
-                $grouped_data[$judul_proyek]['subproyek'][] = [
-                    'capaian_fase_deskripsi' => $item['capaian_fase_deskripsi'],
-                    'subelemen_deskripsi' => $item['subelemen_deskripsi'],
-                    'dimensi_deskripsi' => $item['dimensi_deskripsi'],
-                    'subproyek_id' => $item['subproyek_id'],
-                    'nilai' => $item['nilai'],
-                    'nilai_subproyek_id' => $item['nilai_subproyek_id'],
-                    'catatan_proyek' => $item['catatan_proyek']
-                ];
-            }
-
-            $result['proyek'] = $grouped_data;
+            $result['proyek'] = $formattedData;
             $result['nama_kelas'] = $waliKelas['nama_kelas'] ?? null;
             $result['fase'] = $waliKelas['fase'] ?? null;
             $result['nama_wali'] = $waliKelas['nama_wali'];
@@ -164,5 +141,34 @@ class RaporP5Controller extends Controller
         } catch (Exception $e) {
             return Redirect::back()->with('gagal', $e ?? "Data tidak ditemukan");
         }
+    }
+
+    public function formatData($data)
+    {
+        $grouped_data = [];
+        foreach ($data as $item) {
+            $judul_proyek = $item['judul_proyek'];
+
+            if (!isset($grouped_data[$judul_proyek])) {
+                $grouped_data[$judul_proyek] = [
+                    'proyek_deskripsi' => $item['proyek_deskripsi'],
+                    'judul_proyek' => $judul_proyek,
+                    'catatan' => $item['catatan_proyek'],
+                    'subproyek' => []
+                ];
+            }
+
+            $grouped_data[$judul_proyek]['subproyek'][] = [
+                'capaian_fase_deskripsi' => $item['capaian_fase_deskripsi'],
+                'subelemen_deskripsi' => $item['subelemen_deskripsi'],
+                'dimensi_deskripsi' => $item['dimensi_deskripsi'],
+                'subproyek_id' => $item['subproyek_id'],
+                'nilai' => $item['nilai'],
+                'nilai_subproyek_id' => $item['nilai_subproyek_id'],
+                'catatan_proyek' => $item['catatan_proyek']
+            ];
+        }
+
+        return $grouped_data;
     }
 }
