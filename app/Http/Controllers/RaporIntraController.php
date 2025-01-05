@@ -162,8 +162,10 @@ class RaporIntraController extends Controller
 
             $deskripsiTertinggi = [];
             $deskripsiTerendah = [];
+            $sumatifIds = []; // Menyimpan nilai_sumatif_id yang sudah diproses
+            $formatifIds = []; // Menyimpan nilai_formatif_id yang sudah diproses
 
-            $nilai->each(function ($mapel) use (&$sumatif, &$deskripsiTertinggi, &$deskripsiTerendah) {
+            $nilai->each(function ($mapel) use (&$sumatif, &$deskripsiTertinggi, &$deskripsiTerendah, &$sumatifIds, &$formatifIds) {
                 if (!isset($sumatifIds[$mapel['nilai_sumatif_id']])) {
                     $sumatifIds[$mapel['nilai_sumatif_id']] = true;
                     $sumatif['total_nilai'] += $mapel['nilai_sumatif'];
@@ -171,8 +173,11 @@ class RaporIntraController extends Controller
                 }
 
                 if ($mapel['tampil'] === 1) {
-                    if ($mapel['kktp'] === 1) $deskripsiTertinggi[] = $mapel['tp_deskripsi'];
-                    if ($mapel['kktp'] === 0) $deskripsiTerendah[] = $mapel['tp_deskripsi'];
+                    if (!isset($formatifIds[$mapel['nilai_formatif_id']])) {
+                        $formatifIds[$mapel['nilai_formatif_id']] = true; // Tandai nilai_formatif_id sudah diproses
+                        if ($mapel['kktp'] === 1) $deskripsiTertinggi[] = $mapel['tp_deskripsi'];
+                        if ($mapel['kktp'] === 0) $deskripsiTerendah[] = $mapel['tp_deskripsi'];
+                    }
                 }
             });
 
@@ -189,6 +194,7 @@ class RaporIntraController extends Controller
             $sumatif['rata_nilai'] = $sumatif['jumlah_sumatif'] > 0 ? $sumatif['total_nilai'] / $sumatif['jumlah_sumatif'] : 0;
             $sumatif['deskripsi_tertinggi'] = "{$namaSiswa} menunjukkan pemahaman dalam " . implode(', ', $deskripsiTertinggi) . '.';
             $sumatif['deskripsi_terendah'] = "{$namaSiswa} membutuhkan bimbingan dalam " . implode(', ', $deskripsiTerendah) . '.';
+            $sumatif['rata_nilai'] = round($sumatif['rata_nilai'], 2);
 
             return $sumatif;
         });
