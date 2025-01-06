@@ -268,7 +268,7 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
 Route::middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])->group(function () {
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
-    Route::get('/raporp5/{siswa}/{kelasSiswa?}/download', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporp5/download/{siswa}/{kelasSiswa?}', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
     Route::get('/raporintra', RaporIntraIndex::class)->name('raporIntraIndex');
 
