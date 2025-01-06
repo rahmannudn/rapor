@@ -12,6 +12,11 @@
         }
 
         @media print {
+            @page {
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+
             body {
                 margin: 0;
                 padding: 20px;
@@ -30,7 +35,7 @@
 
         .container {
             margin: 0 auto;
-            padding: 20px;
+            /* padding: 20px; */
             width: 95%;
         }
 
