@@ -7,18 +7,24 @@
     <style>
         /* A4 Print Styles */
         @page {
-            size: A4;
-            margin: 0cm;
+            size: A4 landscape;
         }
 
         @media print {
             body {
+                padding: 0 40px;
                 margin: 0;
-                padding: 40px;
             }
 
             @page {
-                size: landscape
+                size: landscape;
+                margin: 0;
+                margin-top: 30px;
+                margin-bottom: 20px;
+            }
+
+            #printButton {
+                display: none;
             }
         }
 
@@ -32,7 +38,7 @@
             max-width: 21cm;
             /* A4 width */
             margin: 0 auto;
-            padding: 20px;
+            /* padding: 20px; */
         }
 
         h1 {
@@ -83,6 +89,8 @@
 
 <body>
     <div class="container">
+        <button id="printButton" style="background: red; padding:20px; text-color:white;">Print</button>
+
         <h1>Laporan Nilai Sumatif</h1>
 
         <div class="header-info">
@@ -140,5 +148,15 @@
         </table>
     </div>
 </body>
+
+<script>
+    document.getElementById("printButton").onclick = function() {
+        window.print();
+    }
+    window.onload = function() {
+        // Tampilkan window print setelah halaman selesai dimuat
+        window.print();
+    };
+</script>
 
 </html>
