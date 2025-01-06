@@ -4,14 +4,18 @@ namespace App\Livewire\NilaiEkskul;
 
 use App\Models\Siswa;
 use App\Models\Ekskul;
+use App\Models\Kelas;
 use Livewire\Component;
 use App\Models\WaliKelas;
 use App\Models\KelasSiswa;
 use App\Models\NilaiEkskul;
+use App\Models\TahunAjaran;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class Form extends Component
 {
@@ -25,19 +29,26 @@ class Form extends Component
 
     public $eskuls;
     public $kelasId;
+    public $daftarTahunAjaran;
+    public $daftarKelas;
+    public $selectedKelas;
 
     public function render()
     {
-        $dataKelas = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
-            ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.id')
-            ->where('wali_kelas.user_id', Auth::id())
-            ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
-            ->select('kelas.nama', 'kelas.id as kelas_id')
-            ->first();
+        if (Gate::allows('isWaliKelas')) {
+            $dataKelas = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
+                ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.id')
+                ->where('wali_kelas.user_id', Auth::id())
+                ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
+                ->select('kelas.nama', 'kelas.id as kelas_id')
+                ->first();
 
-        $this->kelasId = $dataKelas['kelas_id'];
+            $this->kelasId = $dataKelas['kelas_id'];
+        }
 
-        return view('livewire.nilai-ekskul.form', ['namaKelas' => $dataKelas['nama']]);
+        $namaKelas = $dataKelas['nama'] ?? '';
+
+        return view('livewire.nilai-ekskul.form', ['namaKelas' => $namaKelas]);
     }
 
     public function mount()
@@ -54,10 +65,19 @@ class Form extends Component
             ->select('wali_kelas.user_id')
             ->first()?->user_id;
 
-        $siswaData = Siswa::join('kelas_siswa', 'kelas_siswa.siswa_id', 'siswa.id')
+        if (Gate::allows('isKepsek')) {
+            $this->daftarTahunAjaran = TahunAjaran::all(['id', 'tahun', 'semester']);
+            $this->getDaftarKelas();
+        }
+
+        $this->getSiswaData();
+    }
+
+    public function getSiswaData()
+    {
+        $query = Siswa::join('kelas_siswa', 'kelas_siswa.siswa_id', 'siswa.id')
             ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->leftJoin('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.kelas_id')
-            ->where('wali_kelas.user_id', '=', Auth::id())
             ->leftJoin('nilai_ekskul', 'nilai_ekskul.kelas_siswa_id', 'kelas_siswa.id')
             ->select(
                 'siswa.id as siswa_id',
@@ -65,13 +85,33 @@ class Form extends Component
                 'kelas_siswa.id as kelas_siswa_id',
                 'nilai_ekskul.ekskul_id',
                 'nilai_ekskul.deskripsi',
-            )
-            ->orderBy('siswa.nama', 'ASC')
-            ->get();
-
+            );
+        if (Gate::allows('isWaliKelas')) {
+            $query->where('wali_kelas.user_id', Auth::id());
+        }
+        if (Gate::allows('isKepsek')) {
+            $query->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+                ->addSelect('kelas.nama as nama_kelas');
+        }
+        if (!empty($this->selectedKelas)) {
+            $query->where('kelas_siswa.kelas_id', $this->selectedKelas);
+        }
+        $siswaData = $query->orderBy('siswa.nama', 'ASC')->get();
         $groupedDataSiswa = $siswaData->groupBy('siswa_id');
 
         $this->siswaData = $this->generateDataSiswa($groupedDataSiswa);
+    }
+
+    public function getDaftarKelas()
+    {
+        $this->daftarKelas = Kelas::where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')->select('kelas.nama', 'kelas.id')->get();
+    }
+
+    public function filterDataByTahunAjaran()
+    {
+        $this->getSiswaData();
+        $this->daftarKelas = '';
+        $this->getDaftarKelas();
     }
 
     public function update(int $dataIndex, int $ekskulIndex, $field)
@@ -131,6 +171,9 @@ class Form extends Component
                 'nama_siswa' => $siswa->first()->nama_siswa,
                 'kelas_siswa_id' => $siswa->first()->kelas_siswa_id
             ];
+            if (Gate::allows('isKepsek')) {
+                $dataSiswa['nama_kelas'] = $siswa->first()->nama_kelas;
+            }
 
             $nilaiEkskul = [];
             for ($i = 0; $i < 4; $i++) {
