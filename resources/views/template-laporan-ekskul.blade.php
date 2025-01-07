@@ -88,6 +88,7 @@
         }
 
         h1 {
+            font-size: 23px;
             text-align: center;
             margin-bottom: 30px;
             margin-top: 0;
@@ -141,7 +142,8 @@
 <body>
     <div class="container">
         <button id="printButton">Print</button>
-        <h1>Laporan Ekskul</h1>
+        @include('components.laporan-layout.header')
+        <h1>Laporan Nilai Ekskul</h1>
 
         <div class="header-info">
             <p>Tahun Ajaran : {{ $data['tahun_ajaran'] }}</p>
