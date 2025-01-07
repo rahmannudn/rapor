@@ -134,6 +134,10 @@
     </style>
 </head>
 
+@php
+    $totalKelas = count($data['daftarKelas']);
+@endphp
+
 <body>
     <div class="container">
         <button id="printButton">Print</button>
@@ -141,7 +145,9 @@
 
         <div class="header-info">
             <p>Tahun Ajaran : {{ $data['tahun_ajaran'] }}</p>
-            <p>Kelas : {{ $data['nama_kelas'] }}</p>
+            @if ($totalKelas === 1)
+                <p>Kelas : {{ $data['nama_kelas'] }}</p>
+            @endif
         </div>
 
         <div class="table-wrapper">
@@ -150,8 +156,11 @@
                     <tr>
                         <th>NO</th>
                         <th>NAMA SISWA</th>
+                        @if ($totalKelas > 1)
+                            <th>Kelas</th>
+                        @endif
                         <th>NAMA EKSKUL</th>
-                        <th>NILAI KELAS</th>
+                        <th>DESKRIPSI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,6 +174,9 @@
                                 @if ($i === 0)
                                     <td class="text-center" rowspan="{{ $rowCount }}">{{ $index + 1 }}</td>
                                     <td rowspan="{{ $rowCount }}">{{ $item['nama_siswa'] }}</td>
+                                    @if ($totalKelas > 1)
+                                        <td rowspan="{{ $rowCount }}">{{ $item['nama_kelas'] }}</td>
+                                    @endif
                                 @endif
                                 @if (isset($ekskulData[$i]))
                                     <td>{{ $ekskulData[$i]['nama_ekskul'] }}</td>

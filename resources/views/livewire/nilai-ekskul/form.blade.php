@@ -3,8 +3,8 @@
         <p class="text-red-500 dark:bg-gray-800 dark:border-gray-700">*Kosongi kolom jika tidak mengikuti ekskul</p>
         <p class="text-gray-900 dark:bg-gray-800 dark:border-gray-700">{{ $namaKelas }}</p>
     @endcan
-    @can('isKepsek', Auth::id())
-        <div class="md:flex md:items-center md:space-x-2 md:mb-4">
+    <div class="md:flex md:items-center md:space-x-2 md:mb-4">
+        @can('isKepsek', Auth::id())
             <div class="w-52">
                 <x-native-select label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
                     wire:model.defer="tahunAjaranAktif" x-on:change="$wire.filterDataByTahunAjaran">
@@ -27,11 +27,12 @@
                     @endif
                 </x-native-select>
             </div>
-        </div>
-    @endcan
-    <x-button
-        x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $kelasId]) }}', '_blank')"
-        icon="folder-download" info label="Download PDF" />
+        @endcan
+        <x-button class="md:mt-6"
+            x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $kelasId]) }}', '_blank')"
+            icon="folder-download" info label="Download Laporan Ekskul PDF" />
+    </div>
+
     <div class="container">
         <table class="w-full responsive-table">
             <thead class="head-style">

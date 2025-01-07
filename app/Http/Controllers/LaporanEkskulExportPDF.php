@@ -9,6 +9,7 @@ use App\Models\TahunAjaran;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class LaporanEkskulExportPDF extends Controller
@@ -21,20 +22,18 @@ class LaporanEkskulExportPDF extends Controller
         $this->tahunAjaran = $tahunAjaran;
         $this->kelas = $kelas;
 
-        $ekskulSiswa['siswaData'] = $this->getEkskulSiswa();
+        $data = $this->getEkskulSiswa();
+        $ekskulSiswa['siswaData'] = $data['siswaData'];
+        $ekskulSiswa['daftarKelas'] = $data['daftarKelas'];
         $ekskulSiswa['nama_kelas'] = $this->kelas['nama'];
-        $ekskulSiswa['tahun_ajaran'] = $this->tahunAjaran['tahun'] . " - " . $this->tahunAjaran['semester'];
+        $ekskulSiswa['tahun_ajaran'] = $this->tahunAjaran['tahun'] . " - " . Str::ucfirst($this->tahunAjaran['semester']);
 
         return view('template-laporan-ekskul', ['data' => $ekskulSiswa]);
     }
 
     private function getEkskulSiswa()
     {
-        $kelas = $this->kelas;
-        $ekskulSiswa = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaran['id'])
-            ->when($kelas, function (Builder $q, $kelas) {
-                $q->where('kelas_siswa.kelas_id', '=', $kelas['id']);
-            })
+        $query = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaran['id'])
             ->leftJoin('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.kelas_id')
             ->leftJoin('siswa', 'siswa.id', 'kelas_siswa.siswa_id')
             ->leftJoin('nilai_ekskul', 'nilai_ekskul.kelas_siswa_id', 'kelas_siswa.id')
@@ -46,9 +45,18 @@ class LaporanEkskulExportPDF extends Controller
                 'nilai_ekskul.ekskul_id',
                 'nilai_ekskul.deskripsi',
                 'ekskul.nama_ekskul',
-            )
-            ->orderBy('siswa.nama', 'ASC')
-            ->get();
+            );
+
+        $kelas = collect($this->kelas);
+        if ($kelas->isNotEmpty()) {
+            $query->where('kelas_siswa.kelas_id', '=', $kelas->id);
+        }
+        if ($kelas->isEmpty()) {
+            $query->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+                ->where('kelas.tahun_ajaran_id', $this->tahunAjaran['id'])
+                ->addSelect('kelas.nama as nama_kelas');
+        }
+        $ekskulSiswa = $query->orderBy('siswa.nama', 'ASC')->get();
 
         return $this->formatStudentData($ekskulSiswa);
     }
@@ -56,6 +64,8 @@ class LaporanEkskulExportPDF extends Controller
     function formatStudentData($data)
     {
         $result = [];
+        $kelas = collect($this->kelas);
+        $daftarKelas = [];
 
         foreach ($data as $item) {
             $siswaId = $item['siswa_id'];
@@ -69,17 +79,29 @@ class LaporanEkskulExportPDF extends Controller
                 ];
             }
 
+            if ($kelas->isEmpty()) {
+                $result[$siswaId]['nama_kelas'] = $item['nama_kelas'];
+
+                $kelasId = $item['kelas_id'];
+                if (!isset($daftarKelas[$kelasId])) {
+                    $daftarKelas[$kelasId] = [
+                        'kelas_id' => $kelasId,
+                        'nama_kelas' => $item['nama_kelas'],
+                    ];
+                }
+            }
+
             // Only add ekskul if it exists
             if ($item['ekskul_id'] !== null) {
                 $result[$siswaId]['ekskulData'][] = [
                     'ekskul_id' => $item['ekskul_id'],
-                    'deskripsi' => $item['deskripsi'],
-                    'nama_ekskul' => $item['nama_ekskul']
+                    'deskripsi' => Str::ucfirst($item['deskripsi']),
+                    'nama_ekskul' => Str::ucfirst($item['nama_ekskul']),
                 ];
             }
         }
 
         // Convert to indexed array
-        return array_values($result);
+        return ['siswaData' => array_values($result), 'daftarKelas' => array_values($daftarKelas)];
     }
 }
