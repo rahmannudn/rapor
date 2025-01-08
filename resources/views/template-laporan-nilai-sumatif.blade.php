@@ -1,106 +1,29 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('components.laporan-layout.layout')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Nilai Akhir {{ $result['nama_mapel'] }}</title>
-    <style>
-        /* Reset default margins and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    .info {
+        margin-bottom: 20px;
+    }
 
-        /* A4 print styles */
-        @page {
-            size: A4;
-            margin: 0;
-            padding: 40px;
-        }
+    .info-item {
+        margin-bottom: 5px;
+    }
 
-        @media print {
-            body {
-                width: 210mm;
-                height: 297mm;
-            }
-        }
+    .nama-siswa {
+        text-align: left;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 210mm;
-            margin: 0 auto;
-        }
+    .summary-row {
+        font-weight: bold;
+        background-color: #f2f2f2;
+    }
+</style>
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
+@section('title')
+    NILAI AKHIR ASESMEN SUMATIF {{ $result['nama_mapel'] }}
+@endsection
 
-        .info {
-            margin-bottom: 20px;
-        }
-
-        .info-item {
-            margin-bottom: 5px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .nama-siswa {
-            text-align: left;
-        }
-
-        .summary-row {
-            font-weight: bold;
-            background-color: #f2f2f2;
-        }
-
-        /* Print-specific styles */
-        @media print {
-            .no-print {
-                display: none;
-            }
-
-            table {
-                page-break-inside: auto;
-            }
-
-            tr {
-                page-break-inside: avoid;
-                page-break-after: auto;
-            }
-        }
-
-        @media print {
-            #printButton {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <button id="printButton" style="background: red; padding:20px; text-color:white;">Print</button>
-    <h1>NILAI AKHIR ASESMEN SUMATIF {{ $result['nama_mapel'] }}</h1>
-
+@section('content')
     <div class="info">
         <div class="info-item">TAHUN AJARAN : {{ $result['tahun'] }}/{{ Str::upper($result['semester']) }}</div>
         <div class="info-item">KELAS : {{ Str::upper($result['nama_kelas']) }}</div>
@@ -141,16 +64,4 @@
             </tr>
         </tfoot>
     </table>
-</body>
-
-<script>
-    document.getElementById("printButton").onclick = function() {
-        window.print();
-    }
-    window.onload = function() {
-        // Tampilkan window print setelah halaman selesai dimuat
-        window.print();
-    };
-</script>
-
-</html>
+@endsection
