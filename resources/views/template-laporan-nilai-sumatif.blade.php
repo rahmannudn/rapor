@@ -1,23 +1,23 @@
 @extends('components.laporan-layout.layout')
 
-<style>
+@section('css')
     .info {
-        margin-bottom: 20px;
+    margin-bottom: 20px;
     }
 
     .info-item {
-        margin-bottom: 5px;
+    margin-bottom: 5px;
     }
 
     .nama-siswa {
-        text-align: left;
+    text-align: left;
     }
 
     .summary-row {
-        font-weight: bold;
-        background-color: #f2f2f2;
+    font-weight: bold;
+    background-color: #f2f2f2;
     }
-</style>
+@endsection
 
 @section('title')
     NILAI AKHIR ASESMEN SUMATIF {{ $result['nama_mapel'] }}

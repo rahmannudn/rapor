@@ -125,6 +125,8 @@
                 margin-bottom: 0;
             }
         }
+
+        @yield('css')
     </style>
 </head>
 
