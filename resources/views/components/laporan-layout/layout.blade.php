@@ -48,7 +48,6 @@
         }
 
         .container {
-            max-width: 21cm;
             margin: 0 auto;
             padding: 0 30px;
         }
