@@ -7,16 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <style>
+        /* A4 Print Styles */
+        @page {
+            size: A4;
+            margin: 0;
+            margin-top: 20px;
+            padding-top: 20px;
+            /* Jarak atas di setiap halaman */
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
         /* General Styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            border-collapse: collapse;
         }
 
         h1 {
             font-size: 23px;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             margin-top: 0;
         }
 
@@ -38,7 +50,7 @@
         .container {
             max-width: 21cm;
             margin: 0 auto;
-            padding: 40px;
+            padding: 0 30px;
         }
 
         table {
