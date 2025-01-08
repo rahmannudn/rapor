@@ -38,7 +38,7 @@ class RiwayatGuruMapelController extends Controller
 
         $formattedData = $this->formatData($data);
 
-        return view('template-laporan-guru_mapel', ['formattedData' => $formattedData]);
+        return view('template-laporan-guru-mapel', ['formattedData' => $formattedData]);
     }
 
     private function formatData($data)
