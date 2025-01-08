@@ -2,12 +2,6 @@
     /* A4 Print Styles */
     @page {
         size: A4;
-        margin: 0;
-        margin-top: 20px;
-        padding-top: 20px;
-        /* Jarak atas di setiap halaman */
-        padding-bottom: 20px;
-        margin-bottom: 20px;
     }
 
     .table-wrapper {
