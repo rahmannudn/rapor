@@ -1,28 +1,27 @@
-<style>
+@extends('components.laporan-layout.layout')
+@section('css')
     /* A4 Print Styles */
     @page {
-        size: A4;
+    size: A4;
     }
 
     .table-wrapper {
-        /* margin-top: 20px; */
+    /* margin-top: 20px; */
     }
 
     .header-info {
-        margin-bottom: 20px;
+    margin-bottom: 20px;
     }
 
     .header-info p {
-        margin: 5px 0;
+    margin: 5px 0;
     }
-</style>
-</head>
+@endsection
 
 @php
     $totalKelas = count($data['daftarKelas']);
 @endphp
 
-@extends('components.laporan-layout.layout')
 @section('title')
     Laporan Ekskul
 @endsection

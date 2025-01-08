@@ -66,31 +66,31 @@
                     <td>{{ $index + 1 }}</td>
                     <td class="nama-siswa">{{ $student['nama_siswa'] }}</td>
                     @foreach ($student['nilai'] as $nilai)
-                        <td>{{ $nilai }}</td>
+                        <td class="text-center">{{ $nilai }}</td>
                     @endforeach
-                    <td class="average-column">{{ number_format($student['rata_rata']) }}</td>
+                    <td class="text-center average-column">{{ number_format($student['rata_rata']) }}</td>
                 </tr>
             @endforeach
             <tr class="summary-row">
                 <td colspan="2">NILAI TERTINGGI</td>
                 @foreach ($summary['tertinggi'] as $nilai)
-                    <td>{{ $nilai }}</td>
+                    <td class="text-center">{{ $nilai }}</td>
                 @endforeach
-                <td class="average-column">{{ $summary['tertinggi']->max() }}</td>
+                <td class="text-center" class="average-column">{{ $summary['tertinggi']->max() }}</td>
             </tr>
             <tr class="summary-row">
                 <td colspan="2">NILAI TERENDAH</td>
                 @foreach ($summary['terendah'] as $nilai)
-                    <td>{{ $nilai }}</td>
+                    <td class="text-center">{{ $nilai }}</td>
                 @endforeach
-                <td class="average-column">{{ $summary['terendah']->min() }}</td>
+                <td class="text-center" class="average-column">{{ $summary['terendah']->min() }}</td>
             </tr>
             <tr class="summary-row">
                 <td colspan="2">NILAI RATA-RATA</td>
                 @foreach ($summary['rata_rata'] as $nilai)
-                    <td>{{ $nilai }}</td>
+                    <td class="text-center">{{ $nilai }}</td>
                 @endforeach
-                <td class="average-column">{{ number_format($summary['rata_rata_total'], 2) }}</td>
+                <td class="text-center" class="average-column">{{ number_format($summary['rata_rata_total'], 2) }}</td>
             </tr>
         </tbody>
     </table>
