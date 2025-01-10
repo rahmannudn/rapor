@@ -29,7 +29,7 @@
             </div>
         @endcan
         <x-button class="md:mt-6"
-            x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $kelasId]) }}', '_blank')"
+            x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $selectedKelas]) }}', '_blank')"
             icon="folder-download" info label="Download Laporan Ekskul PDF" />
     </div>
 

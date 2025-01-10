@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\KelasSiswa;
+use App\Models\Kepsek;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
+use App\Models\WaliKelas;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
@@ -25,8 +27,24 @@ class LaporanEkskulExportPDF extends Controller
         $data = $this->getEkskulSiswa();
         $ekskulSiswa['siswaData'] = $data['siswaData'];
         $ekskulSiswa['daftarKelas'] = $data['daftarKelas'];
+        if (empty($data['daftarKelas']) && !empty($kelas)) $ekskulSiswa['daftarKelas'] = [
+            'nama_kelas' => $kelas['nama']
+        ];
+
         $ekskulSiswa['nama_kelas'] = $this->kelas['nama'];
         $ekskulSiswa['tahun_ajaran'] = $this->tahunAjaran['tahun'] . " - " . Str::ucfirst($this->tahunAjaran['semester']);
+        $ekskulSiswa['kepsek'] = Kepsek::where('kepsek.id', $this->tahunAjaran['kepsek_id'])
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'users.nip')
+            ->first();
+
+        if (!empty($kelas)) {
+            $ekskulSiswa['wali_kelas'] = WaliKelas::where('wali_kelas.tahun_ajaran_id', $this->tahunAjaran['id'])
+                ->where('wali_kelas.kelas_id', $kelas['id'])
+                ->join('users', 'users.id', 'wali_kelas.user_id')
+                ->select('users.name as nama_wali_kelas', 'users.nip')
+                ->first();
+        }
 
         return view('template-laporan-ekskul', ['data' => $ekskulSiswa]);
     }
@@ -49,7 +67,7 @@ class LaporanEkskulExportPDF extends Controller
 
         $kelas = collect($this->kelas);
         if ($kelas->isNotEmpty()) {
-            $query->where('kelas_siswa.kelas_id', '=', $kelas->id);
+            $query->where('kelas_siswa.kelas_id', '=', $kelas['id']);
         }
         if ($kelas->isEmpty()) {
             $query->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
@@ -85,7 +103,6 @@ class LaporanEkskulExportPDF extends Controller
                 $kelasId = $item['kelas_id'];
                 if (!isset($daftarKelas[$kelasId])) {
                     $daftarKelas[$kelasId] = [
-                        'kelas_id' => $kelasId,
                         'nama_kelas' => $item['nama_kelas'],
                     ];
                 }
