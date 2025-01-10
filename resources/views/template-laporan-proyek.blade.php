@@ -71,7 +71,7 @@
         </thead>
         <tbody>
             @php $no = 1; @endphp
-            @foreach ($data as $proyek)
+            @foreach ($data['data_proyek'] as $proyek)
                 @php $rowSpan = count($proyek['subproyek']); @endphp
                 @foreach ($proyek['subproyek'] as $index => $subproyek)
                     <tr>
@@ -95,4 +95,6 @@
             @endforeach
         </tbody>
     </table>
+
+    @include('components.laporan-layout.footer')
 @endsection

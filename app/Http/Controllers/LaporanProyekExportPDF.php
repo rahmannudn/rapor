@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proyek;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class LaporanProyekExportPDF extends Controller
 {
@@ -49,9 +50,16 @@ class LaporanProyekExportPDF extends Controller
             ->orderBy('kelas.nama')
             ->get();
 
+        $tahunAjaran = Cache::get('tahunAjaranAktif');
         $formattedData = $this->formatSubproyekData($data);
+        $data['data_proyek'] = $formattedData;
+        $data['kepsek'] = TahunAjaran::where('tahun_ajaran.id', $tahunAjaran)
+            ->join('kepsek', 'kepsek.id', 'tahun_ajaran.kepsek_id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'users.nip')
+            ->first();
 
-        return view('template-laporan-proyek', ['data' => $formattedData]);
+        return view('template-laporan-proyek', ['data' => $data]);
     }
 
     private function formatSubproyekData($data)
