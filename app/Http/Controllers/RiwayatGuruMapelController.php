@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\GuruMapel;
+use App\Models\Kepsek;
+use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class RiwayatGuruMapelController extends Controller
 {
@@ -36,9 +39,17 @@ class RiwayatGuruMapelController extends Controller
             ->get()
             ->toArray();
 
-        $formattedData = $this->formatData($data);
+        $tahunAjaran = Cache::get('tahunAjaranAktif');
 
-        return view('template-laporan-guru-mapel', ['formattedData' => $formattedData]);
+        $formattedData = $this->formatData($data);
+        $data['guru_mapel'] = $formattedData;
+        $data['kepsek'] = TahunAjaran::where('tahun_ajaran.id', $tahunAjaran)
+            ->join('kepsek', 'kepsek.id', 'tahun_ajaran.kepsek_id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'users.nip')
+            ->first();
+
+        return view('template-laporan-guru-mapel', ['data' => $data]);
     }
 
     private function formatData($data)

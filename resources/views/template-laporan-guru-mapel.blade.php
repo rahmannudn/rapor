@@ -15,7 +15,7 @@
 @extends('components.laporan-layout.layout')
 
 @section('title')
-    Laporan Nilai Sumatif
+    Laporan Riwayat Guru Mapel
 @endsection
 
 @section('content')
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             <?php $no = 1; ?>
-            @foreach ($formattedData as $tahunAjaran)
+            @foreach ($data['guru_mapel'] as $tahunAjaran)
                 @foreach ($tahunAjaran['guru_mapel'] as $guruMapel)
                     <?php
                     // Hitung rowspan guru berdasarkan jumlah mapel
@@ -69,4 +69,6 @@
             @endforeach
         </tbody>
     </table>
+
+    @include('components.laporan-layout.footer')
 @endsection
