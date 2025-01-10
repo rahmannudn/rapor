@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class RiwayatWaliKelasController extends Controller
@@ -46,7 +48,15 @@ class RiwayatWaliKelasController extends Controller
 
         $formattedData = $this->formatData($data);
 
-        return view('template-laporan-riwayat-wali', ['data' => $formattedData]);
+        $tahunAjaran = Cache::get('tahunAjaranAktif');
+        $data['data_wali_kelas'] = $formattedData;
+        $data['kepsek'] = TahunAjaran::where('tahun_ajaran.id', $tahunAjaran)
+            ->join('kepsek', 'kepsek.id', 'tahun_ajaran.kepsek_id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'users.nip')
+            ->first();
+
+        return view('template-laporan-riwayat-wali', ['data' => $data]);
     }
 
     private function formatData($data)

@@ -19,7 +19,7 @@
             @php
                 $counter = 1;
             @endphp
-            @foreach ($data as $tahunAjaran)
+            @foreach ($data['data_wali_kelas'] as $tahunAjaran)
                 @php
                     $rowCount = count($tahunAjaran['data_kelas']);
                 @endphp
@@ -39,4 +39,6 @@
             @endforeach
         </tbody>
     </table>
+
+    @include('components.laporan-layout.footer')
 @endsection
