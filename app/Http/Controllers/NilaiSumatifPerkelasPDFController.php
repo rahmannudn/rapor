@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Kepsek;
+use App\Models\WaliKelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +17,7 @@ class NilaiSumatifPerkelasPDFController extends Controller
         $kelasId = $kelas;
         $this->kelasData = Kelas::where('kelas.id', $kelasId)
             ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas.tahun_ajaran_id')
-            ->select('kelas.nama as nama_kelas', 'tahun_ajaran.tahun', 'tahun_ajaran.semester')
+            ->select('kelas.nama as nama_kelas', 'kelas.id as kelas_id', 'tahun_ajaran.kepsek_id as kepsek_id', 'tahun_ajaran.tahun', 'tahun_ajaran.semester')
             ->first()->toArray();
         if (!$this->kelasData)
             return redirect()->route('laporan_sumatif_kelas')->with('gagal', 'data tidak ditemukan');
@@ -57,12 +59,20 @@ class NilaiSumatifPerkelasPDFController extends Controller
             ];
             $summary['rata_rata_total'] = floor(collect($summary['rata_rata'])->avg());
             $kelasData = $this->kelasData;
-
+            $waliKelas = WaliKelas::where('kelas_id', $kelasData['kelas_id'])->join('users', 'users.id', 'wali_kelas.user_id')
+                ->select('users.name as nama_wali', 'users.nip')
+                ->first();
+            $kepsek = Kepsek::where('kepsek.id', $kelasData['kepsek_id'])->join('users', 'users.id', 'kepsek.user_id')
+                ->select('users.name as nama_kepsek', 'users.nip')
+                ->first();
+            $data['wali_kelas'] = $waliKelas;
+            $data['kepsek'] = $kepsek;
             return view('template-nilai-sumatif-perkelas', [
                 'processedStudents' => $processedStudents,
                 'subjects' => $subjects,
                 'summary' => $summary,
                 'kelasData' => $kelasData,
+                'data' => $data,
             ]);
         } catch (\Throwable $e) {
             Log::error('Error in generateReport: ' . $e->getMessage());

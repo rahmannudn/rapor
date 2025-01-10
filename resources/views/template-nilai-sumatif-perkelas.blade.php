@@ -94,4 +94,6 @@
             </tr>
         </tbody>
     </table>
+
+    @include('components.laporan-layout.footer')
 @endsection
