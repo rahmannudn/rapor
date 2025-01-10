@@ -32,6 +32,13 @@
     .signature-nip {
         margin-top: 2px;
     }
+
+    .signature-box.right {
+        float: right;
+        /* Menempatkan elemen ke sebelah kanan */
+        margin-right: 0;
+        /* Pastikan margin kanan menjadi nol */
+    }
 </style>
 
 @php
@@ -75,12 +82,12 @@
             </div>
         @endif
 
-        <div class="signature-box">
+        <div class="signature-box @if (empty($data['wali_kelas'])) right @endif">
             <p style="margin: 0 5px;">Mengetahui,</p>
             <p style="margin: 0 5px;">Kepala Sekolah</p>
             <p class="signature-name">{{ $data['kepsek']['nama_kepsek'] }}</p>
             <span class="signature-line"></span>
-            <p class="signature-nip">NIP.{{ $data['kepsek']['nip'] }}</p>
+            <p class="signature-nip">NIP. {{ $data['kepsek']['nip'] }}</p>
         </div>
     </div>
 </div>
