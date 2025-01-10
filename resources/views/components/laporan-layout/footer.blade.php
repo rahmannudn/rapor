@@ -11,6 +11,8 @@
         vertical-align: top;
         margin: 0 45px;
         text-align: center;
+        page-break-inside: avoid;
+        /* Mencegah tanda tangan terpotong */
     }
 
     .signature-line {
