@@ -72,4 +72,6 @@
             @endforeach
         </tbody>
     </table>
+
+    @include('components.laporan-layout.footer')
 @endsection
