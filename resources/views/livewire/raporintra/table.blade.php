@@ -52,7 +52,8 @@
                     </th>
 
                     <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $siswa->nama }}
+                        <a class="text-blue-800 underline"
+                            href="{{ route('detail_siswa', ['siswa' => $siswa->id]) }}">{{ $siswa->nama }}</a>
                     </th>
 
                     <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
