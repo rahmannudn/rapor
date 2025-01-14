@@ -50,7 +50,7 @@
     <section class="flex items-center justify-center h-screen" id="form-section">
         <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
             <h1 class="mb-6 text-2xl font-bold text-center text-blue-700">Form Rapor Anak</h1>
-            <form action="/submit-form" method="POST">
+            <div>
                 <!-- Input NISN -->
                 <div class="mb-4">
                     <label for="nisn" class="block mb-2 font-medium text-gray-700">NISN Siswa</label>
@@ -109,7 +109,7 @@
                 <button type="submit"
                     class="w-full py-2 text-white transition bg-blue-500 rounded-lg hover:bg-blue-600"
                     x-on:click='$wire.cariSiswa'>Submit</button>
-            </form>
+            </div>
         </div>
     </section>
 </div>

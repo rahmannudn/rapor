@@ -319,7 +319,7 @@ Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController:
     ->name('laporan_sumatif_kelas_pdf')->lazy();
 
 Route::get('/siswa/{siswa}', SiswaDetail::class)
-    ->middleware(['auth'])
+    ->middleware(['check_session_orang_tua'])
     ->name('detail_siswa')->lazy();
 
 Route::middleware(['auth'])->group(function () {

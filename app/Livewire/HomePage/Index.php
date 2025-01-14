@@ -11,9 +11,9 @@ use Illuminate\Validation\ValidationException;
 
 class Index extends Component
 {
-    public $nisn;
-    public $tgl_lahir;
-    public $tempat_lahir;
+    public $nisn = '';
+    public $tgl_lahir = '';
+    public $tempat_lahir = '';
 
     #[Layout('components.layouts.guest')]
     public function render()
@@ -36,6 +36,11 @@ class Index extends Component
                 'nisn' => 'required',
                 'tgl_lahir' => 'required|date|date_format:Y-m-d',
                 'tempat_lahir' => 'required',
+            ],
+            [
+                'nisn.required' => 'kolom nisn tidak boleh kosong',
+                'tgl_lahir.required' => 'kolom tanggal lahir tidak boleh kosong',
+                'tempat_lahir.required' => 'kolom tempat lahir tidak boleh kosong',
             ]
         );
 
@@ -51,6 +56,7 @@ class Index extends Component
             'authenticated_parent' => $siswa->id,
             'parent_session_expiry' => now()->addMinutes(10), // waktu kedaluwarsa 10 menit
         ]);
-        session()->flash('errorMessage', $siswa['nama']);
+
+        $this->redirectRoute('detail_siswa', ['siswa' => $siswa->id]);
     }
 }
