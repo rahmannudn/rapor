@@ -8,14 +8,14 @@
     <style>
         @page {
             size: A4;
-            margin: 0;
+            margin: 20px 0;
         }
 
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 0 40px;
         }
 
         .header {
@@ -61,24 +61,37 @@
         }
 
         .signatures {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 10px;
-        }
-
-        .signature-box {
+            width: 100%;
+            margin-top: 50px;
             text-align: center;
         }
 
-        .margin-top {
-            margin-top: 60px;
+        .signature-box {
+            width: 33%;
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 20px;
+            text-align: center;
         }
 
         .signature-line {
+            margin-top: 5px;
+            display: block;
             border-top: 1px solid black;
-            width: 200px;
-            display: inline-block;
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signature-name {
+            font-weight: bold;
+            margin-top: 100px;
+            margin-bottom: 5px;
+            /* Pindahkan ke atas garis */
+        }
+
+        .signature-nip {
+            margin-top: 2px;
         }
 
         .text-vertical {
@@ -199,7 +212,7 @@
         </tbody>
     </table>
 
-    <div class="signatures">
+    {{-- <div class="signatures">
         <div class="signature-box">
             <p>Orang Tua,</p>
             <div class="margin-top signature-line"></div>
@@ -218,6 +231,28 @@
         <div class="margin-top"></div>
         <p>{{ Str::title($results['kepsek']['nama_kepsek']) }}<br>NIP. {{ $results['kepsek']['nip_kepsek'] ?? '' }}
         </p>
+    </div> --}}
+
+    <div class="signatures">
+        <div class="signature-box">
+            <p style="margin: 0 5px;">Mengetahui,</p>
+            <p style="margin-bottom: 118px; margin-top:5px">Orang Tua</p>
+            <span class="signature-line"></span>
+        </div>
+        <div class="signature-box">
+            <p style="margin: 0 5px;">Banjarmasin, {{ $results['kepsek']['tgl_rapor'] }}</p>
+            <p style="margin: 0 5px;">Wali Kelas </p>
+            <p class="signature-name">{{ Str::title($results['tahun_ajaran']['nama_wali']) }}</p>
+            <span class="signature-line"></span>
+            <p class="signature-nip">NIP. {{ $results['tahun_ajaran']['nip_wali'] }}</p>
+        </div>
+        <div class="signature-box">
+            <p style="margin: 0 5px;">Mengetahui,</p>
+            <p style="margin: 0 5px;">Kepala Sekolah</p>
+            <p class="signature-name">{{ Str::title($results['kepsek']['nama_kepsek']) }}</p>
+            <span class="signature-line"></span>
+            <p class="signature-nip">NIP. {{ $results['kepsek']['nip_kepsek'] ?? '' }}</p>
+        </div>
     </div>
 
     <script>

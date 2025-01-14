@@ -362,7 +362,7 @@
         <div class="signatures">
             <div class="signature-box">
                 <p style="margin: 0 5px;">Mengetahui,</p>
-                <p style="margin-bottom: 135px; margin-top:5px">Orang Tua</p>
+                <p style="margin-bottom: 118px; margin-top:5px">Orang Tua</p>
                 <span class="signature-line"></span>
             </div>
             <div class="signature-box">
