@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\WaliKelas;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
 
@@ -23,13 +25,23 @@ class CheckSessionOrangTua
         }
 
         // Jika user login (admin, guru, dll.), izinkan
-        if (Auth::check() && in_array(Auth::user()->role, ['admin', 'kepsek', 'guru'])) {
+        if (Auth::check() && in_array(Auth::user()->role, ['kepsek', 'guru'])) {
+            if (Auth::user()->role == 'guru') {
+                $tahunAjaran = Cache::get('tahunAjaranAktif');
+                $waliKelas = WaliKelas::where('user_id', '=', Auth::id())->where('tahun_ajaran_id', '=', $tahunAjaran)
+                    ->get();
+                if (empty($waliKelas)) return redirect('/unauthorized')->with('error', 'Anda tidak memiliki akses ke data ini.');
+            }
             return $next($request);
         }
 
         // Cek apakah user adalah orang tua
         if (session()->has('authenticated_parent')) {
             $expiryTime = session('parent_session_expiry');
+
+            $requestedStudentObject = $request->route('siswa');
+            if ($requestedStudentObject['id'] != session('authenticated_parent'))
+                return redirect('/unauthorized')->with('error', 'Anda tidak memiliki akses ke data ini.');
 
             // Hapus session jika waktu kedaluwarsa tercapai
             if (now()->greaterThan($expiryTime)) {

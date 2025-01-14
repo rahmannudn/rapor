@@ -137,7 +137,15 @@ Route::get('/', HomePageIndex::class)->name('homePage');
 
 Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-// admin 
+// halaman yang dapat diakses orang tua
+Route::middleware(['check_session_orang_tua'])->group(function () {
+    Route::get('/siswa/{siswa}', SiswaDetail::class)
+        ->name('detail_siswa')->lazy();
+    Route::get('/raporp5/download/{siswa}/{kelasSiswa?}', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
+        ->name('cetakRaporIntra');
+});
+
 Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex')->lazy();
 
 Route::middleware(['auth', 'check_permission:isAdmin'])->group(function () {
@@ -270,15 +278,11 @@ Route::middleware(['auth', 'check_permission:isWaliKelas'])->group(function () {
 
 Route::middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])->group(function () {
     Route::get('/raporp5', RaporP5Index::class)->name('raporP5Index');
-    Route::get('/raporp5/download/{siswa}/{kelasSiswa?}', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
 
     Route::get('/raporintra', RaporIntraIndex::class)->name('raporIntraIndex');
 
     Route::get('/raporintra/{siswa}/{kelasSiswa}/sampul/download', [RaporIntraController::class, 'cetakSampul'])
         ->name('cetakSampulRapor');
-
-    Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
-        ->name('cetakRaporIntra');
 });
 
 // guru mapel
@@ -317,10 +321,6 @@ Route::get('/laporan_sumatif_kelas', LaporanSumatifPerkelas::class)
 Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController::class, 'printNilai'])
     ->middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])
     ->name('laporan_sumatif_kelas_pdf')->lazy();
-
-Route::get('/siswa/{siswa}', SiswaDetail::class)
-    ->middleware(['check_session_orang_tua'])
-    ->name('detail_siswa')->lazy();
 
 Route::middleware(['auth'])->group(function () {
     Route::name('user')->prefix('user')->group(function () {
