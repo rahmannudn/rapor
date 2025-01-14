@@ -6,6 +6,7 @@ use App\Models\Siswa;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SiswaSeeder extends Seeder
 {
@@ -31,7 +32,7 @@ class SiswaSeeder extends Seeder
                 'nisn' => $faker->unique()->numerify('##########'),
                 'nidn' => $faker->unique()->numerify('##########'),
                 'nama' => $faker->name,
-                'tempat_lahir' => $faker->city,
+                'tempat_lahir' => Str::lower($faker->city),
                 'tanggal_lahir' => $faker->date,
                 'jk' => $faker->randomElement(['l', 'p']),
                 'agama' => $faker->randomElement($agamaList),
