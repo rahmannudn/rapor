@@ -6,6 +6,8 @@ use App\Models\Siswa;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class Index extends Component
 {
@@ -21,6 +23,14 @@ class Index extends Component
 
     public function cariSiswa()
     {
+        if (RateLimiter::tooManyAttempts('submit-form:' . request()->ip(), 5)) {
+            throw ValidationException::withMessages([
+                'error' => "Terlalu banyak permintaan. Coba lagi dalam beberapa menit.",
+            ]);
+        }
+        // Tambahkan percobaan
+        RateLimiter::hit('submit-form:' . request()->ip());
+
         $validated =  $this->validate(
             [
                 'nisn' => 'required',
@@ -28,7 +38,6 @@ class Index extends Component
                 'tempat_lahir' => 'required',
             ]
         );
-
 
         $data = Siswa::where('nisn', $validated['nisn'])
             ->where('tanggal_lahir', $validated['tgl_lahir'])

@@ -133,7 +133,7 @@ use App\Livewire\HomePage\Index as HomePageIndex;
 |
 */
 
-Route::get('/', HomePageIndex::class)->name('homePage');
+Route::get('/', HomePageIndex::class)->name('homePage')->middleware('throttle:form_submission');
 
 Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
