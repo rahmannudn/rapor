@@ -22,6 +22,9 @@ new #[Layout('layouts.guest')] class extends Component {
         $this->form->authenticate();
 
         Session::regenerate();
+        if (session()->has('authenticated_parent')) {
+            session()->forget(['authenticated_parent', 'parent_session_expiry']);
+        }
 
         $this->redirect(session('url.intended', RouteServiceProvider::HOME));
     }
