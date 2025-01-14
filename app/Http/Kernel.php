@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check_permission' => \App\Http\Middleware\CheckPermission::class,
         'check_proyek_permission' => \App\Http\Middleware\CheckProyekPermission::class,
+        'check_session_orang_tua' => \App\Http\Middleware\CheckSessionOrangTua::class,
     ];
 }
