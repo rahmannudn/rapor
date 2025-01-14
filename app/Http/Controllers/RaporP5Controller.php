@@ -37,7 +37,7 @@ class RaporP5Controller extends Controller
     public function cetak(Siswa $siswa, $kelasSiswa = null)
     {
         $isWaliKelas = Gate::allows('isWaliKelas');
-        $userId = Auth::user()->id;
+        $userId = Auth::user()->id ?? '';
 
         try {
             $waliKelas = '';
