@@ -18,6 +18,8 @@
     </footer>
 
     @livewireScripts
+
+    @yield('js')
 </body>
 
 </html>
