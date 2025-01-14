@@ -39,14 +39,18 @@ class Index extends Component
             ]
         );
 
-        $data = Siswa::where('nisn', $validated['nisn'])
+        $siswa = Siswa::where('nisn', $validated['nisn'])
             ->where('tanggal_lahir', $validated['tgl_lahir'])
             ->where('tempat_lahir', Str::lower($validated['tempat_lahir']))
             ->first();
-        if (empty($data)) {
+        if (empty($siswa)) {
             session()->flash('errorMessage', 'Data Tidak Ditemukan');
             return;
         }
-        session()->flash('errorMessage', $data['nama']);
+        session([
+            'authenticated_parent' => $siswa->id,
+            'parent_session_expiry' => now()->addMinutes(10), // waktu kedaluwarsa 10 menit
+        ]);
+        session()->flash('errorMessage', $siswa['nama']);
     }
 }

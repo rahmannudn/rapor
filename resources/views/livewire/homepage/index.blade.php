@@ -108,7 +108,7 @@
                 <!-- Submit Button -->
                 <button type="submit"
                     class="w-full py-2 text-white transition bg-blue-500 rounded-lg hover:bg-blue-600"
-                    wire:click.prevent='cariSiswa'>Submit</button>
+                    x-on:click='$wire.cariSiswa'>Submit</button>
             </form>
         </div>
     </section>
