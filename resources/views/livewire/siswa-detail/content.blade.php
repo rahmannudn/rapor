@@ -221,7 +221,9 @@
                                 </th>
                             @endif
                             <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
-                                {{ $proyek['judul_proyek'] }}</td>
+                                <a class="text-blue-800 underline"
+                                    href="{{ route('proyekDetail', ['proyek' => $proyek['proyek_id']]) }}">{{ $proyek['judul_proyek'] }}</a>
+                            </td>
                             <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
                                 {{ $proyek['deskripsi_proyek'] }}</td>
                             <td class="px-6 py-3">{{ $proyek['catatan'] ?? '-' }}</td>
