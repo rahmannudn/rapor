@@ -54,26 +54,39 @@
                 <!-- Input NISN -->
                 <div class="mb-4">
                     <label for="nisn" class="block mb-2 font-medium text-gray-700">NISN Siswa</label>
-                    <input type="text" id="nisn" name="nisn"
+                    <input type="text" id="nisn" wire:model='nisn'
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Masukkan NISN Siswa" required>
+                    @error('nisn')
+                        <p class="text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Input Tanggal Lahir -->
                 <div class="mb-4">
                     <label for="tanggal_lahir" class="block mb-2 font-medium text-gray-700">Tanggal Lahir</label>
-                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                    <input type="date" id="tanggal_lahir" wire:model='tgl_lahir'
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
+                    @error('tgl_lahir')
+                        <p class="text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Input Tempat Lahir -->
                 <div class="mb-4">
                     <label for="tempat_lahir" class="block mb-2 font-medium text-gray-700">Tempat Lahir</label>
-                    <input type="text" id="tempat_lahir" name="tempat_lahir"
+                    <input type="text" id="tempat_lahir" wire:model='tempat_lahir'
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Masukkan Tempat Lahir" required>
+                    @error('tempat_lahir')
+                        <p class="text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                @if (session('errorMessage'))
+                    <p class="mb-2 text-sm text-red-500">{{ session('errorMessage') }}</p>
+                @endif
 
                 {{-- <!-- Input Nomor Telepon -->
                 <div class="mb-4">
@@ -94,7 +107,8 @@
 
                 <!-- Submit Button -->
                 <button type="submit"
-                    class="w-full py-2 text-white transition bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
+                    class="w-full py-2 text-white transition bg-blue-500 rounded-lg hover:bg-blue-600"
+                    wire:click.prevent='cariSiswa'>Submit</button>
             </form>
         </div>
     </section>
