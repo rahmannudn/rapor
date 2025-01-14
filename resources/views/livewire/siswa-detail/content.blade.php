@@ -3,7 +3,7 @@
         <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Detail : {{ $siswa['nama'] }}</h1>
 
         @if (session()->has('authenticated_parent'))
-            <x-button href="{{ route('homePage') }}" class="mb-3" icon="arrow-left" info label="Kembali" />
+            <x-button href="/#form-section" class="mb-3" icon="arrow-left" info label="Kembali" />
         @else
             <x-button href="{{ redirect()->back() }}" class="mb-3" icon="arrow-left" info label="Kembali" />
         @endif
@@ -227,8 +227,12 @@
                                     </th>
                                 @endif
                                 <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
-                                    <a class="text-blue-800 underline"
-                                        href="{{ route('proyekDetail', ['proyek' => $proyek['proyek_id']]) }}">{{ $proyek['judul_proyek'] }}</a>
+                                    @if (session()->has('authenticated_parent'))
+                                        {{ $proyek['judul_proyek'] }}
+                                    @else
+                                        <a class="text-blue-800 underline"
+                                            href="{{ route('proyekDetail', ['proyek' => $proyek['proyek_id']]) }}">{{ $proyek['judul_proyek'] }}</a>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-3 border-r dark:bg-gray-800 dark:border-gray-700">
                                     {{ $proyek['deskripsi_proyek'] }}</td>
