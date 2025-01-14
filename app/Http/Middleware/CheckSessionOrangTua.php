@@ -46,7 +46,7 @@ class CheckSessionOrangTua
             // Hapus session jika waktu kedaluwarsa tercapai
             if (now()->greaterThan($expiryTime)) {
                 session()->forget(['authenticated_parent', 'parent_session_expiry']);
-                return redirect()->route('homePage')->with('errorMessage', 'Sesi Anda telah kedaluwarsa.');
+                return redirect('/#form-section')->with('errorMessage', 'Sesi Anda telah kedaluwarsa.');
             }
             return $next($request);
         }
