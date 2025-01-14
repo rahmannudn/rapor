@@ -19,16 +19,23 @@ class CheckSessionOrangTua
     {
         // jika sesi orang tua habis maka dialihkan ke halaman home
         if (!Session::has('authenticated_parent')) {
-            return redirect()->route('homePage')->with('error', 'Sesi telah habis atau tidak valid.');
-        }
-
-        // Cek apakah user adalah orang tua
-        if (session()->has('authenticated_parent')) {
-            return $next($request);
+            return redirect()->route('homePage')->with('errorMessage', 'Sesi telah habis atau tidak valid.');
         }
 
         // Jika user login (admin, guru, dll.), izinkan
         if (Auth::check() && in_array(Auth::user()->role, ['admin', 'kepsek', 'guru'])) {
+            return $next($request);
+        }
+
+        // Cek apakah user adalah orang tua
+        if (session()->has('authenticated_parent')) {
+            $expiryTime = session('parent_session_expiry');
+
+            // Hapus session jika waktu kedaluwarsa tercapai
+            if (now()->greaterThan($expiryTime)) {
+                session()->forget(['authenticated_parent', 'parent_session_expiry']);
+                return redirect()->route('homePage')->with('errorMessage', 'Sesi Anda telah kedaluwarsa.');
+            }
             return $next($request);
         }
 

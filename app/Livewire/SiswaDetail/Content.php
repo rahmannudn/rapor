@@ -36,7 +36,7 @@ class Content extends Component
 
     public function getRiwayatProyek()
     {
-        if (Gate::allows('isKepsek')) {
+        if (Gate::allows('isKepsek') || session()->has('authenticated_parent')) {
             $proyekData = KelasSiswa::where('kelas_siswa.siswa_id', $this->siswa['id'])
                 ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
                 ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')

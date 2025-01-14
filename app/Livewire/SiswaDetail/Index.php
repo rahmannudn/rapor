@@ -17,6 +17,10 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.siswa-detail.index');
+        $layout = session()->has('authenticated_parent')
+            ? 'components.layouts.guest' // Layout untuk orang tua
+            : 'components.layouts.app'; // Layout untuk user lain
+
+        return view('livewire.siswa-detail.index')->layout($layout);
     }
 }
