@@ -120,6 +120,8 @@ use App\Livewire\Proyek\Detail as ProyekDetail;
 
 use App\Livewire\LaporanEkskul\Index as LaporanEkskulIndex;
 
+use App\Livewire\HomePage\Index as HomePageIndex;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -131,7 +133,7 @@ use App\Livewire\LaporanEkskul\Index as LaporanEkskulIndex;
 |
 */
 
-Route::view('/', 'welcome')->name('welcomePage');
+Route::get('/', HomePageIndex::class)->name('homePage');
 
 Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
