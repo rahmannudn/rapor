@@ -45,7 +45,6 @@ class LaporanSumatifPerkelasExport implements FromArray, WithStrictNullCompariso
     public function headings(): array
     {
         $heading = ['NO', "Nama Siswa"];
-        dump($this->dataSiswa[0]);
         if (!empty($this->dataSiswa[0]))
             foreach ($this->dataSiswa[0]['mapel'] as $mapel) {
                 array_push($heading, $mapel['nama_mapel']);

@@ -19,11 +19,6 @@ class CheckSessionOrangTua
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // jika sesi orang tua habis maka dialihkan ke halaman home
-        if (!Session::has('authenticated_parent')) {
-            return redirect()->route('homePage')->with('errorMessage', 'Sesi telah habis atau tidak valid.');
-        }
-
         // Jika user login (admin, guru, dll.), izinkan
         if (Auth::check() && in_array(Auth::user()->role, ['kepsek', 'guru'])) {
             if (Auth::user()->role == 'guru') {
@@ -33,6 +28,11 @@ class CheckSessionOrangTua
                 if (empty($waliKelas)) return redirect('/unauthorized')->with('error', 'Anda tidak memiliki akses ke data ini.');
             }
             return $next($request);
+        }
+
+        // jika sesi orang tua habis maka dialihkan ke halaman home
+        if (!Session::has('authenticated_parent')) {
+            return redirect()->route('homePage')->with('errorMessage', 'Sesi telah habis atau tidak valid.');
         }
 
         // Cek apakah user adalah orang tua
