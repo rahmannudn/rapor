@@ -2,6 +2,7 @@
 
 namespace App\Livewire\HomePage;
 
+use App\Helpers\FunctionHelper;
 use App\Models\Siswa;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -18,6 +19,8 @@ class Index extends Component
     #[Layout('components.layouts.guest')]
     public function render()
     {
+        $tahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        if (empty($tahunAjaran)) FunctionHelper::setCacheTahunAjaran();
         return view('livewire.homepage.index');
     }
 
