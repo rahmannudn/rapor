@@ -216,6 +216,7 @@ class Table extends Component
             $results[] = $result;
         }
 
+        $this->dataSiswa = [];
         $this->dataSiswa = $results;
         $this->getDaftarMapel();
     }
