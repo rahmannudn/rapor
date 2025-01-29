@@ -60,6 +60,6 @@ class Index extends Component
             'parent_session_expiry' => now()->addMinutes(10), // waktu kedaluwarsa 10 menit
         ]);
 
-        $this->redirectRoute('detail_siswa', ['siswa' => $siswa->id]);
+        return $this->redirectRoute('detail_siswa', ['siswa' => $siswa->id]);
     }
 }
