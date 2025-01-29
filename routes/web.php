@@ -137,15 +137,6 @@ Route::get('/', HomePageIndex::class)->name('homePage');
 
 Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-// halaman yang dapat diakses orang tua
-Route::middleware(['check_session_orang_tua'])->group(function () {
-    Route::get('/siswa/{siswa}', SiswaDetail::class)
-        ->name('detail_siswa')->lazy();
-    Route::get('/raporp5/download/{siswa}/{kelasSiswa?}', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
-    Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
-        ->name('cetakRaporIntra');
-});
-
 Route::get('/siswa', SiswaIndex::class)->middleware(['auth'])->name('siswaIndex')->lazy();
 
 Route::middleware(['auth', 'check_permission:isAdmin'])->group(function () {
@@ -354,6 +345,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->middleware(['check_permission:isKepsekOrWaliKelas'])
         ->name('nilaiEkskulIndex');
+});
+
+// halaman yang dapat diakses orang tua
+Route::middleware(['check_session_orang_tua'])->group(function () {
+    Route::get('/siswa_detail/{siswa}', SiswaDetail::class)
+        ->name('detail_siswa')->lazy();
+    Route::get('/raporp5/download/{siswa}/{kelasSiswa?}', [RaporP5Controller::class, 'cetak'])->name('cetakRaporP5');
+    Route::get('/raporintra/{siswa}/{kelasSiswa}/rapor/download', [RaporIntraController::class, 'cetakRapor'])
+        ->name('cetakRaporIntra');
 });
 
 Route::view('profile', 'profile')
