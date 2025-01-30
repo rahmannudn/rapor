@@ -314,13 +314,13 @@ Route::get('/laporan_sumatif_kelas/{kelas}', [NilaiSumatifPerkelasPDFController:
     ->name('laporan_sumatif_kelas_pdf')->lazy();
 
 Route::middleware(['auth'])->group(function () {
-    Route::name('user')->prefix('user')->group(function () {
+    Route::name('user.')->prefix('user')->group(function () {
         Route::get('/', UserIndex::class)
-            ->name('Index')
+            ->name('index')
             ->lazy();
 
         Route::get('/detail/{user}', UserDetail::class)
-            ->name('Detail')
+            ->name('detail')
             ->lazy();
     });
 

@@ -68,6 +68,6 @@ class Edit extends Component
         }
 
         session()->flash('success', 'Data Berhasil Diubah');
-        $this->redirectRoute('userIndex');
+        $this->redirectRoute('user.index');
     }
 }

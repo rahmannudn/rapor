@@ -52,7 +52,7 @@
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <a class="text-blue-800 underline"
-                            href="{{ route('userDetail', ['user' => $data]) }}">{{ Str::ucfirst($data->name) }}</a>
+                            href="{{ route('user.detail', ['user' => $data]) }}">{{ Str::ucfirst($data->name) }}</a>
                     </th>
                     <td class="px-4 py-4">
                         {{ $data->email }}

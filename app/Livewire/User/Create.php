@@ -43,6 +43,6 @@ class Create extends Component
         );
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
-        $this->redirectRoute('userIndex');
+        $this->redirectRoute('user.index');
     }
 }

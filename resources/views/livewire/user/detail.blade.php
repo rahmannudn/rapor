@@ -15,7 +15,7 @@
 
     <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Detail : {{ $user['name'] }}</h1>
 
-    <x-button href="{{ route('userIndex') }}" class="mb-3" icon="arrow-left" info label="Kembali" />
+    <x-button href="{{ route('user.index') }}" class="mb-3" icon="arrow-left" info label="Kembali" />
 
     <div class="grid justify-between grid-cols-2 gap-4">
         {{-- biodata pengguna --}}
