@@ -60,7 +60,7 @@ class NilaiSumatifPerkelasPDFController extends Controller
             $summary['rata_rata_total'] = floor(collect($summary['rata_rata'])->avg());
             $kelasData = $this->kelasData;
             $waliKelas = WaliKelas::where('kelas_id', $kelasData['kelas_id'])->join('users', 'users.id', 'wali_kelas.user_id')
-                ->select('users.name as nama_wali', 'users.nip')
+                ->select('users.name as nama_wali_kelas', 'users.nip')
                 ->first();
             $kepsek = Kepsek::where('kepsek.id', $kelasData['kepsek_id'])->join('users', 'users.id', 'kepsek.user_id')
                 ->select('users.name as nama_kepsek', 'users.nip')
