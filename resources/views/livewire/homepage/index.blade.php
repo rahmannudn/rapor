@@ -49,7 +49,7 @@
     <!-- Form Section -->
     <section class="flex items-center justify-center h-screen" id="form-section">
         <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-            <h1 class="mb-6 text-2xl font-bold text-center text-blue-700">Form Rapor Anak</h1>
+            <h1 class="mb-6 text-2xl font-bold text-center text-blue-700">Form Cek Rapor</h1>
             <div>
                 <!-- Input NISN -->
                 <div class="mb-4">

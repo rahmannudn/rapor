@@ -20,6 +20,7 @@ class Create extends Component
 
     public function render()
     {
+
         return view('livewire.user.create');
     }
 
@@ -34,7 +35,7 @@ class Create extends Component
             'role' => ['required'],
             'jk' => ['required'],
             'jenis_pegawai' => ['required'],
-            'nip' => ['required', 'integer'],
+            'nip' => ['nullable', 'string'],
         ]);
         $validated['password'] = Hash::make($validated['password']);
 
@@ -43,6 +44,7 @@ class Create extends Component
         );
 
         session()->flash('success', 'Data Berhasil Ditambahkan');
-        $this->redirectRoute('user.index');
+        // $this->redirectRoute('user.index');
+        redirect()->route('user.index');
     }
 }

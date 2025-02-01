@@ -45,7 +45,7 @@ class Edit extends Component
             'role' => ['required'],
             'jk' => ['required'],
             'jenis_pegawai' => ['required'],
-            'nip' => ['required'],
+            'nip' => ['nullable', 'string'],
         ]);
 
         // mengecek apakah ada perubahan password

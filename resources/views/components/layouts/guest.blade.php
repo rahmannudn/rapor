@@ -13,7 +13,7 @@
     {{ $slot }}
     <!-- Footer -->
     <footer class="py-6 text-center text-white bg-blue-500">
-        <p class="text-sm">&copy; 2025 Aplikasi Rapor. Dikembangkan untuk kemudahan staf sekolah dan orang tua siswa.
+        <p class="text-sm">&copy; 2025 Aplikasi Rapor SDN Kuin Utara 7.
         </p>
     </footer>
 

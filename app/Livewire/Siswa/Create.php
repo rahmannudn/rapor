@@ -45,7 +45,8 @@ class Create extends Component
 
     public function mount()
     {
-        $this->daftarKelas = Kelas::all();
+        $tahunAjaranAktif = FunctionHelper::getTahunAjaranAktif();
+        $this->daftarKelas = Kelas::where('tahun_ajaran_id', $tahunAjaranAktif)->select('nama', 'id')->get();
     }
 
     public function rules()
@@ -82,6 +83,7 @@ class Create extends Component
     {
         $this->authorize('create', Siswa::class);
         $validated = $this->validate();
+        $validated['tempat_lahir'] = Str::lower($validated['tempat_lahir']);
         if ($this->foto) {
             $filePath = $this->foto->store('uploads', 'public');
             $validated['foto'] = $filePath;
@@ -89,7 +91,7 @@ class Create extends Component
         $siswa = Siswa::create($validated);
         KelasSiswa::create([
             'siswa_id' => $siswa['id'],
-            'kelas_id' => $siswa['kelas_id'],
+            'kelas_id' => $validated['kelas_id'],
             'tahun_ajaran_id' => FunctionHelper::getTahunAjaranAktif(),
         ]);
 

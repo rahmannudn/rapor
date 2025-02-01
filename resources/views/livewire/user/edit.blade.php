@@ -27,7 +27,7 @@
             <option value="pppk">PPPK</option>
             <option value="pns">PNS</option>
         </x-native-select>
-        <x-inputs.maskable label="NIP" mask="################" placeholder="Masukkan NIP" />
+        <x-inputs.maskable label="NIP" mask="################" wire:model='nip' placeholder="Masukkan NIP" />
     </div>
 
 
