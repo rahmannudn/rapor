@@ -40,7 +40,7 @@ class MapelPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Mapel $mapel): bool
+    public function update(User $user): bool
     {
         return $user->role == 'admin';
     }
@@ -48,7 +48,7 @@ class MapelPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Mapel $mapel): bool
+    public function delete(User $user): bool
     {
         return $user->role == 'admin';
     }

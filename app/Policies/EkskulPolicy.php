@@ -32,7 +32,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Ekskul $ekskul): bool
+    public function update(User $user): bool
     {
         return $user->role == 'admin';
     }
@@ -40,7 +40,7 @@ class EkskulPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Ekskul $ekskul): bool
+    public function delete(User $user): bool
     {
         return $user->role == 'admin';
     }
