@@ -132,6 +132,6 @@ class Edit extends Component
     public function save()
     {
         session()->flash('success', 'Data Berhasil Diubah');
-        redirect()->route('catatanProyekIndex');
+        redirect()->route('catatanProyekEdit');
     }
 }

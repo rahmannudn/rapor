@@ -120,25 +120,26 @@
                                 {{ $data['nama_siswa'] }}
                             </td>
                             @foreach ($data['catatan_proyek'] as $catatanIndex => $catatan)
-                                <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700"
-                                    x-data="{
-                                        initialValue: '',
-                                        checkAndUpdate() {
-                                            if (this.initialValue !== this.$refs.catatanValue.value.trim() && this.$refs.catatanValue.value.trim() !== '') {
-                                                this.initialValue = this.$refs.catatanValue.value.trim();
-                                                $wire.update({{ $siswaIndex }}, '{{ $catatanIndex }}');
-                                            }
+                                {{-- x-data="{
+                                    initialValue: '',
+                                    checkAndUpdate() {
+                                        if (this.initialValue !== this.$refs.catatanValue.value.trim() && this.$refs.catatanValue.value.trim() !== '') {
+                                            this.initialValue = this.$refs.catatanValue.value.trim();
+                                            $wire.update({{ $siswaIndex }}, '{{ $catatanIndex }}');
                                         }
-                                    }" {{-- menyimpan nilai awal ke variabel initial value --}} x-init="() => {
-                                        if ($refs.catatanTextarea && typeof $refs.catatanTextarea.value.trim() !== 'undefined') {
-                                            this.initialValue = $refs.catatanTextarea.value.trim();
-                                        }
-                                    }">
+                                    }
+                                }"
+                                x-init="() => {
+                                    if ($refs.catatanTextarea && typeof $refs.catatanTextarea.value.trim() !== 'undefined') {
+                                        this.initialValue = $refs.catatanTextarea.value.trim();
+                                    }
+                                }" --}}
+                                <td class="px-4 py-4 border-l border-r dark:bg-gray-800 dark:border-gray-700">
                                     {{-- mengikat nilai dari text area ke variabel x-data diatas --}}
                                     <x-textarea x-ref="catatanValue"
                                         wire:model="catatanSiswa.{{ $siswaIndex }}.catatan_proyek.{{ $catatanIndex }}.catatan"
                                         wire:key="{{ $catatan['proyek_id'] }}" class="text-black" {{-- mengecek apakah text area ini tidak kosong, jika ya panggil fungsi update pada livewire --}}
-                                        x-on:blur="checkAndUpdate" />
+                                        x-on:blur="$wire.update({{ $siswaIndex }},'{{ $catatanIndex }}')" />
                                 </td>
                             @endforeach
                         </tr>
