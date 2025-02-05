@@ -31,9 +31,9 @@ class Index extends Component
 
             session()->flash('success', 'Data Berhasil Dihapus');
             $this->dispatch('updateData');
-            $this->deleteModal = false;
         } catch (\Throwable $err) {
             $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
         }
+        $this->deleteModal = false;
     }
 }
