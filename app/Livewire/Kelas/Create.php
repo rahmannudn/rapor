@@ -26,8 +26,8 @@ class Create extends Component
             'nama' => 'required|string|min:3|max:10',
             'kelas' => 'required',
             'fase' => 'required',
-            'tahun_ajaran_id' => $tahunAjaranAktif,
         ]);
+        $validated['tahun_ajaran_id'] = $tahunAjaranAktif;
 
         Kelas::create($validated);
 

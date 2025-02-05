@@ -37,7 +37,7 @@ class KelasPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === 'kepsek';
+        return $user->role === 'kepsek' || $user->role === 'admin';
     }
 
     /**
