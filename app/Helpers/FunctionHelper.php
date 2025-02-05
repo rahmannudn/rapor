@@ -18,11 +18,11 @@ class FunctionHelper
         // mengambil data tahun sekarang
         $currentYear = date('Y');
 
-        // nilai variabel $currentYear akan ditambah nilai index kemudian dikurang 1
-        // expression di loop sebanyak 3 kali, hasilnya dimasukkan ke array $years
-        // contoh : $currentYear = 2024, $years = [2023,2024,2025]
-        for ($i = 0; $i <= 3; $i++) {
-            $years[] = ($currentYear + $i) - 1;
+        // nilai variabel $currentYear akan ditambah nilai index kemudian dikurang 2
+        // expression di loop sebanyak 4 kali, hasilnya dimasukkan ke array $years
+        // contoh : $currentYear = 2024, $years = [2023,2024,2025,2026]
+        for ($i = 0; $i <= 4; $i++) {
+            $years[] = ($currentYear + $i) - 2;
         }
 
         return $years;
