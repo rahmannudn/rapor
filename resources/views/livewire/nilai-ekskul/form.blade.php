@@ -1,5 +1,5 @@
 <div>
-    @can('isWaliKelass', Auth::id())
+    @can('isWaliKelas', Auth::id())
         <p class="text-red-500 dark:bg-gray-800 dark:border-gray-700">*Kosongi kolom jika tidak mengikuti ekskul</p>
         <p class="text-gray-900 dark:bg-gray-800 dark:border-gray-700">{{ $namaKelas }}</p>
     @endcan
