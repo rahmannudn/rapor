@@ -47,6 +47,8 @@ class Edit extends Component
         $this->selectedKepsek = Kepsek::where('id', $this->tahunAjaran['kepsek_id'])
             ->select('id')
             ->first()?->id;
+        $this->prevTahunAjaran = $this->tahunAjaran['prev_tahun_ajaran_id'];
+        $this->tglRapor = $this->tahunAjaran['tgl_rapor'];
     }
 
     public function render()

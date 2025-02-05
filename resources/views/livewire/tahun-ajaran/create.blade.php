@@ -74,7 +74,7 @@
 
         <div class="max-w-72">
             <x-datetime-picker label="Tanggal Pembagian Rapor" placeholder="Masukkan Tanggal rapor"
-                display-format="DD-MM-YYYY" wire:model.defer="tgl_rapor" without-time="true" without-tips="true" />
+                display-format="DD-MM-YYYY" wire:model.defer="tglRapor" without-time="true" without-tips="true" />
         </div>
 
         <x-native-select wire:model='selectedKepsek' label="Kepsek Aktif" class="mb-2">

@@ -49,11 +49,13 @@ class Create extends Component
         $this->daftarKepsek = Kepsek::join('tahun_ajaran', 'tahun_ajaran.kepsek_id', 'kepsek.id')
             ->join('users', 'users.id', 'kepsek.user_id')
             ->select('users.name as nama_kepsek', 'kepsek.id')
+            ->distinct()
             ->get();
 
         $tahunAjaran = TahunAjaran::where('id', Cache::get('tahunAjaranAktif'))
             ->select('id', 'kepsek_id')
             ->first();
+
         $this->selectedKepsek = Kepsek::where('id', $tahunAjaran['kepsek_id'])
             ->select('id')
             ->first()?->id;
@@ -66,7 +68,7 @@ class Create extends Component
             'tahunAkhir' => ['required',],
             'semester' => ['required', 'string'],
             'semesterAktif' => ['required', 'boolean'],
-            'prevTahunAjaran' => ['nullable', 'integer'],
+            'prevTahunAjaran' => ['nullable', 'string'],
             'tglRapor' => ['nullable', 'date'],
             'selectedKepsek' => ['required'],
         ];
@@ -88,9 +90,9 @@ class Create extends Component
             'tahun' => TA::concatTahunAjaran($this->validatedData['tahunAwal'], $this->validatedData['tahunAkhir']),
             'semester' => $this->validatedData['semester'],
             'aktif' => $this->validatedData['semesterAktif'],
-            'prevTahunAjaran' => ['nullable', 'integer'],
-            'tglRapor' => ['nullable', 'date'],
-            'kepsek_id' => $this->validatedData['kepsek_id'],
+            'prev_tahun_ajaran_id' => $this->validatedData['prevTahunAjaran'],
+            'tgl_rapor' => $this->validatedData['tglRapor'],
+            'kepsek_id' => $this->validatedData['selectedKepsek'],
         ]);
 
         $this->validatedData['semesterAktif'] ?? FunctionHelper::setCacheInfoSekolah();
