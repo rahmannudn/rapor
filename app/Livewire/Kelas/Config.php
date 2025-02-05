@@ -87,6 +87,7 @@ class Config extends Component
             ->when($this->originWaliKelas, function ($q) use ($waliKelas) {
                 $q->orWhere('wali_kelas.user_id', $waliKelas['user_id']);
             })
+            ->distinct()
             ->get()
             ->toArray();
 
@@ -178,7 +179,7 @@ class Config extends Component
         if ($this->originWaliKelas)
             $waliKelasData['id'] = $this->waliKelasId; // Jika ada data lama, gunakan ID yang lama
 
-        // ketika walikelasorigin, walikelasaktif tidak bernilai empty 
+        // ketika walikelasorigin, walikelasaktif tidak bernilai empty
         // dan nilai originwalikelas !== walikelasaktif
         // jika nilai originwalikelas dan walikelasaktif sama maka tidak mengeksekusi apa-apa
         if ((!empty($this->originWaliKelas) && !empty($this->waliKelasAktif)) &&
@@ -188,9 +189,20 @@ class Config extends Component
             $waliKelas->user_id = $waliKelasData['user_id'];
             $waliKelas->save();
         } else {
-            // ketika originwalikelas bernilai empty
-            if (!empty($this->waliKelasAktif))
-                WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
+            try {
+                // ketika originwalikelas bernilai empty
+                if (!empty($this->waliKelasAktif) && empty($this->originWaliKelas))
+                    WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
+                if (!empty($this->originWaliKelas) && empty($this->waliKelasAktif)) {
+                    // ketika wali kelas aktif empty
+                    $waliKelas = WaliKelas::find($this->originWaliKelas);
+                    $waliKelas->delete();
+                }
+            } catch (\Throwable $th) {
+                session()->flash('gagal', 'Terjadi Kesalahan');
+                $this->redirectRoute('kelasConfig', ['kelasData' => $this->kelasData['id']]);
+                return;
+            }
         }
 
         if (count($this->savedMapelDanPengajar) > 0) {
