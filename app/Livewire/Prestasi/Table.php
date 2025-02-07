@@ -23,10 +23,10 @@ class Table extends Component
     public function render()
     {
         $tahunAjaranAktif = Cache::get('tahunAjaranAktif');
+
         $siswaData = Prestasi::search($this->searchQuery)
             ->join('siswa', 'siswa.id', 'prestasi.siswa_id')
             ->join('kelas_siswa', 'kelas_siswa.siswa_id', 'kelas_siswa.tahun_ajaran_id')
-            ->where('kelas_siswa.tahun_ajaran_id', $tahunAjaranAktif)
             ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
             ->select(
                 'prestasi.id',

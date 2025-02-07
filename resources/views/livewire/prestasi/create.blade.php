@@ -16,6 +16,7 @@
             </x-native-select>
 
             <x-native-select class="max-w-80" label="Siswa" placeholder="Pilih Siswa" wire:model.defer="selectedSiswa">
+                <option value=""> --Pilih Siswa-- </option>
                 @if ($selectedKelas && $daftarSiswa)
                     @foreach ($daftarSiswa as $siswa)
                         <option value="{{ $siswa['id'] }}">{{ $siswa['nama'] }}</option>

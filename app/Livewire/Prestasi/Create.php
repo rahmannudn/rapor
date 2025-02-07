@@ -35,8 +35,8 @@ class Create extends Component
 
     public function mount()
     {
-        $this->daftarKelas = Kelas::select('nama', 'id')->get();
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
+        $this->daftarKelas = Kelas::where('tahun_ajaran_id', $this->tahunAjaranAktif)->get();
     }
 
     public function getSiswa()
@@ -51,7 +51,8 @@ class Create extends Component
             ->orderBy('siswa.nama', 'ASC')
             ->get()
             ->toArray();
-        $this->selectedSiswa = $this->daftarSiswa[0]['id'];
+
+        // $this->selectedSiswa = $this->daftarSiswa[0]['id'];
     }
 
     public function save()
