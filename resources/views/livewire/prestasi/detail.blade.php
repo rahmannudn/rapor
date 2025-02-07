@@ -13,13 +13,13 @@
             <x-input label="Tanggal Prestasi" wire:model='tglPrestasi' disabled />
             <x-input label="Penyelenggara" wire:model='penyelenggara' disabled />
             <x-textarea wire:model="deskripsi" label="Deskripsi" disabled />
-            <x-input label="Nilai Prestasi" wire:model='nilaiPrestasi' disabled />
             @if ($bukti)
                 <p>Bukti</p>
                 <a href="{{ url('storage/' . $bukti) }}" target="_blank">
-                    <x-avatar size="w-20" squared src="{{ url('storage/' . $bukti) }}" />
+                    <x-avatar size="w-50" squared src="{{ url('storage/' . $bukti) }}" />
                 </a>
             @endif
+            <x-input label="Nilai Prestasi" wire:model='nilaiPrestasi' disabled />
         </div>
     </div>
 </div>
