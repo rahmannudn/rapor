@@ -34,12 +34,11 @@
             <div class="space-y-2">
                 <p class="mb-2">Bukti</p>
                 @if ($bukti)
-                    <a href="{{ url('storage/' . $originBukti) }}" target="_blank" class="p-2 my-2 text-white bg-black">
-                        Lihat Bukti
-                        {{-- <x-avatar size="w-20" squared src="{{ url('storage/' . $siswa->foto) }}" /> --}}
+                    <a href="{{ url('storage/' . $originBukti) }}" target="_blank">
+                        <x-avatar size="w-50" squared src="{{ url('storage/' . $originBukti) }}" />
                     </a>
                 @endif
-                <x-input type="file" placeholder="Upload Bukti" wire:model='foto' />
+                <x-input type="file" placeholder="Upload Bukti" wire:model='bukti' />
             </div>
             <x-input label="Nilai Prestasi" placeholder="Masukkan Nilai Pertasi" wire:model='nilaiPrestasi' />
         </div>
