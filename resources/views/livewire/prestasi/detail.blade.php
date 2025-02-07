@@ -16,7 +16,7 @@
             @if ($bukti)
                 <p>Bukti</p>
                 <a href="{{ url('storage/' . $bukti) }}" target="_blank">
-                    <x-avatar size="w-50" squared src="{{ url('storage/' . $bukti) }}" />
+                    <x-avatar size="w-24 h-24" squared src="{{ url('storage/' . $bukti) }}" />
                 </a>
             @endif
             <x-input label="Nilai Prestasi" wire:model='nilaiPrestasi' disabled />
