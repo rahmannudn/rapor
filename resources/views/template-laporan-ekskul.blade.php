@@ -28,7 +28,7 @@
 @section('content')
     <div class="header-info">
         <p>Tahun Ajaran : {{ $data['tahun_ajaran'] }}</p>
-        @if ($totalKelas === 1)
+        @if ($totalKelas > 1)
             <p>Kelas : {{ $data['nama_kelas'] }}</p>
         @endif
     </div>
