@@ -47,9 +47,9 @@ class UserSeeder extends Seeder
                 'jenis_pegawai' => 'pns'
             ],
             [
-                'name' => 'winston',
-                'email' => 'winston@email.com',
-                'password' => 'winston1234',
+                'name' => 'malik',
+                'email' => 'malik@email.com',
+                'password' => 'malik1234',
                 'role' => 'kepsek',
                 'jk' => 'p',
                 'jenis_pegawai' => 'pns'
