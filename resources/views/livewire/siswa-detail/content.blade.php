@@ -151,7 +151,7 @@
                                 <tr key="{{ $data->id }}"
                                     class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-1 py-4 w-[5%]">
-                                        {{ $dataPrestasi->firstItem() + $loop->index }}
+                                        {{ $loop->index }}
                                     </td>
                                     <td class="px-4 py-4 w-14">
                                         {{ $data->nama_prestasi }}
