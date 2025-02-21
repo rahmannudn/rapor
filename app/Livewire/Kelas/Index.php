@@ -19,21 +19,22 @@ class Index extends Component
 
     public function destroy()
     {
-        try {
-            $this->authorize('delete', Kelas::class);
+        // try {
+        $this->authorize('delete', Kelas::class);
 
-            $kelas = Kelas::find($this->selectedKelas);
-            if (!$kelas) {
-                $this->dispatch('showNotif', title: 'Gagal', description: 'Kelas Tidak Ditemukan', icon: 'success');
-            }
-            // $this->authorize('delete', $kelas);
-            $kelas->delete();
-
-            session()->flash('success', 'Data Berhasil Dihapus');
-            $this->dispatch('updateData');
-        } catch (\Throwable $err) {
-            $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
+        $kelas = Kelas::find($this->selectedKelas);
+        if (!$kelas) {
+            $this->dispatch('showNotif', title: 'Gagal', description: 'Kelas Tidak Ditemukan', icon: 'success');
         }
+
+        $this->authorize('delete', $kelas);
+        $kelas->delete();
+
+        session()->flash('success', 'Data Berhasil Dihapus');
+        $this->dispatch('updateData');
+        // } catch (\Throwable $err) {
+        //     $this->dispatch('showNotif', title: 'Gagal', description: 'Terjadi Suatu Kesalahan', icon: 'error');
+        // }
         $this->deleteModal = false;
     }
 }

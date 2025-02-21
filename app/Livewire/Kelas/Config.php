@@ -189,20 +189,22 @@ class Config extends Component
             $waliKelas->user_id = $waliKelasData['user_id'];
             $waliKelas->save();
         } else {
-            try {
-                // ketika originwalikelas bernilai empty
-                if (!empty($this->waliKelasAktif) && empty($this->originWaliKelas))
-                    WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
-                if (!empty($this->originWaliKelas) && empty($this->waliKelasAktif)) {
-                    // ketika wali kelas aktif empty
-                    $waliKelas = WaliKelas::find($this->originWaliKelas);
-                    $waliKelas->delete();
-                }
-            } catch (\Throwable $th) {
-                session()->flash('gagal', 'Terjadi Kesalahan');
-                $this->redirectRoute('kelasConfig', ['kelasData' => $this->kelasData['id']]);
-                return;
+            // try {
+            // ketika originwalikelas bernilai empty
+            if (!empty($this->waliKelasAktif) && empty($this->originWaliKelas))
+                WaliKelas::updateOrCreate(['id' => $this->waliKelasId ?? 0], $waliKelasData);
+
+            if (!empty($this->originWaliKelas) && empty($this->waliKelasAktif)) {
+                // ketika wali kelas aktif empty
+                $waliKelas = WaliKelas::find($this->waliKelasId);
+                $waliKelas->delete();
             }
+
+            // } catch (\Throwable $th) {
+            //     session()->flash('gagal', 'Terjadi Kesalahan');
+            //     $this->redirectRoute('kelasConfig', ['kelasData' => $this->kelasData['id']]);
+            //     return;
+            // }
         }
 
         if (count($this->savedMapelDanPengajar) > 0) {

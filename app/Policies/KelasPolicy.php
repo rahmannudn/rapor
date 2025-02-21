@@ -52,9 +52,9 @@ class KelasPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Kelas $kelas): bool
+    public function delete(User $user): bool
     {
-        //
+        return $user->role == 'admin';
     }
 
     /**

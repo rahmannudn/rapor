@@ -13,26 +13,26 @@ class ProyekSeeder extends Seeder
      */
     public function run(): void
     {
-        $dataProyek = [
-            [
-                'wali_kelas_id' => 2,
-                'judul_proyek' => 'meningkatkan kemampuan berhitung siswa',
-                'deskripsi' => 'asdjasiodjsd'
-            ],
-            [
-                'wali_kelas_id' => 2,
-                'judul_proyek' => 'menanamkan rasa cinta lingkungan',
-                'deskripsi' => 'asdjasiodjsd'
-            ],
-            [
-                'wali_kelas_id' => 1,
-                'judul_proyek' => 'meningkatkan rasa percaya diri siswa',
-                'deskripsi' => 'oiojasdkasdjisad'
-            ],
-        ];
+        // $dataProyek = [
+        //     [
+        //         'wali_kelas_id' => 2,
+        //         'judul_proyek' => 'meningkatkan kemampuan berhitung siswa',
+        //         'deskripsi' => 'asdjasiodjsd'
+        //     ],
+        //     [
+        //         'wali_kelas_id' => 2,
+        //         'judul_proyek' => 'menanamkan rasa cinta lingkungan',
+        //         'deskripsi' => 'asdjasiodjsd'
+        //     ],
+        //     [
+        //         'wali_kelas_id' => 1,
+        //         'judul_proyek' => 'meningkatkan rasa percaya diri siswa',
+        //         'deskripsi' => 'oiojasdkasdjisad'
+        //     ],
+        // ];
 
-        foreach ($dataProyek as $proyek) {
-            Proyek::create($proyek);
-        }
+        // foreach ($dataProyek as $proyek) {
+        //     Proyek::create($proyek);
+        // }
     }
 }

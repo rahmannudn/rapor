@@ -16,14 +16,8 @@ class TahunAjaranSeeder extends Seeder
     {
         $dataTahunAjaran = [
             [
-                'tahun' => '2023 / 2024',
+                'tahun' => '2024 / 2025',
                 'semester' => 'ganjil',
-                'aktif' => 0,
-                'kepsek_id' => 1
-            ],
-            [
-                'tahun' => '2023 / 2024',
-                'semester' => 'genap',
                 'aktif' => 1,
                 'kepsek_id' => 1
             ],

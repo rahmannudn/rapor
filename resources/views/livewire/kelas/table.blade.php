@@ -78,12 +78,14 @@
                                     class="mb-3" icon="cog" info label="Atur Rombel" />
                             @endcan
 
-                            <div class="flex flex-row items-center justify-center space-x-2">
-                                <x-button.circle green icon="pencil-alt"
-                                    href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" />
-                                <x-button.circle negative icon="trash"
-                                    x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
-                            </div>
+                            @can('isAdmin', auth()->user())
+                                <div class="flex flex-row items-center justify-center space-x-2">
+                                    <x-button.circle green icon="pencil-alt"
+                                        href="{{ route('kelasEdit', ['kelasData' => $data->id]) }}" />
+                                    <x-button.circle negative icon="trash"
+                                        x-on:click="$dispatch('set-kelas', {{ $data->id }}); $openModal('deleteModal');" />
+                                </div>
+                            @endcan
                         @endif
 
                     </td>

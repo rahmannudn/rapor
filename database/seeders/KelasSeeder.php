@@ -18,49 +18,37 @@ class KelasSeeder extends Seeder
                 'kelas' => '1',
                 'nama' => 'Kelas 1',
                 'fase' => 'a',
-                'tahun_ajaran_id' => 2
-            ],
-            [
-                'kelas' => '1',
-                'nama' => 'Kelas 1',
-                'fase' => 'a',
                 'tahun_ajaran_id' => 1
             ],
             [
                 'kelas' => '2',
                 'nama' => 'Kelas 2a',
                 'fase' => 'a',
-                'tahun_ajaran_id' => 2
-            ],
-            [
-                'kelas' => '2',
-                'nama' => 'Kelas 2b',
-                'fase' => 'a',
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
             [
                 'kelas' => '3',
                 'nama' => 'Kelas 3',
                 'fase' => 'a',
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
             [
                 'kelas' => '4',
                 'nama' => 'Kelas 4',
                 'fase' => 'b',
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
             [
                 'kelas' => '5',
                 'nama' => 'Kelas 5',
                 'fase' => 'b',
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
             [
                 'kelas' => '6',
                 'nama' => 'Kelas 6',
                 'fase' => 'b',
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
         ];
 

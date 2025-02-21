@@ -27,7 +27,7 @@ class SiswaSeeder extends Seeder
             'konghucu',
         ];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 11; $i++) {
             $siswa =   Siswa::create([
                 'nisn' => $faker->unique()->numerify('##########'),
                 'nidn' => $faker->unique()->numerify('##########'),
@@ -51,8 +51,8 @@ class SiswaSeeder extends Seeder
             // Insert into kelas_siswa table
             DB::table('kelas_siswa')->insert([
                 'siswa_id' => $siswa->id,
-                'kelas_id' => $faker->numberBetween(1, 4),
-                'tahun_ajaran_id' => '2',
+                'kelas_id' => $faker->numberBetween(1, 2),
+                'tahun_ajaran_id' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

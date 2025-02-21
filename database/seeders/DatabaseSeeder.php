@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             SubelemenSeeder::class,
             CapaianFaseSeeder::class,
             ProyekSeeder::class,
-            SubproyekSeeder::class,
+            // SubproyekSeeder::class,
         ]);
     }
 }

@@ -18,11 +18,11 @@ class GuruMapelSeeder extends Seeder
         $guruMapel = [
             [
                 'user_id' => 3,
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
             [
                 'user_id' => 2,
-                'tahun_ajaran_id' => 2
+                'tahun_ajaran_id' => 1
             ],
         ];
 
