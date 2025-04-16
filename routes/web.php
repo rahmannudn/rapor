@@ -200,17 +200,17 @@ Route::middleware(['auth', 'check_permission:isAdminOrKepsek'])->group(function 
 
 // kepsek
 Route::middleware(['auth', 'check_permission:isKepsek'])->group(function () {
-    // Route::name('waliKelas')->prefix('wali_kelas')->group(function () {
-    //     Route::get('/', WaliKelasIndex::class)->name('Index')->lazy();
-    //     Route::get('/create', WaliKelasCreate::class)->name('Create');
-    //     Route::get('/{wali_kelas}/edit', WaliKelasEdit::class)->name('Edit');
-    // });
+    Route::name('waliKelas')->prefix('wali_kelas')->group(function () {
+        Route::get('/', WaliKelasIndex::class)->name('Index')->lazy();
+        //     Route::get('/create', WaliKelasCreate::class)->name('Create');
+        //     Route::get('/{wali_kelas}/edit', WaliKelasEdit::class)->name('Edit');
+    });
 
-    // Route::name('guruMapel')->prefix('guru_mapel')->group(function () {
-    //     Route::get('/', GuruMapelIndex::class)->name('Index')->lazy();
-    //     Route::get('/create', GuruMapelCreate::class)->name('Create');
-    //     Route::get('/{guru_mapel}/edit', GuruMapelEdit::class)->name('Edit');
-    // });
+    Route::name('guruMapel')->prefix('guru_mapel')->group(function () {
+        Route::get('/', GuruMapelIndex::class)->name('Index')->lazy();
+        //     Route::get('/create', GuruMapelCreate::class)->name('Create');
+        //     Route::get('/{guru_mapel}/edit', GuruMapelEdit::class)->name('Edit');
+    });
 });
 
 // guru kelas

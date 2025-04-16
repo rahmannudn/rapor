@@ -296,7 +296,7 @@ new class extends Component {
                     </li>
                     {{-- dropdownProyek --}}
 
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('raporP5Index') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporP5Index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -307,7 +307,7 @@ new class extends Component {
                             </svg>
                             <span class="ms-3">Rapor P5</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <hr class="w-full h-[1px] bg-slate-200">
                 @endcan
@@ -412,7 +412,7 @@ new class extends Component {
                         </ul>
                         {{-- dropdownInputanWali --}}
 
-                    <li>
+                        {{-- <li>
                         <a href="{{ route('raporIntraIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('raporIntraIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
@@ -425,11 +425,11 @@ new class extends Component {
 
                             <span class="ms-3">Rapor Intra</span>
                         </a>
-                    </li>
-                @endcan
+                    </li> --}}
+                    @endcan
 
-                @can('isKepsekOrWaliKelas', auth()->user())
-                    <li>
+                    @can('isKepsekOrWaliKelas', auth()->user())
+                        {{-- <li>
                         <a href="{{ route('laporan_sumatif_kelas') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('laporan_sumatif_kelas') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
 
@@ -442,9 +442,9 @@ new class extends Component {
 
                             <span class="ms-3">Nilai Sumatif Perkelas</span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    {{-- <li>
+                        {{-- <li>
                         <a href="{{ route('laporanRiwayatWaliKelas') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('laporanRiwayatWaliKelas') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -460,9 +460,9 @@ new class extends Component {
                             <span class="ms-3">Riwayat Wali Kelas</span>
                         </a>
                     </li> --}}
-                @endcan
+                    @endcan
 
-                @can('isKepsek', auth()->user())
+                    @can('isKepsek', auth()->user())
                     <li>
                         <a href="{{ route('proyekIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('proyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
@@ -489,6 +489,73 @@ new class extends Component {
                         </a>
                     </li>
                 @endcan
+
+                {{-- dropdown laporan --}}
+                <li x-data="{ dropdownLaporan: false }">
+                    <button type="button" x-on:click="dropdownLaporan = !dropdownLaporan"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor"
+                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+
+
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Laporan</span>
+
+                        <svg :class="dropdownLaporan && 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+
+                        <svg :class="dropdownLaporan || 'hidden'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" x-transition>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+
+                    </button>
+                    <ul x-show="dropdownLaporan" class="py-2 space-y-2" x-transition>
+                        @can('isWaliKelas', auth()->user())
+                            <li>
+                                <a href="{{ route('raporP5Index') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Rapor P5</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('raporIntraIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Rapor Intra</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('isKepsek', auth()->user())
+                            <li>
+                                <a href="{{ route('guruMapelIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Riwayat Guru Mapel</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('waliKelasIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Riwayat Guru Kelas</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('isKepsekOrWaliKelas', auth()->user())
+                            <li>
+                                <a href="{{ route('laporan_sumatif_kelas') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Nilai Sumatif Perkelas</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+                {{-- dropdownInputanWali --}}
 
                 <li>
                     <a wire:click.prevent="logout"

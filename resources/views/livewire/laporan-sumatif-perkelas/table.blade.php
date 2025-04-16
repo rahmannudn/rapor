@@ -1,37 +1,36 @@
 <div>
-    @can('isKepsek', auth()->user())
-        <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-            <div class="w-52">
-                <x-native-select class="max-w-48" label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
-                    wire:model.change="tahunAjaranAktif" x-on:change="$wire.getDaftarKelas">
-                    @foreach ($daftarTahunAjaran as $tahun)
-                        <option wire.key="{{ $tahun->id }}" value="{{ $tahun->id }}">{{ $tahun->tahun }} -
-                            {{ $tahun->semester }}</option>
+    <div class="flex flex-col w-full space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
+        <div class="w-52">
+            <x-native-select class="max-w-48" label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
+                wire:model.change="tahunAjaranAktif" x-on:change="$wire.getDaftarKelas">
+                @foreach ($daftarTahunAjaran as $tahun)
+                    <option wire.key="{{ $tahun->id }}" value="{{ $tahun->id }}">{{ $tahun->tahun }} -
+                        {{ $tahun->semester }}</option>
+                @endforeach
+            </x-native-select>
+        </div>
+
+        <div class="w-52">
+            <x-native-select x-on:change="$wire.getSiswaData" label="Kelas" placeholder="Pilih Kelas"
+                wire:model.change='selectedKelas'>
+                <option value="">--Pilih Kelas--</option>
+                @if ($daftarKelas)
+                    @foreach ($daftarKelas as $kelas)
+                        <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
                     @endforeach
-                </x-native-select>
-            </div>
-
-            <div class="w-52">
-                <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model.change='selectedKelas'>
-                    <option value="">--Pilih Kelas--</option>
-                    @if ($daftarKelas)
-                        @foreach ($daftarKelas as $kelas)
-                            <option value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
-                        @endforeach
-                    @endif
-                </x-native-select>
-            </div>
+                @endif
+            </x-native-select>
         </div>
+    </div>
 
-        <div class="flex justify-between my-2 gap-x-4">
-            <div class="flex gap-x-2">
-                <x-button primary label="Tampilkan Tabel Nilai" x-on:click="$wire.getSiswaData" spinner />
-            </div>
-        </div>
-    @endcan
+    {{-- <div class="flex justify-between my-2 gap-x-4">
+        <div class="flex gap-x-2">
+            <x-button primary label="Tampilkan Tabel Nilai" x-on:click="$wire.getSiswaData" spinner />
+          </div>
+    </div> --}}
 
     @if (!empty($daftarMapel))
-        <div class="relative overflow-x-auto w-[55%] mb-4 mt-2">
+        {{-- <div class="relative overflow-x-auto w-[55%] mb-4 mt-2">
             <table
                 class="w-full text-sm text-left text-gray-500 border border-gray-400 shadow-md rtl:text-right dark:text-gray-400 sm:rounded-lg">
                 <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -65,11 +64,11 @@
                     </tr>
                 @endcan
             </table>
-        </div>
+        </div> --}}
         <div class="flex gap-x-2">
-            <x-button class="mt-6" primary icon="folder-download" label="Download Excel" spinner
+            <x-button class="mt-6" primary icon="folder-download" label="Export Excel" spinner
                 x-on:click="$wire.exportExcel" />
-            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+            <x-button class="mt-6" red icon="folder-download" label="Export PDF" spinner
                 x-on:click="$wire.exportPDF" />
         </div>
 

@@ -7,14 +7,15 @@ use Livewire\Component;
 use App\Models\GuruMapel;
 use App\Models\WaliKelas;
 use App\Models\KelasSiswa;
+use App\Models\TahunAjaran;
 use Maatwebsite\Excel\Excel;
+use App\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Query\JoinClause;
 use App\Exports\LaporanSumatifPerkelasExport;
-use App\Models\TahunAjaran;
-use Illuminate\Support\Facades\Gate;
 
 class Table extends Component
 {
@@ -35,13 +36,11 @@ class Table extends Component
     public function mount()
     {
         $this->tahunAjaranAktif = Cache::get('tahunAjaranAktif');
-        if (Gate::allows('isKepsek')) {
-            $this->daftarTahunAjaran = TahunAjaran::all(['tahun', 'semester', 'id']);
+        if (empty($this->daftarKelas)) $this->getDaftarKelas();
 
-            if (empty($this->daftarKelas)) $this->getDaftarKelas();
-        }
-
+        if (Gate::allows('isKepsek')) $this->daftarTahunAjaran = TahunAjaran::all(['tahun', 'semester', 'id']);
         if (Gate::allows('isWaliKelas')) {
+            $this->daftarTahunAjaran = FunctionHelper::getDaftarTahunAjaranByWaliKelas();
             $this->dataKelas = WaliKelas::where('wali_kelas.user_id', Auth::id())
                 ->where('wali_kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
                 ->join('kelas', 'kelas.id', 'wali_kelas.kelas_id')
@@ -66,25 +65,23 @@ class Table extends Component
 
     public function getDaftarMapel()
     {
-        if (Gate::allows('isKepsek')) {
-            $this->dataKelas = Kelas::where('kelas.id', $this->selectedKelas)
-                ->where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
-                ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas.tahun_ajaran_id')
-                ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
-                ->join('users', 'users.id', 'wali_kelas.user_id')
-                ->select(
-                    'users.name as nama_wali',
-                    'tahun_ajaran.semester',
-                    'tahun_ajaran.tahun',
-                    'wali_kelas.id as wali_kelas_id',
-                    'kelas.id as kelas_id',
-                    'kelas.nama as nama_kelas',
-                    'kelas.fase',
-                    'kelas.kelas'
-                )
-                ->first()
-                ->toArray();
-        }
+        $this->dataKelas = Kelas::where('kelas.id', $this->selectedKelas)
+            ->where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas.tahun_ajaran_id')
+            ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+            ->join('users', 'users.id', 'wali_kelas.user_id')
+            ->select(
+                'users.name as nama_wali',
+                'tahun_ajaran.semester',
+                'tahun_ajaran.tahun',
+                'wali_kelas.id as wali_kelas_id',
+                'kelas.id as kelas_id',
+                'kelas.nama as nama_kelas',
+                'kelas.fase',
+                'kelas.kelas'
+            )
+            ->first()
+            ->toArray();
 
         if (!empty($this->dataSiswa)) $this->daftarMapel = $this->dataSiswa[0]['mapel'];
     }
@@ -93,8 +90,12 @@ class Table extends Component
     {
         $this->dataKelas = '';
         $this->daftarMapel = '';
+
         $this->daftarKelas = Kelas::where('kelas.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->join('wali_kelas', 'wali_kelas.kelas_id', 'kelas.id')
+            ->when(Gate::allows('isWaliKelas'), function ($query) {
+                $query->where('wali_kelas.user_id', Auth::id());
+            })
             ->select('kelas.nama', 'kelas.id')
             ->get();
     }
@@ -102,6 +103,7 @@ class Table extends Component
 
     public function getSiswaData()
     {
+        $this->dataSiswa = '';
         if (Gate::allows('isKepsek')) {
             $this->validate([
                 'selectedKelas' => 'required',
@@ -156,6 +158,7 @@ class Table extends Component
 
     public function formatDataSiswa($data)
     {
+        $this->daftarMapel = '';
         $groupedData = $data->groupBy('id_siswa');
         $results = [];
 
@@ -218,7 +221,7 @@ class Table extends Component
 
         $this->dataSiswa = [];
         $this->dataSiswa = $results;
-        $this->getDaftarMapel();
+        if (count($this->dataSiswa) > 0) $this->getDaftarMapel();
     }
 
     public function exportExcel()
