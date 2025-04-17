@@ -87,7 +87,6 @@ class Form extends Component
     public function getSiswaData()
     {
         $this->jumlahHariEfektif = null;
-        $this->siswaData = null;
 
         $kehadiranBulanan = KehadiranBulanan::where('tahun_ajaran_id', $this->tahunAjaranAktif)
             ->where('bulan', $this->selectedBulan)
@@ -122,6 +121,8 @@ class Form extends Component
             ->orderBy('siswa.nama', 'ASC')
             ->get()
             ->toArray();
+
+        if ($this->selectedBulan == "null") $this->siswaData =  null;
     }
 
     public function update($index, $type)

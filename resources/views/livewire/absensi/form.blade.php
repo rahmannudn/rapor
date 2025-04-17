@@ -4,7 +4,7 @@
         <div class="w-52">
             <x-native-select class="max-w-48" label="Pilih Bulan" placeholder="Pilih Bulan"
                 wire:model.change="selectedBulan" x-on:change="$wire.getSiswaData">{{-- todo --}}
-                <option value="">--pilih bulan--</option>
+                <option value="null">--pilih bulan--</option>
                 @foreach ($daftarBulan as $key => $bulan)
                     @dump($bulan)
                     <option wire.key="{{ $key }}" value="{{ $key }}">{{ $bulan }}</option>
@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    @if ($selectedBulan !== null)
+    @if ($selectedBulan !== null && $siswaData !== null)
         <div class="w-32 mt-4 mb-2 space-y-4">
             <x-inputs.maskable label="Jumlah Hari Efektif" type="number" mask="##" placeholder="1-31"
                 wire:model='jumlahHariEfektif' x-on:blur="$wire.updateHari" />
