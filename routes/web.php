@@ -122,6 +122,7 @@ use App\Livewire\LaporanEkskul\Index as LaporanEkskulIndex;
 
 use App\Livewire\HomePage\Index as HomePageIndex;
 
+use App\Livewire\Absensi\Laporan as LaporanAbsensi;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -274,6 +275,8 @@ Route::middleware(['auth', 'check_permission:isKepsekOrWaliKelas'])->group(funct
 
     Route::get('/raporintra/{siswa}/{kelasSiswa}/sampul/download', [RaporIntraController::class, 'cetakSampul'])
         ->name('cetakSampulRapor');
+
+    Route::get('/laporan_absensi', LaporanAbsensi::class)->name('laporanAbsensi');
 });
 
 // guru mapel
