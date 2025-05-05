@@ -93,12 +93,7 @@ class Form extends Component
             ->first();
         $this->jumlahHariEfektif = $kehadiranBulanan->jumlah_hari_efektif ?? null;
         $this->kehadiranBulananId = $kehadiranBulanan->id ?? null;
-        // $query->leftJoin('kelas_siswa', function (JoinClause $q) use ($tahunAjaranId) {
-        //     $q->on('kelas_siswa.siswa_id', '=', 'siswa.id')
-        //         ->where('kelas_siswa.tahun_ajaran_id', '=', $tahunAjaranId);
-        // });
         $kehadiranBulananId = $this->kehadiranBulananId;
-        $tahunAjaranAktif = $this->tahunAjaranAktif;
         $this->siswaData = Siswa::join('kelas_siswa', 'kelas_siswa.siswa_id', 'siswa.id')
             ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
             ->leftJoin('wali_kelas', 'wali_kelas.kelas_id', 'kelas_siswa.kelas_id')

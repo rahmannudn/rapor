@@ -9,6 +9,8 @@ use App\Models\Sekolah;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class FunctionHelper
 {
@@ -94,5 +96,26 @@ class FunctionHelper
 
         $semester = TahunAjaran::where('aktif', '=', 1)->select('tahun', 'semester')->first();
         Cache::put('semester', $semester['tahun'] . ' - ' . ucfirst($semester['semester']), now()->addHours(2));
+    }
+
+    public static function paginateCollection(Collection $items, int $perPage = 10, int $page = null, array $options = []): LengthAwarePaginator
+    {
+        $page = $page ?: (LengthAwarePaginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : collect($items);
+
+        $totalItems = $items->count();
+        $lastPage = (int) ceil($totalItems / $perPage);
+        $page = min($page, $lastPage > 0 ? $lastPage : 1);
+
+        $sliced = $items->forPage($page, $perPage);
+
+        return new LengthAwarePaginator(
+            $sliced,
+            $totalItems,
+            $perPage,
+            $page,
+            $options + ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
     }
 }
