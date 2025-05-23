@@ -34,41 +34,40 @@ class LaporanAbsensiExcel implements FromArray, WithHeadings, WithStyles
         'Desember',
     ];
 
-    public function __construct(int $tahunAjaran, ?int $kelas = null)
+    public function __construct(Collection $data)
     {
-        $this->tahunAjaran = $tahunAjaran;
-        $this->kelas = $kelas;
+        // $this->tahunAjaran = $tahunAjaran;
+        // $this->kelas = $kelas;
 
-        $rawData = $this->getData(); // ambil data langsung dari sini
-        $this->formattedData = $this->formatKehadiranSiswa($rawData->groupBy('siswa_id'))->toArray();
+        $this->formattedData = $this->formatKehadiranSiswa($data->groupBy('siswa_id'))->toArray();
     }
 
-    protected function getData(): Collection
-    {
-        return KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaran)
-            ->when($this->kelas !== null, fn($q) => $q->where('kelas_id', $this->kelas))
-            ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas_siswa.tahun_ajaran_id')
-            ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
-            ->leftJoin('kehadiran_bulanan', 'kehadiran_bulanan.tahun_ajaran_id', 'kelas_siswa.tahun_ajaran_id')
-            ->join('siswa', 'siswa.id', 'kelas_siswa.siswa_id')
-            ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
-            ->select(
-                'siswa.id as siswa_id',
-                'siswa.nama as nama_siswa',
-                'kelas.nama as nama_kelas',
-                'absensi.id as absensi_id',
-                'absensi.alfa',
-                'absensi.sakit',
-                'absensi.izin',
-                'kehadiran_bulanan.id as kehadiran_bulanan_id',
-                'kehadiran_bulanan.bulan',
-                'kehadiran_bulanan.jumlah_hari_efektif',
-                'tahun_ajaran.tahun',
-                'tahun_ajaran.semester',
-            )
-            ->orderBy('kelas.id')
-            ->get();
-    }
+    // protected function getData(): Collection
+    // {
+    //     return KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaran)
+    //         ->when($this->kelas !== null, fn($q) => $q->where('kelas_id', $this->kelas))
+    //         ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas_siswa.tahun_ajaran_id')
+    //         ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
+    //         ->leftJoin('kehadiran_bulanan', 'kehadiran_bulanan.tahun_ajaran_id', 'kelas_siswa.tahun_ajaran_id')
+    //         ->join('siswa', 'siswa.id', 'kelas_siswa.siswa_id')
+    //         ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+    //         ->select(
+    //             'siswa.id as siswa_id',
+    //             'siswa.nama as nama_siswa',
+    //             'kelas.nama as nama_kelas',
+    //             'absensi.id as absensi_id',
+    //             'absensi.alfa',
+    //             'absensi.sakit',
+    //             'absensi.izin',
+    //             'kehadiran_bulanan.id as kehadiran_bulanan_id',
+    //             'kehadiran_bulanan.bulan',
+    //             'kehadiran_bulanan.jumlah_hari_efektif',
+    //             'tahun_ajaran.tahun',
+    //             'tahun_ajaran.semester',
+    //         )
+    //         ->orderBy('kelas.id')
+    //         ->get();
+    // }
 
     public function array(): array
     {
