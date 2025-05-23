@@ -55,7 +55,6 @@
 
     <div class="flex flex-col w-full mb-2 space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
         <x-button primary icon="folder-download" label="Download Excel" spinner x-on:click="$wire.exportExcel" />
-        <x-button red icon="folder-download" label="Download PDF" spinner x-on:click="$wire.exportPDF" />
     </div>
 
     <div class="flex flex-col gap-6 lg:flex-row">

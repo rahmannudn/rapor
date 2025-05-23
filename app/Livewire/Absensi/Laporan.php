@@ -2,20 +2,23 @@
 
 namespace App\Livewire\Absensi;
 
-use App\Helpers\FunctionHelper;
-use App\Models\KehadiranBulanan;
 use App\Models\Kelas;
 use Livewire\Component;
 use App\Models\WaliKelas;
 use App\Models\KelasSiswa;
 use App\Models\TahunAjaran;
-use Illuminate\Database\Query\JoinClause;
+use Livewire\WithPagination;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\Exportable;
+use App\Helpers\FunctionHelper;
+use Livewire\Attributes\Locked;
+use App\Models\KehadiranBulanan;
+use Illuminate\Support\Collection;
+use App\Exports\LaporanAbsensiExcel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Livewire\Attributes\Locked;
-use Livewire\WithPagination;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Query\JoinClause;
+use Maatwebsite\Excel\Excel;
 
 class Laporan extends Component
 {
@@ -84,6 +87,11 @@ class Laporan extends Component
         $this->selectedTahunAjaran = Cache::get('tahunAjaranAktif');
 
         $this->getDaftar();
+    }
+
+    public function exportExcel()
+    {
+        return (new LaporanAbsensiExcel($this->selectedTahunAjaran, $this->selectedKelas))->download('laporan_absensi.xlsx', Excel::XLSX);
     }
 
     public function getDaftar()
