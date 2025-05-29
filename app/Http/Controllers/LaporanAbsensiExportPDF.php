@@ -1,24 +1,16 @@
 <?php
 
-namespace App\Exports;
+namespace App\Http\Controllers;
 
-use App\Models\Absensi;
+use App\Models\Kelas;
 use App\Models\KelasSiswa;
+use App\Models\Kepsek;
+use App\Models\TahunAjaran;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\FromArray;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class LaporanAbsensiExcel implements FromArray, WithHeadings, WithStyles
+class LaporanAbsensiExportPDF extends Controller
 {
-    use Exportable;
-
-    protected $formattedData;
-    protected $tahunAjaran;
-    protected $kelas;
-
     public $bulan = [
         'Januari',
         'Februari',
@@ -34,19 +26,13 @@ class LaporanAbsensiExcel implements FromArray, WithHeadings, WithStyles
         'Desember',
     ];
 
-    public function __construct($tahunAjaran, $kelas = null)
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request, $tahunAjaran, $kelas = null)
     {
-        $this->tahunAjaran = $tahunAjaran;
-        $this->kelas = $kelas;
-        $data  = $this->getData();
-
-        $this->formattedData = $this->formatKehadiranSiswa($data->groupBy('siswa_id'))->toArray();
-    }
-
-    protected function getData(): Collection
-    {
-        return KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaran)
-            ->when($this->kelas !== null, fn($q) => $q->where('kelas_id', $this->kelas))
+        $data = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $tahunAjaran)
+            ->when($kelas != null, fn($q) => $q->where('kelas_id', $kelas))
             ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas_siswa.tahun_ajaran_id')
             ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
             ->leftJoin('kehadiran_bulanan', 'kehadiran_bulanan.tahun_ajaran_id', 'kelas_siswa.tahun_ajaran_id')
@@ -68,51 +54,22 @@ class LaporanAbsensiExcel implements FromArray, WithHeadings, WithStyles
             )
             ->orderBy('kelas.id')
             ->get();
-    }
 
-    public function array(): array
-    {
-        $rows = [];
+        $formattedAbsensi = $this->formatKehadiranSiswa($data->groupBy('siswa_id'));
+        $formattedData['absensi'] = $formattedAbsensi->toArray();
+        $formattedData['tahun_ajaran'] = $formattedAbsensi[0]['tahun_ajaran'];
+        $kepsek = TahunAjaran::where('tahun_ajaran.id', $tahunAjaran)
+            ->join('kepsek', 'tahun_ajaran.kepsek_id', 'kepsek.id')
+            ->join('users', 'users.id', 'kepsek.user_id')
+            ->select('users.name as nama_kepsek', 'users.nip')
+            ->first();
 
-        foreach ($this->formattedData as $siswa) {
-            foreach ($siswa['kehadiran_bulanan'] as $bulan) {
-                $rows[] = [
-                    $siswa['no'],
-                    $siswa['nama_siswa'],
-                    $siswa['nama_kelas'],
-                    $siswa['tahun_ajaran'],
-                    $bulan['bulan'],
-                    $bulan['sakit'],
-                    $bulan['izin'],
-                    $bulan['alfa'],
-                    $bulan['jumlah_kehadiran'],
-                ];
-            }
-        }
-
-        return $rows;
-    }
-
-    public function headings(): array
-    {
-        return [
-            'No',
-            'Nama Siswa',
-            'Kelas',
-            'Tahun Ajaran',
-            'Bulan',
-            'Total Sakit',
-            'Total Izin',
-            'Total Alfa',
-            'Jumlah Kehadiran',
+        $formattedData['kepsek'] = [
+            'nama_kepsek' => $kepsek['nama_kepsek'],
+            'nip' => $kepsek['nip'],
         ];
-    }
 
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            1 => ['font' => ['bold' => true]],
-        ];
+        return view('template-laporan-absensi', ['data' => $formattedData]);
     }
 
     protected function formatKehadiranSiswa(Collection $data)

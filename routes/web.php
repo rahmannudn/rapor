@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanAbsensiExportPDF;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\User\Edit as UserEdit;
@@ -348,6 +349,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->middleware(['check_permission:isKepsekOrWaliKelas'])
         ->name('nilaiEkskulIndex');
+
+    Route::get('/laporan_absensi/{tahunAjaran}/{kelas?}', LaporanAbsensiExportPDF::class)
+        ->name('laporanAbsensiPDF');
 });
 
 // halaman yang dapat diakses orang tua

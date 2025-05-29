@@ -55,6 +55,8 @@
 
     <div class="flex flex-col w-full mb-2 space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
         <x-button primary icon="folder-download" label="Download Excel" spinner x-on:click="$wire.exportExcel" />
+        <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+            x-on:click="window.open('{{ route('laporanAbsensiPDF', ['tahunAjaran' => $selectedTahunAjaran, 'kelas' => $selectedKelas]) }}', '_blank')" />
     </div>
 
     <div class="flex flex-col gap-6 lg:flex-row">
@@ -110,7 +112,8 @@
 
                         <th scope="row"
                             class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $data['nama_siswa'] }}
+                            <a href="{{ route('detail_siswa', $data['siswa_id']) }}" class="text-blue-800 underline"
+                                target="_blank">{{ $data['nama_siswa'] }}</a>
                         </th>
                         <th scope="row" class="px-6 py-3">
                             {{ $data['nama_kelas'] }}

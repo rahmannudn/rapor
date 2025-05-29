@@ -91,35 +91,7 @@ class Laporan extends Component
 
     public function exportExcel()
     {
-        return (new LaporanAbsensiExcel($this->getData()))->download('laporan_absensi.xlsx', Excel::XLSX);
-    }
-
-    public function getData()
-    {
-        return KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->selectedTahunAjaran)
-            ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
-            ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
-            ->leftJoin('kehadiran_bulanan', function (JoinClause $q) {
-                $q->on('kehadiran_bulanan.tahun_ajaran_id', '=', 'kelas_siswa.tahun_ajaran_id');
-            })
-            ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas_siswa.tahun_ajaran_id')
-            ->select(
-                'kelas.id as kelas_id',
-                'kelas.nama',
-                'absensi.id as absensi_id',
-                'absensi.alfa',
-                'absensi.sakit',
-                'absensi.izin',
-                'absensi.kehadiran_bulanan_id as kehadiran_id',
-                'kehadiran_bulanan.id as bulanan_id',
-                'kehadiran_bulanan.jumlah_hari_efektif',
-                'kehadiran_bulanan.bulan',
-                'tahun_ajaran.tahun',
-                'tahun_ajaran.semester',
-            )
-            ->distinct()
-            ->orderBy('kelas.id')
-            ->get();
+        return (new LaporanAbsensiExcel($this->selectedTahunAjaran, $this->selectedKelas))->download('laporan_absensi.xlsx', Excel::XLSX);
     }
 
     public function getDaftar()
@@ -144,7 +116,26 @@ class Laporan extends Component
     public function getAbsensiKelas()
     {
 
-        $kehadiran = $this->getData();
+        $kehadiran = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->selectedTahunAjaran)
+            ->join('kelas', 'kelas.id', 'kelas_siswa.kelas_id')
+            ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
+            ->leftJoin('kehadiran_bulanan', function (JoinClause $q) {
+                $q->on('kehadiran_bulanan.tahun_ajaran_id', '=', 'kelas_siswa.tahun_ajaran_id');
+            })
+            ->select(
+                'kelas.id as kelas_id',
+                'kelas.nama',
+                'absensi.id as absensi_id',
+                'absensi.alfa',
+                'absensi.sakit',
+                'absensi.izin',
+                'absensi.kehadiran_bulanan_id as kehadiran_id',
+                'kehadiran_bulanan.id as bulanan_id',
+                'kehadiran_bulanan.jumlah_hari_efektif',
+            )
+            ->distinct()
+            ->orderBy('kelas.id')
+            ->get();
 
         $kehadiran_grouped = $kehadiran->groupBy('kelas_id');
         $rekap_absensi = $this->formatAbsensiKelas($kehadiran_grouped);
