@@ -1,4 +1,15 @@
+@php
+    function warnaKehadiran(float $persen): string
+    {
+        return match (true) {
+            $persen < 60 => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            $persen < 80 => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+            default => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+        };
+    }
+@endphp
 <div class="{{ session()->has('authenticated_parent') ? 'bg-slate-100' : '' }}">
+
     <div class="{{ session()->has('authenticated_parent') ? 'p-8' : '' }}">
         <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Detail : {{ $siswa['nama'] }}</h1>
 
@@ -182,6 +193,75 @@
                     </table>
                 </div>
                 {{-- prestasi --}}
+
+                {{-- kahadiran bulanan --}}
+                <div>
+                    <h2 class="mb-4 text-2xl font-bold">Presentase Kehadiran</h2>
+                    <p class="text-sm text-slate-500">Tahun Ajaran :
+                        {{ $tahunAjaran->tahun }} {{ $tahunAjaran->semester }} </p>
+                    <table class="w-full text-sm text-center text-gray-500 rtl:text-right dark:text-gray-400">
+                        <thead
+                            class="text-xs text-center text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-1 py-3 w-[5%]">
+                                    No
+                                </th>
+                                <th scope="col" class="w-56 px-4 py-3">
+                                    Bulan
+                                </th>
+                                <th scope="col" class="px-4 py-3 w-[10%]">
+                                    Sakit
+                                </th>
+                                <th scope="col" class="px-4 py-3 w-[10%]">
+                                    Izin
+                                </th>
+                                <th scope="col" class="px-4 py-3 w-[10%]">
+                                    Alfa
+                                </th>
+                                <th scope="col" class="px-4 py-3 w-[20%]">
+                                    Presentase Kehadiran
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="w-full">
+                            @forelse($dataAbsensi as $data)
+                                <tr key="{{ $loop->index }}"
+                                    class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-1 py-4 w-[5%]">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="px-4 py-4 w-14">
+                                        {{ $data['bulan'] }}
+                                    </td>
+                                    <td class="w-24 px-4 py-3">
+                                        {{ $data['sakit'] }}
+                                    </td>
+                                    <td class="w-48 px-4 py-3">
+                                        {{ $data['izin'] }}
+                                    </td>
+                                    <td class="w-48 px-4 py-3">
+                                        {{ $data['alfa'] }}
+                                    </td>
+                                    <td class="w-48 px-4 py-3">
+                                        <span
+                                            class="{{ warnaKehadiran($data['presentase_kehadiran']) }} text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">{{ $data['presentase_kehadiran'] }}%
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row"
+                                        class="block px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        Data Tidak Ditemukan
+                                    </th>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- kahadiran bulanan --}}
 
             </div>
         </div>

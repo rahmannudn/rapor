@@ -3,10 +3,12 @@
 namespace App\Livewire\SiswaDetail;
 
 use App\Charts\NilaiSiswaPerSemester;
+use App\Helpers\FunctionHelper;
 use Livewire\Component;
 use App\Models\Prestasi;
 use App\Models\KelasSiswa;
 use App\Models\Siswa;
+use App\Models\TahunAjaran;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +21,23 @@ class Content extends Component
     public $dataPrestasi;
     public $dataNilai;
     public $rataRataSeluruhNilai;
+    public $daftarTahunAjaran;
+    public $dataAbsensi;
+    public $selectedTahunAjaran;
+    public $bulan = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+    ];
 
     public function mount()
     {
@@ -27,11 +46,54 @@ class Content extends Component
         $this->rataRataSeluruhNilai = $this->getNilaiSiswa();
 
         $this->dataPrestasi = Prestasi::where('siswa_id', $this->siswa['id'])->get();
+        $this->daftarTahunAjaran = TahunAjaran::all('id', 'tahun', 'semester');
+        $this->selectedTahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        $this->getAbsensi();
     }
 
     public function render()
     {
-        return view('livewire.siswa-detail.content');
+        $tahunAjaran = TahunAjaran::where('id', $this->selectedTahunAjaran)->select('tahun', 'semester')?->first();
+        return view('livewire.siswa-detail.content', compact('tahunAjaran'));
+    }
+
+    public function getAbsensi()
+    {
+        $dataSiswa = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->selectedTahunAjaran)
+            ->where('kelas_siswa.siswa_id', $this->siswa['id'])->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
+            ->leftJoin('kehadiran_bulanan', function (JoinClause $q) {
+                $q->on('kehadiran_bulanan.tahun_ajaran_id', '=', 'kelas_siswa.tahun_ajaran_id');
+            })
+            ->select(
+                'absensi.id as absensi_id',
+                'absensi.alfa',
+                'absensi.sakit',
+                'absensi.izin',
+                'absensi.kehadiran_bulanan_id as kehadiran_id',
+                'kehadiran_bulanan.bulan',
+                'kehadiran_bulanan.id as bulanan_id',
+                'kehadiran_bulanan.jumlah_hari_efektif',
+            )
+            ->distinct()
+            ->orderBy('bulanan_id')
+            ->get();
+        $results = [];
+        foreach ($dataSiswa as $siswa) {
+            $result = [];
+            $result['alfa'] = $siswa['alfa'] ?? 0;
+            $result['izin'] = $siswa['izin'] ?? 0;
+            $result['sakit'] = $siswa['sakit'] ?? 0;
+            $result['bulan'] = $this->bulan[$siswa['bulan'] - 1];
+            $result['total_kehadiran'] = $siswa['jumlah_hari_efektif'] - ($result['alfa'] + $result['izin'] + $result['sakit']);
+
+            $hariEfektif = $siswa['jumlah_hari_efektif'];
+            $hadir = $hariEfektif - ($result['alfa'] + $result['izin'] + $result['sakit']);
+            $presentase = $hariEfektif ? ($hadir / $hariEfektif * 100) : 0;
+            $result['presentase_kehadiran'] = round($presentase, 2);
+
+            $results[] = $result;
+        }
+        $this->dataAbsensi = $results;
     }
 
     public function getRiwayatProyek()
