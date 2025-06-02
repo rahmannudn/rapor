@@ -21,6 +21,8 @@ class RaporIntraController extends Controller
 {
     public $tahunAjaranAktif = '';
     public $dataSekolah = '';
+    public $siswa;
+    public $dataAbsensi;
 
     public function __construct(Siswa $siswa)
     {
@@ -42,6 +44,8 @@ class RaporIntraController extends Controller
     public function cetakRapor(Siswa $siswa, KelasSiswa $kelasSiswa)
     {
         try {
+            $this->siswa = $siswa;
+
             $results = [
                 'kepsek' => $this->getKepsekData($kelasSiswa),
                 'nama_siswa' => $siswa['nama'],
@@ -101,9 +105,50 @@ class RaporIntraController extends Controller
 
     private function getAbsensiData($kelasSiswaId)
     {
-        return Absensi::where('kelas_siswa_id', $kelasSiswaId)
-            ->select('sakit', 'izin', 'alfa')
-            ->firstOrFail();
+        $data = KelasSiswa::where('kelas_siswa.siswa_id', $this->siswa['id'])
+            ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
+            ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
+            ->leftJoin('kehadiran_bulanan', function (JoinClause $q) {
+                $q->on('kehadiran_bulanan.tahun_ajaran_id', '=', 'kelas_siswa.tahun_ajaran_id');
+            })
+            ->select(
+                'absensi.id as absensi_id',
+                'absensi.alfa',
+                'absensi.sakit',
+                'absensi.izin',
+                'absensi.kehadiran_bulanan_id as kehadiran_id',
+                'kehadiran_bulanan.bulan',
+                'kehadiran_bulanan.id as bulanan_id',
+                'kehadiran_bulanan.jumlah_hari_efektif',
+            )
+            ->distinct()
+            ->orderBy('bulanan_id')
+            ->get();
+
+        return $this->formatAbsensiData($data);
+    }
+
+    private function formatAbsensiData($data)
+    {
+        $results = [];
+        foreach ($data as $item) {
+            $sakit = $item['sakit'] ?? 0;
+            $izin = $item['izin'] ?? 0;
+            $alfa = $item['alfa'] ?? 0;
+            $jumlah_hari_efektif = $item['jumlah_hari_efektif'] ?? 0;
+
+            $results['sakit'] = ($results['sakit'] ?? 0) + $sakit;
+            $results['izin'] = ($results['izin'] ?? 0) + $izin;
+            $results['alfa'] = ($results['alfa'] ?? 0) + $alfa;
+            $results['jumlah_hari_efektif'] = ($results['jumlah_hari_efektif'] ?? 0) + $jumlah_hari_efektif;
+        }
+
+        $hariEfektif = $results['jumlah_hari_efektif'];
+        $hadir = $hariEfektif - ($results['alfa'] + $results['izin'] + $results['sakit']);
+        $presentase = $hariEfektif ? ($hadir / $hariEfektif * 100) : 0;
+        $results['presentase_kehadiran'] = round($presentase, 2);
+
+        return $results;
     }
 
     private function getEkskulData($kelasSiswaId)

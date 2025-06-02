@@ -190,7 +190,7 @@
     <table class="attendance-table">
         <thead>
             <tr>
-                <th colspan="3">Ketidakhadiran</th>
+                <th colspan="3">Kehadiran</th>
             </tr>
         </thead>
         <tbody>
@@ -208,6 +208,11 @@
                 <td>Tanpa Keterangan</td>
                 <td>{{ $results['absensi']['alfa'] }}</td>
                 <td>hari</td>
+            </tr>
+            <tr>
+                <td>Presentase Kehadiran</td>
+                <td>{{ $results['absensi']['presentase_kehadiran'] }}</td>
+                <td>%</td>
             </tr>
         </tbody>
     </table>

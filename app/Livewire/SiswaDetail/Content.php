@@ -60,11 +60,13 @@ class Content extends Component
     public function getAbsensi()
     {
         $dataSiswa = KelasSiswa::where('kelas_siswa.tahun_ajaran_id', $this->selectedTahunAjaran)
-            ->where('kelas_siswa.siswa_id', $this->siswa['id'])->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
+            ->where('kelas_siswa.siswa_id', $this->siswa['id'])
+            ->leftJoin('absensi', 'absensi.kelas_siswa_id', 'kelas_siswa.id')
             ->leftJoin('kehadiran_bulanan', function (JoinClause $q) {
                 $q->on('kehadiran_bulanan.tahun_ajaran_id', '=', 'kelas_siswa.tahun_ajaran_id');
             })
             ->select(
+                'kelas_siswa.id as kelas_siswa_id',
                 'absensi.id as absensi_id',
                 'absensi.alfa',
                 'absensi.sakit',
@@ -77,6 +79,7 @@ class Content extends Component
             ->distinct()
             ->orderBy('bulanan_id')
             ->get();
+
         $results = [];
         foreach ($dataSiswa as $siswa) {
             $result = [];
