@@ -6,6 +6,8 @@ use App\Models\Proyek;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class LaporanProyekExportPDF extends Controller
 {
@@ -13,6 +15,9 @@ class LaporanProyekExportPDF extends Controller
     {
         $data = Proyek::query()
             ->joinWaliKelas()
+            ->when(Gate::allows('isWaliKelas'), function ($query) {
+                $query->where('wali_kelas.user_id', Auth::id());
+            })
             ->joinKelasByWaliKelas()
             ->joinUsers()
             ->when(

@@ -74,6 +74,8 @@ use App\Livewire\NilaiEkskul\Edit as NilaiEkskulEdit;
 use App\Livewire\Raporintra\Index as RaporIntraIndex;
 use App\Livewire\Subelemen\Create as SubelemenCreate;
 
+use App\Livewire\LaporanProyek\Index as LaporanProyekIndex;
+
 use App\Livewire\TahunAjaran\Edit as TahunAjaranEdit;
 use App\Livewire\WaliKelas\Create as WaliKelasCreate;
 use App\Http\Controllers\NilaiSumatifExportController;
@@ -344,8 +346,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proyek/{proyek}', ProyekDetail::class)->name('proyekDetail')
         ->middleware(['check_permission:isKepsekOrWaliKelas', 'check_proyek_permission'])->lazy();
 
-    Route::get('/laporan_proyek/{tahunAjaran?}/{query?}', LaporanProyekExportPDF::class)->name('laporanProyek')
-        ->middleware(['check_permission:isKepsek'])->lazy();
+    Route::get('/laporan_proyek', LaporanProyekIndex::class)->name('laporanProyek')
+        ->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
+
+    Route::get('/laporan_proyek/{tahunAjaran?}/{query?}', LaporanProyekExportPDF::class)->name('laporanProyekPDF')
+        ->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();
 
     Route::get('/nilai_ekskul', NilaiEkskulIndex::class)->middleware(['check_permission:isKepsekOrWaliKelas'])
         ->name('nilaiEkskulIndex');

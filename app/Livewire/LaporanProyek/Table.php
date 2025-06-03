@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Proyek;
+namespace App\Livewire\LaporanProyek;
 
 use App\Exports\DaftarProyekExport;
+use Livewire\Component;
 use App\Helpers\FunctionHelper;
 use App\Models\Kelas;
 use App\Models\Proyek;
-use Livewire\Component;
 use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use App\Policies\ProyekPolicy;
@@ -57,10 +57,10 @@ class Table extends Component
         $daftarProyek = Proyek::query()
             ->search($this->searchQuery)
             ->joinWaliKelas()
-            ->joinKelasByWaliKelas()
             ->when(Gate::allows('isWaliKelas'), function ($query) {
                 $query->where('wali_kelas.user_id', Auth::id());
             })
+            ->joinKelasByWaliKelas()
             ->joinUsers()
             ->filterTahunAjaran($this->selectedTahunAjaran)
             ->select(
@@ -75,7 +75,7 @@ class Table extends Component
             ->orderBy('proyek.created_at', 'DESC')
             ->paginate($this->show);
 
-        return view('livewire.proyek.table', compact('daftarProyek'));
+        return view('livewire.laporan-proyek.table', compact('daftarProyek'));
     }
 
     public function exportExcel(Excel $excel)
@@ -115,6 +115,9 @@ class Table extends Component
             ->search($this->searchQuery)
             ->joinWaliKelas()
             ->joinKelasByWaliKelas()
+            ->when(Gate::allows('isWaliKelas'), function ($query) {
+                $query->where('wali_kelas.user_id', Auth::id());
+            })
             ->joinUsers()
             ->filterTahunAjaran($this->selectedTahunAjaran)
             ->join('subproyek', 'subproyek.proyek_id', 'proyek.id')

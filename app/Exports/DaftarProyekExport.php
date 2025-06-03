@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DaftarProyekExport implements FromQuery, WithHeadings, WithStyles
 {
@@ -28,6 +30,9 @@ class DaftarProyekExport implements FromQuery, WithHeadings, WithStyles
     {
         return Proyek::query()
             ->joinWaliKelas()
+            ->when(Gate::allows('isWaliKelas'), function ($query) {
+                $query->where('wali_kelas.user_id', Auth::id());
+            })
             ->joinKelasByWaliKelas()
             ->joinUsers()
             ->filterTahunAjaran($this->selectedTahunAjaran)
