@@ -19,7 +19,7 @@
                     @endforeach
                 </x-native-select>
             </div>
-            @can('isKepsek', auth()->user())
+            @can('isKepsekOrWaliKelas', auth()->user())
                 <x-button class="mt-6" primary icon="folder-download" label="Download Laporan Proyek"
                     x-on:click="window.open('{{ route('laporanProyek', ['tahunAjaran' => $selectedTahunAjaran, 'query' => $searchQuery]) }}', '_blank')" />
             @endcan
@@ -28,17 +28,6 @@
                 <x-button class="mt-6" primary icon="folder-download" label="Download Excel"
                     x-on:click="$wire.exportExcel" />
             @endcan
-
-            {{-- @can('isKepsek', Auth::id())
-                <div class="max-w-44">
-                    <x-native-select label="Rombel" wire:model.change='selectedKelas' class="w-[30%]">
-                        <option value="">Semua</option>
-                        @foreach ($daftarKelas as $kelas)
-                            <option wire:key='{{ $kelas->id }}' value="{{ $kelas->id }}">{{ $kelas->nama }}</option>
-                        @endforeach
-                    </x-native-select>
-                </div>
-            @endcan --}}
         </div>
 
         <div class="block md:w-80">
