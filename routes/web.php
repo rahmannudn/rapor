@@ -339,7 +339,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat_wali_kelas/{tahunAjaran?}', RiwayatWaliKelasController::class)
         ->name('laporanRiwayatWaliKelas');
 
-    Route::get('/riwayat_guru_mapel', RiwayatGuruMapelController::class)
+    Route::get('/riwayat_guru_mapel/{tahunAjaran?}', RiwayatGuruMapelController::class)
         ->name('laporanRiwayatGuruMapel');
 
     Route::get('/proyek', ProyekIndex::class)->name('proyekIndex')->middleware(['check_permission:isKepsekOrWaliKelas'])->lazy();

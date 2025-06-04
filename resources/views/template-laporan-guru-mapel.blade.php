@@ -24,10 +24,10 @@
             <tr>
                 <th>NO</th>
                 <th>NAMA GURU</th>
-                <th>KELAS</th>
-                <th>MAPEL</th>
                 <th>TAHUN</th>
                 <th>SEMESTER</th>
+                <th>KELAS</th>
+                <th>MAPEL</th>
             </tr>
         </thead>
         <tbody>
@@ -49,7 +49,7 @@
                         @foreach ($kelas['data_mapel'] as $mapel)
                             <tr>
                                 @if ($firstGuruRow)
-                                    <td rowspan="{{ $rowSpanGuru }}">{{ $no++ }}</td>
+                                    <td style="text-align: center" rowspan="{{ $rowSpanGuru }}">{{ $no++ }}</td>
                                     <td rowspan="{{ $rowSpanGuru }}">{{ Str::title($guruMapel['nama_guru']) }}</td>
                                     <td rowspan="{{ $rowSpanGuru }}">{{ $tahunAjaran['tahun'] }}</td>
                                     <td rowspan="{{ $rowSpanGuru }}">{{ ucfirst($tahunAjaran['semester']) }}</td>

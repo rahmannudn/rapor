@@ -13,10 +13,15 @@ class RiwayatGuruMapelController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(?TahunAjaran $tahunAjaran)
     {
+        $tahunAjaran = $tahunAjaran->toArray();
+
         $data = GuruMapel::join('users', 'users.id', 'guru_mapel.user_id')
             ->join('tahun_ajaran', 'tahun_ajaran.id', 'guru_mapel.tahun_ajaran_id')
+            ->when($tahunAjaran, function ($q) use ($tahunAjaran) {
+                return $q->where('tahun_ajaran.id', $tahunAjaran['id']);
+            })
             ->join('detail_guru_mapel', 'detail_guru_mapel.guru_mapel_id', 'guru_mapel.id')
             ->join('mapel', 'mapel.id', 'detail_guru_mapel.mapel_id')
             ->join('kelas', 'kelas.id', 'detail_guru_mapel.kelas_id')
