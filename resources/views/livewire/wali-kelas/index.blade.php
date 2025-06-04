@@ -10,10 +10,7 @@
     @endif
     {{-- blade-formatter-enable --}}
 
-    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Daftar Wali Kelas</h1>
-
-    <x-button href="{{ route('waliKelasCreate') }}" wire:navigate class="mb-3" icon="plus" info
-        label="Tambah Wali Kelas" />
+    <h1 class="mb-3 text-2xl font-bold text-slate-700 dark:text-white">Laporan Wali Kelas</h1>
 
     <x-modal blur wire:model.defer="deleteModal" x-on:close="$wire.selectedKelas = null">
         <x-card title="Delete Note">

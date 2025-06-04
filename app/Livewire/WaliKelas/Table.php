@@ -2,6 +2,8 @@
 
 namespace App\Livewire\WaliKelas;
 
+use App\Helpers\FunctionHelper;
+use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -13,6 +15,8 @@ class Table extends Component
 
     public $show = 10;
     public $searchQuery;
+    public $daftarTahunAjaran;
+    public $selectedTahunAjaran;
 
     #[On('updateData')]
     public function render()
@@ -24,5 +28,11 @@ class Table extends Component
             ->paginate($this->show);
 
         return view('livewire.wali-kelas.table', compact('waliKelasData'));
+    }
+
+    public function mount()
+    {
+        $this->daftarTahunAjaran = TahunAjaran::all(['id', 'tahun', 'semester']);
+        // $this->selectedTahunAjaran = FunctionHelper::getTahunAjaranAktif();
     }
 }

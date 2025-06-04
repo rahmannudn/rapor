@@ -11,26 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class RiwayatWaliKelasController extends Controller
 {
-    public function __invoke()
+    public function __invoke(?TahunAjaran $tahunAjaran)
     {
-        // $data = DB::table('wali_kelas')
-        //     ->join('tahun_ajaran', 'tahun_ajaran.id', 'wali_kelas.tahun_ajaran_id')
-        //     ->join('kelas', function (JoinClause $q) {
-        //         $q->on('kelas.id', '=', 'wali_kelas.kelas_id')
-        //             ->on('kelas.tahun_ajaran_id', '=', 'tahun_ajaran.id');
-        //     })
-        //     ->join('users', 'users.id', 'wali_kelas.user_id')
-        //     ->select(
-        //         'tahun_ajaran.semester',
-        //         'tahun_ajaran.tahun',
-        //         'kelas.nama as nama_kelas',
-        //         'users.name as nama_wali_kelas',
-        //         'tahun_ajaran.id as tahun_ajaran_id'
-        //     )
-        //     ->orderBy('kelas.nama')
-        //     ->get();
+        $tahunAjaran = $tahunAjaran->toArray();
         $data = DB::table('kelas')
             ->join('tahun_ajaran', 'tahun_ajaran.id', 'kelas.tahun_ajaran_id')
+            ->when($tahunAjaran, function ($q) use ($tahunAjaran) {
+                return $q->where('tahun_ajaran.id', $tahunAjaran['id']);
+            })
             ->join('wali_kelas', function (JoinClause $q) {
                 $q->on('wali_kelas.tahun_ajaran_id', '=', 'tahun_ajaran.id')
                     ->on('wali_kelas.kelas_id', '=', 'kelas.id');

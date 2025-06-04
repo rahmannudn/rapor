@@ -22,10 +22,6 @@
             </div>
             @can('isKepsek', Auth::id())
                 <div class="flex flex-row items-center space-x-2 md:mt-6">
-                    <x-button x-on:click="window.open('{{ route('laporanRiwayatWaliKelas') }}', '_blank')"
-                        icon="folder-download" info label="Laporan Riwayat Wali Kelas" />
-                </div>
-                <div class="flex flex-row items-center space-x-2 md:mt-6">
                     <x-button x-on:click="window.open('{{ route('laporanRiwayatGuruMapel') }}', '_blank')"
                         icon="folder-download" info label="Laporan Riwayat Guru Mapel" />
                 </div>
