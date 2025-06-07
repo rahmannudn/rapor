@@ -128,7 +128,6 @@ class Form extends Component
             ->toArray();
 
         $this->daftarLingkup = LingkupMateri::where('detail_guru_mapel_id', '=', $validated['selectedDetailGuruMapel'])->select('deskripsi', 'id')->orderBy('created_at')->get();
-
         $nilai = Siswa::joinKelasSiswa()
             ->where('kelas_siswa.kelas_id', $this->selectedKelas)
             ->where('kelas_siswa.tahun_ajaran_id', $this->tahunAjaranAktif)
@@ -196,7 +195,7 @@ class Form extends Component
         // mencari array sesuai index nilai yang berubah
         $data = $this->nilaiData[$dataIndex];
 
-        // mengambil data siswa yang berubah        
+        // mengambil data siswa yang berubah
         if ($nilaiIndex === 'nilai_tes' || $nilaiIndex === 'nilai_nontes') {
             $hasilNilai = NilaiSumatifAkhir::updateOrCreate([
                 'detail_guru_mapel_id' => $this->selectedDetailGuruMapel,

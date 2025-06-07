@@ -86,7 +86,7 @@ class Content extends Component
             $result['alfa'] = $siswa['alfa'] ?? 0;
             $result['izin'] = $siswa['izin'] ?? 0;
             $result['sakit'] = $siswa['sakit'] ?? 0;
-            $result['bulan'] = $this->bulan[$siswa['bulan'] - 1];
+            $result['bulan'] = $this->bulan[$siswa['bulan'] - 1] ?? 0;
             $result['total_kehadiran'] = $siswa['jumlah_hari_efektif'] - ($result['alfa'] + $result['izin'] + $result['sakit']);
 
             $hariEfektif = $siswa['jumlah_hari_efektif'];

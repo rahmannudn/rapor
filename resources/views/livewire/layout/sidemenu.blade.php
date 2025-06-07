@@ -475,7 +475,7 @@ new class extends Component {
                             <span class="ms-3">Proyek</span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('nilaiEkskulIndex') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('nilaiEkskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -487,7 +487,7 @@ new class extends Component {
 
                             <span class="ms-3">Laporan Nilai Ekskul</span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endcan
 
                 {{-- dropdown laporan --}}
@@ -541,6 +541,12 @@ new class extends Component {
                                 <a href="{{ route('waliKelasIndex') }}"
                                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiSubproyekIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                     <span class="ms-3">Riwayat Guru Kelas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('nilaiEkskulIndex') }}"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('nilaiEkskulIndex') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                    <span class="ms-3">Laporan Nilai Ekskul</span>
                                 </a>
                             </li>
                         @endcan

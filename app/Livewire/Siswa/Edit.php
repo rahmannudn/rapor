@@ -72,7 +72,7 @@ class Edit extends Component
         $this->nama_ibu = $this->siswa['nama_ibu'];
         $this->tahun_lulus = $this->siswa['tahun_lulus'];
         $this->hp_ortu = $this->siswa['hp_ortu'];
-        $this->daftarKelas = Kelas::all();
+        $this->daftarKelas = Kelas::where('tahun_ajaran_id', $this->tahunAjaranAktif)->select('id', 'nama')->get();
         $this->daftarSemester = TahunAjaran::all();
 
         $kelas = KelasSiswa::where('siswa_id', $this->siswa['id'])->where('tahun_ajaran_id', $this->tahunAjaranAktif)

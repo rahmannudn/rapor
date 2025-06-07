@@ -1,4 +1,4 @@
-<div class="mt-4">
+<div class="mt-4 w-[90%]">
     @php
         // Mengolah data untuk Chart 1 (Rata-rata nilai per semester)
         $labels = [];
@@ -122,7 +122,27 @@
                         },
                         scales: {
                             y: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Rentang Nilai",
+                                    color: '#000',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Nilai Per Semester",
+                                    color: '#000',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                }
                             }
                         }
                     }
@@ -131,7 +151,6 @@
                 // Chart 2
                 const mapelData = @json($datasetsMapel); // Data per mapel
                 const labels = @json($labels); // Semester labels
-                console.log(mapelData);
 
                 mapelData.forEach((dataset, index) => {
                     const ctx = document.getElementById(`mapelChart-${index + 1}`).getContext('2d');
@@ -172,7 +191,27 @@
                             },
                             scales: {
                                 y: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "Rentang Nilai",
+                                        color: '#000',
+                                        font: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: "Nilai Per Semester",
+                                        color: '#000',
+                                        font: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                    }
                                 }
                             }
                         }
