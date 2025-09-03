@@ -225,7 +225,27 @@
                         },
                         scales: {
                             y: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Jumlah Siswa",
+                                    color: '#000',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Jumlah Siswa Per Semester",
+                                    color: '#000',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                }
                             }
                         }
                     },

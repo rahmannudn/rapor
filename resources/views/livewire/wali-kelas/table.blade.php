@@ -1,8 +1,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     {{-- show & search --}}
-    <div class="block mb-2 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
-        <div class="flex flex-col w-full mb-2 space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-            <div class="block md:w-20">
+    <div class="block mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
+        <div class="flex flex-row items-center space-x-2 md:w-[40%]">
+            <div class="max-w-20">
                 <x-native-select label="Show" wire:model.change='show'>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -11,26 +11,23 @@
                 </x-native-select>
             </div>
 
-            <div>
-                <x-native-select class="max-w-72" label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
-                    wire:model.defer="selectedTahunAjaran">
+            <div class="max-w-72">
+                <x-native-select label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
+                    wire:model.defer="selectedTahunAjaran" x-on:change="$wire.filterByTahunAjaran">
                     <option value="">--Pilih Tahun Ajaran--</option>
                     @foreach ($daftarTahunAjaran as $ta)
                         <option value="{{ $ta->id }}"> {{ $ta->tahun }}-{{ $ta->semester }} </option>
                     @endforeach
                 </x-native-select>
             </div>
+            <x-button
+                x-on:click="window.open('{{ route('laporanRiwayatWaliKelas', ['tahunAjaran' => $selectedTahunAjaran]) }}', '_blank')"
+                icon="folder-download" red class="mt-6" label="Download PDF" />
         </div>
 
         <div class="block md:w-80">
             <x-input icon="search" label="Search" wire:model.live.debounce.1500ms='searchQuery' />
         </div>
-    </div>
-
-    <div class="flex flex-row items-center mb-4 space-x-2">
-        <x-button
-            x-on:click="window.open('{{ route('laporanRiwayatWaliKelas', ['tahunAjaran' => $selectedTahunAjaran]) }}', '_blank')"
-            icon="folder-download" info label="Laporan Riwayat Wali Kelas" />
     </div>
 
     {{-- table --}}

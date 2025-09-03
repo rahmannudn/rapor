@@ -10,53 +10,63 @@
 @endphp
 
 
-<div>
+<div x-on:rekap-kehadiran-updated="renderChart($event.detail)">
     <x-slot:title>
         Laporan Absensi
     </x-slot:title>
     <h1 class="mb-1 text-2xl font-bold text-slate-700">Laporan Absensi</h1>
 
-    <div class="flex flex-col w-full mb-2 space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-        <div>
-            <x-native-select class="max-w-72" label="Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
-                wire:model.defer="selectedTahunAjaran" x-on:change="$wire.getDaftar" autofocus>
-                @foreach ($daftarTahunAjaran as $ta)
-                    <option value="{{ $ta->id }}"> {{ $ta->tahun }}-{{ $ta->semester }} </option>
-                @endforeach
-            </x-native-select>
-        </div>
-        <div>
-            <x-native-select class="max-w-72" label="Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
-                x-on:change="$wire.getSiswaData" autofocus>
-                <option value=""> Semua </option>
-                @foreach ($daftarKelas as $kelas)
-                    <option value="{{ $kelas->id }}"> {{ $kelas->nama }} </option>
-                @endforeach
-            </x-native-select>
-        </div>
-        <div>
-            <x-native-select class="max-w-72" label="Bulan" placeholder="Pilih Bulan" wire:model.defer="selectedBulan"
-                x-on:change="$wire.getSiswaData" autofocus>
-                <option value=""> Semua </option>
-                @foreach ($daftarBulan as $key => $bulan)
-                    <option value="{{ $key }}"> {{ $bulan }}</option>
-                @endforeach
-            </x-native-select>
-        </div>
-        <div class="block md:w-20">
-            <x-native-select label="Show" wire:model.change='show'>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </x-native-select>
-        </div>
-    </div>
+    <div class="block mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
+        <div class="flex flex-row items-center space-x-2 md:w-[70%]">
+            <div class="max-w-72">
+                <x-native-select label="Tahun Ajaran" placeholder="Pilih TA" wire:model="selectedTahunAjaran"
+                    x-on:change="$wire.getSiswaData" autofocus>
+                    @if (isset($daftarTahunAjaran))
+                        @foreach ($daftarTahunAjaran as $tahun)
+                            <option wire:key="{{ $tahun['id'] }}" value="{{ $tahun['id'] }}"> {{ $tahun['tahun'] }} -
+                                {{ $tahun['semester'] }}
+                            </option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
 
-    <div class="flex flex-col w-full mb-2 space-y-2 md:flex-row md:space-x-2 md:items-center md:space-y-0">
-        <x-button primary icon="folder-download" label="Download Excel" spinner x-on:click="$wire.exportExcel" />
-        <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
-            x-on:click="window.open('{{ route('laporanAbsensiPDF', ['tahunAjaran' => $selectedTahunAjaran, 'kelas' => $selectedKelas]) }}', '_blank')" />
+            <div class="max-w-30">
+                <x-native-select label="Kelas" placeholder="Pilih Kelas" wire:model="selectedKelas"
+                    x-on:change="$wire.getSiswaData" autofocus>
+                    <option value=""> Semua </option>
+                    @foreach ($daftarKelas as $kelas)
+                        <option value="{{ $kelas->id }}"> {{ $kelas->nama }} </option>
+                    @endforeach
+                </x-native-select>
+            </div>
+
+            <div class="max-w-72">
+                <x-native-select label="Bulan" placeholder="Pilih Bulan" wire:model="selectedBulan"
+                    x-on:change="$wire.getSiswaData" autofocus>
+                    <option value=""> Semua </option>
+                    @if (isset($daftarBulan))
+                        @foreach ($daftarBulan as $key => $bulan)
+                            <option value="{{ $key }}"> {{ $bulan }}</option>
+                        @endforeach
+                    @endif
+                </x-native-select>
+            </div>
+
+            <div class="max-w-20">
+                <x-native-select label="Show" wire:model.change='show'>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </x-native-select>
+            </div>
+
+            <x-button primary icon="folder-download" label="Download Excel" class="mt-6" spinner
+                x-on:click="$wire.exportExcel" />
+            <x-button class="mt-6" red icon="folder-download" label="Download PDF" spinner
+                x-on:click="window.open('{{ route('laporanAbsensiPDF', ['tahunAjaran' => $selectedTahunAjaran, 'kelas' => $selectedKelas]) }}', '_blank')" />
+        </div>
     </div>
 
     <div class="flex flex-col gap-6 lg:flex-row">
@@ -155,9 +165,16 @@
     @endif
     @section('js')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                let data = @json($rekapKehadiran);
+            let donutChart;
+
+            function renderChart(rekapData = null) {
+                console.log(rekapData)
+                let data = rekapData ? rekapData[0] : @json($rekapKehadiran);
                 const ctx = document.getElementById('absensiKelasChart').getContext('2d');
+
+                if (donutChart) {
+                    donutChart.destroy();
+                }
 
                 donutChart = new Chart(ctx, {
                     type: 'pie',
@@ -180,6 +197,10 @@
                         maintainAspectRatio: false,
                     }
                 });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                renderChart();
             });
         </script>
     @endsection

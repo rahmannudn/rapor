@@ -93,7 +93,7 @@ class LaporanAbsensiExportPDF extends Controller
                 $hariEfektif = (int) ($item['jumlah_hari_efektif'] ?? 0);
 
                 $rekap['kehadiran_bulanan'][] = [
-                    'bulan' => $this->bulan[$item['bulan'] - 1],
+                    'bulan' => $this->bulan[$item['bulan'] - 1] ?? 0,
                     'jumlah_hari_efektif' => $hariEfektif,
                     'alfa' => $alfa,
                     'sakit' => $sakit,

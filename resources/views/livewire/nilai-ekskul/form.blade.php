@@ -3,34 +3,37 @@
         <p class="text-red-500 dark:bg-gray-800 dark:border-gray-700">*Kosongi kolom jika tidak mengikuti ekskul</p>
         <p class="text-gray-900 dark:bg-gray-800 dark:border-gray-700">{{ $namaKelas }}</p>
     @endcan
-    <div class="md:flex md:items-center md:space-x-2 md:mb-4">
-        @can('isKepsek', Auth::id())
-            <div class="w-52">
-                <x-native-select label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
-                    wire:model.defer="tahunAjaranAktif" x-on:change="$wire.filterDataByTahunAjaran">
-                    <option value="">--Pilih Tahun Ajaran--</option>
-                    @foreach ($daftarTahunAjaran as $tahun)
-                        <option wire.key="{{ $tahun->id }}" value="{{ $tahun->id }}">{{ $tahun->tahun }} -
-                            {{ $tahun->semester }}</option>
-                    @endforeach
-                </x-native-select>
-            </div>
-
-            <div class="w-52">
-                <x-native-select label="Pilih Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
-                    x-on:change="$wire.getSiswaData">
-                    <option value="">--Pilih Kelas--</option>
-                    @if ($daftarKelas)
-                        @foreach ($daftarKelas as $kelas)
-                            <option wire.key="{{ $kelas->id }}" value="{{ $kelas->id }}">{{ $kelas->nama }} </option>
+    <div class="block mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0 md:space-x-2">
+        <div class="flex flex-row items-center space-x-2 md:w-[50%]">
+            @can('isKepsek', Auth::id())
+                <div class="max-w-52">
+                    <x-native-select label="Pilih Tahun Ajaran" placeholder="Pilih Tahun Ajaran"
+                        wire:model.defer="tahunAjaranAktif" x-on:change="$wire.filterDataByTahunAjaran">
+                        <option value="">--Pilih Tahun Ajaran--</option>
+                        @foreach ($daftarTahunAjaran as $tahun)
+                            <option wire.key="{{ $tahun->id }}" value="{{ $tahun->id }}">{{ $tahun->tahun }} -
+                                {{ $tahun->semester }}</option>
                         @endforeach
-                    @endif
-                </x-native-select>
-            </div>
-        @endcan
-        <x-button class="md:mt-6"
-            x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $selectedKelas]) }}', '_blank')"
-            icon="folder-download" info label="Download Laporan Ekskul PDF" />
+                    </x-native-select>
+                </div>
+
+                <div class="w-52">
+                    <x-native-select label="Pilih Kelas" placeholder="Pilih Kelas" wire:model.defer="selectedKelas"
+                        x-on:change="$wire.getSiswaData">
+                        <option value="">--Pilih Kelas--</option>
+                        @if ($daftarKelas)
+                            @foreach ($daftarKelas as $kelas)
+                                <option wire.key="{{ $kelas->id }}" value="{{ $kelas->id }}">{{ $kelas->nama }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </x-native-select>
+                </div>
+            @endcan
+            <x-button class="md:mt-6"
+                x-on:click="window.open('{{ route('laporan_ekskul_pdf', ['tahunAjaran' => $tahunAjaranAktif, 'kelas' => $selectedKelas]) }}', '_blank')"
+                icon="folder-download" red label="Download PDF" />
+        </div>
     </div>
 
     <div class="container">

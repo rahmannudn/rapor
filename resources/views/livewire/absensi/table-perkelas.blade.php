@@ -44,7 +44,7 @@
                     </td>
                     <td class="px-4 py-4">
                         <span
-                            class="{{ warnaKehadiran($data['presentase_kehadiran']) }} text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">
+                            class="{{ $this->warnaKehadiran($data['presentase_kehadiran']) }} text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">
                             {{ $data['presentase_kehadiran'] }} %
                         </span>
                     </td>

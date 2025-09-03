@@ -22,6 +22,7 @@ class Table extends Component
     public function render()
     {
         $waliKelasData = WaliKelas::join('users', 'users.id', 'wali_kelas.user_id')
+            ->where('wali_kelas.tahun_ajaran_id', $this->selectedTahunAjaran)
             ->search($this->searchQuery)
             ->orderBy('users.name', 'DESC')
             ->select('wali_kelas.*') // Pastikan memilih kolom dari wali_kelas
@@ -30,9 +31,14 @@ class Table extends Component
         return view('livewire.wali-kelas.table', compact('waliKelasData'));
     }
 
+    public function filterByTahunAjaran()
+    {
+        $this->resetPage();
+    }
+
     public function mount()
     {
         $this->daftarTahunAjaran = TahunAjaran::all(['id', 'tahun', 'semester']);
-        // $this->selectedTahunAjaran = FunctionHelper::getTahunAjaranAktif();
+        $this->selectedTahunAjaran = FunctionHelper::getTahunAjaranAktif();
     }
 }
